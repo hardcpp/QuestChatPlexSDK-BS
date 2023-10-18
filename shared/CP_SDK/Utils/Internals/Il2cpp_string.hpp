@@ -3,12 +3,12 @@
 
 namespace CP_SDK::Utils {
 
-    static std::u16string StrToU16Str(std::string_view p_Str);
-    static std::string U16StrToStr(std::u16string_view p_Str);
+    extern std::u16string StrToU16Str(std::string_view p_Str);
+    extern std::string U16StrToStr(std::u16string_view p_Str);
 
-    static bool U16EqualsToCaseInsensitive(std::u16string_view p_Left, std::u16string_view p_Right);
+    extern bool U16EqualsToCaseInsensitive(std::u16string_view p_Left, std::u16string_view p_Right);
 
-    static std::u16string U16UrlEncode(std::u16string_view p_Input);
+    extern std::u16string U16UrlEncode(std::u16string_view p_Input);
 
 }   ///< namespace CP_SDK::Utils
 
@@ -22,7 +22,7 @@ static std::string operator+(std::string_view p_Left, std::u16string_view p_Righ
 }*/
 static std::string operator+(std::string_view p_Left, const char* p_Right)
 {
-    return p_Left + std::string(p_Right);
+    return std::string(p_Left) + std::string(p_Right);
 }
 /*static std::string operator+(std::string p_Left, std::string_view p_Right)
 {
