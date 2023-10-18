@@ -1,26 +1,10 @@
 Param(
+    [String]$qmodname="",
     [Parameter(Mandatory=$false)]
-    [String] $qmodName="",
-
-    [Parameter(Mandatory=$false)]
-    [Switch] $help
+    [Switch]$clean
 )
 
-if ($help -eq $true) {
-    Write-Output "`"createqmod`" - Creates a .qmod file with your compiled libraries and mod.json."
-    Write-Output "`n-- Arguments --`n"
-
-    Write-Output "-QmodName `t The file name of your qmod"
-
-    exit
-}
-
 $mod = "./mod.json"
-
-& $PSScriptRoot/validate-modjson.ps1
-if ($LASTEXITCODE -ne 0) {
-    exit $LASTEXITCODE
-}
 $modJson = Get-Content $mod -Raw | ConvertFrom-Json
 
 if ($qmodName -eq "") {
@@ -30,8 +14,11 @@ if ($qmodName -eq "") {
 $filelist = @($mod)
 
 $cover = "./" + $modJson.coverImage
-if ((-not ($cover -eq "./")) -and (Test-Path $cover)) {
-    $filelist += ,$cover
+$fileList = @($mod)
+
+if ((-not ($cover -eq "./")) -and (Test-Path $cover))
+{
+    $fileList += ,$cover
 }
 
 foreach ($mod in $modJson.modFiles) {
@@ -60,6 +47,15 @@ foreach ($lib in $modJson.libraryFiles) {
 
 $zip = $qmodName + ".zip"
 $qmod = $qmodName + ".qmod"
+
+if ($clean.IsPresent) {
+    echo "Making Clean Qmod"
+}
+
+if ((-not ($clean.IsPresent)) -and (Test-Path $qmod))
+{
+    Move-Item $qmod $zip -Force
+}
 
 Compress-Archive -Path $filelist -DestinationPath $zip -Update
 Move-Item $zip $qmod -Force

@@ -667,8 +667,7 @@ namespace CP_SDK::UI::DefaultComponents {
         l_Converted.precision(2);
         l_Converted << std::fixed << p_ConvertedValue;
 
-        std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> l_Converter;
-        return l_Converter.from_bytes(l_Converted.str());
+        return Utils::StrToU16Str(l_Converted.str());
     }
 
 }   ///< namespace CP_SDK::UI::DefaultComponents

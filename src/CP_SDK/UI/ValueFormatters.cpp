@@ -15,8 +15,7 @@ namespace CP_SDK::UI {
         l_Builder.precision(0);
         l_Builder << std::fixed << (p_Value * 100.0f) << "%";
 
-        std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> l_Converter;
-        return l_Converter.from_bytes(l_Builder.str());
+        return Utils::StrToU16Str(l_Builder.str());
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -28,8 +27,7 @@ namespace CP_SDK::UI {
         std::ostringstream l_Builder;
         l_Builder << l_AsInt << (l_AsInt > 1 ? " Minutes" : " Minute");
 
-        std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> l_Converter;
-        return l_Converter.from_bytes(l_Builder.str());
+        return Utils::StrToU16Str(l_Builder.str());
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -62,8 +60,7 @@ namespace CP_SDK::UI {
         else
             l_Builder << l_TotalSeconds << "s";
 
-        std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> l_Converter;
-        return l_Converter.from_bytes(l_Builder.str());
+        return Utils::StrToU16Str(l_Builder.str());
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -75,8 +72,7 @@ namespace CP_SDK::UI {
         std::ostringstream l_Builder;
         l_Builder << l_AsInt << "ms";
 
-        std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> l_Converter;
-        return l_Converter.from_bytes(l_Builder.str());
+        return Utils::StrToU16Str(l_Builder.str());
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -88,8 +84,7 @@ namespace CP_SDK::UI {
         std::ostringstream l_Builder;
         l_Builder << Misc::Time_MonthNames[((int)p_Value) % 12] << " " << l_Year;
 
-        std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> l_Converter;
-        return l_Converter.from_bytes(l_Builder.str());
+        return Utils::StrToU16Str(l_Builder.str());
     }
     std::u16string ValueFormatters::DateMonthFrom2018Short(float p_Value)
     {
@@ -97,8 +92,7 @@ namespace CP_SDK::UI {
         std::ostringstream l_Builder;
         l_Builder << Misc::Time_MonthNamesShort[((int)p_Value) % 12] << " " << l_Year;
 
-        std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> l_Converter;
-        return l_Converter.from_bytes(l_Builder.str());
+        return Utils::StrToU16Str(l_Builder.str());
     }
 
 }   ///< namespace CP_SDK::UI
