@@ -59,5 +59,25 @@
       "additionalData": {}
     }
   ],
-  "workspace": null
+  "workspace": {
+    "scripts": {
+      "build": [
+        "pwsh ./build.ps1"
+      ],
+      "clean": [
+        "pwsh ./build.ps1 -clean"
+      ],
+      "copy": [
+        "pwsh ./copy.ps1"
+      ],
+      "log": [
+        "pwsh ./start-logging.ps1"
+      ],
+      "qmod": [
+        "pwsh ./build.ps1 -clean",
+        "qpm qmod build",
+        "pwsh ./createqmod.ps1 -clean"
+      ]
+    }
+  }
 }
