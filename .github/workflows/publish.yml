@@ -6,8 +6,8 @@ on:
       - 'v*'
 
 env:
-    module_id: ChatPlexSDK-BS
-    qmodName: chatplex-sdk-bs
+    module_id: chatplex-sdk-bs
+    qmodName: ChatPlexSDK-BS
 
 jobs:
   publish:
