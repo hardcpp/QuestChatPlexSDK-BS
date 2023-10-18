@@ -1,0 +1,86 @@
+name: NDK build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'master'
+    paths-ignore:
+      - '**.yml'
+      - '!.github/workflows/build-ndk.yml'
+      - '**.json'
+      - '!qpm.json'
+      - '!mod.template.json'
+      - '**.txt'
+      - '!CMakeLists.txt'
+      - '**.ps1'
+      - '!build.ps1'
+      - '!createqmod.ps1'
+      - '**.md'
+      - '.gitignore'
+  pull_request:
+    branches: master
+
+env:
+    module_id: ChatPlexSDK-BS
+    qmodName: chatplex-sdk-bs
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      name: Checkout
+      with:
+        submodules: true
+        lfs: true
+
+    - uses: seanmiddleditch/gha-setup-ninja@v3
+
+    - name: Create ndkpath.txt
+      run: |
+        echo "$ANDROID_NDK_LATEST_HOME" > ${GITHUB_WORKSPACE}/ndkpath.txt
+        cat ${GITHUB_WORKSPACE}/ndkpath.txt
+
+    - name: Setup qpm
+      uses: Fernthedev/qpm-action@main
+      with:
+        workflow_token: ${{ secrets.GITHUB_TOKEN }}
+        restore: true
+        cache: true
+        publish: false
+
+    - name: Build & Create Qmod
+      run: |
+        cd ${GITHUB_WORKSPACE}
+        qpm s qmod
+
+    - name: Get Library Name
+      id: libname
+      run: |
+        cd ./build/
+        pattern="lib${module_id}*.so"
+        files=( $pattern )
+        echo "NAME=${files[0]}" >> ${GITHUB_OUTPUT}
+
+    - name: Upload non-debug artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ steps.libname.outputs.NAME }}
+        path: ./build/${{ steps.libname.outputs.NAME }}
+        if-no-files-found: error
+
+    - name: Upload debug artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: debug_${{ steps.libname.outputs.NAME }}
+        path: ./build/debug/${{ steps.libname.outputs.NAME }}
+        if-no-files-found: error
+
+    - name: Upload qmod artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{env.qmodName}}.qmod
+        path: ./${{ env.qmodName }}.qmod
+        if-no-files-found: error
