@@ -5,18 +5,18 @@
 
 namespace CP_SDK::Utils {
 
-    static std::u16string StrToU16Str(std::string_view p_Str)
+    std::u16string StrToU16Str(std::string_view p_Str)
     {
         std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> l_Converted;
         return l_Converted.from_bytes(p_Str.begin(), p_Str.end());
     }
-    static std::string U16StrToStr(std::u16string_view p_Str)
+    std::string U16StrToStr(std::u16string_view p_Str)
     {
         std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> l_Converted;
         return l_Converted.to_bytes(p_Str.begin(), p_Str.end());
     }
 
-    static bool U16EqualsToCaseInsensitive(std::u16string_view p_Left, std::u16string_view p_Right)
+    bool U16EqualsToCaseInsensitive(std::u16string_view p_Left, std::u16string_view p_Right)
     {
         if (p_Left.length() != p_Right.length())
             return false;
@@ -30,7 +30,7 @@ namespace CP_SDK::Utils {
         return true;
     }
 
-    static std::u16string U16UrlEncode(std::u16string_view p_Input)
+    std::u16string U16UrlEncode(std::u16string_view p_Input)
     {
         static const char16_t s_IntToHex[16] = { u'0', u'1', u'2', u'3', u'4', u'5', u'6', u'7', u'8', u'9', u'A', u'B', u'C', u'D', u'E', u'F' };
 
