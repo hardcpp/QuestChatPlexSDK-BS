@@ -1,0 +1,34 @@
+{
+    "env": {
+        "ndkPath": "D:/User/Repositories/GitHubQuestModding/android-ndk-r24"
+    },
+    "configurations": [
+        {
+            "defines": [
+                "MOD_ID=\"ChatPlexSDKBS\"",
+                "VERSION=\"x.x.x\"",
+                "__GNUC__",
+                "__aarch64__",
+                "CP_SDK_BMBF"
+            ],
+            "includePath": [
+                "${workspaceFolder}/extern/includes/libil2cpp/il2cpp/libil2cpp",
+                "${workspaceFolder}/extern/includes/codegen/include",
+                "${workspaceFolder}/extern/includes",
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/shared",
+                "${workspaceFolder}/",
+                "${ndkPath}/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include",
+                "${ndkPath}/sources/cxx-stl/llvm-libc++abi/include",
+                "${ndkPath}/sources/cxx-stl/llvm-libc++/include",
+                "${ndkPath}/"
+            ],
+            "name": "Quest",
+            "cStandard": "c11",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "clang-x64",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json"
+        }
+    ],
+    "version": 4
+}
