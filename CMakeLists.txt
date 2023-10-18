@@ -5,7 +5,7 @@ add_definitions(-DCP_SDK_BMBF)
 add_definitions(-DDEBUG_SCENES)
 
 # override mod id
-set(MOD_ID "ChatPlexSDK_BS")
+set(MOD_ID "ChatPlexSDK-BS")
 
 # Enable link time optimization
 # In my experience, this can be highly unstable but it nets a huge size optimization and likely performance

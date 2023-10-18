@@ -162,7 +162,7 @@ void OnEnable()
 // Called at the early stages of game loading
 extern "C" void setup(ModInfo & p_ModInfo)
 {
-    p_ModInfo.id        = "ChatPlexSDK_BS";
+    p_ModInfo.id        = "ChatPlexSDK-BS";
     p_ModInfo.version   = VERSION;
 
     s_ModInfo = p_ModInfo;
@@ -190,7 +190,7 @@ extern "C" void setup(ModInfo & p_ModInfo)
         return p_Input;
     });
 
-    CP_SDK::ChatPlexSDK::Logger()->Error(u"ChatPlexSDK_BS Completed setup!");
+    CP_SDK::ChatPlexSDK::Logger()->Error(u"ChatPlexSDK-BS Completed setup!");
 }
 
 ////////////////////////////////////////////////////////////////////////////

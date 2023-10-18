@@ -10,8 +10,8 @@ namespace CP_SDK {
         CP_SDK_CONFIG_JSONCONFIG_INSTANCE_DECL(CPConfig);
 
         public:
-            bool FirstRun           = true;
-            bool FirstChatCoreRun   = true;
+            bool FirstRun               = true;
+            bool FirstChatServiceRun    = true;
 
         protected:
             /// @brief Reset config to default

@@ -3,12 +3,13 @@
     "sharedDir": "shared",
     "dependenciesDir": "extern",
     "info": {
-      "name": "ChatPlexSDK_BS",
-      "id": "chatplex_sdk_bs",
+      "name": "ChatPlexSDK-BS",
+      "id": "chatplex-sdk-bs",
       "version": "0.0.2-v6.1.1",
-      "url": "https://github.com/hardcpp/QuestChatPlexSDK_BS",
+      "url": "https://github.com/hardcpp/QuestChatPlexSDK-BS",
       "additionalData": {
-        "overrideSoName": "libchatplex_sdk_bs.so"
+        "overrideSoName": "libchatplex-sdk-bs.so",
+        "cmake": true
       }
     },
     "dependencies": [

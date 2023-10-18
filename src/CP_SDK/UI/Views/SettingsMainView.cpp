@@ -173,13 +173,13 @@ namespace CP_SDK::UI::Views {
     /// @param p_Module Module instance
     void SettingsMainView::CheckChatTutorial(IModuleBase* p_Module)
     {
-        if (p_Module->UseChatFeatures() && CPConfig::Instance()->FirstChatCoreRun)
+        if (p_Module->UseChatFeatures() && CPConfig::Instance()->FirstChatServiceRun)
         {
             ShowMessageModal(u"Hey it's seems that this is the first time\nyou use a chat module!\n<b><color=yellow>The configuration page has been opened in your browser!</color></b>");
 
             Chat::Service::OpenWebConfiguration();
 
-            CPConfig::Instance()->FirstChatCoreRun = false;
+            CPConfig::Instance()->FirstChatServiceRun = false;
             CPConfig::Instance()->Save();
         }
     }
