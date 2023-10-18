@@ -3,12 +3,12 @@
 
 namespace CP_SDK::Utils {
 
-    extern std::u16string StrToU16Str(std::string_view p_Str);
-    extern std::string U16StrToStr(std::u16string_view p_Str);
+    std::u16string StrToU16Str(std::string_view p_Str);
+    std::string U16StrToStr(std::u16string_view p_Str);
 
-    extern bool U16EqualsToCaseInsensitive(std::u16string_view p_Left, std::u16string_view p_Right);
+    bool U16EqualsToCaseInsensitive(std::u16string_view p_Left, std::u16string_view p_Right);
 
-    extern std::u16string U16UrlEncode(std::u16string_view p_Input);
+    std::u16string U16UrlEncode(std::u16string_view p_Input);
 
 }   ///< namespace CP_SDK::Utils
 
