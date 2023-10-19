@@ -18,7 +18,7 @@ namespace CP_SDK::Animation {
         using namespace CP_SDK::Utils;
     }
 
-    /// @briefAnimation state updater
+    /// @brief Animation state updater
     class AnimationStateUpdater : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.Animation", AnimationStateUpdater, _u::MonoBehaviour);
