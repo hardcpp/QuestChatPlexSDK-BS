@@ -52,15 +52,39 @@
       {
         "id": "songloader",
         "versionRange": "^0.10.17",
-        "additionalData": {}
+        "additionalData": {
+          "private": true
+        }
       },
       {
         "id": "conditional-dependencies",
         "versionRange": "*",
-        "additionalData": {}
+        "additionalData": {
+          "private": true
+        }
       }
     ],
-    "workspace": null
+    "workspace": {
+      "scripts": {
+        "build": [
+          "pwsh ./build.ps1"
+        ],
+        "qmod": [
+          "pwsh ./build.ps1 -clean",
+          "qpm qmod build",
+          "pwsh ./createqmod.ps1 -clean"
+        ],
+        "copy": [
+          "pwsh ./copy.ps1"
+        ],
+        "clean": [
+          "pwsh ./build.ps1 -clean"
+        ],
+        "log": [
+          "pwsh ./start-logging.ps1"
+        ]
+      }
+    }
   },
   "restoredDependencies": [
     {
@@ -101,20 +125,6 @@
     },
     {
       "dependency": {
-        "id": "paper",
-        "versionRange": "=1.2.14",
-        "additionalData": {
-          "soLink": "https://github.com/Fernthedev/paperlog/releases/download/v1.2.14/libpaperlog.so",
-          "debugSoLink": "https://github.com/Fernthedev/paperlog/releases/download/v1.2.14/debug_libpaperlog.so",
-          "overrideSoName": "libpaperlog.so",
-          "modLink": "https://github.com/Fernthedev/paperlog/releases/download/v1.2.14/paperlog.qmod",
-          "branchName": "version/v1_2_14"
-        }
-      },
-      "version": "1.2.14"
-    },
-    {
-      "dependency": {
         "id": "songloader",
         "versionRange": "=0.10.17",
         "additionalData": {
@@ -140,6 +150,20 @@
         }
       },
       "version": "0.15.24"
+    },
+    {
+      "dependency": {
+        "id": "paper",
+        "versionRange": "=1.2.14",
+        "additionalData": {
+          "soLink": "https://github.com/Fernthedev/paperlog/releases/download/v1.2.14/libpaperlog.so",
+          "debugSoLink": "https://github.com/Fernthedev/paperlog/releases/download/v1.2.14/debug_libpaperlog.so",
+          "overrideSoName": "libpaperlog.so",
+          "modLink": "https://github.com/Fernthedev/paperlog/releases/download/v1.2.14/paperlog.qmod",
+          "branchName": "version/v1_2_14"
+        }
+      },
+      "version": "1.2.14"
     },
     {
       "dependency": {

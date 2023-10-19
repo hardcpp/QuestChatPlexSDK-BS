@@ -5,7 +5,7 @@
     "configurations": [
         {
             "defines": [
-                "MOD_ID=\"ChatPlexSDKBS\"",
+                "MOD_ID=\"ChatPlexSDK-BS\"",
                 "VERSION=\"x.x.x\"",
                 "__GNUC__",
                 "__aarch64__",

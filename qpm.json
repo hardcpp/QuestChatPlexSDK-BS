@@ -51,12 +51,16 @@
     {
       "id": "songloader",
       "versionRange": "^0.10.17",
-      "additionalData": {}
+      "additionalData": {
+        "private": true
+      }
     },
     {
       "id": "conditional-dependencies",
       "versionRange": "*",
-      "additionalData": {}
+      "additionalData": {
+        "private": true
+      }
     }
   ],
   "workspace": {
