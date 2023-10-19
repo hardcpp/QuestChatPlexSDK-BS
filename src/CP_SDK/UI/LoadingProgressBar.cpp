@@ -150,9 +150,9 @@ namespace CP_SDK::UI {
 
     /// @brief On scene changed
     /// @param p_NewScene New scene type
-    void LoadingProgressBar::ChatPlexSDK_OnGenericSceneChange(ChatPlexSDK::EGenericScene p_NewScene)
+    void LoadingProgressBar::ChatPlexSDK_OnGenericSceneChange(EGenericScene p_NewScene)
     {
-        if (p_NewScene != ChatPlexSDK::EGenericScene::Menu)
+        if (p_NewScene != EGenericScene::Menu)
         {
             StopAllCoroutines();
             m_Canvas->set_enabled(false);

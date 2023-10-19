@@ -329,7 +329,7 @@ namespace CP_SDK::UI::Components {
     /// @brief Set on scene release
     /// @param p_Scene Target scene
     /// @param p_Callback Callback
-    CFloatingPanel* CFloatingPanel::OnSceneRelease(ChatPlexSDK::EGenericScene p_Scene, const _v::Delegate<void(Vector3, Vector3)>& p_Callback)
+    CFloatingPanel* CFloatingPanel::OnSceneRelease(EGenericScene p_Scene, const _v::Delegate<void(Vector3, Vector3)>& p_Callback)
     {
         m_OnSceneRelease[p_Scene] = p_Callback;
         return this;
@@ -338,7 +338,7 @@ namespace CP_SDK::UI::Components {
     /// @param p_Scene Target scene
     /// @param p_LocalPosition Local position
     /// @param p_LocalEulerAngles Local euler angles
-    CFloatingPanel* CFloatingPanel::SetSceneTransform(ChatPlexSDK::EGenericScene p_Scene, Vector3 p_LocalPosition, Vector3 p_LocalEulerAngles)
+    CFloatingPanel* CFloatingPanel::SetSceneTransform(EGenericScene p_Scene, Vector3 p_LocalPosition, Vector3 p_LocalEulerAngles)
     {
         m_SceneTransforms[p_Scene] = std::make_tuple(p_LocalPosition, p_LocalEulerAngles);
 
@@ -428,7 +428,7 @@ namespace CP_SDK::UI::Components {
 
     /// @brief On generic scene change
     /// @param p_ActiveScene New active scene
-    void CFloatingPanel::ChatPlexSDK_OnGenericSceneChange(ChatPlexSDK::EGenericScene p_ActiveScene)
+    void CFloatingPanel::ChatPlexSDK_OnGenericSceneChange(EGenericScene p_ActiveScene)
     {
         if (m_AutoLockOnSceneSwitch)
             SetAllowMovement(false);

@@ -60,8 +60,8 @@ namespace CP_SDK::UI {
         }))->GetComponent<ModMenu*>();
         GameObject::DontDestroyOnLoad(m_Instance->get_gameObject());
 
-        ChatPlexSDK::OnGenericSceneChange += [](ChatPlexSDK::EGenericScene p_Scene) -> void {
-            if (p_Scene == ChatPlexSDK::EGenericScene::Menu)
+        ChatPlexSDK::OnGenericSceneChange += [](EGenericScene p_Scene) -> void {
+            if (p_Scene == EGenericScene::Menu)
                 return;
 
             if (m_Instance) m_Instance->Dismiss();

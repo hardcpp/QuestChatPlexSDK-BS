@@ -63,7 +63,7 @@ namespace CP_SDK::UI {
         private:
             /// @brief On scene changed
             /// @param p_NewScene New scene type
-            void ChatPlexSDK_OnGenericSceneChange(ChatPlexSDK::EGenericScene p_NewScene);
+            void ChatPlexSDK_OnGenericSceneChange(EGenericScene p_NewScene);
             /// @brief Timed canvas disabler
             /// @param p_Time Time in seconds
             static custom_types::Helpers::Coroutine Coroutine_DisableCanvas(LoadingProgressBar* p_Self, float p_Time);

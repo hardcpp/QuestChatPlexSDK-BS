@@ -33,8 +33,8 @@ namespace CP_SDK::UI::Components {
             bool                                                                        m_AllowMovement;
             bool                                                                        m_AutoLockOnSceneSwitch;
             bool                                                                        m_AlignWithFloor;
-            std::map<ChatPlexSDK::EGenericScene, std::tuple<_u::Vector3, _u::Vector3>>  m_SceneTransforms;
-            std::map<ChatPlexSDK::EGenericScene, _v::Action<_u::Vector3, _u::Vector3>>  m_OnSceneRelease;
+            std::map<EGenericScene, std::tuple<_u::Vector3, _u::Vector3>>  m_SceneTransforms;
+            std::map<EGenericScene, _v::Action<_u::Vector3, _u::Vector3>>  m_OnSceneRelease;
             _v::MonoPtr<_u::Image>                                                      m_Background;
             _v::MonoPtr<CIconButton>                                                    m_LockIcon;
             _v::MonoPtr<CIconButton>                                                    m_GearIcon;
@@ -126,12 +126,12 @@ namespace CP_SDK::UI::Components {
             /// @brief Set on scene release
             /// @param p_Scene Target scene
             /// @param p_Callback Callback
-            CFloatingPanel* OnSceneRelease(ChatPlexSDK::EGenericScene p_Scene, _v::CActionRef<_u::Vector3, _u::Vector3> p_Callback);
+            CFloatingPanel* OnSceneRelease(EGenericScene p_Scene, _v::CActionRef<_u::Vector3, _u::Vector3> p_Callback);
             /// @brief Set scene transform
             /// @param p_Scene Target scene
             /// @param p_LocalPosition Local position
             /// @param p_LocalEulerAngles Local euler angles
-            CFloatingPanel* SetSceneTransform(ChatPlexSDK::EGenericScene p_Scene, _u::Vector3 p_LocalPosition, _u::Vector3 p_LocalEulerAngles);
+            CFloatingPanel* SetSceneTransform(EGenericScene p_Scene, _u::Vector3 p_LocalPosition, _u::Vector3 p_LocalEulerAngles);
             /// @brief Set size
             /// @param p_Size New size
             CFloatingPanel* SetSize(_u::Vector2 p_Size);
@@ -147,7 +147,7 @@ namespace CP_SDK::UI::Components {
         private:
             /// @brief On generic scene change
             /// @param p_ActiveScene New active scene
-            void ChatPlexSDK_OnGenericSceneChange(ChatPlexSDK::EGenericScene p_ActiveScene);
+            void ChatPlexSDK_OnGenericSceneChange(EGenericScene p_ActiveScene);
 
     };
 

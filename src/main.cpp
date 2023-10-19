@@ -92,13 +92,13 @@ void PatchUI()
 
     CP_SDK::UI::UISystem::Override_GetUIMaterial = []()
     {
-        if (m_UINoGlowMaterial || CP_SDK::ChatPlexSDK::ActiveGenericScene() != CP_SDK::ChatPlexSDK::EGenericScene::Menu) return m_UINoGlowMaterial.Ptr();
+        if (m_UINoGlowMaterial || CP_SDK::ChatPlexSDK::ActiveGenericScene() != CP_SDK::EGenericScene::Menu) return m_UINoGlowMaterial.Ptr();
         m_UINoGlowMaterial = UnityEngine::Material::Instantiate(UnityEngine::Resources::FindObjectsOfTypeAll<UnityEngine::Material*>().FirstOrDefault([](auto x) { return x->get_name() == u"UINoGlow"; }));
         return m_UINoGlowMaterial.Ptr();
     };
     CP_SDK::UI::UISystem::Override_OnClick = [](UnityEngine::MonoBehaviour* p_MonoBehavior)
     {
-        if (!m_BasicUIAudioManager || CP_SDK::ChatPlexSDK::ActiveGenericScene() != CP_SDK::ChatPlexSDK::EGenericScene::Menu)
+        if (!m_BasicUIAudioManager || CP_SDK::ChatPlexSDK::ActiveGenericScene() != CP_SDK::EGenericScene::Menu)
             m_BasicUIAudioManager = UnityEngine::Resources::FindObjectsOfTypeAll<GlobalNamespace::BasicUIAudioManager*>().FirstOrDefault();
         if (m_BasicUIAudioManager) m_BasicUIAudioManager->HandleButtonClickEvent();
     };
@@ -173,7 +173,7 @@ extern "C" void setup(ModInfo & p_ModInfo)
         l_Logger,
         u"BeatSaber",
         "/sdcard/ModData/com.beatgames.beatsaber/Mods/",
-        CP_SDK::ChatPlexSDK::ERenderPipeline::BuiltIn
+        CP_SDK::ERenderPipeline::BuiltIn
     );
     CP_SDK::ChatPlexSDK::OnAssemblyLoaded();
 

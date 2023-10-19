@@ -12,19 +12,19 @@
 
 namespace CP_SDK {
 
-    Logging::ILogger*                               ChatPlexSDK::m_Logger               = nullptr;
+    Logging::ILogger*               ChatPlexSDK::m_Logger               = nullptr;
 
-    std::u16string                                  ChatPlexSDK::m_ProductName          = u"";
-    std::u16string                                  ChatPlexSDK::m_ProductVersion       = u"";
-    std::string                                     ChatPlexSDK::m_BasePath             = "";
-    std::u16string                                  ChatPlexSDK::m_NetworkUserAgent     = u"";
-    ChatPlexSDK::ERenderPipeline                    ChatPlexSDK::m_RenderPipeline       = ChatPlexSDK::ERenderPipeline::BuiltIn;
-    ChatPlexSDK::EGenericScene                      ChatPlexSDK::m_ActiveGenericScene   = ChatPlexSDK::EGenericScene::None;
+    std::u16string                  ChatPlexSDK::m_ProductName          = u"";
+    std::u16string                  ChatPlexSDK::m_ProductVersion       = u"";
+    std::string                     ChatPlexSDK::m_BasePath             = "";
+    std::u16string                  ChatPlexSDK::m_NetworkUserAgent     = u"";
+    ERenderPipeline                 ChatPlexSDK::m_RenderPipeline       = ERenderPipeline::BuiltIn;
+    EGenericScene                   ChatPlexSDK::m_ActiveGenericScene   = EGenericScene::None;
 
-    std::vector<IModuleBase*>                       ChatPlexSDK::m_Modules;
+    std::vector<IModuleBase*>       ChatPlexSDK::m_Modules;
 
-    Utils::Event<ChatPlexSDK::EGenericScene>        ChatPlexSDK::OnGenericSceneChange;
-    Utils::Event<bool>                              ChatPlexSDK::OnGenericMenuSceneLoaded;
+    Utils::Event<EGenericScene>     ChatPlexSDK::OnGenericSceneChange;
+    Utils::Event<bool>              ChatPlexSDK::OnGenericMenuSceneLoaded;
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////

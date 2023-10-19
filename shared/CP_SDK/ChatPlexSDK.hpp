@@ -10,23 +10,23 @@ namespace CP_SDK {
 
     class IModuleBase;
 
+    enum class ERenderPipeline
+    {
+        BuiltIn,
+        URP
+    };
+
+    enum class EGenericScene
+    {
+        None,
+        Menu,
+        Playing
+    };
+
     /// ChatPlex SDK main class
     class ChatPlexSDK
     {
         DISABLE_CONSTRUCTORS(ChatPlexSDK);
-
-        public:
-            enum class ERenderPipeline
-            {
-                BuiltIn,
-                URP
-            };
-            enum class EGenericScene
-            {
-                None,
-                Menu,
-                Playing
-            };
 
         public:
             /// Logger instance
