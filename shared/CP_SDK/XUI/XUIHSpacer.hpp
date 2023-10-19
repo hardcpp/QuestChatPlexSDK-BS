@@ -6,7 +6,7 @@ namespace CP_SDK::XUI {
 
     /// @brief CHLayout XUI Element
     class XUIHSpacer
-        : public _XUIHOrVSpacer<XUIHSpacer, _v::CVLayout>
+        : public _XUIHOrVSpacer<XUIHSpacer, _v::CHLayout>
     {
         DISABLE_COPY_MOVECONSTRUCTORS(XUIHSpacer);
         PRIVATE_TAG();
