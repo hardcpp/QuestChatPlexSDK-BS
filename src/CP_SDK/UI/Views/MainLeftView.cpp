@@ -1,4 +1,5 @@
 #include "CP_SDK/UI/Views/MainLeftView.hpp"
+#include "CP_SDK/UI/FlowCoordinators/MainFlowCoordinator.hpp"
 #include "CP_SDK/Unity/SpriteU.hpp"
 
 #include <UnityEngine/Application.hpp>
@@ -34,7 +35,7 @@ namespace CP_SDK::UI::Views {
             Templates::TitleBar(u"Information"),
 
             Templates::ScrollableInfos(50, {
-                XUIText::Make(u"<b>Welcome to " + ChatPlexSDK::ProductName() + u" by HardCPP#1985</b>\nVersion " + ChatPlexSDK::ProductVersion() + u"!")
+                XUIText::Make(u"<b>Welcome to " + FlowCoordinators::MainFlowCoordinator::Instance()->Title() + u"</b>\n Made by HardCPP!")
                     ->SetAlign(TMPro::TextAlignmentOptions::CaplineLeft)
                     ->AsShared()
             }),

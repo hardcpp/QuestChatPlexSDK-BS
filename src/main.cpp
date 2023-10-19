@@ -1,4 +1,5 @@
 #include "CP_SDK/ChatPlexSDK.hpp"
+#include "CP_SDK/ModuleBase.hpp"
 #include "CP_SDK/Logging/BMBFLogger.hpp"
 #include "CP_SDK/UI/FlowCoordinators/MainFlowCoordinator.hpp"
 #include "CP_SDK/UI/ScreenSystem.hpp"
@@ -147,11 +148,28 @@ void OnEnable()
 
     CP_SDK::ChatPlexSDK::Logger()->Error(u"Adding menu button.");
 
-    BSML::Register::RegisterMenuButton("QBeatSaberPlus", s_ModInfo.id,
-        [](){
-            CP_SDK::UI::FlowCoordinators::MainFlowCoordinator::Instance()->Present(true);
-        }
-    );
+    auto& l_Modules         = CP_SDK::ChatPlexSDK::GetModules();
+    auto  l_HasBSPModules   = false;
+
+    for (auto& l_Module : l_Modules)
+    {
+        if (l_Module->Type() != CP_SDK::EIModuleBaseType::Integrated)
+            continue;
+
+        l_HasBSPModules = true;
+        break;
+    }
+
+    if (l_HasBSPModules)
+    {
+        CP_SDK::UI::FlowCoordinators::MainFlowCoordinator::OverrideTitle(u"BeatSaberPlus");
+
+        BSML::Register::RegisterMenuButton("QBeatSaberPlus", s_ModInfo.id,
+            [](){
+                CP_SDK::UI::FlowCoordinators::MainFlowCoordinator::Instance()->Present(true);
+            }
+        );
+    }
 
     CP_SDK_BS::Game::BeatMapsClient::Init();
 }

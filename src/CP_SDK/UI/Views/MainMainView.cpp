@@ -1,5 +1,4 @@
 #include "CP_SDK/UI/Views/MainMainView.hpp"
-#include "CP_SDK/UI/FlowCoordinator.hpp"
 #include "CP_SDK/UI/FlowCoordinators/MainFlowCoordinator.hpp"
 #include "CP_SDK/CPConfig.hpp"
 #include "CP_SDK/ModuleBase.hpp"
@@ -91,7 +90,7 @@ namespace CP_SDK::UI::Views {
         /// Show welcome message
         if (CPConfig::Instance()->FirstRun)
         {
-            ShowMessageModal(u"<color=yellow><b>Welcome to " + ChatPlexSDK::ProductName() + u"!</b></color>\nBy default most modules are disabled, you can enable/disable them\nany time by clicking the <b>Settings</b> button below");
+            ShowMessageModal(u"<color=yellow><b>Welcome to " + FlowCoordinators::MainFlowCoordinator::Instance()->Title() + u"!</b></color>\nBy default most modules are disabled, you can enable/disable them\nany time by clicking the <b>Settings</b> button below");
             CPConfig::Instance()->FirstRun = false;
             CPConfig::Instance()->Save();
         }

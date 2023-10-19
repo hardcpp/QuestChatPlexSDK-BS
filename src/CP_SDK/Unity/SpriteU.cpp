@@ -65,7 +65,7 @@ namespace CP_SDK::Unity {
                                         SpriteMeshType                  p_Type,
                                         Vector4                         p_Borders)
     {
-        Texture2DU::CreateFromRawEx(p_Bytes, [=](Texture2D* p_Texture) -> void
+        Texture2DU::CreateFromRawThreaded(p_Bytes, [=](Texture2D* p_Texture) -> void
         {
             Sprite* l_Sprite = nullptr;
             if (_v::IsUnityPtrValid(p_Texture))

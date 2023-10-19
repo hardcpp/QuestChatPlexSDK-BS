@@ -13,7 +13,10 @@ namespace CP_SDK::UI::FlowCoordinators {
     /// @brief Constructor
     CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(MainFlowCoordinator, FlowCoordinator)
     {
-        m_TitleValue = u"" + ChatPlexSDK::ProductName() + u" V" + ChatPlexSDK::ProductVersion();
+        if (!m_TitleOverride.empty())
+            m_TitleValue = u"ChatPlexSDK " + ChatPlexSDK::ProductVersion();
+        else
+            m_TitleValue = m_TitleOverride + u" " + ChatPlexSDK::ProductVersion();
 
         m_Title                     = [this]() -> std::u16string_view { return m_TitleValue; };
 
@@ -31,6 +34,21 @@ namespace CP_SDK::UI::FlowCoordinators {
         UISystem::DestroyUI(&m_MainRightView);
         UISystem::DestroyUI(&m_MainMainView);
         UISystem::DestroyUI(&m_MainLeftView);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+
+    std::u16string MainFlowCoordinator::m_TitleOverride;
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+
+    /// @brief Override the title
+    /// @param p_Override New override
+    void MainFlowCoordinator::OverrideTitle(std::u16string_view p_Override)
+    {
+        m_TitleOverride = p_Override;
     }
 
     ////////////////////////////////////////////////////////////////////////////

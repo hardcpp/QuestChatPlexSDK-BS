@@ -25,6 +25,8 @@ namespace CP_SDK::UI::FlowCoordinators {
         CP_SDK_UI_FLOW_COORDINATOR_DESTROY();
 
         private:
+            static std::u16string m_TitleOverride;
+
             std::u16string                          m_TitleValue;
             _v::MonoPtr<Views::MainLeftView>        m_MainLeftView;
             _v::MonoPtr<Views::MainMainView>        m_MainMainView;
@@ -32,6 +34,11 @@ namespace CP_SDK::UI::FlowCoordinators {
             _v::MonoPtr<Views::SettingsLeftView>    m_SettingsLeftView;
             _v::MonoPtr<Views::SettingsMainView>    m_SettingsMainView;
             _v::MonoPtr<Views::SettingsRightView>   m_SettingsRightView;
+
+        public:
+            /// @brief Override the title
+            /// @param p_Override New override
+            static void OverrideTitle(std::u16string_view p_Override);
 
         private:
             /// @brief Init
