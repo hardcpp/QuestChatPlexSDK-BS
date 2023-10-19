@@ -29,7 +29,7 @@ namespace CP_SDK::Pool {
 
     };
 
-    template <typename t_Type> require(std::is_pointer_v<t_Type>)
+    template <typename t_Type>
     typename MTObjectPool<t_Type>::Ptr MTGenericPool<t_Type>::s_Pool = MTObjectPool<t_Type>::Make(
         []() {
             if constexpr (std::is_pointer_v<t_Type>)
