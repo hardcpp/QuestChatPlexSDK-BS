@@ -28,7 +28,7 @@ namespace CP_SDK::Unity {
             /// @brief Load texture from byte array
             /// @param p_Bytes    Raw Texture 2D data
             /// @param p_Callback Callback
-            static void CreateFromRawEx(_v::MonoPtr<::Array<uint8_t>> p_Bytes, _v::Action<_u::Texture2D*> p_Callback);
+            static void CreateFromRawThreaded(_v::MonoPtr<::Array<uint8_t>> p_Bytes, _v::Action<_u::Texture2D*> p_Callback);
 
     };
 

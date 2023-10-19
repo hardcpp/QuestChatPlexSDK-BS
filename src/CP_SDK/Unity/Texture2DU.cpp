@@ -37,7 +37,7 @@ namespace CP_SDK::Unity {
     /// @brief Load texture from byte array
     /// @param p_Bytes    Raw Texture 2D data
     /// @param p_Callback Callback
-    void Texture2DU::CreateFromRawEx(_v::MonoPtr<::Array<uint8_t>> p_Bytes, _v::Action<Texture2D*> p_Callback)
+    void Texture2DU::CreateFromRawThreaded(_v::MonoPtr<::Array<uint8_t>> p_Bytes, _v::Action<Texture2D*> p_Callback)
     {
         if (p_Bytes && p_Bytes->Length() > 0)
         {
@@ -81,7 +81,7 @@ namespace CP_SDK::Unity {
                     }
                     catch (const std::exception& l_Exception)
                     {
-                        ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][Texture2D.CreateFromRawEx] Error2:");
+                        ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][Texture2D.CreateFromRawThreaded] Error2:");
                         ChatPlexSDK::Logger()->Error(l_Exception);
                     }
 
@@ -91,14 +91,14 @@ namespace CP_SDK::Unity {
                     }
                     catch (const std::exception& l_Exception)
                     {
-                        ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][Texture2D.CreateFromRawEx] Error3:");
+                        ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][Texture2D.CreateFromRawThreaded] Error3:");
                         ChatPlexSDK::Logger()->Error(l_Exception);
                     }
                 });
             }
             catch (const std::exception& l_Exception)
             {
-                ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][Texture2D.CreateFromRawEx] Error:");
+                ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][Texture2D.CreateFromRawThreaded] Error:");
                 ChatPlexSDK::Logger()->Error(l_Exception);
             }
         }
