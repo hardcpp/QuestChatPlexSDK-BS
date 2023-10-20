@@ -162,7 +162,7 @@ void OnEnable()
 
     if (l_HasBSPModules)
     {
-        CP_SDK::UI::FlowCoordinators::MainFlowCoordinator::OverrideTitle(u"BeatSaberPlus");
+        CP_SDK::UI::FlowCoordinators::MainFlowCoordinator::OverrideTitle(u"QBeatSaberPlus");
 
         BSML::Register::RegisterMenuButton("QBeatSaberPlus", s_ModInfo.id,
             [](){
