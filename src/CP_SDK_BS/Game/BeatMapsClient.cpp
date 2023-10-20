@@ -284,7 +284,7 @@ namespace CP_SDK_BS::Game {
             }
 
             /// Build out path
-            auto l_OutPath = _v::U16StrToStr(u"" + p_CustomSongsPath + u"/" + l_BasePath);
+            auto l_OutPath = _v::U16StrToStr(u"" + p_CustomSongsPath + (p_CustomSongsPath.back() != u'/' ? u"/" : u"") + l_BasePath);
 
             /// Check to avoid overwrite
             if (!p_Overwrite && std::filesystem::exists(l_OutPath))
