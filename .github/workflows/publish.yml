@@ -31,8 +31,8 @@ jobs:
       id: get_tag_version
       run: |
         echo ${GITHUB_REF#refs/tags/}
-        echo "TAG=${GITHUB_REF#refs/tags/}" >> ${GITHUB_OUTPUT}
-        echo "VERSION=${GITHUB_REF#refs/tags/v}" >> ${GITHUB_OUTPUT}
+        echo TAG="${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        echo VERSION="${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
 
     - name: Setup qpm
       uses: Fernthedev/qpm-action@main
@@ -67,7 +67,7 @@ jobs:
       run: |
         url=$(echo "$response" | jq -r '.upload_url')
         echo $url
-        echo "::set-output name=upload_url::$url"
+        echo upload_url="$url" >> $GITHUB_OUTPUT
       env:
           response:  ${{ steps.get_release.outputs.data }}
 
@@ -77,8 +77,9 @@ jobs:
         cd ./build/
         pattern="lib${module_id}*.so"
         files=( $pattern )
-        echo ::set-output name=NAME::"${files[0]}"
+        echo NAME="${files[0]}" >> $GITHUB_OUTPUT
 
+    # Upload our release assets
     - name: Upload Release Asset
       id: upload_release_asset
       uses: actions/upload-release-asset@v1
@@ -101,13 +102,13 @@ jobs:
         asset_name: debug_${{ steps.libname.outputs.NAME }}
         asset_content_type: application/octet-stream
 
-    - name: Upload Qmod Asset
+    - name: Upload Qmod asset
       id: upload_qmod_asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.get_upload_url.outputs.upload_url }}
-        asset_path: ./${{env.qmodName}}.qmod
-        asset_name: ${{env.qmodName}}.qmod
+        asset_path: ./${{ env.qmodName }}.qmod
+        asset_name: ${{ env.qmodName }}.qmod
         asset_content_type: application/octet-stream
