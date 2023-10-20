@@ -214,17 +214,18 @@ namespace CP_SDK::Utils {
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
-    #define ENSURE_SERIALIZED(__Check)  if (!p_Document.HasMember(p_Name) || !p_Document[p_Name]. __Check ()) throw std::runtime_error("_Unserialize<T>: Field " + U16StrToStr(p_Name) + " doesn't exist or is of the wrong type");
-    #define GET_OBJECT()                auto l_Object = p_Document[p_Name].GetObject();
+    #define GET_OBJECT() auto l_Object = p_Document[p_Name].GetObject();
 
     void Json::UnserializeBool(U16Value& p_Document, bool& p_Value, const char16_t* p_Name)
     {
-        ENSURE_SERIALIZED(IsBool)
+        if (!p_Document.HasMember(p_Name)) return;
+        CP_SDK_JSON_ENSURE_TYPE(IsBool);
         p_Value = p_Document[p_Name].GetBool();
     }
     void Json::UnserializeColor32(U16Value& p_Document, UnityEngine::Color32& p_Value, const char16_t* p_Name)
     {
-        ENSURE_SERIALIZED(IsObject)
+        if (!p_Document.HasMember(p_Name)) return;
+        CP_SDK_JSON_ENSURE_TYPE(IsObject);
         GET_OBJECT();
         uint32_t l_R, l_G, l_B, l_A;
         UnserializeUInt32(l_Object, l_R, u"r"); p_Value.r = static_cast<uint8_t>(l_R);
@@ -234,7 +235,8 @@ namespace CP_SDK::Utils {
     }
     void Json::UnserializeColor(U16Value& p_Document, UnityEngine::Color& p_Value, const char16_t* p_Name)
     {
-        ENSURE_SERIALIZED(IsObject)
+        if (!p_Document.HasMember(p_Name)) return;
+        CP_SDK_JSON_ENSURE_TYPE(IsObject);
         GET_OBJECT();
         UnserializeFloat(l_Object, p_Value.r, u"r");
         UnserializeFloat(l_Object, p_Value.g, u"g");
@@ -243,22 +245,26 @@ namespace CP_SDK::Utils {
     }
     void Json::UnserializeFloat(U16Value& p_Document, float& p_Value, const char16_t* p_Name)
     {
-        ENSURE_SERIALIZED(IsFloat)
+        if (!p_Document.HasMember(p_Name)) return;
+        CP_SDK_JSON_ENSURE_TYPE(IsFloat);
         p_Value = p_Document[p_Name].GetFloat();
     }
     void Json::UnserializeInt32(U16Value& p_Document, int32_t& p_Value, const char16_t* p_Name)
     {
-        ENSURE_SERIALIZED(IsInt)
+        if (!p_Document.HasMember(p_Name)) return;
+        CP_SDK_JSON_ENSURE_TYPE(IsInt);
         p_Value = p_Document[p_Name].GetInt();
     }
     void Json::UnserializeInt64(U16Value& p_Document, int64_t& p_Value, const char16_t* p_Name)
     {
-        ENSURE_SERIALIZED(IsInt64)
+        if (!p_Document.HasMember(p_Name)) return;
+        CP_SDK_JSON_ENSURE_TYPE(IsInt64);
         p_Value = p_Document[p_Name].GetInt64();
     }
     void Json::UnserializeQuaternion(U16Value& p_Document, UnityEngine::Quaternion& p_Value, const char16_t* p_Name)
     {
-        ENSURE_SERIALIZED(IsObject)
+        if (!p_Document.HasMember(p_Name)) return;
+        CP_SDK_JSON_ENSURE_TYPE(IsObject);
         GET_OBJECT();
         UnserializeFloat(l_Object, p_Value.x, u"x");
         UnserializeFloat(l_Object, p_Value.y, u"y");
@@ -267,29 +273,34 @@ namespace CP_SDK::Utils {
     }
     void Json::UnserializeString(U16Value& p_Document, std::u16string& p_Value, const char16_t* p_Name)
     {
-        ENSURE_SERIALIZED(IsString)
+        if (!p_Document.HasMember(p_Name)) return;
+        CP_SDK_JSON_ENSURE_TYPE(IsString);
         p_Value = p_Document[p_Name].GetString();
     }
     void Json::UnserializeUInt32(U16Value& p_Document, uint32_t& p_Value, const char16_t* p_Name)
     {
-        ENSURE_SERIALIZED(IsUint)
+        if (!p_Document.HasMember(p_Name)) return;
+        CP_SDK_JSON_ENSURE_TYPE(IsUint);
         p_Value = p_Document[p_Name].GetUint();
     }
     void Json::UnserializeUInt64(U16Value& p_Document, uint64_t& p_Value, const char16_t* p_Name)
     {
-        ENSURE_SERIALIZED(IsUint64)
+        if (!p_Document.HasMember(p_Name)) return;
+        CP_SDK_JSON_ENSURE_TYPE(IsUint64);
         p_Value = p_Document[p_Name].GetUint64();
     }
     void Json::UnserializeVector2(U16Value& p_Document, UnityEngine::Vector2& p_Value, const char16_t* p_Name)
     {
-        ENSURE_SERIALIZED(IsObject)
+        if (!p_Document.HasMember(p_Name)) return;
+        CP_SDK_JSON_ENSURE_TYPE(IsObject);
         GET_OBJECT();
         UnserializeFloat(l_Object, p_Value.x, u"x");
         UnserializeFloat(l_Object, p_Value.y, u"y");
     }
     void Json::UnserializeVector3(U16Value& p_Document, UnityEngine::Vector3& p_Value, const char16_t* p_Name)
     {
-        ENSURE_SERIALIZED(IsObject)
+        if (!p_Document.HasMember(p_Name)) return;
+        CP_SDK_JSON_ENSURE_TYPE(IsObject);
         GET_OBJECT();
         UnserializeFloat(l_Object, p_Value.x, u"x");
         UnserializeFloat(l_Object, p_Value.y, u"y");

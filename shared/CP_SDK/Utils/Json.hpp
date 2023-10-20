@@ -62,6 +62,8 @@
 #define CP_SDK_JSON_UNSERIALIZE_OBJECT(__Var)               CP_SDK::Utils::Json::UnserializeObject       (p_Document, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
 #define CP_SDK_JSON_UNSERIALIZE_OBJECT_ARRAY(__Var)         CP_SDK::Utils::Json::UnserializeObjectArray  (p_Document, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
 
+#define CP_SDK_JSON_ENSURE_TYPE(__Check)  if (!p_Document[p_Name]. __Check ()) throw std::runtime_error("_Unserialize<T>: Field " + U16StrToStr(p_Name) + " doesn't exist or is of the wrong type")
+
 namespace CP_SDK::Utils {
 
     /// @brief Json utils
@@ -210,11 +212,12 @@ namespace CP_SDK::Utils {
             template<typename t_Enum>
             static void UnserializeEnum(U16Value& p_Document, typename t_Enum::E& p_Value, const char16_t* p_Name, typename t_Enum::E p_Default)
             {
-                if (!p_Document.HasMember(p_Name) || !p_Document[p_Name].IsString())
+                if (!p_Document.HasMember(p_Name))
                 {
                     p_Value = p_Default;
                     return;
                 }
+                CP_SDK_JSON_ENSURE_TYPE(IsString);
 
                 auto l_U16String = p_Document[p_Name].GetString();
                 p_Value = t_Enum::ToEnum(l_U16String);
@@ -225,8 +228,13 @@ namespace CP_SDK::Utils {
             template<typename t_Object>
             static void UnserializeObject(U16Value& p_Document, std::shared_ptr<t_Object>& p_Object, const char16_t* p_Name)
             {
-                if (!p_Document.HasMember(p_Name) || !p_Document[p_Name].IsObject())
-                    throw std::runtime_error("UnserializeObject<T>: Field " + U16StrToStr(p_Name) + " doesn't exist or is of the wrong type");
+                if (!p_Document.HasMember(p_Name)) return;
+                if (p_Document[p_Name].IsNull())
+                {
+                    p_Object = nullptr;
+                    return;
+                }
+                CP_SDK_JSON_ENSURE_TYPE(IsObject);
 
                 auto l_Object = p_Document[p_Name].GetObject();
 
@@ -235,11 +243,13 @@ namespace CP_SDK::Utils {
             template<typename t_Object> requires(!std::is_pointer_v<t_Object>)
             static void UnserializeObject(U16Value& p_Document, std::optional<t_Object>& p_Object, const char16_t* p_Name)
             {
-                if (!p_Document.HasMember(p_Name))
+                if (!p_Document.HasMember(p_Name)) return;
+                if (p_Document[p_Name].IsNull())
+                {
+                    p_Object = std::nullopt;
                     return;
-
-                if (!p_Document[p_Name].IsObject())
-                    throw std::runtime_error("UnserializeObject<T>: Field " + U16StrToStr(p_Name) + " doesn't exist or is of the wrong type");
+                }
+                CP_SDK_JSON_ENSURE_TYPE(IsObject);
 
                 auto l_Object = p_Document[p_Name].GetObject();
 
@@ -251,8 +261,8 @@ namespace CP_SDK::Utils {
             template<typename t_Object>
             static void UnserializeObjectArray(U16Value& p_Document, std::vector<std::shared_ptr<t_Object>>& p_Array, const char16_t* p_Name)
             {
-                if (!p_Document.HasMember(p_Name) || !p_Document[p_Name].IsArray())
-                    throw std::runtime_error("UnserializeObjectArray<T>: Field " + U16StrToStr(p_Name) + " doesn't exist or is of the wrong type");
+                if (!p_Document.HasMember(p_Name)) return;
+                CP_SDK_JSON_ENSURE_TYPE(IsArray);
 
                 auto l_Array = p_Document[p_Name].GetArray();
                 p_Array.clear();
@@ -260,8 +270,8 @@ namespace CP_SDK::Utils {
 
                 for (auto l_I = 0; l_I < l_Array.Size(); ++l_I)
                 {
-                    auto l_Object = std::make_shared<t_Object>();
-                    l_Object->Unserialize(l_Array[l_I]);
+                    auto l_Object = l_Array[l_I].IsNull() ? nullptr : std::make_shared<t_Object>();
+                    if (l_Object) l_Object->Unserialize(l_Array[l_I]);
 
                     p_Array.push_back(l_Object);
                 }
