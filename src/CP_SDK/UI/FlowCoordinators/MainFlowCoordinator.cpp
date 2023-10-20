@@ -13,7 +13,7 @@ namespace CP_SDK::UI::FlowCoordinators {
     /// @brief Constructor
     CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(MainFlowCoordinator, FlowCoordinator)
     {
-        if (!m_TitleOverride.empty())
+        if (m_TitleOverride.empty())
             m_TitleValue = u"ChatPlexSDK " + ChatPlexSDK::ProductVersion();
         else
             m_TitleValue = m_TitleOverride + u" " + ChatPlexSDK::ProductVersion();
