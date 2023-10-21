@@ -7,8 +7,8 @@
     "version": "0.1.1-v6.2.0",
     "url": "https://github.com/hardcpp/QuestChatPlexSDK-BS",
     "additionalData": {
-      "cmake": true,
-      "overrideSoName": "libchatplex-sdk-bs.so"
+      "overrideSoName": "libchatplex-sdk-bs.so",
+      "cmake": true
     }
   },
   "dependencies": [
@@ -65,17 +65,17 @@
   ],
   "workspace": {
     "scripts": {
-      "build": [
-        "pwsh ./build.ps1"
-      ],
-      "clean": [
-        "pwsh ./build.ps1 -clean"
-      ],
       "copy": [
         "pwsh ./copy.ps1"
       ],
+      "build": [
+        "pwsh ./build.ps1"
+      ],
       "log": [
         "pwsh ./start-logging.ps1"
+      ],
+      "clean": [
+        "pwsh ./build.ps1 -clean"
       ],
       "qmod": [
         "pwsh ./build.ps1 -clean",

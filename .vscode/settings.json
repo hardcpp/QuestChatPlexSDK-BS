@@ -128,5 +128,5 @@
     "editor.formatOnSave": false,
     "editor.trimAutoWhitespace": true,
     "cmake.configureOnOpen": false,
-    "cmake.automaticReconfigure": true
+    "cmake.automaticReconfigure": false
 }
