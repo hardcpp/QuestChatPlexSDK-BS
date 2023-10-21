@@ -35,7 +35,7 @@ namespace CP_SDK::UI::Views {
             Templates::TitleBar(u"Information"),
 
             Templates::ScrollableInfos(50, {
-                XUIText::Make(u"<b>Welcome to " + FlowCoordinators::MainFlowCoordinator::Instance()->Title() + u"</b>\n Made by HardCPP!")
+                XUIText::Make(u"<b>Welcome to " + FlowCoordinators::MainFlowCoordinator::Instance()->Title() + u"</b>\nMade by HardCPP!")
                     ->SetAlign(TMPro::TextAlignmentOptions::CaplineLeft)
                     ->AsShared()
             }),
