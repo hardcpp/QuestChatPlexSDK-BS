@@ -8,6 +8,7 @@
 #include "assets.hpp"
 
 #include <custom-types/shared/delegate.hpp>
+#include <modloader/shared/modloader.hpp>
 #include <songloader/shared/API.hpp>
 
 #include <GlobalNamespace/BeatmapLevelSO.hpp>
@@ -105,6 +106,24 @@ namespace CP_SDK_BS::Game {
     /// @return True or false
     bool Levels::HasMappingCapability(std::u16string_view p_Capability)
     {
+        if (p_Capability.size() >= 18 && CP_SDK::Utils::U16EqualsToCaseInsensitive(p_Capability.substr(0, 18), u"Mapping Extensions"))
+            return Modloader::getMods().contains("MappingExtensions");
+
+        if (CP_SDK::Utils::U16EqualsToCaseInsensitive(p_Capability, u"Chroma Lighting Events"))
+            return Modloader::getMods().contains("Chroma");
+
+        if (CP_SDK::Utils::U16EqualsToCaseInsensitive(p_Capability, u"Chroma"))
+        {
+            if (!Modloader::getMods().contains("Chroma"))
+                return false;
+
+            auto l_Env = getenv("DisableChromaReq");
+            return l_Env != nullptr && strcmp(l_Env, "0") == 0;
+        }
+
+        if (CP_SDK::Utils::U16EqualsToCaseInsensitive(p_Capability, u"Noodle Extensions"))
+            return Modloader::getMods().contains("NoodleExtensions");
+
         CP_SDK::ChatPlexSDK::Logger()->Error(u"[CP_SDK_BS.Game][Levels.HasMappingCapability] NOT YET IMPLEMENTED RETURNING FALSE");
         return false;
     }
