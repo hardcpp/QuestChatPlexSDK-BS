@@ -51,10 +51,15 @@ namespace CP_SDK_BS::UI {
         if (m_SongDetailViewTemplate)
             return;
 
-        m_SongDetailViewTemplate = GameObject::Instantiate(Resources::FindObjectsOfTypeAll<StandardLevelDetailView*>().First([](StandardLevelDetailView* x) -> bool {
+        auto l_Result = Resources::FindObjectsOfTypeAll<StandardLevelDetailView*>().FirstOrDefault([](StandardLevelDetailView* x) -> bool {
             return x->get_gameObject()->get_name() == u"LevelDetail";
-        })->get_gameObject());
-        m_SongDetailViewTemplate->set_name(u"BSP_SongDetailViewTemplate");
+        });
+
+        if (!l_Result)
+            return;
+
+        m_SongDetailViewTemplate = GameObject::Instantiate(l_Result->get_gameObject());
+        m_SongDetailViewTemplate->set_name(u"CP_SDK_BS_StandardLevelDetailView_Template");
 
         GameObject::DestroyImmediate(m_SongDetailViewTemplate->GetComponent<StandardLevelDetailView*>());
         GameObject::DontDestroyOnLoad(m_SongDetailViewTemplate.Ptr());
@@ -201,6 +206,8 @@ namespace CP_SDK_BS::UI {
     LevelDetail::LevelDetail(Transform* p_Parent)
     {
         SelectedBeatmapDifficulty = BeatmapDifficulty::Easy;
+
+        Init();
 
         m_GameObject = GameObject::Instantiate(m_SongDetailViewTemplate.Ptr(), p_Parent);
 
@@ -366,7 +373,7 @@ namespace CP_SDK_BS::UI {
     /// @param p_Active New state
     void LevelDetail::SetActive(bool p_Active)
     {
-        m_GameObject->SetActive(false);
+        m_GameObject->SetActive(p_Active);
     }
 
     ////////////////////////////////////////////////////////////////////////////
