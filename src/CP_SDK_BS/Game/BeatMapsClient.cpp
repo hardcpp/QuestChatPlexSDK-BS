@@ -215,6 +215,12 @@ namespace CP_SDK_BS::Game {
     {
         static std::u16string _default;
 
+        if (!p_Song || !p_Version)
+        {
+            p_Callback(false, _default);
+            return;
+        }
+
         p_Version->ZipBytes(
             p_Token,
             [=](_v::CMonoPtrRef<::Array<uint8_t>> p_Result) -> void
@@ -228,9 +234,6 @@ namespace CP_SDK_BS::Game {
                 try
                 {
                     std::u16string l_CustomSongsPath = _v::StrToU16Str(RuntimeSongLoader::API::GetCustomLevelsPath());
-
-                    //if (!Directory.Exists(l_CustomSongsPath))
-                    //    Directory.CreateDirectory(l_CustomSongsPath);
 
                     CP_SDK::ChatPlexSDK::Logger()->Info(u"[CP_SDK_BS.Game][BeatMapsClient] Downloaded zip!");
 
@@ -298,12 +301,9 @@ namespace CP_SDK_BS::Game {
                 l_BasePath  += u" (" + std::to_string(l_FolderCount) + u")";
             }
 
-            /// Create directory if needed
-            if (!std::filesystem::exists(l_OutPath))
-                std::filesystem::create_directories(l_OutPath);
-
             CP_SDK::ChatPlexSDK::Logger()->Info(u"[CP_SDK_BS.Game][BeatMapsClient] " + l_OutPath);
 
+            /// zip_stream_extract create directory if needed
             int  l_Args = 2;
             auto l_ExtractResult = zip_stream_extract((const char*)p_ZIPBytes->values, p_ZIPBytes->Length(), l_OutPath.c_str(), +[](const char*, void*) -> int {
                 return 0;

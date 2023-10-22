@@ -33,6 +33,10 @@ static std::u16string operator+(std::u16string_view p_Left, std::string_view p_R
 {
     return std::u16string(p_Left) + CP_SDK::Utils::StrToU16Str(p_Right);
 }
+static std::u16string operator+(const char16_t* p_Left, std::string_view p_Right)
+{
+    return std::u16string(p_Left) + CP_SDK::Utils::StrToU16Str(p_Right);
+}
 static std::u16string operator+(const char16_t* p_Left, std::u16string_view p_Right)
 {
     return std::u16string(p_Left) + std::u16string(p_Right);
