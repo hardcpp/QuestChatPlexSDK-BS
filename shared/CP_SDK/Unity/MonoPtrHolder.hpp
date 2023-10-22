@@ -26,7 +26,7 @@ namespace CP_SDK::Unity {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.Unity", MonoPtrHolder, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(MonoPtrHolder);
         CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR(MonoPtrHolder);
-        CP_SDK_UNITY_PERSISTANT_SINGLETON_DECL(CP_SDK::Unity::MonoPtrHolder);
+        CP_SDK_UNITY_PERSISTANT_SINGLETON_NO_DESTROY_DECL(CP_SDK::Unity::MonoPtrHolder);
 
         public:
             /// @brief Ref counter wrapper

@@ -12,7 +12,7 @@ namespace CP_SDK::Unity {
     ////////////////////////////////////////////////////////////////////////////
 
     CP_SDK_IL2CPP_INHERIT_INIT(MonoPtrHolder);
-    CP_SDK_UNITY_PERSISTANT_SINGLETON_IMPL(CP_SDK::Unity::MonoPtrHolder);
+    CP_SDK_UNITY_PERSISTANT_SINGLETON_NO_DESTROY_IMPL(CP_SDK::Unity::MonoPtrHolder);
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
@@ -25,7 +25,19 @@ namespace CP_SDK::Unity {
     /// @brief Destructor
     CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(MonoPtrHolder)
     {
+        if (m_Pointers)
+        {
+            il2cpp_functions::monitor_enter(m_Instance->m_Pointers);
+            m_Pointers->Clear();
 
+            for (auto& l_Current : m_PointersToWrapper)
+                delete l_Current.second;
+
+            m_PointersToWrapper.clear();
+            il2cpp_functions::monitor_exit(m_Instance->m_Pointers);
+        }
+
+        WasDestroyed();
     };
 
     ////////////////////////////////////////////////////////////////////////////
@@ -72,7 +84,6 @@ namespace CP_SDK::Unity {
         l_NewWrapper->Ptr = p_Pointer;
 
         m_Instance->m_Pointers->Add(p_Pointer);
-
         m_Instance->m_PointersToWrapper[p_Pointer] = l_NewWrapper;
 
         il2cpp_functions::monitor_exit(m_Instance->m_Pointers);
@@ -83,10 +94,7 @@ namespace CP_SDK::Unity {
     void MonoPtrHolder::Release(Il2CppObject* p_Pointer)
     {
         if (!m_Instance)
-        {
-            ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][MonoPtrHolder.Release] MonoPtrHolder was not initialized!");
-            throw std::runtime_error("MonoPtrHolder was not initialized!");
-        }
+            return;         ///< Most likely happen on exit, do nothing
 
         il2cpp_functions::monitor_enter(m_Instance->m_Pointers);
 
