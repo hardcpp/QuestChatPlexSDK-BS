@@ -20,6 +20,10 @@
 
 #define CP_SDK_UNITY_PERSISTANT_SINGLETON_NO_DESTROY_IMPL(t_Type)           \
     t_Type* t_Type::m_Instance = nullptr;                                   \
+    void t_Type::WasDestroyed()                                             \
+    {                                                                       \
+        m_Instance = nullptr;                                               \
+    }                                                                       \
     t_Type* t_Type::Instance()                                              \
     {                                                                       \
         if (!CP_SDK::Utils::IsUnityPtrValid(m_Instance))                    \
