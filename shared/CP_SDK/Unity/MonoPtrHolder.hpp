@@ -11,7 +11,6 @@
 
 #include <atomic>
 #include <map>
-#include <mutex>
 
 namespace CP_SDK::Unity {
 
@@ -47,8 +46,7 @@ namespace CP_SDK::Unity {
         private:
             DECLARE_INSTANCE_FIELD(_u::List_1<Il2CppObject*>*, m_Pointers);
 
-            std::map<Il2CppObject*, Wrapper*>   m_PointersToWrapper;
-            std::mutex                          m_Mutex;
+            static std::map<Il2CppObject*, Wrapper*> m_PointersToWrapper;
 
         public:
             /// @brief Get or register a new wrapper

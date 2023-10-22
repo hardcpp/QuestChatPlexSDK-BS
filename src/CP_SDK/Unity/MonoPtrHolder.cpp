@@ -6,6 +6,11 @@ using namespace UnityEngine;
 
 namespace CP_SDK::Unity {
 
+    std::map<Il2CppObject*, MonoPtrHolder::Wrapper*> MonoPtrHolder::m_PointersToWrapper;
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+
     CP_SDK_IL2CPP_INHERIT_INIT(MonoPtrHolder);
     CP_SDK_UNITY_PERSISTANT_SINGLETON_IMPL(CP_SDK::Unity::MonoPtrHolder);
 
@@ -54,11 +59,14 @@ namespace CP_SDK::Unity {
             throw std::runtime_error("MonoPtrHolder was not initialized!");
         }
 
-        std::lock_guard<std::mutex> l_Guard(m_Instance->m_Mutex);
+        il2cpp_functions::monitor_enter(m_Instance->m_Pointers);
 
         const auto& l_It = m_Instance->m_PointersToWrapper.find(p_Pointer);
         if (l_It != m_Instance->m_PointersToWrapper.end())
-           return l_It->second;
+        {
+            il2cpp_functions::monitor_exit(m_Instance->m_Pointers);
+            return l_It->second;
+        }
 
         auto l_NewWrapper = new Wrapper();
         l_NewWrapper->Ptr = p_Pointer;
@@ -67,6 +75,7 @@ namespace CP_SDK::Unity {
 
         m_Instance->m_PointersToWrapper[p_Pointer] = l_NewWrapper;
 
+        il2cpp_functions::monitor_exit(m_Instance->m_Pointers);
         return l_NewWrapper;
     }
     /// @brief Release a wrapper
@@ -79,11 +88,13 @@ namespace CP_SDK::Unity {
             throw std::runtime_error("MonoPtrHolder was not initialized!");
         }
 
-        std::lock_guard<std::mutex> l_Guard(m_Instance->m_Mutex);
+        il2cpp_functions::monitor_enter(m_Instance->m_Pointers);
 
         const auto& l_It = m_Instance->m_PointersToWrapper.find(p_Pointer);
         if (l_It == m_Instance->m_PointersToWrapper.end())
         {
+            il2cpp_functions::monitor_exit(m_Instance->m_Pointers);
+
             ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][MonoPtrHolder.Release] Try to release a non registered object!");
             throw std::runtime_error("MonoPtrHolder: Try to release a non registered object!");
         }
@@ -91,6 +102,7 @@ namespace CP_SDK::Unity {
         m_Instance->m_Pointers->Remove(p_Pointer);
         delete l_It->second;
         m_Instance->m_PointersToWrapper.erase(l_It);
+        il2cpp_functions::monitor_exit(m_Instance->m_Pointers);
     }
 
 }   ///< namespace CP_SDK::Unity
