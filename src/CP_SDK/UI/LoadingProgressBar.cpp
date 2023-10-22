@@ -31,7 +31,7 @@ namespace CP_SDK::UI {
     /// @brief Destructor
     CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(LoadingProgressBar)
     {
-
+        WasDestroyed();
     }
 
     ////////////////////////////////////////////////////////////////////////////
