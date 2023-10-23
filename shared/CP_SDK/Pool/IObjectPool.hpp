@@ -9,13 +9,13 @@ namespace CP_SDK::Pool {
     template<class t_Type>
     class IObjectPool
     {
-        DISABLE_CONSTRUCTORS(IObjectPool);
+        CP_SDK_NO_DEF_CTORS(IObjectPool);
 
         protected:
-            PRIVATE_TAG();
+            CP_SDK_PRIV_TAG();
 
             /// @brief Constructor
-            IObjectPool(PRIVATE_TAG_ARG()) {}
+            IObjectPool(CP_SDK_PRIV_TAG_ARG()) {}
             /// @brief Destructor
             virtual ~IObjectPool() {}
 

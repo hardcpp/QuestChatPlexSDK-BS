@@ -12,7 +12,7 @@ namespace CP_SDK::XUI {
     class IXUIElementWithChilds
         : public IXUIElement
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(IXUIElementWithChilds);
+        CP_SDK_NO_COPYMOVE_CTORS(IXUIElementWithChilds);
 
         protected:
             std::vector<std::shared_ptr<IXUIElement>> m_Childs;

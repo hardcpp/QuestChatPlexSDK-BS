@@ -17,9 +17,9 @@ namespace CP_SDK_BS::UI {
     /// @brief CP_SDK.UI.IViewController bridge component
     class CP_SDK_UI_IViewControllerBridge : public CP_SDK::UI::IViewController
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK_BS.UI", CP_SDK_UI_IViewControllerBridge, CP_SDK::UI::IViewController);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(CP_SDK_UI_IViewControllerBridge, CP_SDK::UI::IViewController);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(CP_SDK_UI_IViewControllerBridge, CP_SDK::UI::IViewController);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK_BS.UI", CP_SDK_UI_IViewControllerBridge, CP_SDK::UI::IViewController);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(CP_SDK_UI_IViewControllerBridge);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(CP_SDK_UI_IViewControllerBridge);
 
         private:
             CP_SDK::Utils::MonoPtr<_u::RectTransform>     m_RTransform;

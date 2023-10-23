@@ -26,10 +26,10 @@ namespace CP_SDK_BS::UI {
     class IHMUIViewController : public HMUI::ViewController
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK_BS.UI", IHMUIViewController, HMUI::ViewController);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(IHMUIViewController, HMUI::ViewController);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(IHMUIViewController, HMUI::ViewController);
-        protected: bool __Prevent_CPP_CTOR;
-        protected: bool __Prevent_CPP_DTOR;
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(IHMUIViewController);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(IHMUIViewController);
+        CP_SDK_IL2CPP_CTOR_FIELD();
+        CP_SDK_IL2CPP_DTOR_FIELD();
 
         public:
             _v::UIFieldRefDel<_u::RectTransform>    RTransform;

@@ -18,9 +18,9 @@ namespace CP_SDK::UI::DefaultComponents {
     /// @brief Default CImage component
     class DefaultCImage : public Components::CImage
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.DefaultComponents", DefaultCImage, Components::CImage);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(DefaultCImage, Components::CImage);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(DefaultCImage, Components::CImage);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCImage, Components::CImage);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCImage);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(DefaultCImage);
 
         private:
             _v::MonoPtr<_u::RectTransform>   m_RTransform;

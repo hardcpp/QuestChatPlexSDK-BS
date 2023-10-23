@@ -23,9 +23,9 @@ namespace CP_SDK::UI::DefaultComponents {
     /// @brief Default CVScrollView component
     class DefaultCVScrollView : public Components::CVScrollView
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.DefaultComponents", DefaultCVScrollView, Components::CVScrollView);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(DefaultCVScrollView, Components::CVScrollView);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(DefaultCVScrollView, Components::CVScrollView);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCVScrollView, Components::CVScrollView);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCVScrollView);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(DefaultCVScrollView);
 
         private:
             _v::MonoPtr<_u::RectTransform>               m_RTransform;

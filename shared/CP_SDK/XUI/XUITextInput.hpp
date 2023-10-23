@@ -14,8 +14,8 @@ namespace CP_SDK::XUI {
         public IXUIBindable<XUITextInput>,
         public std::enable_shared_from_this<XUITextInput>
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(XUITextInput);
-        PRIVATE_TAG();
+        CP_SDK_NO_COPYMOVE_CTORS(XUITextInput);
+        CP_SDK_PRIV_TAG();
 
         private:
             _v::MonoPtr<_v::CTextInput> m_Element;
@@ -38,7 +38,7 @@ namespace CP_SDK::XUI {
             static constexpr ETypeID TypeID = ETypeID::TextInput;
             using Ptr = std::shared_ptr<XUITextInput>;
 
-            XUITextInput(PRIVATE_TAG_ARG(), std::u16string_view p_Name, std::u16string_view p_PlaceHolder)
+            XUITextInput(CP_SDK_PRIV_TAG_ARG(), std::u16string_view p_Name, std::u16string_view p_PlaceHolder)
                 : IXUIElement(p_Name, TypeID)
             {
                 SetPlaceHolder(std::u16string(p_PlaceHolder));
@@ -49,14 +49,14 @@ namespace CP_SDK::XUI {
             /// @param p_PlaceHolder Place holder
             static Ptr Make(std::u16string_view p_PlaceHolder)
             {
-                return std::make_shared<XUITextInput>(PRIVATE_TAG_VAL(), u"XUITextInput", p_PlaceHolder);
+                return std::make_shared<XUITextInput>(CP_SDK_PRIV_TAG_VAL(), u"XUITextInput", p_PlaceHolder);
             }
             /// @brief Constructor
             /// @param p_Name        Element name
             /// @param p_PlaceHolder Place holder
             static Ptr Make(std::u16string_view p_Name, std::u16string_view p_PlaceHolder)
             {
-                return std::make_shared<XUITextInput>(PRIVATE_TAG_VAL(), p_Name, p_PlaceHolder);
+                return std::make_shared<XUITextInput>(CP_SDK_PRIV_TAG_VAL(), p_Name, p_PlaceHolder);
             }
 
         public:

@@ -27,8 +27,8 @@ namespace CP_SDK::Animation {
     /// @brief Animation controller data object
     class AnimationControllerInstance
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(AnimationControllerInstance);
-        PRIVATE_TAG();
+        CP_SDK_NO_COPYMOVE_CTORS(AnimationControllerInstance);
+        CP_SDK_PRIV_TAG();
 
         public:
             using Ptr = std::shared_ptr<AnimationControllerInstance>;
@@ -51,7 +51,7 @@ namespace CP_SDK::Animation {
             /// @param p_Texture Texture atlas
             /// @param p_UVs     UVs of sub sprites
             /// @param p_Delays  Delays of frames
-            AnimationControllerInstance(PRIVATE_TAG_ARG(), _v::CMonoPtrRef<_u::Texture2D> p_Texture, const std::vector<_u::Rect>& p_UVs, const std::vector<uint16_t>& p_Delays);
+            AnimationControllerInstance(CP_SDK_PRIV_TAG_ARG(), _v::CMonoPtrRef<_u::Texture2D> p_Texture, const std::vector<_u::Rect>& p_UVs, const std::vector<uint16_t>& p_Delays);
             /// @brief Destructor
             ~AnimationControllerInstance();
 

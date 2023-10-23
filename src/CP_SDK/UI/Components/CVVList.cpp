@@ -11,12 +11,12 @@ namespace CP_SDK::UI::Components {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(CVVList, CVXList)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(CVVList)
     {
 
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(CVVList, CVXList)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(CVVList)
     {
 
     }

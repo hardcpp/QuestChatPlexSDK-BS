@@ -18,13 +18,13 @@ namespace CP_SDK::UI::Modals {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(Keyboard, IModal)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(Keyboard)
     {
         OnShow  = {this, &Keyboard::Impl_OnShow};
         OnClose = {this, &Keyboard::Impl_OnClose};
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(Keyboard, IModal)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(Keyboard)
     {
 
     }

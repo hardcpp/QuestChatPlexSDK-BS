@@ -17,9 +17,9 @@ namespace CP_SDK::UI::Components {
     /// @brief Secondary button component
     class CSecondaryButton : public CPOrSButton
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.Components", CSecondaryButton, CPOrSButton);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(CSecondaryButton, CPOrSButton);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(CSecondaryButton, CPOrSButton);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CSecondaryButton, CPOrSButton);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(CSecondaryButton);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(CSecondaryButton);
 
     };
 

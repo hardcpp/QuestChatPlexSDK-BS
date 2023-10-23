@@ -30,15 +30,15 @@ namespace CP_SDK::UI::DefaultComponents {
     /// @brief Default CSlider component
     class DefaultCSlider : public Components::CSlider
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM_INTERFACES("CP_SDK.UI.DefaultComponents", DefaultCSlider, Components::CSlider,
-            classof(_u::IEventSystemHandler*),
-            classof(_u::IBeginDragHandler*),
-            classof(_u::IDragHandler*),
-            classof(_u::IInitializePotentialDragHandler*),
-            classof(_u::ICanvasElement*)
-        );
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(DefaultCSlider, Components::CSlider);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(DefaultCSlider, Components::CSlider);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCSlider, Components::CSlider, CP_SDK_IL2CPP_INTERFACES(
+            _u::IEventSystemHandler*,
+            _u::IBeginDragHandler*,
+            _u::IDragHandler*,
+            _u::IInitializePotentialDragHandler*,
+            _u::ICanvasElement*
+        ));
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCSlider);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(DefaultCSlider);
 
         private:
             enum class EColorMode
@@ -159,13 +159,13 @@ namespace CP_SDK::UI::DefaultComponents {
             bool MayDrag(_u::PointerEventData* p_EventData);
             /// @brief Initialize a potential drag
             /// @param p_EventData Event data
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, IInitializePotentialDragHandler, void, OnInitializePotentialDrag, _u::PointerEventData*);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, IInitializePotentialDragHandler, void, OnInitializePotentialDrag, _u::PointerEventData*);
             /// @brief On drag start
             /// @param p_EventData Event data
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, IBeginDragHandler, void, OnBeginDrag, _u::PointerEventData*);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, IBeginDragHandler, void, OnBeginDrag, _u::PointerEventData*);
             /// @brief On mouse drag
             /// @param p_EventData Event data
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, IDragHandler, void, OnDrag, _u::PointerEventData*);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, IDragHandler, void, OnDrag, _u::PointerEventData*);
             /// @brief Update drag
             /// @param p_EventData Event data
             void UpdateDrag(_u::PointerEventData* p_EventData);
@@ -173,16 +173,16 @@ namespace CP_SDK::UI::DefaultComponents {
         public:
             /// @brief On pointer enter
             /// @param p_EventData Event data
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, IPointerEnterHandler, void, OnPointerEnter, _u::PointerEventData*);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, IPointerEnterHandler, void, OnPointerEnter, _u::PointerEventData*);
             /// @brief On pointer exit
             /// @param p_EventData Event data
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, IPointerExitHandler, void, OnPointerExit, _u::PointerEventData*);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, IPointerExitHandler, void, OnPointerExit, _u::PointerEventData*);
             /// @brief On pointer button down
             /// @param p_EventData Event data
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, IPointerDownHandler, void, OnPointerDown, _u::PointerEventData*);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, IPointerDownHandler, void, OnPointerDown, _u::PointerEventData*);
             /// @brief On pointer button up
             /// @param p_EventData Event data
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, IPointerUpHandler, void, OnPointerUp, _u::PointerEventData*);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, IPointerUpHandler, void, OnPointerUp, _u::PointerEventData*);
 
         public:
             /// @brief Set normalized value
@@ -192,7 +192,7 @@ namespace CP_SDK::UI::DefaultComponents {
 
         protected:
             /// @brief On rect transform dimensions changed
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, UIBehaviour, void, OnRectTransformDimensionsChange);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, UIBehaviour, void, OnRectTransformDimensionsChange);
             /// @brief Update visual style
             void UpdateStyle();
             /// @brief Update visuals
@@ -200,20 +200,20 @@ namespace CP_SDK::UI::DefaultComponents {
             /// @brief On state transition
             /// @param p_State   New state
             /// @param p_Instant Is instant
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, Selectable, void, DoStateTransition, _u::Selectable::SelectionState, bool);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, Selectable, void, DoStateTransition, _u::Selectable::SelectionState, bool);
 
         public:
             /// @brief Get transform
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, ICanvasElement, _u::Transform*, get_transform);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, ICanvasElement, _u::Transform*, get_transform);
             /// @brief On canvas rebuild
             /// @param p_Executing Executing update
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, ICanvasElement, void, Rebuild, _u::CanvasUpdate);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, ICanvasElement, void, Rebuild, _u::CanvasUpdate);
             /// @brief On layout rebuild
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, ICanvasElement, void, LayoutComplete);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, ICanvasElement, void, LayoutComplete);
             /// @brief On graphic update complete
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, ICanvasElement, void, GraphicUpdateComplete);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, ICanvasElement, void, GraphicUpdateComplete);
             /// @brief Is destroyed
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, ICanvasElement, bool, IsDestroyed);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, ICanvasElement, bool, IsDestroyed);
 
         private:
             /// @brief Get stepped rounded normalized value

@@ -16,8 +16,8 @@ namespace CP_SDK::UI {
     /// @brief Mod button
     class ModButton
     {
-        DISABLE_CONSTRUCTORS(ModButton);
-        PRIVATE_TAG();
+        CP_SDK_NO_DEF_CTORS(ModButton);
+        CP_SDK_PRIV_TAG();
 
         static constexpr std::u16string_view _default_Tooltip = u"";
 
@@ -40,7 +40,7 @@ namespace CP_SDK::UI {
             /// @param p_OnClick      Action when clicked
             /// @param p_Tooltip      Tooltip text
             /// @param p_Interactable Is interactable?
-            ModButton(PRIVATE_TAG_ARG(), std::u16string_view p_Text, _v::CActionRef<> p_OnClick, std::u16string_view p_Tooltip = _default_Tooltip, bool p_Interactable = true);
+            ModButton(CP_SDK_PRIV_TAG_ARG(), std::u16string_view p_Text, _v::CActionRef<> p_OnClick, std::u16string_view p_Tooltip = _default_Tooltip, bool p_Interactable = true);
             /// @brief Destructor
             ~ModButton();
 

@@ -15,7 +15,7 @@ namespace CP_SDK::UI::DefaultComponents {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(DefaultCFLayout, Components::CFLayout)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(DefaultCFLayout)
     {
         m_StartAxis                 = EAxis::Horizontal;
         m_ChildForceExpandWidth     = false;
@@ -49,7 +49,7 @@ namespace CP_SDK::UI::DefaultComponents {
         Init += [this]() { Init_DefaultCFLayout(); };
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(DefaultCFLayout, Components::CFLayout)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(DefaultCFLayout)
     {
 
     }

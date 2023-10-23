@@ -13,7 +13,7 @@ namespace CP_SDK::XUI {
     template<class t_Base, class t_Component>
     class IXUIElementReady
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(IXUIElementReady);
+        CP_SDK_NO_COPYMOVE_CTORS(IXUIElementReady);
 
         protected:
             /// @brief Constructor

@@ -21,7 +21,7 @@ namespace CP_SDK::Pool {
     template<class t_Type>
     class MTObjectPool : public IObjectPool<t_Type>
     {
-        DISABLE_CONSTRUCTORS(MTObjectPool);
+        CP_SDK_NO_DEF_CTORS(MTObjectPool);
 
         private:
             std::vector<t_Type> m_Vector;
@@ -46,7 +46,7 @@ namespace CP_SDK::Pool {
                             bool                    collectionCheck,
                             int                     defaultCapacity,
                             int                     maxSize)
-                : IObjectPool<t_Type>::IObjectPool(PRIVATE_TAG_FWD())
+                : IObjectPool<t_Type>::IObjectPool(CP_SDK_PRIV_TAG_FWD())
             {
                 if (!createFunc.IsValid())
                     throw std::runtime_error("createFunc is null");

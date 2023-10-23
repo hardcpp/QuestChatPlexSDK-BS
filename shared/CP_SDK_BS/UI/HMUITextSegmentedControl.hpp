@@ -16,7 +16,7 @@ namespace CP_SDK_BS::UI {
     /// @brief Text segmented control
     class HMUITextSegmentedControl
     {
-        DISABLE_CONSTRUCTORS(HMUITextSegmentedControl);
+        CP_SDK_NO_DEF_CTORS(HMUITextSegmentedControl);
 
         private:
             static CP_SDK::Utils::MonoPtr<HMUI::TextSegmentedControl> m_Template;

@@ -22,9 +22,9 @@ namespace CP_SDK::UI::DefaultComponents {
     /// @brief Default CTextInput component
     class DefaultCTextInput : public Components::CTextInput
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.DefaultComponents", DefaultCTextInput, Components::CTextInput);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(DefaultCTextInput, Components::CTextInput);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(DefaultCTextInput, Components::CTextInput);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCTextInput, Components::CTextInput);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCTextInput);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(DefaultCTextInput);
 
         private:
             _v::MonoPtr<_u::RectTransform>      m_RTransform;

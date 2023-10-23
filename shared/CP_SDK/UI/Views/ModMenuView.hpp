@@ -22,9 +22,9 @@ namespace CP_SDK::UI::Views {
     /// @brief Mod menu view controller
     class ModMenuView : public ViewController
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.Views", ModMenuView, ViewController);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(ModMenuView, ViewController);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(ModMenuView, ViewController);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Views", ModMenuView, ViewController);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(ModMenuView);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(ModMenuView);
         CP_SDK_UI_VIEW_CONTROLLER_INSTANCE();
 
         private:

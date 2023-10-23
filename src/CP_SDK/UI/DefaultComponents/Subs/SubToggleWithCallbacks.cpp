@@ -12,12 +12,12 @@ namespace CP_SDK::UI::DefaultComponents::Subs {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(SubToggleWithCallbacks, Toggle)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(SubToggleWithCallbacks)
     {
 
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(SubToggleWithCallbacks, Toggle)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(SubToggleWithCallbacks)
     {
 
     }

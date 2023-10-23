@@ -21,7 +21,7 @@ namespace CP_SDK_BS::Game {
     /// @brief Player avatar picture provider
     class PlayerAvatarPicture
     {
-        DISABLE_CONSTRUCTORS(PlayerAvatarPicture);
+        CP_SDK_NO_DEF_CTORS(PlayerAvatarPicture);
 
         public:
             using t_CallBack        = _v::CActionRef<_u::Sprite*>;

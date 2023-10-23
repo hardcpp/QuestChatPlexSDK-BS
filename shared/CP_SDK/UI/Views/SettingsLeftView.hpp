@@ -18,9 +18,9 @@ namespace CP_SDK::UI::Views {
     /// @brief Settings left view controller
     class SettingsLeftView : public ViewController
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.Views", SettingsLeftView, ViewController);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(SettingsLeftView, ViewController);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(SettingsLeftView, ViewController);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Views", SettingsLeftView, ViewController);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(SettingsLeftView);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(SettingsLeftView);
         CP_SDK_UI_VIEW_CONTROLLER_INSTANCE();
 
         private:

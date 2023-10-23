@@ -18,9 +18,9 @@ namespace CP_SDK::UI::Views {
     /// @brief Top navigation view
     class TopNavigationView : public ViewController
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.Views", TopNavigationView, ViewController);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(TopNavigationView, ViewController);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(TopNavigationView, ViewController);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Views", TopNavigationView, ViewController);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(TopNavigationView);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(TopNavigationView);
         CP_SDK_UI_VIEW_CONTROLLER_INSTANCE();
 
         private:

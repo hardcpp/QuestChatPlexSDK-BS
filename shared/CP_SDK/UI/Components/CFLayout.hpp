@@ -80,16 +80,16 @@ namespace CP_SDK::UI::Components {
             CFLayout* SetSpacing(_u::Vector2 p_Spacing);
 
         public:
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, LayoutGroup,    void, CalculateLayoutInputHorizontal);
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, ILayoutElement, void, CalculateLayoutInputHorizontal);
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, LayoutGroup,    void, CalculateLayoutInputVertical);
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, ILayoutElement, void, CalculateLayoutInputVertical);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, LayoutGroup,    void, CalculateLayoutInputHorizontal);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, ILayoutElement, void, CalculateLayoutInputHorizontal);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, LayoutGroup,    void, CalculateLayoutInputVertical);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, ILayoutElement, void, CalculateLayoutInputVertical);
 
         public:
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, LayoutGroup,          void, SetLayoutHorizontal);
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, ILayoutController,    void, SetLayoutHorizontal);
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, LayoutGroup,          void, SetLayoutVertical);
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, ILayoutController,    void, SetLayoutVertical);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, LayoutGroup,          void, SetLayoutHorizontal);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, ILayoutController,    void, SetLayoutHorizontal);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, LayoutGroup,          void, SetLayoutVertical);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, ILayoutController,    void, SetLayoutVertical);
 
     };
 

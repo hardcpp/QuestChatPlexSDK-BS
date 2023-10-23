@@ -20,9 +20,9 @@ namespace CP_SDK::UI::DefaultComponents {
     /// @brief Default CVVList component
     class DefaultCVVList : public Components::CVVList
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.DefaultComponents", DefaultCVVList, Components::CVVList);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(DefaultCVVList, Components::CVVList);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(DefaultCVVList, Components::CVVList);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCVVList, Components::CVVList);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCVVList);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(DefaultCVVList);
 
         using t_CellMemoryPool = Pool::ObjectPool<_v::MonoPtr<Data::IListCell>>;
 

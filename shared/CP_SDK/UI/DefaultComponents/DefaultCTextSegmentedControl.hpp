@@ -20,9 +20,9 @@ namespace CP_SDK::UI::DefaultComponents {
     /// @brief Default CTextSegmentedControl component
     class DefaultCTextSegmentedControl : public Components::CTextSegmentedControl
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.DefaultComponents", DefaultCTextSegmentedControl, Components::CTextSegmentedControl);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(DefaultCTextSegmentedControl, Components::CTextSegmentedControl);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(DefaultCTextSegmentedControl, Components::CTextSegmentedControl);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCTextSegmentedControl, Components::CTextSegmentedControl);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCTextSegmentedControl);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(DefaultCTextSegmentedControl);
 
         private:
             _v::MonoPtr<_u::RectTransform>          m_RTransform;

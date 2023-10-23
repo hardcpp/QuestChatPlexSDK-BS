@@ -15,7 +15,7 @@ namespace CP_SDK::UI::Components {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(CFloatingPanel, IScreen)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(CFloatingPanel)
     {
         m_AllowMovement         = false;
         m_AutoLockOnSceneSwitch = true;
@@ -26,7 +26,7 @@ namespace CP_SDK::UI::Components {
         m_SetViewController = {this, &CFloatingPanel::SetViewController_Impl};
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(CFloatingPanel, IScreen)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(CFloatingPanel)
     {
         /// Unbind event
         ChatPlexSDK::OnGenericSceneChange -= {this, &CFloatingPanel::ChatPlexSDK_OnGenericSceneChange};

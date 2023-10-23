@@ -43,7 +43,7 @@ namespace CP_SDK_BS::Game::BeatMaps {
     struct MapVersion
     {
         MapVersion() = default;
-        DISABLE_COPY_MOVECONSTRUCTORS(MapVersion);
+        CP_SDK_NO_COPYMOVE_CTORS(MapVersion);
 
         using Ptr = std::shared_ptr<MapVersion>;
 

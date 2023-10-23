@@ -14,8 +14,8 @@ namespace CP_SDK::XUI {
         public IXUIBindable<XUIIconButton>,
         public std::enable_shared_from_this<XUIIconButton>
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(XUIIconButton);
-        PRIVATE_TAG();
+        CP_SDK_NO_COPYMOVE_CTORS(XUIIconButton);
+        CP_SDK_PRIV_TAG();
 
         private:
             _v::MonoPtr<_v::CIconButton> m_Element;
@@ -38,7 +38,7 @@ namespace CP_SDK::XUI {
             static constexpr ETypeID TypeID = ETypeID::IconButton;
             using Ptr = std::shared_ptr<XUIIconButton>;
 
-            XUIIconButton(PRIVATE_TAG_ARG(), std::u16string_view p_Name, _u::Sprite* p_Sprite, _v::CActionRef<> p_OnClick)
+            XUIIconButton(CP_SDK_PRIV_TAG_ARG(), std::u16string_view p_Name, _u::Sprite* p_Sprite, _v::CActionRef<> p_OnClick)
                 : IXUIElement(p_Name, TypeID)
             {
                 if (p_Sprite)
@@ -54,14 +54,14 @@ namespace CP_SDK::XUI {
             /// @param p_OnClick On click callback
             static Ptr Make(_v::CActionRef<> p_OnClick = nullptr)
             {
-                return std::make_shared<XUIIconButton>(PRIVATE_TAG_VAL(), u"XUIIconButton", nullptr, p_OnClick);
+                return std::make_shared<XUIIconButton>(CP_SDK_PRIV_TAG_VAL(), u"XUIIconButton", nullptr, p_OnClick);
             }
             /// @brief Constructor
             /// @param p_Sprite  Sprite
             /// @param p_OnClick On click callback
             static Ptr Make(_u::Sprite* p_Sprite, _v::CActionRef<> p_OnClick = nullptr)
             {
-                return std::make_shared<XUIIconButton>(PRIVATE_TAG_VAL(), u"XUIIconButton", p_Sprite, p_OnClick);
+                return std::make_shared<XUIIconButton>(CP_SDK_PRIV_TAG_VAL(), u"XUIIconButton", p_Sprite, p_OnClick);
             }
             /// @brief Constructor
             /// @param p_Name    Element name
@@ -69,7 +69,7 @@ namespace CP_SDK::XUI {
             /// @param p_OnClick On click callback
             static Ptr Make(std::u16string_view p_Name, _u::Sprite* p_Sprite, _v::CActionRef<> p_OnClick = nullptr)
             {
-                return std::make_shared<XUIIconButton>(PRIVATE_TAG_VAL(), p_Name, p_Sprite, p_OnClick);
+                return std::make_shared<XUIIconButton>(CP_SDK_PRIV_TAG_VAL(), p_Name, p_Sprite, p_OnClick);
             }
 
         public:

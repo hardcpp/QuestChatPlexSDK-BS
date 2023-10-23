@@ -13,13 +13,13 @@ namespace CP_SDK::UI::Modals {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(Confirmation, IModal)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(Confirmation)
     {
         OnShow  = {this, &Confirmation::Impl_OnShow};
         OnClose = {this, &Confirmation::Impl_OnClose};
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(Confirmation, IModal)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(Confirmation)
     {
 
     }

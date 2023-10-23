@@ -14,7 +14,7 @@ namespace CP_SDK::UI::DefaultComponents {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(DefaultCGLayout, Components::CGLayout)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(DefaultCGLayout)
     {
         CP_SDK_UI_IL2CPP_BIND_FIELD(RTransform,     m_RTransform);
         CP_SDK_UI_IL2CPP_BIND_FIELD(CSizeFitter,    m_CSizeFitter);
@@ -24,7 +24,7 @@ namespace CP_SDK::UI::DefaultComponents {
         Init += {this, &DefaultCGLayout::Init_DefaultCGLayout};
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(DefaultCGLayout, Components::CGLayout)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(DefaultCGLayout)
     {
 
     }

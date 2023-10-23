@@ -11,12 +11,12 @@ namespace CP_SDK::UI::Views {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(TopNavigationView, ViewController)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(TopNavigationView)
     {
         OnViewCreation = {this, &TopNavigationView::OnViewCreation_Impl};
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(TopNavigationView, ViewController)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(TopNavigationView)
     {
 
     }

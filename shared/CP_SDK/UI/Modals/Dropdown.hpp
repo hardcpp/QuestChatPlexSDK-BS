@@ -19,9 +19,9 @@ namespace CP_SDK::UI::Modals {
     /// @brief Dropdown modal
     class Dropdown : public IModal
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.Modals", Dropdown, IModal);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(Dropdown, IModal);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(Dropdown, IModal);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Modals", Dropdown, IModal);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(Dropdown);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(Dropdown);
 
         private:
             _v::XUIVVList::Ptr m_List;

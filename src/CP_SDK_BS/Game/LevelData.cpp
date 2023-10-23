@@ -59,14 +59,14 @@ namespace CP_SDK_BS::Game {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    LevelData::LevelData(PRIVATE_TAG_ARG())
+    LevelData::LevelData(CP_SDK_PRIV_TAG_ARG())
     {
 
     }
     /// @brief Constructor
     LevelData::Ptr LevelData::Make()
     {
-        return std::make_shared<LevelData>(PRIVATE_TAG_VAL());
+        return std::make_shared<LevelData>(CP_SDK_PRIV_TAG_VAL());
     }
 
 }   ///< namespace CP_SDK_BS::Game

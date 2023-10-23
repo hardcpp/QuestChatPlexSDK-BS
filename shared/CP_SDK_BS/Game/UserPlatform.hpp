@@ -9,7 +9,7 @@ namespace CP_SDK_BS::Game {
     /// UserPlatform helper
     class UserPlatform
     {
-        DISABLE_CONSTRUCTORS(UserPlatform);
+        CP_SDK_NO_DEF_CTORS(UserPlatform);
 
         private:
             /// User ID cache

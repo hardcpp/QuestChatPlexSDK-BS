@@ -14,8 +14,8 @@ namespace CP_SDK::XUI {
         public IXUIBindable<XUITextSegmentedControl>,
         public std::enable_shared_from_this<XUITextSegmentedControl>
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(XUITextSegmentedControl);
-        PRIVATE_TAG();
+        CP_SDK_NO_COPYMOVE_CTORS(XUITextSegmentedControl);
+        CP_SDK_PRIV_TAG();
 
         private:
             _v::MonoPtr<_v::CTextSegmentedControl> m_Element;
@@ -38,7 +38,7 @@ namespace CP_SDK::XUI {
             static constexpr ETypeID TypeID = ETypeID::TextSegmentedControl;
             using Ptr = std::shared_ptr<XUITextSegmentedControl>;
 
-            XUITextSegmentedControl(PRIVATE_TAG_ARG(), std::u16string_view p_Name, const std::vector<std::u16string>& p_Texts)
+            XUITextSegmentedControl(CP_SDK_PRIV_TAG_ARG(), std::u16string_view p_Name, const std::vector<std::u16string>& p_Texts)
                 : IXUIElement(p_Name, TypeID)
             {
                 SetTexts(p_Texts);
@@ -49,14 +49,14 @@ namespace CP_SDK::XUI {
             /// @param p_Spacing Spacing
             static Ptr Make(const std::vector<std::u16string>& p_Texts)
             {
-                return std::make_shared<XUITextSegmentedControl>(PRIVATE_TAG_VAL(), u"XUITextSegmentedControl", p_Texts);
+                return std::make_shared<XUITextSegmentedControl>(CP_SDK_PRIV_TAG_VAL(), u"XUITextSegmentedControl", p_Texts);
             }
             /// @brief Constructor
             /// @param p_Name Element name
             /// @param p_TextSegmentedControl TextSegmentedControl
             static Ptr Make(std::u16string_view p_Name, const std::vector<std::u16string>& p_Texts)
             {
-                return std::make_shared<XUITextSegmentedControl>(PRIVATE_TAG_VAL(), p_Name, p_Texts);
+                return std::make_shared<XUITextSegmentedControl>(CP_SDK_PRIV_TAG_VAL(), p_Name, p_Texts);
             }
 
         public:

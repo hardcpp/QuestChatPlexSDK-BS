@@ -19,9 +19,9 @@ namespace CP_SDK::UI::DefaultComponents {
     /// @brief Default CText component
     class DefaultCText : public Components::CText
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.DefaultComponents", DefaultCText, Components::CText);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(DefaultCText, Components::CText);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(DefaultCText, Components::CText);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCText, Components::CText);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCText);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(DefaultCText);
 
         private:
             _v::MonoPtr<_u::RectTransform>   m_RTransform;

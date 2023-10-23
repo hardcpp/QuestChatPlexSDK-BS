@@ -26,7 +26,7 @@ namespace CP_SDK {
     /// ChatPlex SDK main class
     class ChatPlexSDK
     {
-        DISABLE_CONSTRUCTORS(ChatPlexSDK);
+        CP_SDK_NO_DEF_CTORS(ChatPlexSDK);
 
         public:
             /// Logger instance

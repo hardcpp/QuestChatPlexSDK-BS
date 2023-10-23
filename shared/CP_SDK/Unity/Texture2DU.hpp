@@ -19,7 +19,7 @@ namespace CP_SDK::Unity {
     /// @brief Texture2D helper
     class Texture2DU
     {
-        DISABLE_CONSTRUCTORS(Texture2DU);
+        CP_SDK_NO_DEF_CTORS(Texture2DU);
 
         public:
             /// @brief Load texture from byte array

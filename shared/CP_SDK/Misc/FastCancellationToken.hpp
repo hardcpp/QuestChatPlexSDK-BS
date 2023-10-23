@@ -10,8 +10,8 @@ namespace CP_SDK::Misc {
     /// @brief Fast cancellation token
     class FastCancellationToken
     {
-        DISABLE_CONSTRUCTORS(FastCancellationToken);
-        PRIVATE_TAG();
+        CP_SDK_NO_DEF_CTORS(FastCancellationToken);
+        CP_SDK_PRIV_TAG();
 
         private:
             std::atomic_int32_t m_Serial;
@@ -23,7 +23,7 @@ namespace CP_SDK::Misc {
             using Ptr = std::shared_ptr<FastCancellationToken>;
 
             /// @brief Constructor
-            FastCancellationToken(PRIVATE_TAG_ARG());
+            FastCancellationToken(CP_SDK_PRIV_TAG_ARG());
 
             /// @brief Constructor
             static Ptr Make();

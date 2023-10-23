@@ -14,8 +14,8 @@ namespace CP_SDK::XUI {
         public IXUIBindable<XUITabControl>,
         public std::enable_shared_from_this<XUITabControl>
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(XUITabControl);
-        PRIVATE_TAG();
+        CP_SDK_NO_COPYMOVE_CTORS(XUITabControl);
+        CP_SDK_PRIV_TAG();
 
         private:
             _v::MonoPtr<_v::CTabControl> m_Element;
@@ -40,7 +40,7 @@ namespace CP_SDK::XUI {
             static constexpr ETypeID TypeID = ETypeID::TabControl;
             using Ptr = std::shared_ptr<XUITabControl>;
 
-            XUITabControl(PRIVATE_TAG_ARG(), std::u16string_view p_Name, const std::vector<t_TabDefinition>& p_Tabs)
+            XUITabControl(CP_SDK_PRIV_TAG_ARG(), std::u16string_view p_Name, const std::vector<t_TabDefinition>& p_Tabs)
                 : IXUIElement(p_Name, TypeID)
             {
                 SetTabs(p_Tabs);
@@ -51,14 +51,14 @@ namespace CP_SDK::XUI {
             /// @param p_Spacing Spacing
             static Ptr Make(const std::vector<t_TabDefinition>& p_Tabs)
             {
-                return std::make_shared<XUITabControl>(PRIVATE_TAG_VAL(), u"XUITabControl", p_Tabs);
+                return std::make_shared<XUITabControl>(CP_SDK_PRIV_TAG_VAL(), u"XUITabControl", p_Tabs);
             }
             /// @brief Constructor
             /// @param p_Name Element name
             /// @param p_TabControl TabControl
             static Ptr Make(std::u16string_view p_Name, const std::vector<t_TabDefinition>& p_Tabs)
             {
-                return std::make_shared<XUITabControl>(PRIVATE_TAG_VAL(), p_Name, p_Tabs);
+                return std::make_shared<XUITabControl>(CP_SDK_PRIV_TAG_VAL(), p_Name, p_Tabs);
             }
 
         public:

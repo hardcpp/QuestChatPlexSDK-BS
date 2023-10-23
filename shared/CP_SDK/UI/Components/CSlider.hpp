@@ -24,10 +24,10 @@ namespace CP_SDK::UI::Components {
     class CSlider : public _u::Selectable
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CSlider, _u::Selectable);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(CSlider, _u::Selectable);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(CSlider, _u::Selectable);
-        protected: bool __Prevent_CPP_CTOR;
-        protected: bool __Prevent_CPP_DTOR;
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(CSlider);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(CSlider);
+        CP_SDK_IL2CPP_CTOR_FIELD();
+        CP_SDK_IL2CPP_DTOR_FIELD();
 
         public:
             UIFieldRefDel<_u::RectTransform>    RTransform;

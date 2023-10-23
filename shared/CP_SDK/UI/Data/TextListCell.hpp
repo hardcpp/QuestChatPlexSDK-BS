@@ -8,9 +8,9 @@ namespace CP_SDK::UI::Data {
     /// @brief Text list cell
     class TextListCell : public IListCell
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.Data", TextListCell, IListCell);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(TextListCell, IListCell);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(TextListCell, IListCell);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Data", TextListCell, IListCell);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(TextListCell);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(TextListCell);
 
         private:
             Utils::MonoPtr<Components::CText> m_Text;

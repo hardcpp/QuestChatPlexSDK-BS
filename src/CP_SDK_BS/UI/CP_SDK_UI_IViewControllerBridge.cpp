@@ -11,7 +11,7 @@ namespace CP_SDK_BS::UI {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(CP_SDK_UI_IViewControllerBridge, CP_SDK::UI::IViewController)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(CP_SDK_UI_IViewControllerBridge)
     {
         m_RTransform                = nullptr;
         m_ModalContainerRTransform  = nullptr;
@@ -118,7 +118,7 @@ namespace CP_SDK_BS::UI {
         };
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(CP_SDK_UI_IViewControllerBridge, CP_SDK::UI::IViewController)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(CP_SDK_UI_IViewControllerBridge)
     {
 
     }

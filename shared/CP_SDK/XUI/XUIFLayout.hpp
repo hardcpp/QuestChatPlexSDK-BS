@@ -14,8 +14,8 @@ namespace CP_SDK::XUI {
           public IXUIBindable<XUIFLayout>,
           public std::enable_shared_from_this<XUIFLayout>
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(XUIFLayout);
-        PRIVATE_TAG();
+        CP_SDK_NO_COPYMOVE_CTORS(XUIFLayout);
+        CP_SDK_PRIV_TAG();
 
         private:
             _v::MonoPtr<_v::CFLayout> m_Element;
@@ -38,10 +38,10 @@ namespace CP_SDK::XUI {
             static constexpr ETypeID TypeID = ETypeID::FLayout;
             using Ptr = std::shared_ptr<XUIFLayout>;
 
-            XUIFLayout(PRIVATE_TAG_ARG(), const std::vector<std::shared_ptr<IXUIElement>>& p_Childs)
-                : XUIFLayout(PRIVATE_TAG_FWD(), u"XUIFLayout", p_Childs)
+            XUIFLayout(CP_SDK_PRIV_TAG_ARG(), const std::vector<std::shared_ptr<IXUIElement>>& p_Childs)
+                : XUIFLayout(CP_SDK_PRIV_TAG_FWD(), u"XUIFLayout", p_Childs)
             { }
-            XUIFLayout(PRIVATE_TAG_ARG(), std::u16string_view p_Name, const std::vector<std::shared_ptr<IXUIElement>>& p_Childs)
+            XUIFLayout(CP_SDK_PRIV_TAG_ARG(), std::u16string_view p_Name, const std::vector<std::shared_ptr<IXUIElement>>& p_Childs)
                 : IXUIElementWithChilds<XUIFLayout>(p_Name, TypeID, p_Childs)
             { }
 
@@ -50,20 +50,20 @@ namespace CP_SDK::XUI {
             static Ptr Make()
             {
                 static std::vector<std::shared_ptr<IXUIElement>> s_Empty(0);
-                return std::make_shared<XUIFLayout>(PRIVATE_TAG_VAL(), s_Empty);
+                return std::make_shared<XUIFLayout>(CP_SDK_PRIV_TAG_VAL(), s_Empty);
             }
             /// @brief Constructor
             /// @param p_Childs Child XUI Elements
             static Ptr Make(const std::vector<std::shared_ptr<IXUIElement>>& p_Childs)
             {
-                return std::make_shared<XUIFLayout>(PRIVATE_TAG_VAL(), p_Childs);
+                return std::make_shared<XUIFLayout>(CP_SDK_PRIV_TAG_VAL(), p_Childs);
             }
             /// @brief Constructor
             /// @param p_Name Element name
             /// @param p_Childs Child XUI Elements
             static Ptr Make(std::u16string_view p_Name, const std::vector<std::shared_ptr<IXUIElement>>& p_Childs)
             {
-                return std::make_shared<XUIFLayout>(PRIVATE_TAG_VAL(), p_Name, p_Childs);
+                return std::make_shared<XUIFLayout>(CP_SDK_PRIV_TAG_VAL(), p_Name, p_Childs);
             }
 
         public:

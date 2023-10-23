@@ -8,7 +8,7 @@ namespace CP_SDK::Animation {
     /// @param p_Width      Width
     /// @param p_Height     Height
     /// @param p_FrameCount Animation frame count
-    AnimationInfo::AnimationInfo(PRIVATE_TAG_ARG(), int p_Width, int p_Height, uint32_t p_FrameCount)
+    AnimationInfo::AnimationInfo(CP_SDK_PRIV_TAG_ARG(), int p_Width, int p_Height, uint32_t p_FrameCount)
     {
         Width   = p_Width;
         Height  = p_Width;
@@ -36,7 +36,7 @@ namespace CP_SDK::Animation {
     /// @param p_FrameCount Animation frame count
     AnimationInfo::Ptr AnimationInfo::Make(int p_Width, int p_Height, uint32_t p_FrameCount)
     {
-        return std::make_shared<AnimationInfo>(PRIVATE_TAG_VAL(), p_Width, p_Height, p_FrameCount);
+        return std::make_shared<AnimationInfo>(CP_SDK_PRIV_TAG_VAL(), p_Width, p_Height, p_FrameCount);
     }
 
 }   ///< namespace CP_SDK::Animation

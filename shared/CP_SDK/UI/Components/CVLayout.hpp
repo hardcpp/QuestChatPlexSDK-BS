@@ -19,9 +19,9 @@ namespace CP_SDK::UI::Components {
     /// @brief Vertical layout component
     class CVLayout : public CHOrVLayout
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.Components", CVLayout, CHOrVLayout);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(CVLayout, CHOrVLayout);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(CVLayout, CHOrVLayout);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CVLayout, CHOrVLayout);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(CVLayout);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(CVLayout);
 
         public:
             UIFieldRefDel<_u::VerticalLayoutGroup> VLayoutGroup;

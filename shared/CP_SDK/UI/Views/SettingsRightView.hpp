@@ -18,9 +18,9 @@ namespace CP_SDK::UI::Views {
     /// @brief Settings right view controller
     class SettingsRightView : public ViewController
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.Views", SettingsRightView, ViewController);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(SettingsRightView, ViewController);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(SettingsRightView, ViewController);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Views", SettingsRightView, ViewController);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(SettingsRightView);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(SettingsRightView);
         CP_SDK_UI_VIEW_CONTROLLER_INSTANCE();
 
         private:

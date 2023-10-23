@@ -22,8 +22,8 @@ namespace CP_SDK_BS::Game {
     /// @brief Level data instance
     class LevelData
     {
-        DISABLE_CONSTRUCTORS(LevelData);
-        PRIVATE_TAG();
+        CP_SDK_NO_DEF_CTORS(LevelData);
+        CP_SDK_PRIV_TAG();
 
         public:
             LevelType                                   Type;
@@ -38,7 +38,7 @@ namespace CP_SDK_BS::Game {
             using Ptr = std::shared_ptr<LevelData>;
 
             /// @brief Constructor
-            LevelData(PRIVATE_TAG_ARG());
+            LevelData(CP_SDK_PRIV_TAG_ARG());
             /// @brief Constructor
             static Ptr Make();
 

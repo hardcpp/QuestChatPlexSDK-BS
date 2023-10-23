@@ -12,12 +12,12 @@ namespace CP_SDK_BS::UI {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(IHMUIViewController, HMUI::ViewController)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(IHMUIViewController)
     {
 
     };
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(IHMUIViewController, HMUI::ViewController)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(IHMUIViewController)
     {
 
     };

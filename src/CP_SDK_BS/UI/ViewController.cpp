@@ -19,7 +19,7 @@ namespace CP_SDK_BS::UI {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(ViewController, IHMUIViewController)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(ViewController)
     {
         m_LogPrefix = u"[CP_SDK_BS.UI][ViewController<" + GetType()->get_FullName().operator std::__ndk1::u16string_view() + u">";
 
@@ -57,7 +57,7 @@ namespace CP_SDK_BS::UI {
         m_HideTooltip                = {this, &ViewController::HideTooltip_Impl};
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(ViewController, IHMUIViewController)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(ViewController)
     {
         try
         {
@@ -101,7 +101,7 @@ namespace CP_SDK_BS::UI {
     /// @param p_FirstActivation      Is the first activation?
     /// @param p_AddedToHierarchy     Activation type
     /// @param p_ScreenSystemEnabling Is the screen system enabling?
-    void ViewController::HMUI__ViewController__DidActivate(bool p_FirstActivation, bool p_AddedToHierarchy, bool p_ScreenSystemEnabling)
+    void ViewController::ViewController__DidActivate(bool p_FirstActivation, bool p_AddedToHierarchy, bool p_ScreenSystemEnabling)
     {
         try
         {
@@ -150,7 +150,7 @@ namespace CP_SDK_BS::UI {
     /// @brief On activation
     /// @param p_RemovedFromHierarchy  Desactivation type
     /// @param p_ScreenSystemDisabling Is screen system disabling
-    void ViewController::HMUI__ViewController__DidDeactivate(bool p_RemovedFromHierarchy, bool p_ScreenSystemDisabling)
+    void ViewController::ViewController__DidDeactivate(bool p_RemovedFromHierarchy, bool p_ScreenSystemDisabling)
     {
         try
         {

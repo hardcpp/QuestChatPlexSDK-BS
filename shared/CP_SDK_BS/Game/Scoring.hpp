@@ -8,7 +8,7 @@ namespace CP_SDK_BS::Game {
     /// @brief Scoring utils
     class Scoring
     {
-        DISABLE_CONSTRUCTORS(Scoring);
+        CP_SDK_NO_DEF_CTORS(Scoring);
 
         using t_BeatLeaderIsInReplay = std::optional<bool(*)()>;
         private:

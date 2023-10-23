@@ -22,7 +22,7 @@ namespace CP_SDK_BS::UI {
     /// @brief View controller utils
     class HMUIUIUtils
     {
-        DISABLE_CONSTRUCTORS(HMUIUIUtils);
+        CP_SDK_NO_DEF_CTORS(HMUIUIUtils);
 
         private:
             static CP_SDK::Utils::MonoPtr<_u::MainFlowCoordinator>          m_MainFlowCoordinator;

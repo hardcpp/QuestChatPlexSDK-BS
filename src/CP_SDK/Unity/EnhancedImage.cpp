@@ -15,7 +15,7 @@ using namespace UnityEngine;
 namespace CP_SDK::Unity {
 
     /// @brief Constructor
-    EnhancedImage::EnhancedImage(PRIVATE_TAG_ARG())
+    EnhancedImage::EnhancedImage(CP_SDK_PRIV_TAG_ARG())
     {
         m_ImageID               = u"";
         m_Sprite                = nullptr;
@@ -221,7 +221,7 @@ namespace CP_SDK::Unity {
             if (p_ForcedHeight != -1)
                 ComputeImageSizeForHeight(&l_SpriteWidth, &l_SpriteHeight, p_ForcedHeight);
 
-            l_Result = std::make_shared<EnhancedImage>(PRIVATE_TAG_VAL());
+            l_Result = std::make_shared<EnhancedImage>(CP_SDK_PRIV_TAG_VAL());
             l_Result->m_ImageID             = p_ID;
             l_Result->m_Sprite              = p_Sprite;
             l_Result->m_Width               = l_SpriteWidth;
@@ -261,7 +261,7 @@ namespace CP_SDK::Unity {
             if (p_ForcedHeight != -1)
                 ComputeImageSizeForHeight(&p_Width, &p_Height, p_ForcedHeight);
 
-            l_AnimResult = std::make_shared<EnhancedImage>(PRIVATE_TAG_VAL());
+            l_AnimResult = std::make_shared<EnhancedImage>(CP_SDK_PRIV_TAG_VAL());
             l_AnimResult->m_ImageID             = p_ID;
             l_AnimResult->m_Sprite              = l_AnimControllerData->FirstFrame;
             l_AnimResult->m_Width               = p_Width;

@@ -9,7 +9,7 @@ namespace CP_SDK::Pool {
     template<class t_Type>
     class MTGenericPool
     {
-        DISABLE_CONSTRUCTORS(MTGenericPool);
+        CP_SDK_NO_DEF_CTORS(MTGenericPool);
 
         private:
             static typename MTObjectPool<t_Type>::Ptr s_Pool;

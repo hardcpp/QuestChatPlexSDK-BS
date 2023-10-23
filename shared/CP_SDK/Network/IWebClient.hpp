@@ -22,7 +22,7 @@ namespace CP_SDK::Network {
     /// @brief Web Client interface
     class IWebClient
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(IWebClient);
+        CP_SDK_NO_COPYMOVE_CTORS(IWebClient);
 
         protected:
             /// @brief Constructor

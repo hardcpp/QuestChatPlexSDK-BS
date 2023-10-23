@@ -43,7 +43,7 @@ namespace CP_SDK_BS::UI {
     /// @param p_FirstActivation      Is the first activation?
     /// @param p_AddedToHierarchy     Activation type
     /// @param p_ScreenSystemEnabling Is the screen system enabling?
-    void HMUIViewFlowCoordinator::HMUI__FlowCoordinator__DidActivate(bool p_FirstActivation, bool p_AddedToHierarchy, bool p_ScreenSystemEnabling)
+    void HMUIViewFlowCoordinator::FlowCoordinator__DidActivate(bool p_FirstActivation, bool p_AddedToHierarchy, bool p_ScreenSystemEnabling)
     {
         if (p_FirstActivation)
         {
@@ -70,7 +70,7 @@ namespace CP_SDK_BS::UI {
     }
     /// @brief When the back button is pressed
     /// @param p_TopViewController Controller instance
-    void HMUIViewFlowCoordinator::HMUI__FlowCoordinator__BackButtonWasPressed(HMUI::ViewController * p_TopViewController)
+    void HMUIViewFlowCoordinator::FlowCoordinator__BackButtonWasPressed(HMUI::ViewController * p_TopViewController)
     {
         if (OnBackButtonPressed.Invoke(p_TopViewController))
             return;

@@ -9,7 +9,7 @@ namespace CP_SDK::UI::Data {
     /// @brief Abstract List Item
     class IListItem : public std::enable_shared_from_this<IListItem>
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(IListItem);
+        CP_SDK_NO_COPYMOVE_CTORS(IListItem);
 
         public:
             using Ptr = std::shared_ptr<IListItem>;

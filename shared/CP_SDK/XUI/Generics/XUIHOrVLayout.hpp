@@ -18,7 +18,7 @@ namespace CP_SDK::XUI {
           public IXUIBindable<t_Base>,
           public std::enable_shared_from_this<t_Base>
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(_XUIHOrVLayout);
+        CP_SDK_NO_COPYMOVE_CTORS(_XUIHOrVLayout);
 
         private:
             _v::MonoPtr<t_Component> m_Element;

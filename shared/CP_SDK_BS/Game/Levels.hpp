@@ -38,7 +38,7 @@ namespace CP_SDK_BS::Game {
     /// @brief Level helper
     class Levels
     {
-        DISABLE_CONSTRUCTORS(Levels);
+        CP_SDK_NO_DEF_CTORS(Levels);
 
         private:
             static _v::MonoPtr<_u::Sprite>                              m_DefaultPackCover;

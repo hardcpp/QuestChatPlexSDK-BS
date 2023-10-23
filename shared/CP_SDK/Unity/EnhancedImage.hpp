@@ -23,8 +23,8 @@ namespace CP_SDK::Unity {
     /// @brief Enhanced image info
     class EnhancedImage
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(EnhancedImage);
-        PRIVATE_TAG();
+        CP_SDK_NO_COPYMOVE_CTORS(EnhancedImage);
+        CP_SDK_PRIV_TAG();
 
         public:
             using Ptr = std::shared_ptr<EnhancedImage>;
@@ -38,7 +38,7 @@ namespace CP_SDK::Unity {
 
         public:
             /// @brief Constructor
-            EnhancedImage(PRIVATE_TAG_ARG());
+            EnhancedImage(CP_SDK_PRIV_TAG_ARG());
             /// @brief Destructor
             ~EnhancedImage();
 

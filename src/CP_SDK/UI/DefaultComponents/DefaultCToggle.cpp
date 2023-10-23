@@ -21,7 +21,7 @@ namespace CP_SDK::UI::DefaultComponents {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(DefaultCToggle, Components::CToggle)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(DefaultCToggle)
     {
         m_PreventChange = false;
 
@@ -42,7 +42,7 @@ namespace CP_SDK::UI::DefaultComponents {
         Init += {this, &DefaultCToggle::Init_DefaultCToggle};
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(DefaultCToggle, Components::CToggle)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(DefaultCToggle)
     {
 
     }

@@ -33,7 +33,7 @@ namespace CP_SDK::Animation {
     /// @brief Animation loader
     class AnimationLoader
     {
-        DISABLE_CONSTRUCTORS(AnimationLoader);
+        CP_SDK_NO_DEF_CTORS(AnimationLoader);
 
         public:
             using t_AnimatedCallback    = _v::Action<_v::CMonoPtrRef<_u::Texture2D>, const std::vector<_u::Rect>&, const std::vector<uint16_t>&, int, int>;

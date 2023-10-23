@@ -11,7 +11,7 @@ namespace CP_SDK::Network {
     /// @brief Constructor
     /// @param p_Bytes  Bytes
     /// @param p_Type   Content
-    WebContent::WebContent(PRIVATE_TAG_ARG(), ::Array<uint8_t>* p_Bytes, std::u16string_view p_Type)
+    WebContent::WebContent(CP_SDK_PRIV_TAG_ARG(), ::Array<uint8_t>* p_Bytes, std::u16string_view p_Type)
     {
         Bytes   = p_Bytes;
         Type    = p_Type;
@@ -30,7 +30,7 @@ namespace CP_SDK::Network {
     WebContent::Ptr WebContent::FromJson(std::u16string_view p_Content)
     {
         auto l_Array = Encoding::get_UTF8()->GetBytes(p_Content).operator Array<uint8_t> *();
-        return std::make_shared<WebContent>(PRIVATE_TAG_VAL(), l_Array, u"application/json; charset=utf-8");
+        return std::make_shared<WebContent>(CP_SDK_PRIV_TAG_VAL(), l_Array, u"application/json; charset=utf-8");
     }
 
 }   ///< namespace CP_SDK::Network

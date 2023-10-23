@@ -14,8 +14,8 @@ namespace CP_SDK::XUI {
         public IXUIBindable<XUIVVList>,
         public std::enable_shared_from_this<XUIVVList>
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(XUIVVList);
-        PRIVATE_TAG();
+        CP_SDK_NO_COPYMOVE_CTORS(XUIVVList);
+        CP_SDK_PRIV_TAG();
 
         private:
             _v::MonoPtr<_v::CVVList> m_Element;
@@ -38,7 +38,7 @@ namespace CP_SDK::XUI {
             static constexpr ETypeID TypeID = ETypeID::VVList;
             using Ptr = std::shared_ptr<XUIVVList>;
 
-            XUIVVList(PRIVATE_TAG_ARG(), std::u16string_view p_Name)
+            XUIVVList(CP_SDK_PRIV_TAG_ARG(), std::u16string_view p_Name)
                 : IXUIElement(p_Name, TypeID)
             { }
 
@@ -46,13 +46,13 @@ namespace CP_SDK::XUI {
             /// @brief Constructor
             static Ptr Make()
             {
-                return std::make_shared<XUIVVList>(PRIVATE_TAG_VAL(), u"XUIVVList");
+                return std::make_shared<XUIVVList>(CP_SDK_PRIV_TAG_VAL(), u"XUIVVList");
             }
             /// @brief Constructor
             /// @param p_Name Element name
             static Ptr Make(std::u16string_view p_Name)
             {
-                return std::make_shared<XUIVVList>(PRIVATE_TAG_VAL(), p_Name);
+                return std::make_shared<XUIVVList>(CP_SDK_PRIV_TAG_VAL(), p_Name);
             }
 
         public:

@@ -32,7 +32,7 @@ namespace CP_SDK::XUI {
     /// @brief Element interface
     class IXUIElement
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(IXUIElement);
+        CP_SDK_NO_COPYMOVE_CTORS(IXUIElement);
 
         public:
             enum class ETypeID

@@ -16,13 +16,13 @@ namespace CP_SDK::UI::Modals {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(ColorPicker, IModal)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(ColorPicker)
     {
         OnShow  = {this, &ColorPicker::Impl_OnShow};
         OnClose = {this, &ColorPicker::Impl_OnClose};
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(ColorPicker, IModal)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(ColorPicker)
     {
 
     }

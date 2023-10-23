@@ -12,12 +12,12 @@ namespace CP_SDK::UI::Views {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(SettingsRightView, ViewController)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(SettingsRightView)
     {
         OnViewCreation = {this, &SettingsRightView::OnViewCreation_Impl};
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(SettingsRightView, ViewController)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(SettingsRightView)
     {
 
     }

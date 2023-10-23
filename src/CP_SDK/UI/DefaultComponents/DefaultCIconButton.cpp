@@ -21,7 +21,7 @@ namespace CP_SDK::UI::DefaultComponents {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(DefaultCIconButton, Components::CIconButton)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(DefaultCIconButton)
     {
         CP_SDK_UI_IL2CPP_BIND_FIELD(RTransform,         m_RTransform);
         CP_SDK_UI_IL2CPP_BIND_FIELD(LElement,           m_LElement);
@@ -33,7 +33,7 @@ namespace CP_SDK::UI::DefaultComponents {
         Init += {this, &DefaultCIconButton::Init_DefaultCIconButton };
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(DefaultCIconButton, Components::CIconButton)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(DefaultCIconButton)
     {
 
     }

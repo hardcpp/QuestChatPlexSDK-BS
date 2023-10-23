@@ -28,13 +28,13 @@ namespace CP_SDK::UI::DefaultComponents {
     /// @brief Default CSecondaryButton component
     class DefaultCSecondaryButton : public Components::CSecondaryButton
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM_INTERFACES("CP_SDK.UI.DefaultComponents", DefaultCSecondaryButton, Components::CSecondaryButton,
-            classof(_u::IEventSystemHandler*),
-            classof(_u::IPointerEnterHandler*),
-            classof(_u::IPointerExitHandler*)
-        );
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(DefaultCSecondaryButton, Components::CSecondaryButton);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(DefaultCSecondaryButton, Components::CSecondaryButton);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCSecondaryButton, Components::CSecondaryButton, CP_SDK_IL2CPP_INTERFACES(
+            _u::IEventSystemHandler*,
+            _u::IPointerEnterHandler*,
+            _u::IPointerExitHandler*
+        ));
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCSecondaryButton);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(DefaultCSecondaryButton);
 
         private:
             _v::MonoPtr<_u::RectTransform>      m_RTransform;
@@ -72,8 +72,8 @@ namespace CP_SDK::UI::DefaultComponents {
             void Button_OnClick();
 
         public:
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, IPointerEnterHandler, void, OnPointerEnter, _u::PointerEventData*);
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, IPointerExitHandler,  void, OnPointerExit,  _u::PointerEventData*);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, IPointerEnterHandler, void, OnPointerEnter, _u::PointerEventData*);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, IPointerExitHandler,  void, OnPointerExit,  _u::PointerEventData*);
 
     };
 

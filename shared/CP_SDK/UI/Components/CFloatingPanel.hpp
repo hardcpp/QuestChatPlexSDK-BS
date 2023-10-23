@@ -24,9 +24,9 @@ namespace CP_SDK::UI::Components {
     /// @brief Floating Panel component
     class CFloatingPanel : public IScreen
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.Components", CFloatingPanel, IScreen);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(CFloatingPanel, IScreen);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(CFloatingPanel, IScreen);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CFloatingPanel, IScreen);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(CFloatingPanel);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(CFloatingPanel);
 
         private:
             _v::MonoPtr<IViewController>                                                m_CurrentViewController;

@@ -13,13 +13,13 @@ namespace CP_SDK::UI::Modals {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(Loading, IModal)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(Loading)
     {
         OnShow  = {this, &Loading::Impl_OnShow};
         OnClose = {this, &Loading::Impl_OnClose};
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(Loading, IModal)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(Loading)
     {
 
     }

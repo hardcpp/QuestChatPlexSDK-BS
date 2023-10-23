@@ -19,9 +19,9 @@ namespace CP_SDK::UI::Modals {
     /// @brief Message modal
     class Message : public IModal
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.Modals", Message, IModal);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(Message, IModal);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(Message, IModal);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Modals", Message, IModal);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(Message);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(Message);
 
         private:
             _v::XUIText::Ptr    m_Message;

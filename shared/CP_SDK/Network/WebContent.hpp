@@ -16,8 +16,8 @@ namespace CP_SDK::Network {
     /// @brief WebContent
     class WebContent
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(WebContent);
-        PRIVATE_TAG();
+        CP_SDK_NO_COPYMOVE_CTORS(WebContent);
+        CP_SDK_PRIV_TAG();
 
         public:
             /// @brief Content
@@ -31,7 +31,7 @@ namespace CP_SDK::Network {
             /// @brief Constructor
             /// @param p_Bytes  Bytes
             /// @param p_Type   Content
-            WebContent(PRIVATE_TAG_ARG(), ::Array<uint8_t>* p_Bytes, std::u16string_view p_Type);
+            WebContent(CP_SDK_PRIV_TAG_ARG(), ::Array<uint8_t>* p_Bytes, std::u16string_view p_Type);
             /// @brief Destructor
             ~WebContent();
 

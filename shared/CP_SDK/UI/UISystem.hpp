@@ -46,7 +46,7 @@ namespace CP_SDK::UI {
     /// @brief UI system main class
     class UISystem
     {
-        DISABLE_CONSTRUCTORS(UISystem);
+        CP_SDK_NO_DEF_CTORS(UISystem);
 
         private:
             static Unity::EnhancedImage::Ptr m_LoadingAnimation;

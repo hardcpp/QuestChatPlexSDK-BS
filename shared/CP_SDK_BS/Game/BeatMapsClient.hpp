@@ -22,7 +22,7 @@ namespace CP_SDK_BS::Game {
     /// @brief BeatMaps client
     class BeatMapsClient
     {
-        DISABLE_CONSTRUCTORS(BeatMapsClient);
+        CP_SDK_NO_DEF_CTORS(BeatMapsClient);
 
         private:
             static _v::WebClientUnity::Ptr m_WebClient;

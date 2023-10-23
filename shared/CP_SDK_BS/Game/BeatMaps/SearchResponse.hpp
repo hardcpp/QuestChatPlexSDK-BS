@@ -9,7 +9,7 @@ namespace CP_SDK_BS::Game::BeatMaps {
     struct SearchResponse
     {
         SearchResponse() = default;
-        DISABLE_COPY_MOVECONSTRUCTORS(SearchResponse);
+        CP_SDK_NO_COPYMOVE_CTORS(SearchResponse);
 
         using Ptr = std::shared_ptr<SearchResponse>;
 

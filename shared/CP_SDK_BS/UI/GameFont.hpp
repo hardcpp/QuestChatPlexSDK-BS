@@ -17,7 +17,7 @@ namespace CP_SDK_BS::UI {
     /// @brief Helpers for game font
     class GameFont
     {
-        DISABLE_CONSTRUCTORS(GameFont);
+        CP_SDK_NO_DEF_CTORS(GameFont);
 
         private:
             static CP_SDK::Utils::MonoPtr<_u::TMP_FontAsset>    m_BaseGameFont;

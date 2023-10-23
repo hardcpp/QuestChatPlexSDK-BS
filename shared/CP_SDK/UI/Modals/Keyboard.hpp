@@ -19,9 +19,9 @@ namespace CP_SDK::UI::Modals {
     /// @brief Keyboard modal
     class Keyboard : public IModal
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.Modals", Keyboard, IModal);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(Keyboard, IModal);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(Keyboard, IModal);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Modals", Keyboard, IModal);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(Keyboard);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(Keyboard);
 
         private:
             static std::u16string                       m_CopyBuffer;

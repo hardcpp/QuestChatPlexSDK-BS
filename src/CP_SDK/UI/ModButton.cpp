@@ -24,7 +24,7 @@ namespace CP_SDK::UI {
     /// @param p_OnClick      Action when clicked
     /// @param p_Tooltip      Tooltip text
     /// @param p_Interactable Is interactable?
-    ModButton::ModButton(PRIVATE_TAG_ARG(), std::u16string_view p_Text, _v::CActionRef<> p_OnClick, std::u16string_view p_Tooltip, bool p_Interactable)
+    ModButton::ModButton(CP_SDK_PRIV_TAG_ARG(), std::u16string_view p_Text, _v::CActionRef<> p_OnClick, std::u16string_view p_Tooltip, bool p_Interactable)
     {
         m_Text          = p_Text;
         m_Tooltip       = p_Tooltip;
@@ -48,7 +48,7 @@ namespace CP_SDK::UI {
     /// @param p_Interactable Is interactable?
     ModButton::Ptr ModButton::Make(std::u16string_view p_Text, _v::CActionRef<> p_OnClick, std::u16string_view p_Tooltip, bool p_Interactable)
     {
-        return std::make_shared<ModButton>(PRIVATE_TAG_VAL(), p_Text, p_OnClick, p_Tooltip, p_Interactable);
+        return std::make_shared<ModButton>(CP_SDK_PRIV_TAG_VAL(), p_Text, p_OnClick, p_Tooltip, p_Interactable);
     }
 
     ////////////////////////////////////////////////////////////////////////////

@@ -31,7 +31,7 @@ namespace CP_SDK::Misc {
     /// @brief Time helper
     class Time
     {
-        DISABLE_CONSTRUCTORS(Time);
+        CP_SDK_NO_DEF_CTORS(Time);
 
         private:
             static bool         s_Init;

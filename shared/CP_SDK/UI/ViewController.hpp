@@ -28,9 +28,9 @@ namespace CP_SDK::UI {
     /// @brief IViewController interface
     class ViewController : public IViewController
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI", ViewController, IViewController);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(ViewController, IViewController);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(ViewController, IViewController);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI", ViewController, IViewController);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(ViewController);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(ViewController);
 
         private:
             std::u16string                      m_LogPrefix;

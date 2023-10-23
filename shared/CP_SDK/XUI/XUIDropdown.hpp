@@ -14,8 +14,8 @@ namespace CP_SDK::XUI {
         public IXUIBindable<XUIDropdown>,
         public std::enable_shared_from_this<XUIDropdown>
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(XUIDropdown);
-        PRIVATE_TAG();
+        CP_SDK_NO_COPYMOVE_CTORS(XUIDropdown);
+        CP_SDK_PRIV_TAG();
 
         private:
             _v::MonoPtr<_v::CDropdown> m_Element;
@@ -38,7 +38,7 @@ namespace CP_SDK::XUI {
             static constexpr ETypeID TypeID = ETypeID::Dropdown;
             using Ptr = std::shared_ptr<XUIDropdown>;
 
-            XUIDropdown(PRIVATE_TAG_ARG(), std::u16string_view p_Name, const std::vector<std::u16string>& p_Options)
+            XUIDropdown(CP_SDK_PRIV_TAG_ARG(), std::u16string_view p_Name, const std::vector<std::u16string>& p_Options)
                 : IXUIElement(p_Name, TypeID)
             {
                 if (!p_Options.empty())
@@ -50,18 +50,18 @@ namespace CP_SDK::XUI {
             static Ptr Make()
             {
                 static std::vector<std::u16string> s_Empty(0);
-                return std::make_shared<XUIDropdown>(PRIVATE_TAG_VAL(), u"XUIDropdown", s_Empty);
+                return std::make_shared<XUIDropdown>(CP_SDK_PRIV_TAG_VAL(), u"XUIDropdown", s_Empty);
             }
             /// @brief Constructor
             static Ptr Make(const std::vector<std::u16string>& p_Options)
             {
-                return std::make_shared<XUIDropdown>(PRIVATE_TAG_VAL(), u"XUIDropdown", p_Options);
+                return std::make_shared<XUIDropdown>(CP_SDK_PRIV_TAG_VAL(), u"XUIDropdown", p_Options);
             }
             /// @brief Constructor
             /// @param p_Name Element name
             static Ptr Make(std::u16string_view p_Name, const std::vector<std::u16string>& p_Options)
             {
-                return std::make_shared<XUIDropdown>(PRIVATE_TAG_VAL(), p_Name, p_Options);
+                return std::make_shared<XUIDropdown>(CP_SDK_PRIV_TAG_VAL(), p_Name, p_Options);
             }
 
         public:

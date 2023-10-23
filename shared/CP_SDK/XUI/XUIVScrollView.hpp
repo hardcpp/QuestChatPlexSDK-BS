@@ -14,8 +14,8 @@ namespace CP_SDK::XUI {
         public IXUIBindable<XUIVScrollView>,
         public std::enable_shared_from_this<XUIVScrollView>
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(XUIVScrollView);
-        PRIVATE_TAG();
+        CP_SDK_NO_COPYMOVE_CTORS(XUIVScrollView);
+        CP_SDK_PRIV_TAG();
 
         private:
             _v::MonoPtr<_v::CVScrollView> m_Element;
@@ -38,10 +38,10 @@ namespace CP_SDK::XUI {
             static constexpr ETypeID TypeID = ETypeID::VScrollView;
             using Ptr = std::shared_ptr<XUIVScrollView>;
 
-            XUIVScrollView(PRIVATE_TAG_ARG(), const std::vector<std::shared_ptr<IXUIElement>>& p_Childs)
-                : XUIVScrollView(PRIVATE_TAG_FWD(), u"XUIVLayout", p_Childs)
+            XUIVScrollView(CP_SDK_PRIV_TAG_ARG(), const std::vector<std::shared_ptr<IXUIElement>>& p_Childs)
+                : XUIVScrollView(CP_SDK_PRIV_TAG_FWD(), u"XUIVLayout", p_Childs)
             { }
-            XUIVScrollView(PRIVATE_TAG_ARG(), std::u16string_view p_Name, const std::vector<std::shared_ptr<IXUIElement>>& p_Childs)
+            XUIVScrollView(CP_SDK_PRIV_TAG_ARG(), std::u16string_view p_Name, const std::vector<std::shared_ptr<IXUIElement>>& p_Childs)
                 : IXUIElementWithChilds<XUIVScrollView>(p_Name, TypeID, p_Childs)
             { }
 
@@ -50,20 +50,20 @@ namespace CP_SDK::XUI {
             static Ptr Make()
             {
                 static std::vector<std::shared_ptr<IXUIElement>> s_Empty(0);
-                return std::make_shared<XUIVScrollView>(PRIVATE_TAG_VAL(), s_Empty);
+                return std::make_shared<XUIVScrollView>(CP_SDK_PRIV_TAG_VAL(), s_Empty);
             }
             /// @brief Constructor
             /// @param p_Childs Child XUI Elements
             static Ptr Make(const std::vector<std::shared_ptr<IXUIElement>>& p_Childs)
             {
-                return std::make_shared<XUIVScrollView>(PRIVATE_TAG_VAL(), u"XUIVScrollView", p_Childs);
+                return std::make_shared<XUIVScrollView>(CP_SDK_PRIV_TAG_VAL(), u"XUIVScrollView", p_Childs);
             }
             /// @brief Constructor
             /// @param p_Name   Element name
             /// @param p_Childs Child XUI Elements
             static Ptr Make(std::u16string_view p_Name, const std::vector<std::shared_ptr<IXUIElement>>& p_Childs)
             {
-                return std::make_shared<XUIVScrollView>(PRIVATE_TAG_VAL(), p_Name, p_Childs);
+                return std::make_shared<XUIVScrollView>(CP_SDK_PRIV_TAG_VAL(), p_Name, p_Childs);
             }
 
         public:

@@ -19,9 +19,9 @@ namespace CP_SDK::UI::DefaultComponents {
     /// @brief Default CTabControl component
     class DefaultCTabControl : public Components::CTabControl
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.DefaultComponents", DefaultCTabControl, Components::CTabControl);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(DefaultCTabControl, Components::CTabControl);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(DefaultCTabControl, Components::CTabControl);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCTabControl, Components::CTabControl);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCTabControl);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(DefaultCTabControl);
 
         private:
             _v::MonoPtr<_u::RectTransform>                   m_RTransform;

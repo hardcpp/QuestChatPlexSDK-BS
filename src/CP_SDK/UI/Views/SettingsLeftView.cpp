@@ -12,12 +12,12 @@ namespace CP_SDK::UI::Views {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(SettingsLeftView, ViewController)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(SettingsLeftView)
     {
         OnViewCreation = {this, &SettingsLeftView::OnViewCreation_Impl};
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(SettingsLeftView, ViewController)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(SettingsLeftView)
     {
 
     }

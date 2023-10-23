@@ -20,7 +20,7 @@ namespace CP_SDK::UI {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(ViewController, IViewController)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(ViewController)
     {
         m_LogPrefix = u"[CP_SDK.UI][ViewController<" + GetType()->get_FullName().operator const std::__ndk1::u16string_view() + u">";
 
@@ -62,7 +62,7 @@ namespace CP_SDK::UI {
         m_HideTooltip                = {this, &ViewController::HideTooltip_Impl};
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(ViewController, IViewController)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(ViewController)
     {
         /// Call implementation
         if (UICreated())

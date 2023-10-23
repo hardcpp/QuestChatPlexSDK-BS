@@ -23,8 +23,8 @@ namespace CP_SDK_BS::Game {
     /// @brief Level completion data
     class LevelCompletionData
     {
-        DISABLE_CONSTRUCTORS(LevelCompletionData);
-        PRIVATE_TAG();
+        CP_SDK_NO_DEF_CTORS(LevelCompletionData);
+        CP_SDK_PRIV_TAG();
 
         public:
             LevelType                                   Type;
@@ -39,7 +39,7 @@ namespace CP_SDK_BS::Game {
             using Ptr = std::shared_ptr<LevelCompletionData>;
 
             /// @brief Constructor
-            LevelCompletionData(PRIVATE_TAG_ARG());
+            LevelCompletionData(CP_SDK_PRIV_TAG_ARG());
             /// @brief Constructor
             static Ptr Make();
 

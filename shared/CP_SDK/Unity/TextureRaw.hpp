@@ -16,7 +16,7 @@ namespace CP_SDK::Unity {
     /// @brief Texture raw utilities
     class TextureRaw
     {
-        DISABLE_CONSTRUCTORS(TextureRaw);
+        CP_SDK_NO_DEF_CTORS(TextureRaw);
 
         public:
             using PixelArray = std::shared_ptr<std::vector<_u::Color>>;

@@ -21,7 +21,7 @@ namespace CP_SDK::Animation::WEBP {
     /// @brief WEBP decoder
     class WEBPDecoder
     {
-        DISABLE_CONSTRUCTORS(WEBPDecoder);
+        CP_SDK_NO_DEF_CTORS(WEBPDecoder);
 
         public:
             /// @brief Async decode WEBP image

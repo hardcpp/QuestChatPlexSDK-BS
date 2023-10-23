@@ -14,8 +14,8 @@ namespace CP_SDK::XUI {
         public IXUIBindable<XUIToggle>,
         public std::enable_shared_from_this<XUIToggle>
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(XUIToggle);
-        PRIVATE_TAG();
+        CP_SDK_NO_COPYMOVE_CTORS(XUIToggle);
+        CP_SDK_PRIV_TAG();
 
         private:
             _v::MonoPtr<_v::CToggle> m_Element;
@@ -38,7 +38,7 @@ namespace CP_SDK::XUI {
             static constexpr ETypeID TypeID = ETypeID::Toggle;
             using Ptr = std::shared_ptr<XUIToggle>;
 
-            XUIToggle(PRIVATE_TAG_ARG(), std::u16string_view p_Name)
+            XUIToggle(CP_SDK_PRIV_TAG_ARG(), std::u16string_view p_Name)
                 : IXUIElement(p_Name, TypeID)
             { }
 
@@ -46,13 +46,13 @@ namespace CP_SDK::XUI {
             /// @brief Constructor
             static Ptr Make()
             {
-                return std::make_shared<XUIToggle>(PRIVATE_TAG_VAL(), u"XUIToggle");
+                return std::make_shared<XUIToggle>(CP_SDK_PRIV_TAG_VAL(), u"XUIToggle");
             }
             /// @brief Constructor
             /// @param p_Name Element name
             static Ptr Make(std::u16string_view p_Name)
             {
-                return std::make_shared<XUIToggle>(PRIVATE_TAG_VAL(), p_Name);
+                return std::make_shared<XUIToggle>(CP_SDK_PRIV_TAG_VAL(), p_Name);
             }
 
         public:

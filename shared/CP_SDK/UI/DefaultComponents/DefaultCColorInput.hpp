@@ -22,9 +22,9 @@ namespace CP_SDK::UI::DefaultComponents {
     /// @brief Default CColorInput component
     class DefaultCColorInput : public Components::CColorInput
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.DefaultComponents", DefaultCColorInput, Components::CColorInput);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(DefaultCColorInput, CColorInput);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(DefaultCColorInput, CColorInput);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCColorInput, Components::CColorInput);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCColorInput);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(DefaultCColorInput);
 
         private:
             _v::MonoPtr<_u::RectTransform>          m_RTransform;

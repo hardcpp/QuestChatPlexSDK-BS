@@ -19,13 +19,13 @@ namespace CP_SDK::UI::DefaultComponents::Subs {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(SubStackLayoutGroup, LayoutGroup)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(SubStackLayoutGroup)
     {
         m_ChildForceExpandWidth     = true;
         m_ChildForceExpandHeight    = true;
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(SubStackLayoutGroup, LayoutGroup)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(SubStackLayoutGroup)
     {
 
     }

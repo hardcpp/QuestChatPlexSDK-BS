@@ -25,8 +25,8 @@ namespace CP_SDK::Network {
     /// @brief Web Response class
     class WebResponse
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(WebResponse);
-        PRIVATE_TAG();
+        CP_SDK_NO_COPYMOVE_CTORS(WebResponse);
+        CP_SDK_PRIV_TAG();
 
         private:
             /// @brief Result code

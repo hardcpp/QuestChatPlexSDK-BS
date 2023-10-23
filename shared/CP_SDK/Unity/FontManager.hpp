@@ -22,7 +22,7 @@ namespace CP_SDK::Unity {
     /// @brief Open type to TextMeshPro font manager
     class FontManager
     {
-        DISABLE_CONSTRUCTORS(FontManager);
+        CP_SDK_NO_DEF_CTORS(FontManager);
 
         using t_AssetBundle_LoadFromMemory = function_ptr_t<_u::AssetBundle*, ::Array<uint8_t>*, unsigned int>;
 

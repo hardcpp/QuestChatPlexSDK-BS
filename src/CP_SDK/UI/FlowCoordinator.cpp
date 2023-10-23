@@ -13,12 +13,12 @@ namespace CP_SDK::UI {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(FlowCoordinator, IFlowCoordinator)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(FlowCoordinator)
     {
 
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(FlowCoordinator, IFlowCoordinator)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(FlowCoordinator)
     {
 
     }

@@ -22,7 +22,7 @@ namespace CP_SDK::Unity {
     /// @brief Sprite helper
     class SpriteU
     {
-        DISABLE_CONSTRUCTORS(SpriteU);
+        CP_SDK_NO_DEF_CTORS(SpriteU);
 
         public:
             /// @brief Create sprite from texture

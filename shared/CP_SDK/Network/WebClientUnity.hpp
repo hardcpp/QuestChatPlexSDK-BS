@@ -24,8 +24,8 @@ namespace CP_SDK::Network {
     /// @brief WebClientUnity using unity web requests
     class WebClientUnity : public IWebClient, public std::enable_shared_from_this<WebClientUnity>
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(WebClientUnity);
-        PRIVATE_TAG();
+        CP_SDK_NO_COPYMOVE_CTORS(WebClientUnity);
+        CP_SDK_PRIV_TAG();
 
         public:
             using Ptr = std::shared_ptr<WebClientUnity>;
@@ -56,7 +56,7 @@ namespace CP_SDK::Network {
             /// @param p_BaseAddress       Base address
             /// @param p_TimeOut           Requests timeout
             /// @param p_ForceCacheDiscard Should force server cache discard
-            WebClientUnity(PRIVATE_TAG_ARG(), std::u16string_view p_BaseAddress, _u::TimeSpan p_TimeOut, bool p_ForceCacheDiscard);
+            WebClientUnity(CP_SDK_PRIV_TAG_ARG(), std::u16string_view p_BaseAddress, _u::TimeSpan p_TimeOut, bool p_ForceCacheDiscard);
 
             /// @brief Constructor
             /// @param p_BaseAddress       Base address

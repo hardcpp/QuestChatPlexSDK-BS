@@ -18,13 +18,13 @@ namespace CP_SDK::UI::Views {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(SettingsMainView, ViewController)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(SettingsMainView)
     {
         OnViewCreation      = {this, &SettingsMainView::OnViewCreation_Impl};
         OnViewActivation    = {this, &SettingsMainView::OnViewActivation_Impl};
     };
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(SettingsMainView, ViewController)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(SettingsMainView)
     {
 
     };

@@ -22,7 +22,7 @@ namespace CP_SDK::UI::DefaultComponents {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(DefaultCSecondaryButton, Components::CSecondaryButton)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(DefaultCSecondaryButton)
     {
         CP_SDK_UI_IL2CPP_BIND_FIELD(RTransform,         m_RTransform);
         CP_SDK_UI_IL2CPP_BIND_FIELD(CSizeFitter,        m_CSizeFitter);
@@ -39,7 +39,7 @@ namespace CP_SDK::UI::DefaultComponents {
         Init += {this, &DefaultCSecondaryButton::Init_DefaultCSecondaryButton};
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(DefaultCSecondaryButton, Components::CSecondaryButton)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(DefaultCSecondaryButton)
     {
 
     }

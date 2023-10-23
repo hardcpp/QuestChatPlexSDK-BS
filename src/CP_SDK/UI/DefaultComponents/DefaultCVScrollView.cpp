@@ -22,7 +22,7 @@ namespace CP_SDK::UI::DefaultComponents {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(DefaultCVScrollView, Components::CVScrollView)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(DefaultCVScrollView)
     {
         m_Smooth            =  8.0f;
         m_ScrollBarWidth    =  6.0f;
@@ -50,7 +50,7 @@ namespace CP_SDK::UI::DefaultComponents {
         Init += {this, &DefaultCVScrollView::Init_DefaultCVScrollView};
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(DefaultCVScrollView, Components::CVScrollView)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(DefaultCVScrollView)
     {
 
     }

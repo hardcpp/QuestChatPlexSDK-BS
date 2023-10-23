@@ -19,9 +19,9 @@ namespace CP_SDK::UI::Modals {
     /// @brief Confirmation modal
     class Confirmation : public IModal
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.Modals", Confirmation, IModal);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(Confirmation, IModal);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(Confirmation, IModal);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Modals", Confirmation, IModal);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(Confirmation);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(Confirmation);
 
         private:
             _v::XUIText::Ptr    m_Message;

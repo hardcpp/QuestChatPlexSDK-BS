@@ -17,8 +17,8 @@ namespace CP_SDK::XUI {
         public IXUIBindable<XUIImage>,
         public std::enable_shared_from_this<XUIImage>
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(XUIImage);
-        PRIVATE_TAG();
+        CP_SDK_NO_COPYMOVE_CTORS(XUIImage);
+        CP_SDK_PRIV_TAG();
 
         private:
             _v::MonoPtr<_v::CImage> m_Element;
@@ -41,7 +41,7 @@ namespace CP_SDK::XUI {
             static constexpr ETypeID TypeID = ETypeID::Image;
             using Ptr = std::shared_ptr<XUIImage>;
 
-            XUIImage(PRIVATE_TAG_ARG(), std::u16string_view p_Name, _u::Sprite* p_Sprite)
+            XUIImage(CP_SDK_PRIV_TAG_ARG(), std::u16string_view p_Name, _u::Sprite* p_Sprite)
                 : IXUIElement(p_Name, TypeID)
             {
                 if (p_Sprite)
@@ -53,14 +53,14 @@ namespace CP_SDK::XUI {
             /// @param p_Sprite Sprite
             static Ptr Make(_u::Sprite* p_Sprite = nullptr)
             {
-                return std::make_shared<XUIImage>(PRIVATE_TAG_VAL(), u"XUIImage", p_Sprite);
+                return std::make_shared<XUIImage>(CP_SDK_PRIV_TAG_VAL(), u"XUIImage", p_Sprite);
             }
             /// @brief Constructor
             /// @param p_Name   Element name
             /// @param p_Sprite Sprite
             static Ptr Make(std::u16string_view p_Name, _u::Sprite* p_Sprite = nullptr)
             {
-                return std::make_shared<XUIImage>(PRIVATE_TAG_VAL(), p_Name, p_Sprite);
+                return std::make_shared<XUIImage>(CP_SDK_PRIV_TAG_VAL(), p_Name, p_Sprite);
             }
 
         public:

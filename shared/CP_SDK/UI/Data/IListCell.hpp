@@ -36,11 +36,11 @@ namespace CP_SDK::UI::Data {
     /// @brief Abstract List Cell component
     class IListCell : public _u::MonoBehaviour
     {
-        CP_SDK_IL2CPP_INHERIT_INTERFACES("CP_SDK.UI.Data", IListCell, _u::MonoBehaviour,
-            classof(_u::IEventSystemHandler*),
-            classof(_u::IPointerEnterHandler*),
-            classof(_u::IPointerExitHandler*)
-        );
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Data", IListCell, _u::MonoBehaviour, CP_SDK_IL2CPP_INTERFACES(
+            _u::IEventSystemHandler*,
+            _u::IPointerEnterHandler*,
+            _u::IPointerExitHandler*
+        ));
         CP_SDK_IL2CPP_DECLARE_CTOR(IListCell);
         CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR(IListCell);
 
@@ -97,10 +97,10 @@ namespace CP_SDK::UI::Data {
         public:
             /// @brief On pointer enter
             /// @param p_EventData Event data
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, IPointerEnterHandler, void, OnPointerEnter, _u::PointerEventData*);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, IPointerEnterHandler, void, OnPointerEnter, _u::PointerEventData*);
             /// @brief On pointer exit
             /// @param p_EventData Event data
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, IPointerExitHandler,  void, OnPointerExit,  _u::PointerEventData*);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, IPointerExitHandler,  void, OnPointerExit,  _u::PointerEventData*);
 
     };
 

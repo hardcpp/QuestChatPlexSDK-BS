@@ -33,9 +33,9 @@ namespace CP_SDK_BS::UI {
     /// @brief View flow coordinator base class
     class ViewController : public IHMUIViewController
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK_BS.UI", ViewController, IHMUIViewController);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(ViewController, IHMUIViewController);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(ViewController, IHMUIViewController);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK_BS.UI", ViewController, IHMUIViewController);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(ViewController);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(ViewController);
 
         private:
             std::u16string                          m_LogPrefix;

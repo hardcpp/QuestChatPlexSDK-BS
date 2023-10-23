@@ -26,7 +26,7 @@ namespace CP_SDK_BS::Game {
     /// @brief Game helper
     class Logic
     {
-        DISABLE_CONSTRUCTORS(Logic);
+        CP_SDK_NO_DEF_CTORS(Logic);
 
         using t_Delegate1 = System::Action_2<_u::ScenesTransitionSetupDataSO*, Zenject::DiContainer*>*;
 

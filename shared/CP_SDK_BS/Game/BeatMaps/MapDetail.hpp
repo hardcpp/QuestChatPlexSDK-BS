@@ -24,7 +24,7 @@ namespace CP_SDK_BS::Game::BeatMaps {
     struct MapDetail : public std::enable_shared_from_this<MapDetail>
     {
         MapDetail() = default;
-        DISABLE_COPY_MOVECONSTRUCTORS(MapDetail);
+        CP_SDK_NO_COPYMOVE_CTORS(MapDetail);
 
         using Ptr = std::shared_ptr<MapDetail>;
 

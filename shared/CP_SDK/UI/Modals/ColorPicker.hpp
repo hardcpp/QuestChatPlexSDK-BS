@@ -19,9 +19,9 @@ namespace CP_SDK::UI::Modals {
     /// @brief ColorPicker modal
     class ColorPicker : public IModal
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.Modals", ColorPicker, IModal);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(ColorPicker, IModal);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(ColorPicker, IModal);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Modals", ColorPicker, IModal);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(ColorPicker);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(ColorPicker);
 
         private:
             _v::XUISlider::Ptr      m_H;

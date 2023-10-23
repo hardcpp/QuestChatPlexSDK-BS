@@ -36,7 +36,7 @@ namespace CP_SDK_BS::UI {
     /// @brief Song detail widget
     class LevelDetail
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(LevelDetail);
+        CP_SDK_NO_COPYMOVE_CTORS(LevelDetail);
 
         private:
             static _v::MonoPtr<_u::GameObject> m_SongDetailViewTemplate;

@@ -9,7 +9,7 @@ namespace CP_SDK::UI::Data {
     /// @brief Abstract List Item
     class TextListItem : public IListItem
     {
-        DISABLE_CONSTRUCTORS(TextListItem);
+        CP_SDK_NO_DEF_CTORS(TextListItem);
 
         static constexpr std::u16string_view _default_Text    = u"Default...";
         static constexpr std::u16string_view _default_Tooltip = u"";

@@ -39,7 +39,7 @@ namespace CP_SDK::Network {
     /// @param p_BaseAddress       Base address
     /// @param p_TimeOut           Requests timeout
     /// @param p_ForceCacheDiscard Should force server cache discard
-    WebClientUnity::WebClientUnity(PRIVATE_TAG_ARG(), std::u16string_view p_BaseAddress, TimeSpan p_TimeOut, bool p_ForceCacheDiscard)
+    WebClientUnity::WebClientUnity(CP_SDK_PRIV_TAG_ARG(), std::u16string_view p_BaseAddress, TimeSpan p_TimeOut, bool p_ForceCacheDiscard)
         : m_Headers({})
     {
         DownloadTimeout = 2 * 60;
@@ -60,7 +60,7 @@ namespace CP_SDK::Network {
     /// @param p_ForceCacheDiscard Should force server cache discard
     WebClientUnity::Ptr WebClientUnity::Make(std::u16string_view p_BaseAddress, TimeSpan p_TimeOut, bool p_ForceCacheDiscard)
     {
-        return std::make_shared<WebClientUnity>(PRIVATE_TAG_VAL(), p_BaseAddress, p_TimeOut, p_ForceCacheDiscard);
+        return std::make_shared<WebClientUnity>(CP_SDK_PRIV_TAG_VAL(), p_BaseAddress, p_TimeOut, p_ForceCacheDiscard);
     }
 
     ////////////////////////////////////////////////////////////////////////////

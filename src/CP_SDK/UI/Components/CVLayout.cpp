@@ -11,12 +11,12 @@ namespace CP_SDK::UI::Components {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(CVLayout, CHOrVLayout)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(CVLayout)
     {
 
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(CVLayout, CHOrVLayout)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(CVLayout)
     {
 
     }

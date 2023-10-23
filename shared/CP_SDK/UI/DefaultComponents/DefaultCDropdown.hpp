@@ -23,9 +23,9 @@ namespace CP_SDK::UI::DefaultComponents {
     /// @brief Default CDropdown component
     class DefaultCDropdown : public Components::CDropdown
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.DefaultComponents", DefaultCDropdown, Components::CDropdown);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(DefaultCDropdown, CDropdown);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(DefaultCDropdown, CDropdown);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCDropdown, Components::CDropdown);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCDropdown);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(DefaultCDropdown);
 
         private:
             _v::MonoPtr<_u::RectTransform>          m_RTransform;

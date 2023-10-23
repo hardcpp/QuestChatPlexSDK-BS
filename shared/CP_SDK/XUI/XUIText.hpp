@@ -14,8 +14,8 @@ namespace CP_SDK::XUI {
         public IXUIBindable<XUIText>,
         public std::enable_shared_from_this<XUIText>
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(XUIText);
-        PRIVATE_TAG();
+        CP_SDK_NO_COPYMOVE_CTORS(XUIText);
+        CP_SDK_PRIV_TAG();
 
         private:
             _v::MonoPtr<_v::CText> m_Element;
@@ -38,7 +38,7 @@ namespace CP_SDK::XUI {
             static constexpr ETypeID TypeID = ETypeID::Text;
             using Ptr = std::shared_ptr<XUIText>;
 
-            XUIText(PRIVATE_TAG_ARG(), std::u16string_view p_Name, std::u16string_view p_Text)
+            XUIText(CP_SDK_PRIV_TAG_ARG(), std::u16string_view p_Name, std::u16string_view p_Text)
                 : IXUIElement(p_Name, TypeID)
             {
                 SetText(std::u16string(p_Text));
@@ -49,14 +49,14 @@ namespace CP_SDK::XUI {
             /// @param p_Spacing Spacing
             static Ptr Make(std::u16string_view p_Text)
             {
-                return std::make_shared<XUIText>(PRIVATE_TAG_VAL(), u"XUIText", p_Text);
+                return std::make_shared<XUIText>(CP_SDK_PRIV_TAG_VAL(), u"XUIText", p_Text);
             }
             /// @brief Constructor
             /// @param p_Name Element name
             /// @param p_Text Text
             static Ptr Make(std::u16string_view p_Name, std::u16string_view p_Text)
             {
-                return std::make_shared<XUIText>(PRIVATE_TAG_VAL(), p_Name, p_Text);
+                return std::make_shared<XUIText>(CP_SDK_PRIV_TAG_VAL(), p_Name, p_Text);
             }
 
         public:

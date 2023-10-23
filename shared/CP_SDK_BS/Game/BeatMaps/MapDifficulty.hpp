@@ -8,7 +8,7 @@ namespace CP_SDK_BS::Game::BeatMaps {
     struct MapDifficulty
     {
         MapDifficulty() = default;
-        DISABLE_COPY_MOVECONSTRUCTORS(MapDifficulty);
+        CP_SDK_NO_COPYMOVE_CTORS(MapDifficulty);
 
         using Ptr = std::shared_ptr<MapDifficulty>;
 

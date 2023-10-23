@@ -18,9 +18,9 @@ namespace CP_SDK::UI::FlowCoordinators {
     /// @brief UI flow coordinator
     class MainFlowCoordinator : public FlowCoordinator
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.FlowCoordinators", MainFlowCoordinator, FlowCoordinator);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(MainFlowCoordinator, FlowCoordinator);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(MainFlowCoordinator, FlowCoordinator);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.FlowCoordinators", MainFlowCoordinator, FlowCoordinator);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(MainFlowCoordinator);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(MainFlowCoordinator);
         CP_SDK_UI_FLOW_COORDINATOR_INSTANCE();
         CP_SDK_UI_FLOW_COORDINATOR_DESTROY();
 

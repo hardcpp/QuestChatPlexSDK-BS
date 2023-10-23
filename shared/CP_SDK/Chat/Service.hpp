@@ -6,7 +6,7 @@ namespace CP_SDK::Chat {
 
     class Service
     {
-        DISABLE_CONSTRUCTORS(Service);
+        CP_SDK_NO_DEF_CTORS(Service);
 
         public:
             /// Init

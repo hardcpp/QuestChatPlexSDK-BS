@@ -23,9 +23,9 @@ namespace CP_SDK::UI::DefaultComponents {
     /// @brief Default CToggle component
     class DefaultCToggle : public Components::CToggle
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.DefaultComponents", DefaultCToggle, Components::CToggle);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(DefaultCToggle, Components::CToggle);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(DefaultCToggle, Components::CToggle);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCToggle, Components::CToggle);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCToggle);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(DefaultCToggle);
 
         private:
             enum AnimationState : uint32_t

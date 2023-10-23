@@ -19,8 +19,8 @@ namespace CP_SDK::Animation {
     /// @brief Animation frame info
     class AnimationInfo
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(AnimationInfo);
-        PRIVATE_TAG();
+        CP_SDK_NO_COPYMOVE_CTORS(AnimationInfo);
+        CP_SDK_PRIV_TAG();
 
         public:
             using Ptr = std::shared_ptr<AnimationInfo>;
@@ -36,7 +36,7 @@ namespace CP_SDK::Animation {
             /// @param p_Width      Width
             /// @param p_Height     Height
             /// @param p_FrameCount Animation frame count
-            AnimationInfo(PRIVATE_TAG_ARG(), int p_Width, int p_Height, uint32_t p_FrameCount);
+            AnimationInfo(CP_SDK_PRIV_TAG_ARG(), int p_Width, int p_Height, uint32_t p_FrameCount);
             /// @brief Destructor
             ~AnimationInfo();
 

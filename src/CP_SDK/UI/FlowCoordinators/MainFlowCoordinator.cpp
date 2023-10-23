@@ -11,7 +11,7 @@ namespace CP_SDK::UI::FlowCoordinators {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(MainFlowCoordinator, FlowCoordinator)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(MainFlowCoordinator)
     {
         if (m_TitleOverride.empty())
             m_TitleValue = u"ChatPlexSDK " + ChatPlexSDK::ProductVersion();
@@ -25,7 +25,7 @@ namespace CP_SDK::UI::FlowCoordinators {
         m_OnBackButtonPressed       = {this, &MainFlowCoordinator::OnBackButtonPressed_Impl};
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(MainFlowCoordinator, FlowCoordinator)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(MainFlowCoordinator)
     {
         UISystem::DestroyUI(&m_SettingsRightView);
         UISystem::DestroyUI(&m_SettingsMainView);

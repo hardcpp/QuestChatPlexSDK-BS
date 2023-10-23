@@ -14,8 +14,8 @@ namespace CP_SDK::XUI {
         public IXUIBindable<XUISlider>,
         public std::enable_shared_from_this<XUISlider>
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(XUISlider);
-        PRIVATE_TAG();
+        CP_SDK_NO_COPYMOVE_CTORS(XUISlider);
+        CP_SDK_PRIV_TAG();
 
         private:
             _v::MonoPtr<_v::CSlider> m_Element;
@@ -38,7 +38,7 @@ namespace CP_SDK::XUI {
             static constexpr ETypeID TypeID = ETypeID::Slider;
             using Ptr = std::shared_ptr<XUISlider>;
 
-            XUISlider(PRIVATE_TAG_ARG(), std::u16string_view p_Name)
+            XUISlider(CP_SDK_PRIV_TAG_ARG(), std::u16string_view p_Name)
                 : IXUIElement(p_Name, TypeID)
             {
 
@@ -48,13 +48,13 @@ namespace CP_SDK::XUI {
             /// @brief Constructor
             static Ptr Make()
             {
-                return std::make_shared<XUISlider>(PRIVATE_TAG_VAL(), u"XUISlider");
+                return std::make_shared<XUISlider>(CP_SDK_PRIV_TAG_VAL(), u"XUISlider");
             }
             /// @brief Constructor
             /// @param p_Name Element name
             static Ptr Make(std::u16string_view p_Name)
             {
-                return std::make_shared<XUISlider>(PRIVATE_TAG_VAL(), p_Name);
+                return std::make_shared<XUISlider>(CP_SDK_PRIV_TAG_VAL(), p_Name);
             }
 
         public:

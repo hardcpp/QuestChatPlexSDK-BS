@@ -16,13 +16,13 @@ namespace CP_SDK::UI::Views {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(ModMenuView, ViewController)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(ModMenuView)
     {
         OnViewCreation      = {this, &ModMenuView::OnViewCreation_Impl};
         OnViewActivation    = {this, &ModMenuView::OnViewActivation_Impl};
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(ModMenuView, ViewController)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(ModMenuView)
     {
 
     }

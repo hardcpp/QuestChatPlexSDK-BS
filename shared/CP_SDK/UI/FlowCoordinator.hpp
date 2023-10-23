@@ -24,9 +24,9 @@ namespace CP_SDK::UI {
     /// @brief Flow coordinator base class
     class FlowCoordinator : public IFlowCoordinator
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI", FlowCoordinator, IFlowCoordinator);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(FlowCoordinator, IFlowCoordinator);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(FlowCoordinator, IFlowCoordinator);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI", FlowCoordinator, IFlowCoordinator);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(FlowCoordinator);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(FlowCoordinator);
 
         private:
             static std::map<_u::Type*, _v::MonoPtr<FlowCoordinator>> m_Instances;

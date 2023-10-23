@@ -14,12 +14,12 @@ namespace CP_SDK::UI::Components {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(CSlider, Selectable)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(CSlider)
     {
 
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(CSlider, Selectable)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(CSlider)
     {
 
     }

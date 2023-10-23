@@ -11,7 +11,7 @@ namespace CP_SDK::Misc {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    FastCancellationToken::FastCancellationToken(PRIVATE_TAG_ARG())
+    FastCancellationToken::FastCancellationToken(CP_SDK_PRIV_TAG_ARG())
     {
         m_Serial.store(0);
     }
@@ -22,7 +22,7 @@ namespace CP_SDK::Misc {
     /// @brief Constructor
     FastCancellationToken::Ptr FastCancellationToken::Make()
     {
-        return std::make_shared<FastCancellationToken>(PRIVATE_TAG_VAL());
+        return std::make_shared<FastCancellationToken>(CP_SDK_PRIV_TAG_VAL());
     }
 
     ////////////////////////////////////////////////////////////////////////////

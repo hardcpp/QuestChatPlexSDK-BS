@@ -14,7 +14,7 @@ namespace CP_SDK::UI::Data {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(TextListCell, IListCell)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(TextListCell)
     {
         CP_SDK_UI_IL2CPP_BIND_FIELD(Text, m_Text);
 
@@ -24,7 +24,7 @@ namespace CP_SDK::UI::Data {
         m_AddSelfComponent = {this, &TextListCell::AddSelfComponent_Impl};
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(TextListCell, IListCell)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(TextListCell)
     {
 
     }

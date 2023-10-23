@@ -13,7 +13,7 @@ namespace CP_SDK::Animation {
     /// @param p_Texture Texture atlas
     /// @param p_UVs     UVs of sub sprites
     /// @param p_Delays  Delays of frames
-    AnimationControllerInstance::AnimationControllerInstance(PRIVATE_TAG_ARG(), _v::CMonoPtrRef<Texture2D> p_Texture, const std::vector<Rect>& p_UVs, const std::vector<uint16_t>& p_Delays)
+    AnimationControllerInstance::AnimationControllerInstance(CP_SDK_PRIV_TAG_ARG(), _v::CMonoPtrRef<Texture2D> p_Texture, const std::vector<Rect>& p_UVs, const std::vector<uint16_t>& p_Delays)
         : m_IsDelayConsistent(true), m_ActiveCount(0), Frames(p_UVs.size()), CurrentFrameIndex(0)
     {
         int l_FirstDelay = -1;
@@ -65,7 +65,7 @@ namespace CP_SDK::Animation {
     /// @param p_Delays  Delays of frames
     AnimationControllerInstance::Ptr AnimationControllerInstance::Make(_v::CMonoPtrRef<Texture2D> p_Texture, const std::vector<Rect>& p_UVs, const std::vector<uint16_t>& p_Delays)
     {
-        return std::make_shared<AnimationControllerInstance>(PRIVATE_TAG_VAL(), p_Texture, p_UVs, p_Delays);
+        return std::make_shared<AnimationControllerInstance>(CP_SDK_PRIV_TAG_VAL(), p_Texture, p_UVs, p_Delays);
     }
 
     ////////////////////////////////////////////////////////////////////////////

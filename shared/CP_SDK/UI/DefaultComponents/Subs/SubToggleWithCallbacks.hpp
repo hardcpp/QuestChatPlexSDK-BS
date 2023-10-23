@@ -23,10 +23,10 @@ namespace CP_SDK::UI::DefaultComponents::Subs {
     class SubToggleWithCallbacks : public _u::Toggle
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK::UI::DefaultComponents::Subs", SubToggleWithCallbacks, _u::Toggle);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(SubToggleWithCallbacks, _u::Toggle);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(SubToggleWithCallbacks, _u::Toggle);
-        protected: bool __Prevent_CPP_CTOR;
-        protected: bool __Prevent_CPP_DTOR;
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(SubToggleWithCallbacks);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(SubToggleWithCallbacks);
+        CP_SDK_IL2CPP_CTOR_FIELD();
+        CP_SDK_IL2CPP_DTOR_FIELD();
 
         public:
             /// @brief Selection state enum
@@ -44,7 +44,7 @@ namespace CP_SDK::UI::DefaultComponents::Subs {
             _v::Event<ESelectionState> StateDidChangeEvent;
 
         public:
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, Selectable, void, DoStateTransition, Selectable::SelectionState, bool);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, Selectable, void, DoStateTransition, Selectable::SelectionState, bool);
 
     };
 

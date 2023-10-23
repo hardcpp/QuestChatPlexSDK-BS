@@ -23,7 +23,7 @@ namespace CP_SDK_BS::Game {
     /// @brief Level selection filter
     class LevelSelection
     {
-        DISABLE_CONSTRUCTORS(LevelSelection);
+        CP_SDK_NO_DEF_CTORS(LevelSelection);
 
         private:
             static _v::MonoPtr<_u::CustomPreviewBeatmapLevel>   m_PendingFilterSong;

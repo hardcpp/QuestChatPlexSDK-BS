@@ -17,7 +17,7 @@ namespace CP_SDK_BS::UI {
     /// @brief Vertical icon segmented control
     class HMUIIconSegmentedControl
     {
-        DISABLE_CONSTRUCTORS(HMUIIconSegmentedControl);
+        CP_SDK_NO_DEF_CTORS(HMUIIconSegmentedControl);
 
         private:
             static CP_SDK::Utils::MonoPtr<HMUI::IconSegmentedControl> m_Template;

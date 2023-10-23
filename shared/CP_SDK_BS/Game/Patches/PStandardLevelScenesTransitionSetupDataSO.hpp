@@ -8,7 +8,7 @@ namespace CP_SDK_BS::Game::Patches {
     /// @brief Level data finder
     class PStandardLevelScenesTransitionSetupDataSO
     {
-        DISABLE_CONSTRUCTORS(PStandardLevelScenesTransitionSetupDataSO);
+        CP_SDK_NO_DEF_CTORS(PStandardLevelScenesTransitionSetupDataSO);
 
         public:
             /// @brief Restore the level data (Fix for the new restart mechanic)

@@ -8,7 +8,7 @@
 
 #define CP_SDK_CONFIG_JSONCONFIG_INSTANCE_DECL(__Type)      \
     private:                                                \
-        DISABLE_COPY_MOVECONSTRUCTORS(__Type)               \
+        CP_SDK_NO_COPYMOVE_CTORS(__Type)               \
         __Type() = default;                                 \
         static __Type* m_Instance;                          \
     public:                                                 \
@@ -30,7 +30,7 @@ namespace CP_SDK::Config {
     /// @brief Json config file
     class JsonConfig
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(JsonConfig);
+        CP_SDK_NO_COPYMOVE_CTORS(JsonConfig);
 
         protected:
             /// @brief Constructor

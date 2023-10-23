@@ -14,8 +14,8 @@ namespace CP_SDK::XUI {
         public IXUIBindable<XUIColorInput>,
         public std::enable_shared_from_this<XUIColorInput>
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(XUIColorInput);
-        PRIVATE_TAG();
+        CP_SDK_NO_COPYMOVE_CTORS(XUIColorInput);
+        CP_SDK_PRIV_TAG();
 
         private:
             _v::MonoPtr<_v::CColorInput> m_Element;
@@ -38,7 +38,7 @@ namespace CP_SDK::XUI {
             static constexpr ETypeID TypeID = ETypeID::ColorInput;
             using Ptr = std::shared_ptr<XUIColorInput>;
 
-            XUIColorInput(PRIVATE_TAG_ARG(), std::u16string_view p_Name)
+            XUIColorInput(CP_SDK_PRIV_TAG_ARG(), std::u16string_view p_Name)
                 : IXUIElement(p_Name, TypeID)
             {
 
@@ -48,13 +48,13 @@ namespace CP_SDK::XUI {
             /// @brief Constructor
             static Ptr Make()
             {
-                return std::make_shared<XUIColorInput>(PRIVATE_TAG_VAL(), u"XUIColorInput");
+                return std::make_shared<XUIColorInput>(CP_SDK_PRIV_TAG_VAL(), u"XUIColorInput");
             }
             /// @brief Constructor
             /// @param p_Name Element name
             static Ptr Make(std::u16string_view p_Name)
             {
-                return std::make_shared<XUIColorInput>(PRIVATE_TAG_VAL(), p_Name);
+                return std::make_shared<XUIColorInput>(CP_SDK_PRIV_TAG_VAL(), p_Name);
             }
 
         public:

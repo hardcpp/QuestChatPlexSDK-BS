@@ -18,9 +18,9 @@ namespace CP_SDK::UI::Views {
     /// @brief Welcome Left View controller
     class MainLeftView : public ViewController
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.Views", MainLeftView, ViewController);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(MainLeftView, ViewController);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(MainLeftView, ViewController);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Views", MainLeftView, ViewController);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(MainLeftView);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(MainLeftView);
         CP_SDK_UI_VIEW_CONTROLLER_INSTANCE();
 
         private:

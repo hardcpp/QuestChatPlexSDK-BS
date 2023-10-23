@@ -9,7 +9,7 @@ namespace CP_SDK::XUI {
     template<class t_Base>
     class IXUIBindable
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(IXUIBindable);
+        CP_SDK_NO_COPYMOVE_CTORS(IXUIBindable);
 
         protected:
             /// @brief Constructor

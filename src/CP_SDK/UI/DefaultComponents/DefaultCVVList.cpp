@@ -14,7 +14,7 @@ namespace CP_SDK::UI::DefaultComponents {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(DefaultCVVList, Components::CVVList)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(DefaultCVVList)
     {
         CP_SDK_UI_IL2CPP_BIND_FIELD(RTransform,     m_RTransform);
         CP_SDK_UI_IL2CPP_BIND_FIELD(LElement,       m_ScrollView->LElement());
@@ -40,7 +40,7 @@ namespace CP_SDK::UI::DefaultComponents {
         Init += {this, &DefaultCVVList::Init_DefaultCVVList};
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(DefaultCVVList, Components::CVVList)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(DefaultCVVList)
     {
 
     }

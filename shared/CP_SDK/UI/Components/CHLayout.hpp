@@ -19,9 +19,9 @@ namespace CP_SDK::UI::Components {
     /// @brief Horizontal layout component
     class CHLayout : public CHOrVLayout
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.Components", CHLayout, CHOrVLayout);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(CHLayout, CHOrVLayout);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(CHLayout, CHOrVLayout);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CHLayout, CHOrVLayout);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(CHLayout);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(CHLayout);
 
         public:
             UIFieldRefDel<_u::HorizontalLayoutGroup> HLayoutGroup;

@@ -18,9 +18,9 @@ namespace CP_SDK::UI::DefaultComponents {
     /// @brief Default CGLayout component
     class DefaultCGLayout : public Components::CGLayout
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.DefaultComponents", DefaultCGLayout, Components::CGLayout);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(DefaultCGLayout, Components::CGLayout);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(DefaultCGLayout, Components::CGLayout);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCGLayout, Components::CGLayout);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCGLayout);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(DefaultCGLayout);
 
         private:
             _v::MonoPtr<_u::RectTransform>       m_RTransform;

@@ -17,7 +17,7 @@ namespace CP_SDK::UI::DefaultComponents {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(DefaultCFloatingPanel, Components::CFloatingPanel)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(DefaultCFloatingPanel)
     {
         CP_SDK_UI_IL2CPP_BIND_FIELD(RTransform, m_RTransform);
 
@@ -27,7 +27,7 @@ namespace CP_SDK::UI::DefaultComponents {
         Init += {this, &DefaultCFloatingPanel::Init_DefaultCFloatingPanel};
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(DefaultCFloatingPanel, Components::CFloatingPanel)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(DefaultCFloatingPanel)
     {
 
     }

@@ -18,8 +18,8 @@ namespace CP_SDK::Network {
     /// @brief Rate Limit Info
     class RateLimitInfo
     {
-        DISABLE_COPY_MOVECONSTRUCTORS(RateLimitInfo);
-        PRIVATE_TAG();
+        CP_SDK_NO_COPYMOVE_CTORS(RateLimitInfo);
+        CP_SDK_PRIV_TAG();
 
         private:
             /// @brief Total allowed requests for a given time window

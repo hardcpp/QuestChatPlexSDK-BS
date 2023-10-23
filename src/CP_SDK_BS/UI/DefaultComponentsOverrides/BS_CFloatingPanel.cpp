@@ -17,7 +17,7 @@ namespace CP_SDK_BS::UI::DefaultComponentsOverrides {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN_IMPL(BS_CFloatingPanel, CP_SDK::UI::DefaultComponents::DefaultCFloatingPanel)
+    CP_SDK_IL2CPP_DECLARE_CTOR_IMPL(BS_CFloatingPanel)
     {
         m_SetAllowMovement  = {this, &BS_CFloatingPanel::SetAllowMovement_Impl2};
         m_SetRadius         = {this, &BS_CFloatingPanel::SetRadius_Impl2};
@@ -27,7 +27,7 @@ namespace CP_SDK_BS::UI::DefaultComponentsOverrides {
         Init += {this, &BS_CFloatingPanel::Init_BS_CFloatingPanel};
     }
     /// @brief Destructor
-    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN_IMPL(BS_CFloatingPanel, CP_SDK::UI::DefaultComponents::DefaultCFloatingPanel)
+    CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(BS_CFloatingPanel)
     {
         Patches::PVRPointer::OnActivated -= {this, &BS_CFloatingPanel::CreateMoverOnPointerCreated};
     }

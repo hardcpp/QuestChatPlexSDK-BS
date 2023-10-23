@@ -18,9 +18,9 @@ namespace CP_SDK::UI::DefaultComponents {
     /// @brief Default CFLayout component
     class DefaultCFLayout : public Components::CFLayout
     {
-        CP_SDK_IL2CPP_INHERIT_CUSTOM("CP_SDK.UI.DefaultComponents", DefaultCFLayout, Components::CFLayout);
-        CP_SDK_IL2CPP_DECLARE_CTOR_CHAIN(DefaultCFLayout, Components::CFLayout);
-        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHAIN(DefaultCFLayout, Components::CFLayout);
+        CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCFLayout, Components::CFLayout);
+        CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCFLayout);
+        CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(DefaultCFLayout);
 
         private:
             _v::MonoPtr<_u::RectTransform>              m_RTransform;
@@ -59,19 +59,19 @@ namespace CP_SDK::UI::DefaultComponents {
 
         public:
             /// @brief Calculate the layout input for horizontal axis
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, LayoutGroup,    void, CalculateLayoutInputHorizontal);
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, ILayoutElement, void, CalculateLayoutInputHorizontal);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, LayoutGroup,    void, CalculateLayoutInputHorizontal);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, ILayoutElement, void, CalculateLayoutInputHorizontal);
             /// @brief Calculate the layout input for vertical axis
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, LayoutGroup,    void, CalculateLayoutInputVertical);
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, ILayoutElement, void, CalculateLayoutInputVertical);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, LayoutGroup,    void, CalculateLayoutInputVertical);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, ILayoutElement, void, CalculateLayoutInputVertical);
 
         public:
             /// @brief Set layout horizontal
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, LayoutGroup,          void, SetLayoutHorizontal);
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, ILayoutController,    void, SetLayoutHorizontal);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, LayoutGroup,          void, SetLayoutHorizontal);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, ILayoutController,    void, SetLayoutHorizontal);
             /// @brief Set layout vertical
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, LayoutGroup,          void, SetLayoutVertical);
-            CP_SDK_IL2CPP_OVERRIDE_METHOD2(_u, ILayoutController,    void, SetLayoutVertical);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, LayoutGroup,          void, SetLayoutVertical);
+            CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(_u, ILayoutController,    void, SetLayoutVertical);
 
         private:
             /// @brief Get greatest minimum child width
