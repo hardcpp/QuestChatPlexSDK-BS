@@ -44,7 +44,7 @@ jobs:
         cat ${GITHUB_WORKSPACE}/ndkpath.txt
 
     - name: Setup qpm
-      uses: Fernthedev/qpm-action@0.1.3
+      uses: Fernthedev/qpm-action@0.1
       with:
         workflow_token: ${{ secrets.GITHUB_TOKEN }}
         restore: true
