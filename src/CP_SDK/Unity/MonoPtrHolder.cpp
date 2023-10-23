@@ -25,17 +25,19 @@ namespace CP_SDK::Unity {
     /// @brief Destructor
     CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_IMPL(MonoPtrHolder)
     {
-        if (m_Pointers)
-        {
-            il2cpp_functions::monitor_enter(m_Instance->m_Pointers);
-            m_Pointers->Clear();
-
-            for (auto& l_Current : m_PointersToWrapper)
-                delete l_Current.second;
-
-            m_PointersToWrapper.clear();
-            il2cpp_functions::monitor_exit(m_Instance->m_Pointers);
-        }
+        ChatPlexSDK::Logger()->Error(u"MonoPtrHolder quitting app");
+        // Nothing to do, here we are exiting the app
+        //if (m_Pointers)
+        //{
+        //    il2cpp_functions::monitor_enter(m_Instance->m_Pointers);
+        //    m_Pointers->Clear();
+        //
+        //    for (auto& l_Current : m_PointersToWrapper)
+        //        delete l_Current.second;
+        //
+        //    m_PointersToWrapper.clear();
+        //    il2cpp_functions::monitor_exit(m_Instance->m_Pointers);
+        //}
 
         WasDestroyed();
     };
