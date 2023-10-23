@@ -67,7 +67,6 @@ namespace CP_SDK::Pool {
             /// @brief Destructor
             ~ObjectPool()
             {
-                ChatPlexSDK::Logger()->Error(u"~ObjectPool");
                 Clear();
             }
 
