@@ -29,9 +29,9 @@ namespace CP_SDK::UI::DefaultComponents {
     class DefaultCPrimaryButton : public Components::CPrimaryButton
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCPrimaryButton, Components::CPrimaryButton, CP_SDK_IL2CPP_INTERFACES(
-            _u::IEventSystemHandler*,
-            _u::IPointerEnterHandler*,
-            _u::IPointerExitHandler*
+            _u::IEventSystemHandler,
+            _u::IPointerEnterHandler,
+            _u::IPointerExitHandler
         ));
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCPrimaryButton);
         CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(DefaultCPrimaryButton);

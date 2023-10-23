@@ -31,11 +31,11 @@ namespace CP_SDK::UI::DefaultComponents {
     class DefaultCSlider : public Components::CSlider
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCSlider, Components::CSlider, CP_SDK_IL2CPP_INTERFACES(
-            _u::IEventSystemHandler*,
-            _u::IBeginDragHandler*,
-            _u::IDragHandler*,
-            _u::IInitializePotentialDragHandler*,
-            _u::ICanvasElement*
+            _u::IEventSystemHandler,
+            _u::IBeginDragHandler,
+            _u::IDragHandler,
+            _u::IInitializePotentialDragHandler,
+            _u::ICanvasElement
         ));
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCSlider);
         CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(DefaultCSlider);

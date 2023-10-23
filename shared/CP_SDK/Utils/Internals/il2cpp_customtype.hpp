@@ -12,6 +12,12 @@ namespace CP_SDK::Utils::Internals {
         return sizeof...(t_Args);
     }
 
+    template<class... t_Args>
+    std::vector<Il2CppClass*> ExtractInterfacesClasses()
+    {
+        return { classof(t_Args*)... };
+    }
+
     template <typename t_Type>
     concept Concept_IsCustomType = requires(t_Type)
     {

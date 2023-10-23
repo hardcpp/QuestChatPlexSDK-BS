@@ -37,9 +37,9 @@ namespace CP_SDK::UI::Data {
     class IListCell : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Data", IListCell, _u::MonoBehaviour, CP_SDK_IL2CPP_INTERFACES(
-            _u::IEventSystemHandler*,
-            _u::IPointerEnterHandler*,
-            _u::IPointerExitHandler*
+            _u::IEventSystemHandler,
+            _u::IPointerEnterHandler,
+            _u::IPointerExitHandler
         ));
         CP_SDK_IL2CPP_DECLARE_CTOR(IListCell);
         CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR(IListCell);

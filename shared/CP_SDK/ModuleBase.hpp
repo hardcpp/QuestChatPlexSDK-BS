@@ -6,7 +6,7 @@
 #include <string>
 
 #define CP_SDK_MODULE_BASE_INSTANCE_DECL(__Type)        \
-    CP_SDK_NO_COPYMOVE_CTORS(__Type)               \
+    CP_SDK_NO_COPYMOVE_CTORS(__Type)                    \
     private:                                            \
         static __Type* m_Instance;                      \
     public:                                             \

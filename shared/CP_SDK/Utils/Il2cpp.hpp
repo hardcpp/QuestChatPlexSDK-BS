@@ -76,7 +76,7 @@ namespace CP_SDK::Utils {
 
 /// @brief Extract classes of raw il2cpp types into a vector
 #define CP_SDK_IL2CPP_INTERFACES(...) \
-     ::custom_types::ExtractClasses<__VA_ARGS__>()
+     CP_SDK::Utils::Internals::ExtractInterfacesClasses<__VA_ARGS__>()
 
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////

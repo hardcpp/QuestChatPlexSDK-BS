@@ -27,9 +27,9 @@ namespace CP_SDK::UI::DefaultComponents {
     class DefaultCIconButton : public Components::CIconButton
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCIconButton, Components::CIconButton, CP_SDK_IL2CPP_INTERFACES(
-            _u::IEventSystemHandler*,
-            _u::IPointerEnterHandler*,
-            _u::IPointerExitHandler*
+            _u::IEventSystemHandler,
+            _u::IPointerEnterHandler,
+            _u::IPointerExitHandler
         ));
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCIconButton);
         CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR_CHILD(DefaultCIconButton);
