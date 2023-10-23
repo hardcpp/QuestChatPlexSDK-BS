@@ -108,7 +108,7 @@ namespace MyModNamespace {
     /// @brief My Module
     class MyModule : public CP_SDK::ModuleBase<Multiplayer>
     {
-        CP_SDK_MODULE_BASE_INSTANCE_DECL(Multiplayer);
+        CP_SDK_MODULE_BASE_INSTANCE_DECL(MyModule);
 
         public:
             CP_SDK::EIModuleBaseType            Type()                      const override { return CP_SDK::EIModuleBaseType::External;                     }
