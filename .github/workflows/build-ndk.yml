@@ -44,12 +44,13 @@ jobs:
         cat ${GITHUB_WORKSPACE}/ndkpath.txt
 
     - name: Setup qpm
-      uses: Fernthedev/qpm-action@main
+      uses: Fernthedev/qpm-action@0.1.3
       with:
         workflow_token: ${{ secrets.GITHUB_TOKEN }}
         restore: true
         cache: true
         publish: false
+        qpm_qmod: ${{ env.qmodName }}
 
     - name: Build & Create Qmod
       run: |
@@ -62,7 +63,7 @@ jobs:
         cd ./build/
         pattern="lib${module_id}*.so"
         files=( $pattern )
-        echo ::set-output name=NAME::"${files[0]}"
+        echo "NAME=${files[0]}" >> $GITHUB_OUTPUT
 
     - name: Upload non-debug artifact
       uses: actions/upload-artifact@v2
