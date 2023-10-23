@@ -5,6 +5,7 @@
   "author": "HardCPP",
   "version": "${version}",
   "description": "${mod_id}, version ${version}!",
+  "coverImage": "cover.png",
   "dependencies": [],
   "modFiles": [],
   "libraryFiles": [],
