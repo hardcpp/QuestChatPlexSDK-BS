@@ -21,24 +21,30 @@ if ((-not ($cover -eq "./")) -and (Test-Path $cover))
     $fileList += ,$cover
 }
 
-foreach ($mod in $modJson.modFiles) {
+foreach ($mod in $modJson.modFiles)
+{
     $path = "./build/" + $mod
-    if (-not (Test-Path $path)) {
+    if (-not (Test-Path $path))
+    {
         $path = "./extern/libs/" + $mod
     }
-    if (-not (Test-Path $path)) {
+    if (-not (Test-Path $path))
+    {
         Write-Output "Error: could not find dependency: $path"
         exit 1
     }
     $filelist += $path
 }
 
-foreach ($lib in $modJson.libraryFiles) {
+foreach ($lib in $modJson.libraryFiles)
+{
     $path = "./build/" + $lib
-    if (-not (Test-Path $path)) {
+    if (-not (Test-Path $path))
+    {
         $path = "./extern/libs/" + $lib
     }
-    if (-not (Test-Path $path)) {
+    if (-not (Test-Path $path))
+    {
         Write-Output "Error: could not find dependency: $path"
         exit 1
     }

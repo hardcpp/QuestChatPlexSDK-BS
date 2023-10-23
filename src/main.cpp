@@ -214,9 +214,16 @@ extern "C" void setup(ModInfo & p_ModInfo)
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 
+static bool s_IsLoaded = false;
+
 // Called later on in the game loading - a good time to install function hooks
 extern "C" void load()
 {
+    if (s_IsLoaded)
+        return;
+
+    s_IsLoaded = true;
+
     il2cpp_functions::Init();
 
     CP_SDK::ChatPlexSDK::Logger()->Error(u"Applying Harmony patches.");

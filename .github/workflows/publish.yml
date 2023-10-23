@@ -46,7 +46,7 @@ jobs:
         tag: ${{ steps.get_tag_version.outputs.TAG }}
         qpm_release_bin: true
         qpm_debug_bin: true
-        qpm_mod: ${{ env.qmod_name }}
+        qpm_qmod: ${{ env.qmodName }}
 
     - name: Build & Create Qmod
       run: |
@@ -57,8 +57,7 @@ jobs:
       uses: octokit/request-action@v2.x
       id: get_release
       with:
-          route: GET /repos/:repository/releases/tags/${{ steps.get_tag_version.outputs.TAG }}
-          repository: ${{ github.repository }}
+          route: GET /repos/${{ github.repository }}/releases/tags/${{ steps.get_tag_version.outputs.TAG }}
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
