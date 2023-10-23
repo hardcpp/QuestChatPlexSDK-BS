@@ -27,40 +27,37 @@
     void Unserialize(CP_SDK::Utils::Json::U16Value& p_Document)                                             \
     { __Unserialize                                                                             }
 
+#define CP_SDK_JSON_SERIALIZE_BOOL(__Var)           CP_SDK::Utils::Json::SerializeBool         (p_Document, p_Allocator, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_SERIALIZE_COLOR32(__Var)        CP_SDK::Utils::Json::SerializeColor32      (p_Document, p_Allocator, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_SERIALIZE_COLOR(__Var)          CP_SDK::Utils::Json::SerializeColor        (p_Document, p_Allocator, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_SERIALIZE_FLOAT(__Var)          CP_SDK::Utils::Json::SerializeFloat        (p_Document, p_Allocator, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_SERIALIZE_INT32(__Var)          CP_SDK::Utils::Json::SerializeInt32        (p_Document, p_Allocator, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_SERIALIZE_INT64(__Var)          CP_SDK::Utils::Json::SerializeInt64        (p_Document, p_Allocator, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_SERIALIZE_QUATERNION(__Var)     CP_SDK::Utils::Json::SerializeQuaternion   (p_Document, p_Allocator, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_SERIALIZE_STRING(__Var)         CP_SDK::Utils::Json::SerializeString       (p_Document, p_Allocator, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_SERIALIZE_UINT32(__Var)         CP_SDK::Utils::Json::SerializeUInt32       (p_Document, p_Allocator, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_SERIALIZE_UINT64(__Var)         CP_SDK::Utils::Json::SerializeUInt64       (p_Document, p_Allocator, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_SERIALIZE_VECTOR2(__Var)        CP_SDK::Utils::Json::SerializeVector2      (p_Document, p_Allocator, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_SERIALIZE_VECTOR3(__Var)        CP_SDK::Utils::Json::SerializeVector3      (p_Document, p_Allocator, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_SERIALIZE_ENUM(__Var, __EnumT)  CP_SDK::Utils::Json::SerializeEnum<__EnumT>(p_Document, p_Allocator, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_SERIALIZE_OBJECT(__Var)         CP_SDK::Utils::Json::SerializeObject       (p_Document, p_Allocator, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_SERIALIZE_OBJECT_ARRAY(__Var)   CP_SDK::Utils::Json::SerializeObjectArray  (p_Document, p_Allocator, __Var, CP_SDK_U16STR(__Var))
 
-#define __CP_SDK_JSON_VAR_NAME(__Var) u##__Var
-
-#define CP_SDK_JSON_SERIALIZE_BOOL(__Var)           CP_SDK::Utils::Json::SerializeBool         (p_Document, p_Allocator, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_SERIALIZE_COLOR32(__Var)        CP_SDK::Utils::Json::SerializeColor32      (p_Document, p_Allocator, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_SERIALIZE_COLOR(__Var)          CP_SDK::Utils::Json::SerializeColor        (p_Document, p_Allocator, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_SERIALIZE_FLOAT(__Var)          CP_SDK::Utils::Json::SerializeFloat        (p_Document, p_Allocator, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_SERIALIZE_INT32(__Var)          CP_SDK::Utils::Json::SerializeInt32        (p_Document, p_Allocator, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_SERIALIZE_INT64(__Var)          CP_SDK::Utils::Json::SerializeInt64        (p_Document, p_Allocator, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_SERIALIZE_QUATERNION(__Var)     CP_SDK::Utils::Json::SerializeQuaternion   (p_Document, p_Allocator, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_SERIALIZE_STRING(__Var)         CP_SDK::Utils::Json::SerializeString       (p_Document, p_Allocator, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_SERIALIZE_UINT32(__Var)         CP_SDK::Utils::Json::SerializeUInt32       (p_Document, p_Allocator, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_SERIALIZE_UINT64(__Var)         CP_SDK::Utils::Json::SerializeUInt64       (p_Document, p_Allocator, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_SERIALIZE_VECTOR2(__Var)        CP_SDK::Utils::Json::SerializeVector2      (p_Document, p_Allocator, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_SERIALIZE_VECTOR3(__Var)        CP_SDK::Utils::Json::SerializeVector3      (p_Document, p_Allocator, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_SERIALIZE_ENUM(__Var, __EnumT)  CP_SDK::Utils::Json::SerializeEnum<__EnumT>(p_Document, p_Allocator, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_SERIALIZE_OBJECT(__Var)         CP_SDK::Utils::Json::SerializeObject       (p_Document, p_Allocator, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_SERIALIZE_OBJECT_ARRAY(__Var)   CP_SDK::Utils::Json::SerializeObjectArray  (p_Document, p_Allocator, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-
-#define CP_SDK_JSON_UNSERIALIZE_BOOL(__Var)                 CP_SDK::Utils::Json::UnserializeBool         (p_Document, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_UNSERIALIZE_COLOR32(__Var)              CP_SDK::Utils::Json::UnserializeColor32      (p_Document, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_UNSERIALIZE_COLOR(__Var)                CP_SDK::Utils::Json::UnserializeColor        (p_Document, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_UNSERIALIZE_FLOAT(__Var)                CP_SDK::Utils::Json::UnserializeFloat        (p_Document, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_UNSERIALIZE_INT32(__Var)                CP_SDK::Utils::Json::UnserializeInt32        (p_Document, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_UNSERIALIZE_INT64(__Var)                CP_SDK::Utils::Json::UnserializeInt64        (p_Document, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_UNSERIALIZE_QUATERNION(__Var)           CP_SDK::Utils::Json::UnserializeQuaternion   (p_Document, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_UNSERIALIZE_STRING(__Var)               CP_SDK::Utils::Json::UnserializeString       (p_Document, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_UNSERIALIZE_UINT32(__Var)               CP_SDK::Utils::Json::UnserializeUInt32       (p_Document, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_UNSERIALIZE_UINT64(__Var)               CP_SDK::Utils::Json::UnserializeUInt64       (p_Document, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_UNSERIALIZE_VECTOR2(__Var)              CP_SDK::Utils::Json::UnserializeVector2      (p_Document, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_UNSERIALIZE_VECTOR3(__Var)              CP_SDK::Utils::Json::UnserializeVector3      (p_Document, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_UNSERIALIZE_ENUM(__Var, __EnumT, __Def) CP_SDK::Utils::Json::UnserializeEnum<__EnumT>(p_Document, __Var, __CP_SDK_JSON_VAR_NAME(#__Var), __Def)
-#define CP_SDK_JSON_UNSERIALIZE_OBJECT(__Var)               CP_SDK::Utils::Json::UnserializeObject       (p_Document, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
-#define CP_SDK_JSON_UNSERIALIZE_OBJECT_ARRAY(__Var)         CP_SDK::Utils::Json::UnserializeObjectArray  (p_Document, __Var, __CP_SDK_JSON_VAR_NAME(#__Var))
+#define CP_SDK_JSON_UNSERIALIZE_BOOL(__Var)                 CP_SDK::Utils::Json::UnserializeBool         (p_Document, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_UNSERIALIZE_COLOR32(__Var)              CP_SDK::Utils::Json::UnserializeColor32      (p_Document, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_UNSERIALIZE_COLOR(__Var)                CP_SDK::Utils::Json::UnserializeColor        (p_Document, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_UNSERIALIZE_FLOAT(__Var)                CP_SDK::Utils::Json::UnserializeFloat        (p_Document, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_UNSERIALIZE_INT32(__Var)                CP_SDK::Utils::Json::UnserializeInt32        (p_Document, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_UNSERIALIZE_INT64(__Var)                CP_SDK::Utils::Json::UnserializeInt64        (p_Document, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_UNSERIALIZE_QUATERNION(__Var)           CP_SDK::Utils::Json::UnserializeQuaternion   (p_Document, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_UNSERIALIZE_STRING(__Var)               CP_SDK::Utils::Json::UnserializeString       (p_Document, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_UNSERIALIZE_UINT32(__Var)               CP_SDK::Utils::Json::UnserializeUInt32       (p_Document, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_UNSERIALIZE_UINT64(__Var)               CP_SDK::Utils::Json::UnserializeUInt64       (p_Document, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_UNSERIALIZE_VECTOR2(__Var)              CP_SDK::Utils::Json::UnserializeVector2      (p_Document, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_UNSERIALIZE_VECTOR3(__Var)              CP_SDK::Utils::Json::UnserializeVector3      (p_Document, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_UNSERIALIZE_ENUM(__Var, __EnumT, __Def) CP_SDK::Utils::Json::UnserializeEnum<__EnumT>(p_Document, __Var, CP_SDK_U16STR(__Var), __Def)
+#define CP_SDK_JSON_UNSERIALIZE_OBJECT(__Var)               CP_SDK::Utils::Json::UnserializeObject       (p_Document, __Var, CP_SDK_U16STR(__Var))
+#define CP_SDK_JSON_UNSERIALIZE_OBJECT_ARRAY(__Var)         CP_SDK::Utils::Json::UnserializeObjectArray  (p_Document, __Var, CP_SDK_U16STR(__Var))
 
 #define CP_SDK_JSON_ENSURE_TYPE(__Check)  if (!p_Document[p_Name]. __Check ()) throw std::runtime_error("_Unserialize<T>: Field " + U16StrToStr(p_Name) + " doesn't exist or is of the wrong type")
 
@@ -69,7 +66,7 @@ namespace CP_SDK::Utils {
     /// @brief Json utils
     class Json
     {
-        DISABLE_CONSTRUCTORS(Json);
+        CP_SDK_NO_DEF_CTORS(Json);
 
         public:
             using UTF8                      = rapidjson::UTF8<char>;
