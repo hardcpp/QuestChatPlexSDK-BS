@@ -4,7 +4,7 @@
   "info": {
     "name": "ChatPlexSDK-BS",
     "id": "chatplex-sdk-bs",
-    "version": "1.0.0-v6.2.0",
+    "version": "1.0.1-v6.2.0",
     "url": "https://github.com/hardcpp/QuestChatPlexSDK-BS",
     "additionalData": {
       "overrideSoName": "libchatplex-sdk-bs.so",
@@ -78,6 +78,10 @@
         "pwsh ./build.ps1 -clean"
       ],
       "qmod": [
+        "pwsh ./build.ps1 -clean",
+        "pwsh ./createqmod.ps1 -clean"
+      ],
+      "qmod_backup": [
         "pwsh ./build.ps1 -clean",
         "qpm qmod build",
         "pwsh ./createqmod.ps1 -clean"
