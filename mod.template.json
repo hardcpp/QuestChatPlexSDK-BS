@@ -4,7 +4,7 @@
   "id": "${mod_id}",
   "author": "HardCPP",
   "version": "${version}",
-  "description": "${mod_id}, version ${version}!",
+  "description": "ChatPlex BeatSaber modding SDK (Dependence for other mods)",
   "coverImage": "cover.png",
   "dependencies": [],
   "modFiles": [],

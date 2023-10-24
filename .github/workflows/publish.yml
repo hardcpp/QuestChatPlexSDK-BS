@@ -46,7 +46,7 @@ jobs:
         tag: ${{ steps.get_tag_version.outputs.TAG }}
         qpm_release_bin: true
         qpm_debug_bin: true
-        qpm_qmod: ${{ env.qmodName }}
+        qpm_qmod: ${{ env.qmodName }}.qmod
 
     - name: Build & Create Qmod
       run: |

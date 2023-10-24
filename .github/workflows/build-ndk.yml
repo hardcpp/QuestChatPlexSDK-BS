@@ -50,7 +50,7 @@ jobs:
         restore: true
         cache: true
         publish: false
-        qpm_qmod: ${{ env.qmodName }}
+        qpm_qmod: ${{ env.qmodName }}.qmod
 
     - name: Build & Create Qmod
       run: |
