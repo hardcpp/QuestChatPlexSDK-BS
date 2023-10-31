@@ -4,7 +4,7 @@
   "info": {
     "name": "ChatPlexSDK-BS",
     "id": "chatplex-sdk-bs",
-    "version": "1.0.2-v6.2.0",
+    "version": "1.0.3-v6.2.0",
     "url": "https://github.com/hardcpp/QuestChatPlexSDK-BS",
     "additionalData": {
       "overrideSoName": "libchatplex-sdk-bs.so",
