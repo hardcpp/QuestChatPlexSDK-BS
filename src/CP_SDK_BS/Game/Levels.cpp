@@ -675,8 +675,7 @@ namespace CP_SDK_BS::Game {
                 if (!System::String::IsNullOrEmpty(l_CoverImageFilename))
                 {
                     _v::MonoPtr<CustomPreviewBeatmapLevel, true> l_CustomPreviewBeatmapLevelSafe(l_CustomPreviewBeatmapLevel);
-                    auto l_Path          = StringW(System::IO::Path::Combine(l_CustomPreviewBeatmapLevel->customLevelPath, l_CoverImageFilename)).operator std::__ndk1::u16string();
-                    auto l_TaskRunned    = false;
+                    auto l_Path = StringW(System::IO::Path::Combine(l_CustomPreviewBeatmapLevel->customLevelPath, l_CoverImageFilename)).operator std::__ndk1::u16string();
 
                     CP_SDK::Unity::MTThreadInvoker::EnqueueOnThread([=]()
                     {
