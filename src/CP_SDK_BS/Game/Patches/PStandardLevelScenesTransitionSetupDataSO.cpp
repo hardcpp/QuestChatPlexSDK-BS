@@ -31,12 +31,13 @@ namespace CP_SDK_BS::Game::Patches {
         void, StandardLevelScenesTransitionSetupDataSO* __Instance,
 
         StringW      __a, IDifficultyBeatmap* __b, IPreviewBeatmapLevel*   __c, OverrideEnvironmentSettings* __d,
-        ColorScheme* __e, GameplayModifiers*  __f, PlayerSpecificSettings* __g, PracticeSettings*            __h,
-        StringW      __i, bool                __j, bool                    __k, BeatmapDataCache*            __l)
+        ColorScheme* __e, ColorScheme*        __f, GameplayModifiers*      __g, PlayerSpecificSettings*      __h,
+   PracticeSettings* __i, StringW             __j, bool                    __k, bool                         __l,
+   BeatmapDataCache* __m, System::Nullable_1<__RecordingToolManager__SetupData> __n)
     {
         //CP_SDK::ChatPlexSDK::Logger()->Error(u"Enter StandardLevelScenesTransitionSetupDataSO_Init");
         Scoring::__SetScoreSaberIsInReplay(__a == u"Replay");
-        StandardLevelScenesTransitionSetupDataSO_Init(__Instance, __a, __b, __c, __d, __e, __f, __g, __h, __i, __j, __k, __l);
+        StandardLevelScenesTransitionSetupDataSO_Init(__Instance, __a, __b, __c, __d, __e, __f, __g, __h, __i, __j, __k, __l, __m, __n);
 
         try
         {

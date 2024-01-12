@@ -35,8 +35,8 @@ namespace CP_SDK::UI::Data {
                     return m_Prefab.Ptr();
 
                 m_Prefab = _u::GameObject::New_ctor(std::string(classof(t_ListCellType*)->name) + "ListCellPrefab", ArrayW<_u::Type*>({
-                    reinterpret_cast<_u::Type*>(csTypeOf(_u::RectTransform*)),
-                    reinterpret_cast<_u::Type*>(csTypeOf(t_ListCellType*))
+                    reinterpret_cast<_u::Type*>(csTypeOf(_u::RectTransform*).convert()),
+                    reinterpret_cast<_u::Type*>(csTypeOf(t_ListCellType*).convert())
                 }))->GetComponent<t_ListCellType*>();
 
                 _u::GameObject::DontDestroyOnLoad(m_Prefab->get_gameObject());

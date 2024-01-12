@@ -5,6 +5,10 @@
 #include "../Components/Generics/CPOrSButton.hpp"
 #include "../../Utils/Event.hpp"
 
+#include <UnityEngine/EventSystems/IPointerDownHandler.hpp>
+#include <UnityEngine/EventSystems/IPointerUpHandler.hpp>
+#include <UnityEngine/EventSystems/IPointerEnterHandler.hpp>
+#include <UnityEngine/EventSystems/IPointerExitHandler.hpp>
 #include <UnityEngine/EventSystems/IBeginDragHandler.hpp>
 #include <UnityEngine/EventSystems/IDragHandler.hpp>
 #include <UnityEngine/EventSystems/IEventSystemHandler.hpp>
@@ -12,7 +16,7 @@
 #include <UnityEngine/EventSystems/PointerEventData.hpp>
 #include <UnityEngine/UI/CanvasUpdate.hpp>
 #include <UnityEngine/UI/ICanvasElement.hpp>
-#include <UnityEngine/UI/Selectable_SelectionState.hpp>
+#include <UnityEngine/UI/Selectable.hpp>
 
 namespace CP_SDK::UI::DefaultComponents {
 

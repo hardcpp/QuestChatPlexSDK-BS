@@ -3,6 +3,8 @@
 #include "CP_SDK/UI/UISystem.hpp"
 #include "CP_SDK/Unity/Extensions/ColorU.hpp"
 
+#include <UnityEngine/Quaternion.hpp>
+
 using namespace CP_SDK::Unity::Extensions;
 using namespace UnityEngine;
 using namespace UnityEngine::UI;

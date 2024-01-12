@@ -175,7 +175,7 @@ namespace CP_SDK_BS::UI {
     _v::IModal* ViewController::CreateModal_Impl(System::Type* p_Type)
     {
         auto l_GameObject = GameObject::New_ctor(p_Type->get_Name(), ArrayW<System::Type*>({
-            reinterpret_cast<System::Type*>(csTypeOf(RectTransform*)),
+            reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()),
             p_Type,
             _v::UISystem::Override_UnityComponent_Image.ptr()
         }));

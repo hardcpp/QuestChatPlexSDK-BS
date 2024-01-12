@@ -225,7 +225,7 @@ namespace CP_SDK_BS::Game {
             p_Token,
             [=](_v::CMonoPtrRef<::Array<uint8_t>> p_Result) -> void
             {
-                if (!p_Result || (p_Token.m_source && p_Token.m_source->get_IsCancellationRequested()))
+                if (!p_Result || (p_Token._source && p_Token._source->get_IsCancellationRequested()))
                 {
                     p_Callback(false, _default);
                     return;
@@ -237,7 +237,7 @@ namespace CP_SDK_BS::Game {
 
                     CP_SDK::ChatPlexSDK::Logger()->Info(u"[CP_SDK_BS.Game][BeatMapsClient] Downloaded zip!");
 
-                    if (p_Token.m_source && p_Token.m_source->get_IsCancellationRequested())
+                    if (p_Token._source && p_Token._source->get_IsCancellationRequested())
                     {
                         p_Callback(false, _default);
                         return;
@@ -276,7 +276,7 @@ namespace CP_SDK_BS::Game {
 
             /// Prepare base path
             auto l_BasePath     = p_Song->id + u" (" + p_Song->metadata.value().songName + u" - " + p_Song->metadata.value().levelAuthorName + u")";
-            auto l_InvalidChars = Path::GetInvalidFileNameChars();
+            auto l_InvalidChars = Path::GetInvalidPathChars();
 
             for (auto l_I = 0; l_I < l_BasePath.length(); ++l_I)
             {

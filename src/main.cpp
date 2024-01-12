@@ -25,7 +25,7 @@
 #include <UnityEngine/Resources.hpp>
 #include <VRUIControls/VRGraphicRaycaster.hpp>
 
-static ModInfo s_ModInfo;
+static modloader::ModInfo s_ModInfo{"ChatPlexSDK-BS", VERSION, GIT_COMMIT};
 
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
@@ -88,8 +88,8 @@ void PatchUI()
 
     CP_SDK::UI::UISystem::UILayer = UnityEngine::LayerMask::NameToLayer("UI");
 
-    CP_SDK::UI::UISystem::Override_UnityComponent_Image            = csTypeOf(HMUI::ImageView*);
-    CP_SDK::UI::UISystem::Override_UnityComponent_TextMeshProUGUI  = csTypeOf(HMUI::CurvedTextMeshPro*);
+    CP_SDK::UI::UISystem::Override_UnityComponent_Image            = reinterpret_cast<System::Type*>(csTypeOf(HMUI::ImageView*).convert());
+    CP_SDK::UI::UISystem::Override_UnityComponent_TextMeshProUGUI  = reinterpret_cast<System::Type*>(csTypeOf(HMUI::CurvedTextMeshPro*).convert());
 
     CP_SDK::UI::UISystem::Override_GetUIMaterial = []()
     {
@@ -110,10 +110,10 @@ void PatchUI()
             return;
 
         if (!m_VRGraphicRaycasterCache)
-            m_VRGraphicRaycasterCache = UnityEngine::Resources::FindObjectsOfTypeAll<VRUIControls::VRGraphicRaycaster*>().FirstOrDefault([](auto y) { return y->physicsRaycaster != nullptr; });
+            m_VRGraphicRaycasterCache = UnityEngine::Resources::FindObjectsOfTypeAll<VRUIControls::VRGraphicRaycaster*>().FirstOrDefault([](auto y) { return y->_physicsRaycaster != nullptr; });
 
         if (m_VRGraphicRaycasterCache)
-            x->get_gameObject()->AddComponent<VRUIControls::VRGraphicRaycaster*>()->physicsRaycaster = m_VRGraphicRaycasterCache->physicsRaycaster;
+            x->get_gameObject()->AddComponent<VRUIControls::VRGraphicRaycaster*>()->_physicsRaycaster = m_VRGraphicRaycasterCache->_physicsRaycaster;
     };
 
     ////////////////////////////////////////////////////////////////////////////
@@ -178,14 +178,13 @@ void OnEnable()
 ////////////////////////////////////////////////////////////////////////////
 
 // Called at the early stages of game loading
-extern "C" void setup(ModInfo & p_ModInfo)
+extern "C" void setup(CModInfo* p_ModInfo)
 {
-    p_ModInfo.id        = "ChatPlexSDK-BS";
-    p_ModInfo.version   = VERSION;
+    p_ModInfo->id = s_ModInfo.id.c_str();
+    p_ModInfo->version = s_ModInfo.version.c_str();
+    p_ModInfo->version_long = s_ModInfo.versionLong;
 
-    s_ModInfo = p_ModInfo;
-
-    auto l_Logger = new CP_SDK::Logging::BMBFLogger(new Logger(p_ModInfo, LoggerOptions(false, true)));
+    auto l_Logger = new CP_SDK::Logging::BMBFLogger(new Logger(s_ModInfo, LoggerOptions(false, true)));
 
     CP_SDK::ChatPlexSDK::Configure(
         l_Logger,
@@ -217,7 +216,7 @@ extern "C" void setup(ModInfo & p_ModInfo)
 static bool s_IsLoaded = false;
 
 // Called later on in the game loading - a good time to install function hooks
-extern "C" void load()
+extern "C" void late_load()
 {
     if (s_IsLoaded)
         return;

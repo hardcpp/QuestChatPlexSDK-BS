@@ -62,7 +62,7 @@ namespace CP_SDK::Unity {
                 for (auto l_I = 0; l_I < (l_Width * l_Height); ++l_I)
                 {
                     auto l_SrcPixel = &l_STBIBuffer[l_I * 4];
-                    l_Pixels->values[l_I] = Extensions::ColorU::Convert(Color32(l_SrcPixel[0], l_SrcPixel[1], l_SrcPixel[2], l_SrcPixel[3]));
+                    l_Pixels->values[l_I] = Extensions::ColorU::Convert(Color32(0, l_SrcPixel[0], l_SrcPixel[1], l_SrcPixel[2], l_SrcPixel[3]));
                 }
 
                 stbi_image_free(l_STBIBuffer);

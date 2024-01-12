@@ -2,6 +2,8 @@
 
 #include "../Components/CFLayout.hpp"
 #include "../../Utils/Event.hpp"
+#include <UnityEngine/UI/ILayoutElement.hpp>
+#include <UnityEngine/UI/ILayoutController.hpp>
 
 namespace CP_SDK::UI::DefaultComponents {
 

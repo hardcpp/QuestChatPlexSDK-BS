@@ -143,7 +143,7 @@ namespace CP_SDK::UI::DefaultComponents {
                         SetNormalizedValue(GetSteppedNormalizedValue() + ((m_NumberOfSteps > 0) ? (1.0f / (float)m_NumberOfSteps) : 0.1f));
                     });
 
-        m_SlidingArea = GameObject::New_ctor("SlidingArea", ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*)) }))->GetComponent<RectTransform*>();
+        m_SlidingArea = GameObject::New_ctor("SlidingArea", ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()) }))->GetComponent<RectTransform*>();
         m_SlidingArea->get_gameObject()->set_layer(UISystem::UILayer);
         m_SlidingArea->SetParent(get_transform(), false);
         m_SlidingArea->set_pivot           (Vector2(  0.5f,  0.5f));
@@ -161,7 +161,7 @@ namespace CP_SDK::UI::DefaultComponents {
         m_Handle->get_rectTransform()->set_anchoredPosition(Vector2(0.0f,  0.0f));
         m_Handle->get_rectTransform()->set_sizeDelta       (Vector2(1.5f, -1.0f));
         m_Handle->set_material               (UISystem::Override_GetUIMaterial());
-        m_Handle->set_color                  (ColorU::Convert(Color32(255, 255, 255, 210)));
+        m_Handle->set_color                  (ColorU::Convert(Color32(0, 255, 255, 255, 210)));
         m_Handle->set_type                   (Image::Type::Simple);
         m_Handle->set_pixelsPerUnitMultiplier(15);
         m_Handle->set_sprite                 (UISystem::GetUISliderHandleSprite().Ptr());
@@ -435,7 +435,7 @@ namespace CP_SDK::UI::DefaultComponents {
         auto l_HandleRect            = l_HandleRectTransform->get_rect();
         auto l_SlidingRect           = m_SlidingArea->get_rect();
 
-        auto l_Point = l_LocalPoint - l_SlidingRect.get_position() - Vector2(l_HandleRect.m_Width * 0.5f, 0.0f) - (l_HandleRect.get_size() - l_HandleRectTransform->get_sizeDelta()) * 0.5f;
+        auto l_Point = Vector2::op_Multiply(Vector2::op_Subtraction(Vector2::op_Subtraction(Vector2::op_Subtraction(l_LocalPoint, l_SlidingRect.get_position()), Vector2(l_HandleRect.m_Width * 0.5f, 0.0f)), Vector2::op_Subtraction(l_HandleRect.get_size(), l_HandleRectTransform->get_sizeDelta())), 0.5f);
         auto l_Value = l_SlidingRect.m_Width * (1.0f - m_HandleSize / l_SlidingRect.m_Width);
 
         m_DragTargetValue = (l_Point.x / l_Value);

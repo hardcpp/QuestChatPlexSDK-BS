@@ -8,9 +8,9 @@
 #include "assets.hpp"
 
 #include <custom-types/shared/delegate.hpp>
-#include <modloader/shared/modloader.hpp>
 #include <songloader/shared/API.hpp>
 
+#include <GlobalNamespace/RecordingToolManager.hpp>
 #include <GlobalNamespace/BeatmapLevelSO.hpp>
 #include <GlobalNamespace/BeatmapLevelDataExtensions.hpp>
 #include <GlobalNamespace/CustomLevelLoader.hpp>
@@ -32,6 +32,10 @@
 #include <System/Math.hpp>
 #include <System/IO/File.hpp>
 #include <System/IO/Path.hpp>
+#include <System/Nullable_1.hpp>
+#include <System/Type.hpp>
+#include <System/Collections/IEnumerable.hpp>
+#include <System/Collections/Generic/IReadOnlyCollection_1.hpp>
 #include <UnityEngine/Resources.hpp>
 
 using namespace GlobalNamespace;
@@ -46,7 +50,7 @@ namespace CP_SDK_BS::Game {
     std::mutex                                     Levels::m_ReloadSongsCallbacksMutex;
 
     _v::MonoPtr<AdditionalContentModel>            Levels::m_AdditionalContentModel;
-    _v::MonoPtr<BeatmapCharacteristicCollectionSO> Levels::m_BeatmapCharacteristicCollectionSO;
+    _v::MonoPtr<BeatmapCharacteristicCollection>   Levels::m_BeatmapCharacteristicCollection;
     _v::MonoPtr<BeatmapLevelsModel>                Levels::m_BeatmapLevelsModel;
     _v::MonoPtr<CancellationTokenSource>           Levels::m_GetLevelCancellationTokenSource;
     _v::MonoPtr<CancellationTokenSource>           Levels::m_GetLevelEntitlementStatusTokenSource;
@@ -101,20 +105,26 @@ namespace CP_SDK_BS::Game {
             });
         });
     }
+
+    bool HasMod(std::string id) {
+        auto mods = modloader::get_all();
+        return std::ranges::find_if(mods, [id](const modloader::ModResult& val) { return val.info.id == id; }) != mods.end();
+    }
+
     /// @brief Check for mapping capability
     /// @param p_Capability Capability name
     /// @return True or false
     bool Levels::HasMappingCapability(std::u16string_view p_Capability)
     {
         if (p_Capability.size() >= 18 && CP_SDK::Utils::U16EqualsToCaseInsensitive(p_Capability.substr(0, 18), u"Mapping Extensions"))
-            return Modloader::getMods().contains("MappingExtensions");
+            return HasMod("MappingExtensions");
 
         if (CP_SDK::Utils::U16EqualsToCaseInsensitive(p_Capability, u"Chroma Lighting Events"))
-            return Modloader::getMods().contains("Chroma");
+            return HasMod("Chroma");
 
         if (CP_SDK::Utils::U16EqualsToCaseInsensitive(p_Capability, u"Chroma"))
         {
-            if (!Modloader::getMods().contains("Chroma"))
+            if (!HasMod("Chroma"))
                 return false;
 
             auto l_Env = getenv("DisableChromaReq");
@@ -122,7 +132,7 @@ namespace CP_SDK_BS::Game {
         }
 
         if (CP_SDK::Utils::U16EqualsToCaseInsensitive(p_Capability, u"Noodle Extensions"))
-            return Modloader::getMods().contains("NoodleExtensions");
+            return HasMod("NoodleExtensions");
 
         CP_SDK::ChatPlexSDK::Logger()->Error(u"[CP_SDK_BS.Game][Levels.HasMappingCapability] NOT YET IMPLEMENTED RETURNING FALSE");
         return false;
@@ -139,20 +149,20 @@ namespace CP_SDK_BS::Game {
     {
         if (p_BeatmapCharacteristicSO) *p_BeatmapCharacteristicSO = nullptr;
 
-        if (!m_BeatmapCharacteristicCollectionSO)
+        if (!m_BeatmapCharacteristicCollection)
         {
-            auto l_CustomLevelLoader = Resources::FindObjectsOfTypeAll<CustomLevelLoader*>().FirstOrDefault();
-            if (l_CustomLevelLoader)
-                m_BeatmapCharacteristicCollectionSO = l_CustomLevelLoader->beatmapCharacteristicCollection;
+            auto l_PlayerDataModel = Resources::FindObjectsOfTypeAll<PlayerDataModel*>().FirstOrDefault();
+            if (l_PlayerDataModel)
+                m_BeatmapCharacteristicCollection = l_PlayerDataModel->_beatmapCharacteristicCollection;
         }
 
-        if (!m_BeatmapCharacteristicCollectionSO)
+        if (!m_BeatmapCharacteristicCollection)
         {
             CP_SDK::ChatPlexSDK::Logger()->Error(u"[CP_SDK_BS.Game][Levels.TryGetBeatmapCharacteristicSOBySerializedName] Invalid BeatmapCharacteristicCollectionSO");
             return false;
         }
 
-        auto l_Result = m_BeatmapCharacteristicCollectionSO->GetBeatmapCharacteristicBySerializedName(SanitizeBeatmapCharacteristicSOSerializedName(p_SerializedName));
+        auto l_Result = m_BeatmapCharacteristicCollection->GetBeatmapCharacteristicBySerializedName(SanitizeBeatmapCharacteristicSOSerializedName(p_SerializedName));
         if (l_Result && p_BeatmapCharacteristicSO)
             *p_BeatmapCharacteristicSO = l_Result;
 
@@ -198,7 +208,7 @@ namespace CP_SDK_BS::Game {
         auto l_CharacteristicSO  = (BeatmapCharacteristicSO*)nullptr;
 
         if (TryGetBeatmapCharacteristicSOBySerializedName(p_SerializedName, &l_CharacteristicSO))
-            return l_CharacteristicSO->sortingOrder;
+            return l_CharacteristicSO->____sortingOrder;
 
         return 1000;
     }
@@ -351,7 +361,7 @@ namespace CP_SDK_BS::Game {
         try
         {
             CP_SDK::ChatPlexSDK::Logger()->Info(u"[CP_SDK_BS.Game][Level.PreviewDifficultyBeatmapSets_ForEach] Trying method 1");
-            auto l_Count = l_List->i_IReadOnlyCollection_1_T()->get_Count();
+            auto l_Count = l_List->i___System__Collections__Generic__IReadOnlyCollection_1_T_()->get_Count();
             for (auto l_I = 0; l_I < l_Count; ++l_I)
             {
                 if (!p_Functor(l_List->get_Item(l_I)))
@@ -363,7 +373,7 @@ namespace CP_SDK_BS::Game {
             CP_SDK::ChatPlexSDK::Logger()->Info(u"[CP_SDK_BS.Game][Level.PreviewDifficultyBeatmapSets_ForEach] Trying method 2");
             try
             {
-                auto l_Enumerator   = l_List->i_IReadOnlyCollection_1_T()->i_IEnumerable_1_T()->GetEnumerator()->i_IEnumerator();
+                auto l_Enumerator   = l_List->i___System__Collections__Generic__IReadOnlyCollection_1_T_()->i___System__Collections__IEnumerable()->GetEnumerator();
                 while (l_Enumerator->MoveNext())
                 {
                     if (!p_Functor((PreviewDifficultyBeatmapSet*)l_Enumerator->get_Current()))
@@ -456,10 +466,10 @@ namespace CP_SDK_BS::Game {
                 auto l_Task = m_AdditionalContentModel->GetLevelEntitlementStatusAsync(p_LevelID, m_GetLevelEntitlementStatusTokenSource->get_Token());
                 l_Task->ConfigureAwait(false);
 
-                _v::AwaitTaskAsync<AdditionalContentModel::EntitlementStatus>(
+                _v::AwaitTaskAsync<EntitlementStatus>(
                     l_Task,
-                    [=](_v::MonoPtrRef<Tasks::Task_1<AdditionalContentModel::EntitlementStatus>> p_Task, bool p_Success) {
-                        p_Callback(p_Success && p_Task->get_Result() == AdditionalContentModel::EntitlementStatus::Owned);
+                    [=](_v::MonoPtrRef<Tasks::Task_1<EntitlementStatus>> p_Task, bool p_Success) {
+                        p_Callback(p_Success && p_Task->get_Result() == EntitlementStatus::Owned);
                     }
                 );
 
@@ -490,7 +500,7 @@ namespace CP_SDK_BS::Game {
             auto l_Custom = RuntimeSongLoader::API::GetLevelById(_v::U16StrToStr(l_LevelID));
             if (l_Custom.has_value())
             {
-                if (p_PreviewBeatmapLevel) *p_PreviewBeatmapLevel = l_Custom.value()->i_IPreviewBeatmapLevel();
+                if (p_PreviewBeatmapLevel) *p_PreviewBeatmapLevel = l_Custom.value()->i___GlobalNamespace__IPreviewBeatmapLevel();
                 return true;
             }
         }
@@ -535,7 +545,7 @@ namespace CP_SDK_BS::Game {
 
         auto l_CustomLevel = (CustomPreviewBeatmapLevel*)nullptr;
         if (auto l_Filter = il2cpp_utils::try_cast<FilteredBeatmapLevel>(p_PreviewBeatmapLevel))
-            l_CustomLevel = il2cpp_utils::try_cast<CustomPreviewBeatmapLevel>(l_Filter.value()->beatmapLevel).value_or(nullptr);
+            l_CustomLevel = il2cpp_utils::try_cast<CustomPreviewBeatmapLevel>(l_Filter.value()->_beatmapLevel).value_or(nullptr);
         else
             l_CustomLevel = il2cpp_utils::try_cast<CustomPreviewBeatmapLevel>(p_PreviewBeatmapLevel).value_or(nullptr);
 
@@ -626,7 +636,7 @@ namespace CP_SDK_BS::Game {
             }
 
             auto l_LevelType = l_Level.value()->GetType();
-            if (csTypeOf(CustomPreviewBeatmapLevel*)->IsAssignableFrom(l_LevelType))
+            if (reinterpret_cast<System::Type*>(csTypeOf(CustomPreviewBeatmapLevel*).convert())->IsAssignableFrom(l_LevelType))
             {
                 GetBeatmapLevelFromLevelID(l_Level.value()->levelID, [=](_v::MonoPtr<IBeatmapLevel, true> p_Result) {
                     if (p_Result)
@@ -669,7 +679,7 @@ namespace CP_SDK_BS::Game {
         auto l_CustomPreviewBeatmapLevel = il2cpp_utils::try_cast<CustomPreviewBeatmapLevel>(p_PreviewBeatmapLevel).value_or(nullptr);
         if (l_CustomPreviewBeatmapLevel)
         {
-            if (!l_CustomPreviewBeatmapLevel->coverImage)
+            if (!l_CustomPreviewBeatmapLevel->_coverImage)
             {
                 auto l_CoverImageFilename = l_CustomPreviewBeatmapLevel->standardLevelInfoSaveData->coverImageFilename;
                 if (!System::String::IsNullOrEmpty(l_CoverImageFilename))
@@ -684,26 +694,26 @@ namespace CP_SDK_BS::Game {
                             auto l_Bytes = System::IO::File::ReadAllBytes(l_Path);
                             CP_SDK::Unity::SpriteU::CreateFromRawThreaded(l_Bytes.operator Array<uint8_t> *(), [=](Sprite* p_Sprite)
                             {
-                                if (l_CustomPreviewBeatmapLevelSafe) l_CustomPreviewBeatmapLevelSafe.Ptr(false)->coverImage = p_Sprite ? p_Sprite : Levels::GetDefaultPackCover();
+                                if (l_CustomPreviewBeatmapLevelSafe) l_CustomPreviewBeatmapLevelSafe.Ptr(false)->_coverImage = p_Sprite ? p_Sprite : Levels::GetDefaultPackCover();
                                 p_Callback(p_Sprite, p_Sprite ? p_Sprite : Levels::GetDefaultPackCover());
                             });
                         }
                         catch (const std::exception&)
                         {
-                            if (l_CustomPreviewBeatmapLevelSafe) l_CustomPreviewBeatmapLevelSafe.Ptr(false)->coverImage = Levels::GetDefaultPackCover();
+                            if (l_CustomPreviewBeatmapLevelSafe) l_CustomPreviewBeatmapLevelSafe.Ptr(false)->_coverImage = Levels::GetDefaultPackCover();
                             CP_SDK::Unity::MTMainThreadInvoker::Enqueue([=]() { p_Callback(false, Levels::GetDefaultPackCover()); });
                         }
                     });
                 }
                 else
                 {
-                    l_CustomPreviewBeatmapLevel->coverImage = Levels::GetDefaultPackCover();
+                    l_CustomPreviewBeatmapLevel->_coverImage = Levels::GetDefaultPackCover();
                     CP_SDK::Unity::MTMainThreadInvoker::Enqueue([=]() { p_Callback(false, Levels::GetDefaultPackCover()); });
                 }
             }
             else
             {
-                _v::MonoPtr<Sprite> l_Cover = l_CustomPreviewBeatmapLevel->coverImage;
+                _v::MonoPtr<Sprite> l_Cover = l_CustomPreviewBeatmapLevel->_coverImage;
                 CP_SDK::Unity::MTMainThreadInvoker::Enqueue([=]() { p_Callback(l_Cover, l_Cover ? l_Cover.Ptr(false) : Levels::GetDefaultPackCover()); });
             }
         }
@@ -776,6 +786,7 @@ namespace CP_SDK_BS::Game {
                     reinterpret_cast<IPreviewBeatmapLevel*>(p_Level),
                     p_OverrideEnvironmentSettings,
                     p_ColorScheme,
+                    nullptr,
                     p_GameplayModifiers ? p_GameplayModifiers : GameplayModifiers::New_ctor(),
                     p_PlayerSettings    ? p_PlayerSettings    : PlayerSpecificSettings::New_ctor(),
                     nullptr,
@@ -784,7 +795,8 @@ namespace CP_SDK_BS::Game {
                     false,
                     nullptr,
                     l_Delegate,
-                    nullptr
+                    nullptr,
+                    System::Nullable_1<__RecordingToolManager__SetupData>()
                 );
             }
             catch (const std::exception& l_Exception)

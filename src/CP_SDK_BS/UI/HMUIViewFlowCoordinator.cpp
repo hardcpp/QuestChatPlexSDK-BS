@@ -6,8 +6,7 @@
 
 #include <custom-types/shared/delegate.hpp>
 
-#include <HMUI/ViewController_AnimationType.hpp>
-#include <HMUI/ViewController_AnimationDirection.hpp>
+#include <HMUI/ViewController.hpp>
 #include <System/Action.hpp>
 #include <UnityEngine/Resources.hpp>
 #include <UnityEngine/WaitUntil.hpp>

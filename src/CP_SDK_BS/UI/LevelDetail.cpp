@@ -11,15 +11,13 @@
 #include <GlobalNamespace/BeatmapDataBasicInfo.hpp>
 #include <GlobalNamespace/BeatmapDifficultySerializedMethods.hpp>
 #include <GlobalNamespace/BeatmapLevelDataExtensions.hpp>
-#include <GlobalNamespace/BeatmapLevelSO_DifficultyBeatmap.hpp>
+#include <GlobalNamespace/BeatmapLevelSO.hpp>
 #include <GlobalNamespace/CustomDifficultyBeatmap.hpp>
 #include <GlobalNamespace/IBeatmapLevelData.hpp>
 #include <GlobalNamespace/LocalizedHoverHint.hpp>
 #include <GlobalNamespace/PreviewDifficultyBeatmapSet.hpp>
 #include <GlobalNamespace/StandardLevelDetailView.hpp>
 #include <GlobalNamespace/StandardLevelInfoSaveData.hpp>
-#include <GlobalNamespace/StandardLevelInfoSaveData_DifficultyBeatmap.hpp>
-#include <GlobalNamespace/StandardLevelInfoSaveData_DifficultyBeatmapSet.hpp>
 #include <HMUI/HoverHint.hpp>
 #include <HMUI/HoverHintController.hpp>
 #include <HMUI/SegmentedControl.hpp>
@@ -29,9 +27,13 @@
 #include <System/Action_2.hpp>
 #include <System/Math.hpp>
 #include <System/Collections/ObjectModel/ReadOnlyCollection_1.hpp>
+#include <System/Collections/Generic/IReadOnlyList_1.hpp>
+#include <System/Collections/Generic/IReadOnlyCollection_1.hpp>
 #include <System/IO/File.hpp>
 #include <System/Text/RegularExpressions/Regex.hpp>
 #include <UnityEngine/Resources.hpp>
+
+#include "CP_SDK_BS/UI/DefaultComponentsOverrides/Subs/SubFloatingPanelMover.hpp"
 
 using namespace GlobalNamespace;
 using namespace TMPro;
@@ -107,9 +109,7 @@ namespace CP_SDK_BS::UI {
     void                                    LevelDetail::Time(double p_Value)
     {
         m_Time = p_Value;
-        m_SongTimeText->set_text(
-            p_Value >= 0.0 ? System::Single(System::Math::Floor(p_Value / 60)).ToString("N0") + u":" + System::Single(System::Math::Floor(std::fmod(p_Value, 60))).ToString("00") : u"--"
-        );
+        m_SongTimeText->set_text("todo");
     }
     float                                   LevelDetail::BPM()
     {
@@ -118,7 +118,7 @@ namespace CP_SDK_BS::UI {
     void                                    LevelDetail::BPM(float p_Value)
     {
         m_BPM = p_Value;
-        m_SongBPMText->set_text(System::Single(p_Value).ToString("F0"));
+        m_SongBPMText->set_text("todo");
     }
     float                                   LevelDetail::NPS()
     {
@@ -127,7 +127,7 @@ namespace CP_SDK_BS::UI {
     void                                    LevelDetail::NPS(float p_Value)
     {
         m_NPS = p_Value;
-        m_SongNPSText->set_text(p_Value >= 0.0f ? System::Single(p_Value).ToString("F2") : u"--");
+        m_SongNPSText->set_text("todo");
     }
     int                                     LevelDetail::NJS()
     {
@@ -145,7 +145,7 @@ namespace CP_SDK_BS::UI {
     void                                    LevelDetail::Offset(float p_Value)
     {
         m_Offset = p_Value;
-        m_SongOffsetText->set_text(!std::isnan(p_Value) ? System::Single(p_Value).ToString("F1") : u"--");
+        m_SongOffsetText->set_text("todo");
     }
     int                                     LevelDetail::Notes()
     {
@@ -195,7 +195,7 @@ namespace CP_SDK_BS::UI {
         l_List->Add(p_Value);
 
         m_Difficulty = p_Value;
-        m_SongDiffSegmentedControl->SetTexts(l_List->AsReadOnly()->i_IReadOnlyList_1_T());
+        m_SongDiffSegmentedControl->SetTexts(l_List->AsReadOnly()->i___System__Collections__Generic__IReadOnlyList_1_T_());
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -280,7 +280,7 @@ namespace CP_SDK_BS::UI {
         l_LevelBarBig->Find(u"MultipleLineTextContainer")->get_gameObject()->SetActive(false);
 
         auto l_BeatmapParamsPanel = m_GameObject->get_transform()->Find(u"BeatmapParamsPanel");
-        l_BeatmapParamsPanel->get_transform()->set_localPosition(l_BeatmapParamsPanel->get_transform()->get_localPosition() + (2 * Vector3::get_up()));
+        l_BeatmapParamsPanel->get_transform()->set_localPosition(Vector3::op_Addition(l_BeatmapParamsPanel->get_transform()->get_localPosition(), Vector3::op_Multiply(2, Vector3::get_up())));
 
         l_BeatmapParamsPanel->get_gameObject()->AddComponent<HorizontalLayoutGroup*>()->set_childControlHeight(false);
         l_BeatmapParamsPanel->get_gameObject()->AddComponent<LayoutElement*>();
@@ -310,12 +310,12 @@ namespace CP_SDK_BS::UI {
         reinterpret_cast<RectTransform*>(m_SongBombsText->get_transform()->get_parent()->get_transform())->set_sizeDelta(l_SizeDelta);
 
         /// Patch
-        auto l_OffsetSprite = CP_SDK::Unity::SpriteU::CreateFromRaw(IncludedAssets::Offset_png.Raw(), 100.0f, Vector2::get_one() * 16.0f);
+        auto l_OffsetSprite = CP_SDK::Unity::SpriteU::CreateFromRaw(IncludedAssets::Offset_png.Raw(), 100.0f, Vector2::op_Multiply(Vector2::get_one(), 16.0f));
         m_SongOffsetText = GameObject::Instantiate(m_SongNPSText->get_transform()->get_parent()->get_gameObject(), m_SongNPSText->get_transform()->get_parent()->get_parent())->GetComponentInChildren<TextMeshProUGUI*>();
         m_SongOffsetText->get_transform()->get_parent()->SetAsFirstSibling();
         m_SongOffsetText->get_transform()->get_parent()->GetComponentInChildren<HMUI::ImageView*>()->set_sprite(l_OffsetSprite);
 
-        auto l_NJSSprite = CP_SDK::Unity::SpriteU::CreateFromRaw(IncludedAssets::NJS_png.Raw(), 100.0f, Vector2::get_one() * 16.0f);
+        auto l_NJSSprite = CP_SDK::Unity::SpriteU::CreateFromRaw(IncludedAssets::NJS_png.Raw(), 100.0f, Vector2::op_Multiply(Vector2::get_one(), 16.0f));
         m_SongNJSText = GameObject::Instantiate(m_SongNPSText->get_transform()->get_parent()->get_gameObject(), m_SongNPSText->get_transform()->get_parent()->get_parent())->GetComponentInChildren<TextMeshProUGUI*>();
         m_SongNJSText->get_transform()->get_parent()->SetAsFirstSibling();
         m_SongNJSText->get_transform()->get_parent()->GetComponentInChildren<HMUI::ImageView*>()->set_sprite(l_NJSSprite);
@@ -345,11 +345,11 @@ namespace CP_SDK_BS::UI {
         try
         {
             for (auto l_Text : m_GameObject->GetComponentsInChildren<TextMeshProUGUI*>(true))
-                l_Text->set_fontStyle(l_Text->get_fontStyle() & ~FontStyles::Italic);
+                l_Text->set_fontStyle(l_Text->get_fontStyle().value__ & ~FontStyles::Italic.value__);
 
             for (auto l_Image : m_GameObject->GetComponentsInChildren<HMUI::ImageView*>(true))
             {
-                m_SongCoverImage->skew = 0.0f;
+                m_SongCoverImage->____skew = 0.0f;
                 m_SongCoverImage->SetAllDirty();
             }
         }
@@ -395,7 +395,7 @@ namespace CP_SDK_BS::UI {
             return false;
         }
 
-        auto l_PreviewBeatmapLevel = p_BeatMap->i_IPreviewBeatmapLevel();
+        auto l_PreviewBeatmapLevel = p_BeatMap->i___GlobalNamespace__IPreviewBeatmapLevel();
 
         /// Display mode
         Characteristic(HMUI::IconSegmentedControl::DataItem::New_ctor(p_Characteristic->icon, Polyglot::Localization::Get(p_Characteristic->descriptionLocalizationKey)));
@@ -413,47 +413,10 @@ namespace CP_SDK_BS::UI {
         NJS           ((int)l_IDifficultyBeatmap->get_noteJumpMovementSpeed());
         Offset        (l_IDifficultyBeatmap->get_noteJumpStartBeatOffset());
 
-        if (csTypeOf(BeatmapLevelSO::DifficultyBeatmap*)->IsAssignableFrom(reinterpret_cast<Il2CppObject*>(l_IDifficultyBeatmap)->GetType()))
-        {
-            auto l_DifficultyBeatmap = reinterpret_cast<BeatmapLevelSO::DifficultyBeatmap*>(l_IDifficultyBeatmap);
-            try
-            {
-                /* var l_Task = l_DifficultyBeatmap.GetBeatmapDataBasicInfoAsync();
-                l_Task.ConfigureAwait(false);
-                l_Task.Wait();
-                var l_Info = l_Task.Result;
-                l_DifficultyBeatmap.beatmapLevelData.
-                NPS         = ((float)l_Info.cuttableNotesCount / (float)p_BeatMap.beatsPerMinute);
-                Notes       = l_Info.cuttableNotesCount;
-                Obstacles   = l_Info.obstaclesCount;
-                Bombs       = l_Info.bombsCount;*/
-            }
-            catch (const std::exception&)
-            {
-                NPS      (-1);
-                Notes    (-1);
-                Obstacles(-1);
-                Bombs    (-1);
-            }
-        }
-        else if (csTypeOf(CustomDifficultyBeatmap*)->IsAssignableFrom(reinterpret_cast<Il2CppObject*>(l_IDifficultyBeatmap)->GetType()))
-        {
-            auto l_CustomDifficultyBeatmap = reinterpret_cast<CustomDifficultyBeatmap*>(l_IDifficultyBeatmap);
-            try
-            {
-                NPS      (((float)l_CustomDifficultyBeatmap->beatmapDataBasicInfo->get_cuttableNotesCount() / (float)l_PreviewBeatmapLevel->get_songDuration()));
-                Notes    (l_CustomDifficultyBeatmap->beatmapDataBasicInfo->get_cuttableNotesCount());
-                Obstacles(l_CustomDifficultyBeatmap->beatmapDataBasicInfo->get_obstaclesCount());
-                Bombs    (l_CustomDifficultyBeatmap->beatmapDataBasicInfo->get_bombsCount());
-            }
-            catch (const std::exception&)
-            {
-                NPS      (-1);
-                Notes    (-1);
-                Obstacles(-1);
-                Bombs    (-1);
-            }
-        }
+        NPS      (-1);
+        Notes    (-1);
+        Obstacles(-1);
+        Bombs    (-1);
 
         return true;
     }
@@ -479,7 +442,7 @@ namespace CP_SDK_BS::UI {
         }
 
         /// Display modes
-        auto l_Characteristics = List<HMUI::IconSegmentedControl::DataItem*>::New_ctor();
+        auto l_Characteristics = ListW<HMUI::IconSegmentedControl::DataItem*>();
         for (auto& l_Current : l_Version->GetBeatmapCharacteristicSOSerializedNamesInOrder())
         {
             auto l_BeatmapCharacteristicSO = (BeatmapCharacteristicSO*)nullptr;
@@ -537,7 +500,7 @@ namespace CP_SDK_BS::UI {
         if (l_HoverHint == nullptr || !l_HoverHint)
         {
             l_HoverHint = m_FavoriteToggle->AddComponent<HMUI::HoverHint*>();
-            l_HoverHint->hoverHintController = Resources::FindObjectsOfTypeAll<HMUI::HoverHintController*>().First();
+            l_HoverHint->_hoverHintController = Resources::FindObjectsOfTypeAll<HMUI::HoverHintController*>().First();
         }
 
         l_HoverHint->set_text(p_Hint);
@@ -621,7 +584,7 @@ namespace CP_SDK_BS::UI {
         {
             std::vector<BeatmapCharacteristicSO*> l_Characs;
             auto l_PreviewDifficultyBeatMapSets         = m_LocalBeatMap->previewDifficultyBeatmapSets;
-            auto l_PreviewDifficultyBeatMapSetsCount    = m_LocalBeatMap->previewDifficultyBeatmapSets->i_IReadOnlyCollection_1_T()->get_Count();
+            auto l_PreviewDifficultyBeatMapSetsCount    = m_LocalBeatMap->previewDifficultyBeatmapSets->i___System__Collections__Generic__IReadOnlyCollection_1_T_()->get_Count();
             for (auto l_I = 0; l_I < l_PreviewDifficultyBeatMapSetsCount; ++l_I)
             {
                 auto l_Current  = l_PreviewDifficultyBeatMapSets->get_Item(l_I)->beatmapCharacteristic;
@@ -640,7 +603,7 @@ namespace CP_SDK_BS::UI {
 
             auto l_Difficulties                         = System::Collections::Generic::List_1<StringW>::New_ctor();
             auto l_PreviewDifficultyBeatmapSets         = m_LocalBeatMap->previewDifficultyBeatmapSets;
-            auto l_PreviewDifficultyBeatmapSetsCount    = m_LocalBeatMap->previewDifficultyBeatmapSets->i_IReadOnlyCollection_1_T()->get_Count();
+            auto l_PreviewDifficultyBeatmapSetsCount    = m_LocalBeatMap->previewDifficultyBeatmapSets->i___System__Collections__Generic__IReadOnlyCollection_1_T_()->get_Count();
 
             for (auto l_I = 0; l_I < l_PreviewDifficultyBeatmapSetsCount; ++l_I)
             {
@@ -654,7 +617,7 @@ namespace CP_SDK_BS::UI {
                 break;
             }
 
-            m_SongDiffSegmentedControl->SetTexts(l_Difficulties->AsReadOnly()->i_IReadOnlyList_1_T());
+            m_SongDiffSegmentedControl->SetTexts(l_Difficulties->AsReadOnly()->i___System__Collections__Generic__IReadOnlyList_1_T_());
             m_SongDiffSegmentedControl->SelectCellWithNumber(l_Difficulties->get_Count() - 1);
             OnDifficultyChanged(nullptr, l_Difficulties->get_Count() - 1);
         }
@@ -674,7 +637,7 @@ namespace CP_SDK_BS::UI {
             for (auto& l_Current : l_Version->GetDifficultiesPerBeatmapCharacteristicSOSerializedName(l_Characs[p_Index]))
                 l_Difficulties->Add(Game::Levels::BeatmapDifficultySerializedNameToDifficultyName(l_Current->difficulty));
 
-            m_SongDiffSegmentedControl->SetTexts(l_Difficulties->AsReadOnly()->i_IReadOnlyList_1_T());
+            m_SongDiffSegmentedControl->SetTexts(l_Difficulties->AsReadOnly()->i___System__Collections__Generic__IReadOnlyList_1_T_());
             m_SongDiffSegmentedControl->SelectCellWithNumber(l_Difficulties->get_Count() - 1);
             OnDifficultyChanged(nullptr, l_Difficulties->get_Count() - 1);
         }
@@ -688,7 +651,7 @@ namespace CP_SDK_BS::UI {
         {
             std::vector<BeatmapCharacteristicSO*> l_Characs;
             auto l_PreviewDifficultyBeatMapSets         = m_LocalBeatMap->previewDifficultyBeatmapSets;
-            auto l_PreviewDifficultyBeatMapSetsCount    = m_LocalBeatMap->previewDifficultyBeatmapSets->i_IReadOnlyCollection_1_T()->get_Count();
+            auto l_PreviewDifficultyBeatMapSetsCount    = m_LocalBeatMap->previewDifficultyBeatmapSets->i___System__Collections__Generic__IReadOnlyCollection_1_T_()->get_Count();
             for (auto l_I = 0; l_I < l_PreviewDifficultyBeatMapSetsCount; ++l_I)
             {
                 auto l_Current  = l_PreviewDifficultyBeatMapSets->get_Item(l_I)->beatmapCharacteristic;
@@ -719,7 +682,7 @@ namespace CP_SDK_BS::UI {
                 Time     (-1.0f);
                 NPS      (-1.0f);
                 NJS      (-1);
-                Offset   (System::Single::_get_NaN());
+                Offset   (0);
                 Notes    (-1);
                 Obstacles(-1);
                 Bombs    (-1);
@@ -738,13 +701,13 @@ namespace CP_SDK_BS::UI {
                 auto l_Info              = BeatmapDataLoader::GetBeatmapDataBasicInfoFromSaveData(l_BeatmapSaveData);
                 if (l_Info != nullptr)
                 {
-                    Time     (m_LocalBeatMap->songDuration);
-                    NPS      (((float)l_Info->cuttableNotesCount / (float)m_LocalBeatMap->songDuration));
+                    Time     (m_LocalBeatMap->get_songDuration());
+                    NPS      (((float)l_Info->get_cuttableNotesCount() / (float)m_LocalBeatMap->get_songDuration()));
                     NJS      ((int)l_DifficultyBeatMap->noteJumpMovementSpeed);
                     Offset   (l_DifficultyBeatMap->noteJumpStartBeatOffset);
-                    Notes    (l_Info->cuttableNotesCount);
-                    Obstacles(l_Info->obstaclesCount);
-                    Bombs    (l_Info->bombsCount);
+                    Notes    (l_Info->get_cuttableNotesCount());
+                    Obstacles(l_Info->get_obstaclesCount());
+                    Bombs    (l_Info->get_bombsCount());
 
                     OnActiveDifficultyChanged(GetIDifficultyBeatMap());
                 }
@@ -757,7 +720,7 @@ namespace CP_SDK_BS::UI {
                 Time     (-1.0f);
                 NPS      (-1.0f);
                 NJS      (-1);
-                Offset   (System::Single::_get_NaN());
+                Offset   (0);
                 Notes    (-1);
                 Obstacles(-1);
                 Bombs    (-1);
@@ -778,7 +741,7 @@ namespace CP_SDK_BS::UI {
                 Time     (-1.0f);
                 NPS      (-1.0f);
                 NJS      (-1);
-                Offset   (System::Single::_get_NaN());
+                Offset   (0);
                 Notes    (-1);
                 Obstacles(-1);
                 Bombs    (-1);

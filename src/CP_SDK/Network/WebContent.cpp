@@ -1,8 +1,7 @@
 #include "CP_SDK/Network/WebContent.hpp"
 
 #include <System/Text/Encoding.hpp>
-#include <System/Text/UTF8Encoding_UTF8Decoder.hpp>
-#include <System/Text/UTF8Encoding_UTF8Encoder.hpp>
+#include <System/Text/UTF8Encoding.hpp>
 
 using namespace System::Text;
 

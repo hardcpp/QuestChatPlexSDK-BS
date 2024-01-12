@@ -148,7 +148,7 @@ namespace CP_SDK::UI {
             template<class t_ViewController> requires(std::is_assignable_v<IViewController*&, t_ViewController>)
             static t_ViewController CreateViewController()
             {
-                return reinterpret_cast<t_ViewController>(_CreateViewController(reinterpret_cast<_u::Type*>(csTypeOf(t_ViewController))));
+                return reinterpret_cast<t_ViewController>(_CreateViewController(reinterpret_cast<_u::Type*>(csTypeOf(t_ViewController).convert())));
             }
             static IViewController* _CreateViewController(_u::Type* p_Type);
 

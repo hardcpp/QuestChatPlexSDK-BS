@@ -6,7 +6,7 @@
 #include <UnityEngine/GameObject.hpp>
 #include <UnityEngine/Rect.hpp>
 #include <UnityEngine/Time.hpp>
-#include <UnityEngine/UI/Button_ButtonClickedEvent.hpp>
+#include <UnityEngine/UI/Button.hpp>
 
 using namespace CP_SDK::Unity::Extensions;
 using namespace UnityEngine;
@@ -81,11 +81,11 @@ namespace CP_SDK::UI::DefaultComponents {
         l_FakeBg->set_color                  (ColorU::WithAlpha(Color::get_black(), 0.01f));
 
         auto l_Colors = m_Button->get_colors();
-        l_Colors.set_normalColor        (ColorU::Convert(Color32(255, 255, 255, 150)));
-        l_Colors.set_highlightedColor   (ColorU::Convert(Color32(255, 255, 255, 255)));
-        l_Colors.set_pressedColor       (ColorU::Convert(Color32(255, 255, 255, 255)));
+        l_Colors.set_normalColor        (ColorU::Convert(Color32(0, 255, 255, 255, 150)));
+        l_Colors.set_highlightedColor   (ColorU::Convert(Color32(0, 255, 255, 255, 255)));
+        l_Colors.set_pressedColor       (ColorU::Convert(Color32(0, 255, 255, 255, 255)));
         l_Colors.set_selectedColor      (l_Colors.get_normalColor());
-        l_Colors.set_disabledColor      (ColorU::Convert(Color32(127, 127, 127, 150)));
+        l_Colors.set_disabledColor      (ColorU::Convert(Color32(0, 127, 127, 127, 150)));
         l_Colors.set_fadeDuration       (0.05f);
         m_Button->set_colors(l_Colors);
 
@@ -133,7 +133,7 @@ namespace CP_SDK::UI::DefaultComponents {
             return;
 
         StopAllCoroutines();
-        StartCoroutine(custom_types::Helpers::CoroutineHelper::New(Coroutine_AnimateScale(this, 1.25f * Vector3::get_one(), 0.075f)));
+        StartCoroutine(custom_types::Helpers::CoroutineHelper::New(Coroutine_AnimateScale(this, Vector3::op_Multiply(Vector3::get_one(), 1.25f), 0.075f)));
     }
     /// @brief On pointer exit
     /// @param p_EventData Event data

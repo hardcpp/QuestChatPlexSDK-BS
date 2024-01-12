@@ -4,7 +4,7 @@
 #include "CP_SDK/Unity/Extensions/ColorU.hpp"
 
 #include <UnityEngine/GameObject.hpp>
-#include <UnityEngine/UI/Button_ButtonClickedEvent.hpp>
+#include <UnityEngine/UI/Button.hpp>
 
 using namespace CP_SDK::Unity::Extensions;
 using namespace UnityEngine;
@@ -100,11 +100,11 @@ namespace CP_SDK::UI::DefaultComponents {
         m_Button->get_onClick()->AddListener(MakeUnityAction(std::bind(&DefaultCDropdown::Button_OnClick, this)));
 
         auto l_Colors = m_Button->get_colors();
-        l_Colors.set_normalColor        (ColorU::Convert(Color32(230, 230, 230, 127)));
-        l_Colors.set_highlightedColor   (ColorU::Convert(Color32(255, 255, 255, 255)));
-        l_Colors.set_pressedColor       (ColorU::Convert(Color32(200, 200, 200, 255)));
+        l_Colors.set_normalColor        (ColorU::Convert(Color32(0, 230, 230, 230, 127)));
+        l_Colors.set_highlightedColor   (ColorU::Convert(Color32(0, 255, 255, 255, 255)));
+        l_Colors.set_pressedColor       (ColorU::Convert(Color32(0, 200, 200, 200, 255)));
         l_Colors.set_selectedColor      (l_Colors.get_normalColor());
-        l_Colors.set_disabledColor      (ColorU::Convert(Color32(255, 255, 255,  48)));
+        l_Colors.set_disabledColor      (ColorU::Convert(Color32(0, 255, 255, 255,  48)));
         l_Colors.set_fadeDuration       (0.05f);
         m_Button->set_colors(l_Colors);
 

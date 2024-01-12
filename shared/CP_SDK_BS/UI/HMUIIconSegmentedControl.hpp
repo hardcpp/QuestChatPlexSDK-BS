@@ -4,7 +4,6 @@
 #include "CP_SDK/Utils/MonoPtr.hpp"
 
 #include <HMUI/IconSegmentedControl.hpp>
-#include <HMUI/IconSegmentedControl_DataItem.hpp>
 #include <UnityEngine/RectTransform.hpp>
 
 namespace CP_SDK_BS::UI {

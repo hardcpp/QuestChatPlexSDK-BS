@@ -2,10 +2,9 @@
 #include "CP_SDK/ChatPlexSDK.hpp"
 
 #include <System/Text/Encoding.hpp>
-#include <System/Text/UTF8Encoding_UTF8Decoder.hpp>
-#include <System/Text/UTF8Encoding_UTF8Encoder.hpp>
+#include <System/Text/UTF8Encoding.hpp>
 #include <UnityEngine/Networking/DownloadHandler.hpp>
-#include <UnityEngine/Networking/UnityWebRequest_UnityWebRequestError.hpp>
+#include <UnityEngine/Networking/UnityWebRequest.hpp>
 
 bool StartWith(::Array<uint8_t>* p_Array, ArrayW<uint8_t>& p_Pattern, int p_PatternSize);
 
@@ -69,14 +68,14 @@ namespace CP_SDK::Network {
     WebResponse::WebResponse(UnityWebRequest * p_Request)
     {
         m_StatusCode          = (HttpStatusCode)p_Request->get_responseCode();
-        m_IsSuccessStatusCode = !(p_Request->get_isHttpError() || p_Request->get_isNetworkError());
+        m_IsSuccessStatusCode = !(p_Request->get_result() == UnityWebRequest::Result::ProtocolError && p_Request->get_result() == UnityWebRequest::Result::ConnectionError);
         m_ShouldRetry         = IsSuccessStatusCode() ? false : (p_Request->get_responseCode() < 400 || p_Request->get_responseCode() >= 500);
         m_BodyBytes           = reinterpret_cast<::Array<uint8_t>*>(p_Request->get_downloadHandler()->GetData().convert());
 
-        if (p_Request->get_isNetworkError() || p_Request->get_isHttpError())
+        if (p_Request->get_result() == UnityWebRequest::Result::ConnectionError || p_Request->get_result() == UnityWebRequest::Result::ProtocolError)
         {
-            if (p_Request->get_isHttpError())
-                m_ReasonPhrase = u"HTTP/1.1 " + std::to_string(m_StatusCode) + u" " + p_Request->GetHTTPStatusString(m_StatusCode);
+            if (p_Request->get_result() == UnityWebRequest::Result::ProtocolError)
+                m_ReasonPhrase = u"HTTP/1.1 " + std::to_string(m_StatusCode.value__) + u" " + p_Request->GetHTTPStatusString(m_StatusCode.value__);
             else
                 m_ReasonPhrase = p_Request->GetWebErrorString(p_Request->GetError());
         }

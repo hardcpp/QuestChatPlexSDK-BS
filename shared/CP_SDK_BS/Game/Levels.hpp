@@ -9,7 +9,7 @@
 #include <custom-types/shared/coroutine.hpp>
 
 #include <GlobalNamespace/AdditionalContentModel.hpp>
-#include <GlobalNamespace/BeatmapCharacteristicCollectionSO.hpp>
+#include <GlobalNamespace/BeatmapCharacteristicCollection.hpp>
 #include <GlobalNamespace/BeatmapCharacteristicSO.hpp>
 #include <GlobalNamespace/BeatmapDifficulty.hpp>
 #include <GlobalNamespace/BeatmapLevelsModel.hpp>
@@ -44,7 +44,7 @@ namespace CP_SDK_BS::Game {
             static _v::MonoPtr<_u::Sprite>                              m_DefaultPackCover;
 
             static _v::MonoPtr<_u::AdditionalContentModel>              m_AdditionalContentModel;
-            static _v::MonoPtr<_u::BeatmapCharacteristicCollectionSO>   m_BeatmapCharacteristicCollectionSO;
+            static _v::MonoPtr<_u::BeatmapCharacteristicCollection>   m_BeatmapCharacteristicCollection;
             static _v::MonoPtr<_u::BeatmapLevelsModel>                  m_BeatmapLevelsModel;
             static _v::MonoPtr<_u::CancellationTokenSource>             m_GetLevelCancellationTokenSource;
             static _v::MonoPtr<_u::CancellationTokenSource>             m_GetLevelEntitlementStatusTokenSource;

@@ -41,13 +41,13 @@ namespace CP_SDK::Utils {
                 if constexpr (std::is_assignable_v<UnityEngine::Object, t_Ptr>)
                 {
                     auto l_UObject = reinterpret_cast<UnityEngine::Object*>(m_Wrapper->Ptr);
-                    if (l_IsDead || !l_UObject->m_CachedPtr.m_value)
+                    if (l_IsDead || !l_UObject->m_CachedPtr)
                         l_IsDead = true;
                 }
 
                 if (p_Throw && l_IsDead)
                 {
-                    ChatPlexSDK::Logger()->Error(u"Dead pointer " + csTypeOf(t_Ptr*)->get_Name());
+                    //ChatPlexSDK::Logger()->Error(u"Dead pointer " + csTypeOf(t_Ptr*).convert()->get_Name());
                     throw NullHandleException();
                 }
 
@@ -123,14 +123,14 @@ namespace CP_SDK::Utils {
     //////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
 
-    template<class t_Type> requires(std::is_assignable_v<UnityEngine::Object, t_Type>)
+    template<class t_Type>
     static bool IsUnityPtrValid(t_Type* p_Ptr)
     {
         if (!p_Ptr)
             return false;
 
         auto l_UObject = reinterpret_cast<UnityEngine::Object*>(p_Ptr);
-        if (!l_UObject->m_CachedPtr.m_value)
+        if (!l_UObject->m_CachedPtr)
             return false;
 
         return true;

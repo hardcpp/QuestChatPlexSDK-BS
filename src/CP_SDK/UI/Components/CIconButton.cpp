@@ -1,6 +1,7 @@
 #include "CP_SDK/UI/Components/CIconButton.hpp"
 
 #include <UnityEngine/GameObject.hpp>
+#include <UnityEngine/Vector2.hpp>
 
 using namespace UnityEngine;
 using namespace UnityEngine::UI;

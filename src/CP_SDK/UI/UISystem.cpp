@@ -34,6 +34,7 @@
 #include <UnityEngine/FilterMode.hpp>
 #include <UnityEngine/UI/Image.hpp>
 #include <TMPro/TextMeshProUGUI.hpp>
+#include <System/Reflection/MemberInfo.hpp>
 
 using namespace CP_SDK::Unity::Extensions;
 using namespace TMPro;
@@ -108,8 +109,8 @@ namespace CP_SDK::UI {
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
-    SafePtr<System::Type> UISystem::Override_UnityComponent_Image            = csTypeOf(Image*);
-    SafePtr<System::Type> UISystem::Override_UnityComponent_TextMeshProUGUI  = csTypeOf(TextMeshProUGUI*);
+    SafePtr<System::Type> UISystem::Override_UnityComponent_Image            = reinterpret_cast<System::Type*>(csTypeOf(Image*).convert());
+    SafePtr<System::Type> UISystem::Override_UnityComponent_TextMeshProUGUI  = reinterpret_cast<System::Type*>(csTypeOf(TextMeshProUGUI*).convert());
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
@@ -191,8 +192,8 @@ namespace CP_SDK::UI {
             return ViewController::_Instance(p_Type);
 
         auto l_GameObject = GameObject::New_ctor(p_Type->get_Name(), ArrayW<System::Type*>({
-            reinterpret_cast<System::Type*>(csTypeOf(RectTransform*)),
-            reinterpret_cast<System::Type*>(csTypeOf(CanvasGroup*))
+            reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()),
+            reinterpret_cast<System::Type*>(csTypeOf(CanvasGroup*).convert())
         }));
         GameObject::DontDestroyOnLoad(l_GameObject);
 

@@ -55,7 +55,7 @@ namespace CP_SDK::UI {
             return;
 
         m_Instance = GameObject::New_ctor("[CP_SDK.UI.ScreenSystem]", ArrayW<System::Type*>({
-            reinterpret_cast<System::Type*>(csTypeOf(ScreenSystem*)),
+            reinterpret_cast<System::Type*>(csTypeOf(ScreenSystem*).convert()),
         }))->GetComponent<ScreenSystem*>();
         GameObject::DontDestroyOnLoad(m_Instance->get_gameObject());
     }

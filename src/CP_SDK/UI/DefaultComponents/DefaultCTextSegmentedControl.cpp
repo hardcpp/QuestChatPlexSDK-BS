@@ -3,7 +3,7 @@
 #include "CP_SDK/Unity/Extensions/ColorU.hpp"
 
 #include <UnityEngine/GameObject.hpp>
-#include <UnityEngine/UI/Button_ButtonClickedEvent.hpp>
+#include <UnityEngine/UI/Button.hpp>
 
 using namespace CP_SDK::Unity::Extensions;
 using namespace UnityEngine;
@@ -126,7 +126,7 @@ namespace CP_SDK::UI::DefaultComponents {
 
         for (auto l_I = 0; l_I < p_Texts.size(); ++l_I)
         {
-            auto l_Control = GameObject::New_ctor(u"Tab" + std::to_string(l_I), ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*)) }))->GetComponent<RectTransform*>();
+            auto l_Control = GameObject::New_ctor(u"Tab" + std::to_string(l_I), ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()) }))->GetComponent<RectTransform*>();
             l_Control->get_gameObject()->set_layer(UISystem::UILayer);
             l_Control->SetParent(get_transform(), false);
             l_Control->set_sizeDelta(Vector2(0.0f, 5.0f));

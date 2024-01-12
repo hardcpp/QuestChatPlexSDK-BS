@@ -76,7 +76,7 @@ namespace CP_SDK::UI::DefaultComponents {
 
         ////////////////////////////////////////////////////////////////////////////
 
-        auto l_ScrollBar = reinterpret_cast<RectTransform*>(GameObject::New_ctor("ScrollBar", ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*)) }))->get_transform());
+        auto l_ScrollBar = reinterpret_cast<RectTransform*>(GameObject::New_ctor("ScrollBar", ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()) }))->get_transform());
         l_ScrollBar->get_gameObject()->set_layer(UISystem::UILayer);
         l_ScrollBar->SetParent(get_transform(), false);
         l_ScrollBar->set_anchorMin       (Vector2(                      1.0f, 0.0f));
@@ -121,7 +121,7 @@ namespace CP_SDK::UI::DefaultComponents {
         m_DownButton->IconImageC()->get_rectTransform()->set_sizeDelta       (Vector2( 4.0f,  2.0f));
         m_DownButton->SetSprite(UISystem::GetUIDownArrowSprite().Ptr())->OnClick({this, &DefaultCVScrollView::OnDownButton});
 
-        auto l_ScrollIndicator = reinterpret_cast<RectTransform*>(GameObject::New_ctor("ScrollIndicator", ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*)) }))->get_transform());
+        auto l_ScrollIndicator = reinterpret_cast<RectTransform*>(GameObject::New_ctor("ScrollIndicator", ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()) }))->get_transform());
         l_ScrollIndicator->get_gameObject()->set_layer(UISystem::UILayer);
         l_ScrollIndicator->SetParent(l_ScrollBar->get_transform(), false);
         l_ScrollIndicator->set_anchorMin(Vector2(0.5f,   0.0f));
@@ -151,8 +151,8 @@ namespace CP_SDK::UI::DefaultComponents {
         ////////////////////////////////////////////////////////////////////////////
 
         m_ViewPort = reinterpret_cast<RectTransform*>(GameObject::New_ctor("ViewPort", ArrayW<System::Type*>({
-            reinterpret_cast<System::Type*>(csTypeOf(RectTransform*)),
-            reinterpret_cast<System::Type*>(csTypeOf(RectMask2D*))
+            reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()),
+            reinterpret_cast<System::Type*>(csTypeOf(RectMask2D*).convert())
         }))->get_transform());
         m_ViewPort->get_gameObject()->set_layer(UISystem::UILayer);
         m_ViewPort->SetParent(get_transform(), false);
@@ -163,9 +163,9 @@ namespace CP_SDK::UI::DefaultComponents {
         m_ViewPort->GetComponent<RectMask2D*>()->set_padding(Vector4(0.25f, 0.25f, 0.25f, 0.25f));
 
         m_VScrollViewContent = reinterpret_cast<RectTransform*>(GameObject::New_ctor("ScrollViewContent", ArrayW<System::Type*>({
-            reinterpret_cast<System::Type*>(csTypeOf(RectTransform*)),
-            reinterpret_cast<System::Type*>(csTypeOf(ContentSizeFitter*)),
-            reinterpret_cast<System::Type*>(csTypeOf(VerticalLayoutGroup*))
+            reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()),
+            reinterpret_cast<System::Type*>(csTypeOf(ContentSizeFitter*).convert()),
+            reinterpret_cast<System::Type*>(csTypeOf(VerticalLayoutGroup*).convert())
         }))->get_transform());
         m_VScrollViewContent->get_gameObject()->set_layer(UISystem::UILayer);
         m_VScrollViewContent->SetParent(m_ViewPort.Ptr(), false);
@@ -190,9 +190,9 @@ namespace CP_SDK::UI::DefaultComponents {
         ////////////////////////////////////////////////////////////////////////////
 
         m_Container = reinterpret_cast<RectTransform*>(GameObject::New_ctor("Container", ArrayW<System::Type*>({
-            reinterpret_cast<System::Type*>(csTypeOf(RectTransform*)),
-            reinterpret_cast<System::Type*>(csTypeOf(VerticalLayoutGroup*)),
-            reinterpret_cast<System::Type*>(csTypeOf(LayoutElement*))
+            reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()),
+            reinterpret_cast<System::Type*>(csTypeOf(VerticalLayoutGroup*).convert()),
+            reinterpret_cast<System::Type*>(csTypeOf(LayoutElement*).convert())
         }))->get_transform());
         m_Container->get_gameObject()->set_layer(UISystem::UILayer);
         m_Container->SetParent(m_VScrollViewContent.Ptr(), false);

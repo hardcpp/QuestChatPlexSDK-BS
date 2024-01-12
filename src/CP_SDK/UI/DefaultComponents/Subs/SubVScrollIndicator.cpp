@@ -5,6 +5,7 @@
 #include <cmath>
 
 #include <UnityEngine/Rect.hpp>
+#include <UnityEngine/Vector2.hpp>
 
 using namespace UnityEngine;
 

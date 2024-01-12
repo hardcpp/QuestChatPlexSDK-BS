@@ -41,10 +41,10 @@ namespace CP_SDK_BS::UI {
         if (!m_MainFlowCoordinator)
             m_MainFlowCoordinator = Resources::FindObjectsOfTypeAll<GlobalNamespace::MainFlowCoordinator*>().First();
 
-        auto l_InputModule = m_MainFlowCoordinator->baseInputModule;
+        auto l_InputModule = m_MainFlowCoordinator->_baseInputModule;
         auto l_Coordinator = reinterpret_cast<HMUI::FlowCoordinator*>(GameObject::New_ctor(p_Type->get_Name())->AddComponent(p_Type));
 
-        l_Coordinator->baseInputModule = l_InputModule;
+        l_Coordinator->_baseInputModule = l_InputModule;
 
         return l_Coordinator;
     }
@@ -56,7 +56,7 @@ namespace CP_SDK_BS::UI {
             m_CanvasTemplate = Resources::FindObjectsOfTypeAll<Canvas*>().First([](Canvas* x) -> bool { return x->get_name() == u"DropdownTableView"; });
 
         if (!m_PhysicsRaycaster)
-            m_PhysicsRaycaster = Resources::FindObjectsOfTypeAll<MainMenuViewController*>().First()->GetComponent<VRGraphicRaycaster*>()->physicsRaycaster;
+            m_PhysicsRaycaster = Resources::FindObjectsOfTypeAll<MainMenuViewController*>().First()->GetComponent<VRGraphicRaycaster*>()->_physicsRaycaster;
 
         auto l_GameObject = GameObject::New_ctor(p_Type->get_Name());
         auto l_Canvas     = l_GameObject->AddComponent<Canvas*>();
@@ -75,7 +75,7 @@ namespace CP_SDK_BS::UI {
         l_Canvas->set_worldCamera              (m_CanvasTemplate->get_worldCamera());
         //l_Canvas->set_normalizedSortingGridSize(m_CanvasTemplate->get_normalizedSortingGridSize());
 
-        l_GameObject->get_gameObject()->AddComponent<VRGraphicRaycaster*>()->physicsRaycaster = m_PhysicsRaycaster.Ptr();
+        l_GameObject->get_gameObject()->AddComponent<VRGraphicRaycaster*>()->_physicsRaycaster = m_PhysicsRaycaster.Ptr();
         l_GameObject->get_gameObject()->AddComponent<CanvasGroup*>();
 
         auto l_View = reinterpret_cast<HMUI::ViewController*>(l_GameObject->AddComponent(p_Type));

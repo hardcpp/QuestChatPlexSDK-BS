@@ -40,7 +40,7 @@ namespace CP_SDK::UI::Views {
 
             XUIHLayout::Make({
                 XUIText::Make(u"super test title!")
-                    ->SetStyle(TMPro::FontStyles::UpperCase | TMPro::FontStyles::Bold)
+                    ->SetStyle(TMPro::FontStyles::UpperCase.value__ | TMPro::FontStyles::Bold.value__)
                     ->SetFontSize(4.5f)
                     ->Bind(&m_Title)
                     ->AsShared()

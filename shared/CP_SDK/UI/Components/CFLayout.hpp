@@ -7,6 +7,8 @@
 #include <UnityEngine/TextAnchor.hpp>
 #include <UnityEngine/UI/LayoutGroup.hpp>
 #include <UnityEngine/UI/LayoutElement.hpp>
+#include <UnityEngine/UI/ILayoutElement.hpp>
+#include <UnityEngine/UI/ILayoutController.hpp>
 #include <UnityEngine/Vector2.hpp>
 
 namespace CP_SDK::UI::Components {

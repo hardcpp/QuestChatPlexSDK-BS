@@ -51,7 +51,7 @@ namespace CP_SDK::Unity {
         for (auto l_I = 0; l_I < (p_Width * p_Height); ++l_I)
         {
             auto l_SrcPixel = &l_STBIBuffer[l_I * 4];
-            l_Pixels[l_I] = Extensions::ColorU::Convert(Color32(l_SrcPixel[0], l_SrcPixel[1], l_SrcPixel[2], l_SrcPixel[3]));
+            l_Pixels[l_I] = Extensions::ColorU::Convert(Color32(0, l_SrcPixel[0], l_SrcPixel[1], l_SrcPixel[2], l_SrcPixel[3]));
         }
 
         stbi_image_free(l_STBIBuffer);
@@ -83,7 +83,7 @@ namespace CP_SDK::Unity {
         auto& l_ImageB = *(p_ImageB.get());
 
         for (auto l_I = 0; l_I < p_ImageA->size(); ++l_I)
-            l_ImageA[l_I] = l_ImageA[l_I] * l_ImageB[l_I];
+            l_ImageA[l_I] = Color::op_Multiply(l_ImageA[l_I], l_ImageB[l_I]);
     }
     /// @brief Resize an image and crop it
     /// @param p_InWidth      Source width
@@ -192,27 +192,27 @@ namespace CP_SDK::Unity {
             auto l_RI  = l_TI + p_Radius;
             auto l_FV  = l_InPixels[l_TI];
             auto l_LV  = l_InPixels[l_TI + p_Width - 1];
-            auto l_Val = (p_Radius + 1) * l_FV;
+            auto l_Val = Color::op_Multiply(p_Radius + 1.0f, l_FV);
 
             for (auto l_J = 0; l_J < p_Radius; ++l_J)
-                l_Val = l_Val + (l_InPixels[l_TI + l_J]);
+                l_Val = Color::op_Addition(l_Val, (l_InPixels[l_TI + l_J]));
 
             for (auto l_J = 0; l_J <= p_Radius; ++l_J)
             {
-                l_Val = l_Val + (l_InPixels[l_RI++] - l_FV);
-                l_InPixels[l_TI++] = l_Val * l_Mult;
+                l_Val = Color::op_Addition(l_Val, Color::op_Subtraction(l_InPixels[l_RI++], l_FV));
+                l_InPixels[l_TI++] = Color::op_Multiply(l_Val, l_Mult);
             }
 
             for (auto l_J = p_Radius + 1; l_J < p_Width - p_Radius; ++l_J)
             {
-                l_Val = l_Val + (l_InPixels[l_RI++] - l_InPixels[l_LI++]);
-                l_InPixels[l_TI++] = l_Val * l_Mult;
+                l_Val = Color::op_Addition(l_Val, Color::op_Subtraction(l_InPixels[l_RI++], l_InPixels[l_LI++]));
+                l_InPixels[l_TI++] = Color::op_Multiply(l_Val, l_Mult);
             }
 
             for (auto l_J = p_Width - p_Radius; l_J < p_Width; ++l_J)
             {
-                l_Val = l_Val + (l_LV - l_InPixels[l_LI++]);
-                l_InPixels[l_TI++] = l_Val * l_Mult;
+                l_Val = Color::op_Addition(l_Val, Color::op_Subtraction(l_LV, l_InPixels[l_LI++]));
+                l_InPixels[l_TI++] = Color::op_Multiply(l_Val, l_Mult);
             }
         };
     }
@@ -227,23 +227,23 @@ namespace CP_SDK::Unity {
             auto l_RI  = l_TI + p_Radius * p_Width;
             auto l_FV  = l_InPixels[l_TI];
             auto l_LV  = l_InPixels[l_TI + p_Width * (p_Height - 1)];
-            auto l_Val = (p_Radius + 1) * l_FV;
+            auto l_Val = Color::op_Multiply(p_Radius + 1, l_FV);
 
             for (auto l_J = 0; l_J < p_Radius; ++l_J)
-                l_Val = l_Val + (l_InPixels[l_TI + l_J * p_Width]);
+                l_Val = Color::op_Addition(l_Val, l_InPixels[l_TI + l_J * p_Width]);
 
             for (auto l_J = 0; l_J <= p_Radius; ++l_J)
             {
-                l_Val = l_Val + (l_InPixels[l_RI] - l_FV);
-                l_InPixels[l_TI] = l_Val * l_Mult;
+                l_Val = Color::op_Multiply(l_Val, Color::op_Subtraction(l_InPixels[l_RI], l_FV));
+                l_InPixels[l_TI] = Color::op_Multiply(l_Val, l_Mult);
                 l_RI += p_Width;
                 l_TI += p_Width;
             }
 
             for (auto l_J = p_Radius + 1; l_J < p_Height - p_Radius; ++l_J)
             {
-                l_Val = l_Val + (l_InPixels[l_RI] - l_InPixels[l_LI]);
-                l_InPixels[l_TI] = l_Val * l_Mult;
+                l_Val = Color::op_Addition(l_Val, Color::op_Subtraction(l_InPixels[l_RI], l_InPixels[l_LI]));
+                l_InPixels[l_TI] = Color::op_Multiply(l_Val, l_Mult);
                 l_LI += p_Width;
                 l_RI += p_Width;
                 l_TI += p_Width;
@@ -251,8 +251,8 @@ namespace CP_SDK::Unity {
 
             for (auto l_J = p_Height - p_Radius; l_J < p_Height; ++l_J)
             {
-                l_Val = l_Val + (l_LV - l_InPixels[l_LI]);
-                l_InPixels[l_TI] = l_Val * l_Mult;
+                l_Val = Color::op_Addition(l_Val, Color::op_Subtraction(l_LV, l_InPixels[l_LI]));
+                l_InPixels[l_TI] = Color::op_Multiply(l_Val, l_Mult);
                 l_LI += p_Width;
                 l_TI += p_Width;
             }

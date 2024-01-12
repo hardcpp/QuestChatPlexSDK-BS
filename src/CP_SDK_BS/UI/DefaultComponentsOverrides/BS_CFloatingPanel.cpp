@@ -131,7 +131,7 @@ namespace CP_SDK_BS::UI::DefaultComponentsOverrides {
         if (!m_MoverHandle)
         {
             m_MoverHandle = GameObject::New_ctor("MoverHandle", ArrayW<System::Type*>({
-                reinterpret_cast<System::Type*>(csTypeOf(Subs::SubFloatingPanelMoverHandle*))
+                reinterpret_cast<System::Type*>(csTypeOf(Subs::SubFloatingPanelMoverHandle*).convert())
             }))->GetComponent<Subs::SubFloatingPanelMoverHandle*>();
             m_MoverHandle->get_transform()->SetParent(get_transform());
             m_MoverHandle->get_transform()->set_localPosition(Vector3::get_zero());

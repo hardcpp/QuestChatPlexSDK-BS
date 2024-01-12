@@ -137,11 +137,11 @@ namespace CP_SDK::Utils {
 
 /// @brief Override a base class method with a custom BASECLASS__NAME method (PRESERVE CSHARP NAME)
 #define CP_SDK_IL2CPP_OVERRIDE_METHOD(__mBaseClass, __mRet, __mMethodName, ...) \
-      __CP_SDK_IL2CPP_OVERRIDE_METHOD(__mBaseClass, __mRet, __mMethodName, il2cpp_utils::il2cpp_type_check::MetadataGetter<&__mBaseClass::__mMethodName>::get() __VA_OPT__(,) __VA_ARGS__)
+      __CP_SDK_IL2CPP_OVERRIDE_METHOD(__mBaseClass, __mRet, __mMethodName, il2cpp_utils::il2cpp_type_check::MetadataGetter<&__mBaseClass::__mMethodName>::methodInfo() __VA_OPT__(,) __VA_ARGS__)
 
 /// @brief Override a base class method with a custom BASECLASS__NAME method inside a namespace (PRESERVE CSHARP NAME)
 #define CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(__mNamespace, __mBaseClass, __mRet, __mMethodName, ...) \
-      __CP_SDK_IL2CPP_OVERRIDE_METHOD(__mBaseClass, __mRet, __mMethodName, il2cpp_utils::il2cpp_type_check::MetadataGetter<&__mNamespace::__mBaseClass::__mMethodName>::get() __VA_OPT__(,) __VA_ARGS__)
+      __CP_SDK_IL2CPP_OVERRIDE_METHOD(__mBaseClass, __mRet, __mMethodName, il2cpp_utils::il2cpp_type_check::MetadataGetter<&__mNamespace::__mBaseClass::__mMethodName>::methodInfo() __VA_OPT__(,) __VA_ARGS__)
 
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////

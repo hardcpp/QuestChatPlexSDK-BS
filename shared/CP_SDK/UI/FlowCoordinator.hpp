@@ -6,6 +6,8 @@
 
 #include <UnityEngine/GameObject.hpp>
 
+#include <System/Type.hpp>
+
 #define CP_SDK_UI_FLOW_COORDINATOR_INSTANCE() public: static CP_SDK::Utils::MonoPtr<___TargetType>& Instance() { return _Instance<___TargetType>(); }
 #define CP_SDK_UI_FLOW_COORDINATOR_DESTROY()  public: static void                                   Destroy()  {        _Destroy <___TargetType>(); }
 
@@ -35,7 +37,7 @@ namespace CP_SDK::UI {
             template<class t_Base> requires(std::is_assignable_v<FlowCoordinator*&, t_Base*>)
             static _v::MonoPtr<t_Base>& _Instance()
             {
-                auto l_Type = reinterpret_cast<_u::Type*>(csTypeOf(t_Base*));
+                auto l_Type = reinterpret_cast<_u::Type*>(csTypeOf(t_Base*).convert());
                 if (l_Type && m_Instances.contains(l_Type))
                     return *reinterpret_cast<_v::MonoPtr<t_Base>*>(&m_Instances[l_Type]);
 
@@ -50,7 +52,7 @@ namespace CP_SDK::UI {
             template<class t_Base> requires(std::is_assignable_v<FlowCoordinator*&, t_Base*>)
             static void _Destroy()
             {
-                auto l_Type = reinterpret_cast<_u::Type*>(csTypeOf(t_Base*));
+                auto l_Type = reinterpret_cast<_u::Type*>(csTypeOf(t_Base*).convert());
                 auto l_It   = m_Instances.find(l_Type);
                 if (!l_Type || l_It == m_Instances.end())
                     return;

@@ -47,7 +47,7 @@ namespace CP_SDK::Unity {
         m_UpdateThread = _u::Thread::New_ctor(
             _u::ThreadStart::New_ctor(
                 nullptr,
-                _u::IntPtr(reinterpret_cast<int64_t>(l_ThreadStartMethod))
+                _u::IntPtr::op_Explicit_void_(reinterpret_cast<int64_t>(l_ThreadStartMethod))
             )
         );
         m_UpdateThread->Start();

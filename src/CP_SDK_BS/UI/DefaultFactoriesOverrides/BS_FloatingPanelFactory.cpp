@@ -12,7 +12,7 @@ namespace CP_SDK_BS::UI::DefaultFactoriesOverrides {
     /// @param p_Parent Parent transform
     CP_SDK::UI::Components::CFloatingPanel* BS_FloatingPanelFactory::Create(std::u16string_view p_Name, _u::Transform* p_Parent)
     {
-        auto l_GameObject = _u::GameObject::New_ctor(p_Name, ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(_u::RectTransform*)) }));
+        auto l_GameObject = _u::GameObject::New_ctor(p_Name, ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(_u::RectTransform*).convert()) }));
         l_GameObject->get_transform()->SetParent(p_Parent, false);
 
         auto l_Element = l_GameObject->AddComponent<DefaultComponentsOverrides::BS_CFloatingPanel*>();

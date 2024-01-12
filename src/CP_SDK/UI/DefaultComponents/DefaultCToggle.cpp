@@ -5,7 +5,7 @@
 #include <UnityEngine/GameObject.hpp>
 #include <UnityEngine/Mathf.hpp>
 #include <UnityEngine/Time.hpp>
-#include <UnityEngine/UI/Toggle_ToggleEvent.hpp>
+#include <UnityEngine/UI/Toggle.hpp>
 #include <UnityEngine/Vector2.hpp>
 #include <UnityEngine/Vector3.hpp>
 
@@ -73,8 +73,8 @@ namespace CP_SDK::UI::DefaultComponents {
             ColorU::WithAlpha(UISystem::SecondaryColor, 150.0f / 255.0f)
         );
         m_DisabledColors = ColorBlock(
-            ColorU::Convert(Color32(  0,   0,   0,  64)),
-            ColorU::Convert(Color32(  0,   0,   0,  68))
+            ColorU::Convert(Color32(0,   0,   0,   0,  64)),
+            ColorU::Convert(Color32(0,   0,   0,   0,  68))
         );
 
         get_gameObject()->set_layer(UISystem::UILayer);
@@ -88,11 +88,11 @@ namespace CP_SDK::UI::DefaultComponents {
         m_LElement->set_minWidth       (15.0f);
         m_LElement->set_minHeight      ( 5.0f);
 
-        auto l_View = reinterpret_cast<RectTransform*>(GameObject::New_ctor("View", ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*)) }))->get_transform());
+        auto l_View = reinterpret_cast<RectTransform*>(GameObject::New_ctor("View", ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()) }))->get_transform());
         l_View->get_gameObject()->set_layer(UISystem::UILayer);
         l_View->SetParent(get_transform(), false);
-        l_View->set_anchorMin        (0.5f * Vector2::get_one());
-        l_View->set_anchorMax        (0.5f * Vector2::get_one());
+        l_View->set_anchorMin        (Vector2::op_Multiply(Vector2::get_one(), 0.5f));
+        l_View->set_anchorMax        (Vector2::op_Multiply(Vector2::get_one(), 0.5f));
         l_View->set_sizeDelta        (Vector2(15.0f, 5.0f));
 
         m_Toggle = l_View->get_gameObject()->AddComponent<Subs::SubToggleWithCallbacks*>();
@@ -103,8 +103,8 @@ namespace CP_SDK::UI::DefaultComponents {
         m_BackgroundImage = reinterpret_cast<Image*>(GameObject::New_ctor("BG", ArrayW<System::Type*>({ UISystem::Override_UnityComponent_Image.ptr() }))->GetComponent(UISystem::Override_UnityComponent_Image.ptr()));
         m_BackgroundImage->get_gameObject()->set_layer(UISystem::UILayer);
         m_BackgroundImage->get_rectTransform()->SetParent(l_View, false);
-        m_BackgroundImage->get_rectTransform()->set_anchorMin(0.5f * Vector2::get_one());
-        m_BackgroundImage->get_rectTransform()->set_anchorMax(0.5f * Vector2::get_one());
+        m_BackgroundImage->get_rectTransform()->set_anchorMin(Vector2::op_Multiply(Vector2::get_one(), 0.5f));
+        m_BackgroundImage->get_rectTransform()->set_anchorMax(Vector2::op_Multiply(Vector2::get_one(), 0.5f));
         m_BackgroundImage->get_rectTransform()->set_sizeDelta(Vector2(15.0f, 5.0f));
         m_BackgroundImage->set_sprite     (UISystem::GetUIRoundBGSprite().Ptr());
         m_BackgroundImage->set_color      (Color(0.0f, 0.0f, 0.0f, 0.5f));
@@ -126,7 +126,7 @@ namespace CP_SDK::UI::DefaultComponents {
         m_OnText->RTransform()->set_sizeDelta    (Vector2( 6.00f, 0.00f));
         m_OnText->RTransform()->set_localPosition(Vector3(-3.25f, 0.00f, 0.00f));
 
-        auto l_Knob = reinterpret_cast<RectTransform*>(GameObject::New_ctor("Knob", ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*)) }))->get_transform());
+        auto l_Knob = reinterpret_cast<RectTransform*>(GameObject::New_ctor("Knob", ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()) }))->get_transform());
         l_Knob->get_gameObject()->set_layer(UISystem::UILayer);
         l_Knob->SetParent(m_BackgroundImage->get_rectTransform(), false);
         l_Knob->set_anchorMin    (Vector2( 0.50f, 0.0f));

@@ -1,69 +1,18 @@
 {
   "config": {
+    "version": "0.1.0",
     "sharedDir": "shared",
     "dependenciesDir": "extern",
     "info": {
       "name": "ChatPlexSDK-BS",
       "id": "chatplex-sdk-bs",
-      "version": "6.2.0",
+      "version": "6.2.1",
       "url": "https://github.com/hardcpp/QuestChatPlexSDK-BS",
       "additionalData": {
         "overrideSoName": "libchatplex-sdk-bs.so",
         "cmake": true
       }
     },
-    "dependencies": [
-      {
-        "id": "beatsaber-hook",
-        "versionRange": "^3.14.0",
-        "additionalData": {
-          "extraFiles": [
-            "src/inline-hook"
-          ]
-        }
-      },
-      {
-        "id": "codegen",
-        "versionRange": "^0.33.0",
-        "additionalData": {}
-      },
-      {
-        "id": "custom-types",
-        "versionRange": "^0.15.24",
-        "additionalData": {}
-      },
-      {
-        "id": "modloader",
-        "versionRange": "^1.2.3",
-        "additionalData": {}
-      },
-      {
-        "id": "bsml",
-        "versionRange": "^0.3.1",
-        "additionalData": {
-          "private": true
-        }
-      },
-      {
-        "id": "libil2cpp",
-        "versionRange": "^0.2.3",
-        "additionalData": {}
-      },
-      {
-        "id": "songloader",
-        "versionRange": "^0.10.17",
-        "additionalData": {
-          "private": true
-        }
-      },
-      {
-        "id": "conditional-dependencies",
-        "versionRange": "*",
-        "additionalData": {
-          "private": true
-        }
-      }
-    ],
     "workspace": {
       "scripts": {
         "build": [
@@ -88,86 +37,137 @@
           "pwsh ./createqmod.ps1 -clean"
         ]
       }
-    }
+    },
+    "dependencies": [
+      {
+        "id": "beatsaber-hook",
+        "versionRange": "^1.2.3",
+        "additionalData": {
+          "extraFiles": []
+        }
+      },
+      {
+        "id": "bs-cordl",
+        "versionRange": "=0.1.0",
+        "additionalData": {}
+      },
+      {
+        "id": "custom-types",
+        "versionRange": "^0.4.6",
+        "additionalData": {}
+      },
+      {
+        "id": "scotland2",
+        "versionRange": "^0.1.3",
+        "additionalData": {}
+      },
+      {
+        "id": "bsml",
+        "versionRange": "^0.5.0",
+        "additionalData": {
+          "private": true
+        }
+      },
+      {
+        "id": "libil2cpp",
+        "versionRange": "^0.3.1",
+        "additionalData": {}
+      },
+      {
+        "id": "songloader",
+        "versionRange": "=0.0.1",
+        "additionalData": {
+          "private": true
+        }
+      },
+      {
+        "id": "conditional-dependencies",
+        "versionRange": "^0.1.1",
+        "additionalData": {
+          "private": true
+        }
+      }
+    ]
   },
   "restoredDependencies": [
     {
       "dependency": {
         "id": "bsml",
-        "versionRange": "=0.3.3",
+        "versionRange": "=0.5.0",
         "additionalData": {
-          "soLink": "https://github.com/RedBrumbler/Quest-BSML/releases/download/v0.3.3/libbsml.so",
-          "debugSoLink": "https://github.com/RedBrumbler/Quest-BSML/releases/download/v0.3.3/debug_libbsml.so",
           "overrideSoName": "libbsml.so",
-          "modLink": "https://github.com/RedBrumbler/Quest-BSML/releases/download/v0.3.3/BSML.qmod",
-          "branchName": "version-v0.3.3"
+          "cmake": true
         }
       },
-      "version": "0.3.3"
+      "version": "0.5.0"
     },
     {
       "dependency": {
         "id": "libil2cpp",
-        "versionRange": "=0.2.3",
+        "versionRange": "=0.3.1",
         "additionalData": {
           "headersOnly": true
         }
       },
-      "version": "0.2.3"
-    },
-    {
-      "dependency": {
-        "id": "modloader",
-        "versionRange": "=1.2.3",
-        "additionalData": {
-          "soLink": "https://github.com/sc2ad/QuestLoader/releases/download/v1.2.3/libmodloader64.so",
-          "overrideSoName": "libmodloader.so",
-          "branchName": "version-v1.2.3"
-        }
-      },
-      "version": "1.2.3"
-    },
-    {
-      "dependency": {
-        "id": "songloader",
-        "versionRange": "=0.10.17",
-        "additionalData": {
-          "soLink": "https://github.com/darknight1050/SongLoader/releases/download/v0.10.17/libsongloader.so",
-          "debugSoLink": "https://github.com/darknight1050/SongLoader/releases/download/v0.10.17/debug_libsongloader.so",
-          "overrideSoName": "libsongloader.so",
-          "modLink": "https://github.com/darknight1050/SongLoader/releases/download/v0.10.17/SongLoader.qmod",
-          "branchName": "version-v0.10.17"
-        }
-      },
-      "version": "0.10.17"
-    },
-    {
-      "dependency": {
-        "id": "custom-types",
-        "versionRange": "=0.15.24",
-        "additionalData": {
-          "soLink": "https://github.com/sc2ad/Il2CppQuestTypePatching/releases/download/v0.15.24/libcustom-types.so",
-          "debugSoLink": "https://github.com/sc2ad/Il2CppQuestTypePatching/releases/download/v0.15.24/debug_libcustom-types.so",
-          "overrideSoName": "libcustom-types.so",
-          "modLink": "https://github.com/sc2ad/Il2CppQuestTypePatching/releases/download/v0.15.24/CustomTypes.qmod",
-          "branchName": "version-v0.15.24"
-        }
-      },
-      "version": "0.15.24"
+      "version": "0.3.1"
     },
     {
       "dependency": {
         "id": "paper",
-        "versionRange": "=1.2.14",
+        "versionRange": "=3.3.0",
         "additionalData": {
-          "soLink": "https://github.com/Fernthedev/paperlog/releases/download/v1.2.14/libpaperlog.so",
-          "debugSoLink": "https://github.com/Fernthedev/paperlog/releases/download/v1.2.14/debug_libpaperlog.so",
+          "soLink": "https://github.com/Fernthedev/paperlog/releases/download/v3.3.0/libpaperlog.so",
+          "debugSoLink": "https://github.com/Fernthedev/paperlog/releases/download/v3.3.0/debug_libpaperlog.so",
           "overrideSoName": "libpaperlog.so",
-          "modLink": "https://github.com/Fernthedev/paperlog/releases/download/v1.2.14/paperlog.qmod",
-          "branchName": "version/v1_2_14"
+          "modLink": "https://github.com/Fernthedev/paperlog/releases/download/v3.3.0/paperlog.qmod",
+          "branchName": "version/v3_3_0",
+          "cmake": false
         }
       },
-      "version": "1.2.14"
+      "version": "3.3.0"
+    },
+    {
+      "dependency": {
+        "id": "songloader",
+        "versionRange": "=0.0.1",
+        "additionalData": {
+          "overrideSoName": "libsongloader.so"
+        }
+      },
+      "version": "0.0.1"
+    },
+    {
+      "dependency": {
+        "id": "custom-types",
+        "versionRange": "=0.4.6",
+        "additionalData": {
+          "overrideSoName": "libcustom-types.so",
+          "compileOptions": {
+            "cppFlags": [
+              "-Wno-invalid-offsetof"
+            ]
+          },
+          "cmake": true
+        }
+      },
+      "version": "0.4.6"
+    },
+    {
+      "dependency": {
+        "id": "kaleb",
+        "versionRange": "=0.1.7",
+        "additionalData": {
+          "headersOnly": true,
+          "branchName": "version/v0_1_7",
+          "compileOptions": {
+            "cppFlags": [
+              "-DKALEB_VERSION=\"0.1.7\""
+            ]
+          },
+          "cmake": false
+        }
+      },
+      "version": "0.1.7"
     },
     {
       "dependency": {
@@ -185,38 +185,47 @@
     },
     {
       "dependency": {
-        "id": "conditional-dependencies",
+        "id": "bs-cordl",
         "versionRange": "=0.1.0",
         "additionalData": {
-          "headersOnly": true
+          "headersOnly": true,
+          "compileOptions": {
+            "includePaths": [
+              "include"
+            ],
+            "cppFeatures": [],
+            "cppFlags": [
+              "-DNEED_UNSAFE_CSHARP",
+              "-fdeclspec",
+              "-DUNITY_2021",
+              "-DHAS_CODEGEN"
+            ]
+          }
         }
       },
       "version": "0.1.0"
     },
     {
       "dependency": {
-        "id": "beatsaber-hook",
-        "versionRange": "=3.14.0",
+        "id": "conditional-dependencies",
+        "versionRange": "=0.1.1",
         "additionalData": {
-          "soLink": "https://github.com/sc2ad/beatsaber-hook/releases/download/v3.14.0/libbeatsaber-hook_3_14_0.so",
-          "debugSoLink": "https://github.com/sc2ad/beatsaber-hook/releases/download/v3.14.0/debug_libbeatsaber-hook_3_14_0.so",
-          "branchName": "version-v3.14.0"
+          "headersOnly": true
         }
       },
-      "version": "3.14.0"
+      "version": "0.1.1"
     },
     {
       "dependency": {
-        "id": "codegen",
-        "versionRange": "=0.33.0",
+        "id": "beatsaber-hook",
+        "versionRange": "=1.2.3",
         "additionalData": {
-          "soLink": "https://github.com/sc2ad/BeatSaber-Quest-Codegen/releases/download/v0.33.0/libcodegen.so",
-          "overrideSoName": "libcodegen.so",
-          "modLink": "https://github.com/sc2ad/BeatSaber-Quest-Codegen/releases/download/v0.33.0/Codegen.qmod",
-          "branchName": "version-v0.33.0"
+          "soLink": "https://github.com/sc2ad/beatsaber-hook/releases/download/v0.5.8/libbeatsaber-hook.so",
+          "debugSoLink": "https://github.com/sc2ad/beatsaber-hook/releases/download/v0.5.8/debug_libbeatsaber-hook.so",
+          "branchName": "master"
         }
       },
-      "version": "0.33.0"
+      "version": "1.2.3"
     },
     {
       "dependency": {
@@ -239,17 +248,31 @@
     },
     {
       "dependency": {
-        "id": "tinyxml2",
-        "versionRange": "=9.0.5",
+        "id": "scotland2",
+        "versionRange": "=0.1.3",
         "additionalData": {
-          "soLink": "https://github.com/MillzyDev/NDK-tinyxml2/releases/download/v9.0.5/libtinyxml2.so",
-          "debugSoLink": "https://github.com/MillzyDev/NDK-tinyxml2/releases/download/v9.0.5/debug_libtinyxml2.so",
-          "overrideSoName": "libtinyxml2.so",
-          "modLink": "https://github.com/MillzyDev/NDK-tinyxml2/releases/download/v9.0.5/tinyxml2.qmod",
-          "branchName": "version-v9.0.5"
+          "soLink": "https://github.com/sc2ad/scotland2/releases/download/v0.1.3/libsl2.so",
+          "debugSoLink": "https://github.com/sc2ad/scotland2/releases/download/v0.1.3/debug_libsl2.so",
+          "overrideSoName": "libsl2.so",
+          "branchName": "version/v0_1_3"
         }
       },
-      "version": "9.0.5"
+      "version": "0.1.3"
+    },
+    {
+      "dependency": {
+        "id": "tinyxml2",
+        "versionRange": "=9.0.6",
+        "additionalData": {
+          "soLink": "https://github.com/MillzyDev/NDK-tinyxml2/releases/download/v9.0.6/libtinyxml2.so",
+          "debugSoLink": "https://github.com/MillzyDev/NDK-tinyxml2/releases/download/v9.0.6/debug_libtinyxml2.so",
+          "overrideSoName": "libtinyxml2.so",
+          "modLink": "https://github.com/MillzyDev/NDK-tinyxml2/releases/download/v9.0.6/.qmod",
+          "branchName": "version/v9_0_6",
+          "cmake": true
+        }
+      },
+      "version": "9.0.6"
     }
   ]
 }

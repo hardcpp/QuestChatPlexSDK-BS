@@ -6,7 +6,7 @@
 #include <System/Net/HttpStatusCode.hpp>
 #include <UnityEngine/Networking/DownloadHandlerBuffer.hpp>
 #include <UnityEngine/Networking/UploadHandler.hpp>
-#include <UnityEngine/Networking/UploadHandlerRaw.hpp>
+//#include <UnityEngine/Networking/UploadHandlerRaw.hpp>
 #include <UnityEngine/Networking/UnityWebRequestAsyncOperation.hpp>
 #include <UnityEngine/WaitForSecondsRealtime.hpp>
 
@@ -192,8 +192,10 @@ namespace CP_SDK::Network {
         p_Request->set_timeout(p_IsDownload ? DownloadTimeout : m_Timeout);
 
         std::lock_guard<std::mutex> l_Guard(m_HeadersLock);
+
+        static auto s_UnityWebRequest_InternalSetRequestHeader = il2cpp_utils::resolve_icall<UnityWebRequest::UnityWebRequestError, UnityWebRequest*, StringW, StringW>("UnityEngine.Networking.UnityWebRequest::InternalSetRequestHeader");
         for (auto const& [l_Header, l_Value] : m_Headers)
-            p_Request->SetRequestHeader(l_Header, l_Value);
+            s_UnityWebRequest_InternalSetRequestHeader(p_Request, l_Header, l_Value);
     }
     /// @brief Do request
     /// @param p_DebugName   Method name for logs
@@ -218,7 +220,7 @@ namespace CP_SDK::Network {
         ChatPlexSDK::Logger()->Debug(u"[CP_SDK.Network][WebClientUnity." + p_DebugName + u"] " + p_HttpMethod + u" " + p_URL);
 #endif
 
-        auto l_Reply = (WebResponse::Ptr)nullptr;
+        WebResponse::Ptr l_Reply = nullptr;
         for (int l_RetryI = 1; l_RetryI <= p_Self->MaxRetry; l_RetryI++)
         {
             if (p_Token.get_IsCancellationRequested())
@@ -231,20 +233,20 @@ namespace CP_SDK::Network {
             {
                 static auto s_UploadHandler_InternalSetContentType = il2cpp_utils::resolve_icall<void, UploadHandler*, StringW>("UnityEngine.Networking.UploadHandler::InternalSetContentType");
 
-                auto l_UploadHandler = UploadHandlerRaw::New_ctor(p_Content->Bytes.Ptr());
-                s_UploadHandler_InternalSetContentType(l_UploadHandler, p_Content->Type);
+                //auto l_UploadHandler = UploadHandlerRaw::New_ctor(p_Content->Bytes.Ptr());
+                //s_UploadHandler_InternalSetContentType(l_UploadHandler, p_Content->Type);
 
-                l_Request = UnityWebRequest::New_ctor(p_URL, p_HttpMethod);
-                l_Request->set_uploadHandler(l_UploadHandler);
+                l_Request = UnityWebRequest::New_ctor(p_URL, p_HttpMethod, nullptr, nullptr);
+                //l_Request->set_uploadHandler(l_UploadHandler);
                 l_Request->set_downloadHandler(DownloadHandlerBuffer::New_ctor());
             }
             else if (p_HttpMethod == u"DELETE")
-                l_Request = UnityWebRequest::New_ctor(p_URL, p_HttpMethod);
+                l_Request = UnityWebRequest::New_ctor(p_URL, p_HttpMethod, nullptr, nullptr);
 
             p_Self->PrepareRequest(l_Request.Ptr(), p_HttpMethod == u"DOWNLOAD");
 
             if (!p_Progress.IsValid())
-                co_yield reinterpret_cast<System::Collections::IEnumerator*>(l_Request->SendWebRequest());
+                co_yield reinterpret_cast<Collections::IEnumerator*>(l_Request->SendWebRequest());
             else
             {
                 try { p_Progress(0.0f); } catch (const std::exception&) { }
@@ -253,10 +255,10 @@ namespace CP_SDK::Network {
                 auto l_Waiter = WaitForSecondsRealtime::New_ctor(0.05f);
                 do
                 {
-                    co_yield l_Waiter->i_IEnumerator();
+                    co_yield l_Waiter->i___System__Collections__IEnumerator();
                     try { p_Progress(l_Request->get_downloadProgress()); } catch (const std::exception&) { }
 
-                    if (p_Token.get_IsCancellationRequested() || l_Request->get_isDone() || l_Request->get_isHttpError() || l_Request->get_isNetworkError())
+                    if (p_Token.get_IsCancellationRequested() || l_Request->get_isDone() || l_Request->get_result() == UnityWebRequest::Result::ProtocolError || l_Request->get_result() == UnityWebRequest::Result::ConnectionError)
                         break;
                 } while (true);
             }
@@ -285,7 +287,7 @@ namespace CP_SDK::Network {
             if (!l_Reply->IsSuccessStatusCode())
             {
                 auto l_LogPrefix = u"[CP_SDK.Network][WebClientUnity." + p_DebugName + u"] Request " + p_Self->SafeURL(p_URL) + u" failed with code ";
-                l_LogPrefix += StringW(std::to_string((int)l_Reply->StatusCode()));
+                l_LogPrefix += StringW(std::to_string(l_Reply->StatusCode().value__));
                 l_LogPrefix += u":\"" + l_Reply->ReasonPhrase() + "\", ";
 
                 if (!l_Reply->ShouldRetry() || p_DontRetry)
@@ -296,7 +298,7 @@ namespace CP_SDK::Network {
 
                 ChatPlexSDK::Logger()->Error(l_LogPrefix + u" next try in " + (std::u16string)StringW(std::to_string(p_Self->RetryInterval)) + u" seconds...");
 
-                co_yield WaitForSecondsRealtime::New_ctor(p_Self->RetryInterval)->i_IEnumerator();
+                co_yield WaitForSecondsRealtime::New_ctor(p_Self->RetryInterval)->i___System__Collections__IEnumerator();
                 continue;
             }
             else

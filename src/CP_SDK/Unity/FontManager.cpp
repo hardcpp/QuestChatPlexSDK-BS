@@ -61,17 +61,17 @@ namespace CP_SDK::Unity {
 
             m_MainFont = TMP_FontAsset::CreateFontAsset(m_BundleFont.Ptr()->get_sourceFontFile());
             m_MainFont->set_name(m_BundleFont->get_name() + " CloneMain");
-            m_MainFont->hashCode = TMP_TextUtilities::GetSimpleHashCode(m_MainFont->get_name());
+            m_MainFont->___hashCode = TMP_TextUtilities::GetSimpleHashCode(m_MainFont->get_name());
             m_MainFont->set_fallbackFontAssetTable(m_BundleFont->get_fallbackFontAssetTable());
 
             if (m_TMPFontAssetSetup.IsValid())
                 m_MainFont = m_TMPFontAssetSetup(m_MainFont.Ptr());
 
-            m_MainFont->normalStyle          =  0.5f;
-            m_MainFont->normalSpacingOffset  = -1.0f;
-            m_MainFont->boldStyle            =  2.0f;
-            m_MainFont->boldSpacing          =  2.0f;
-            m_MainFont->italicStyle          = 15;
+            m_MainFont->___normalStyle          =  0.5f;
+            m_MainFont->___normalSpacingOffset  = -1.0f;
+            m_MainFont->___boldStyle            =  2.0f;
+            m_MainFont->___boldSpacing          =  2.0f;
+            m_MainFont->___italicStyle          = 15;
 
             m_ChatFont = m_BundleFont.Ptr();
         }

@@ -2,7 +2,7 @@
 #include "CP_SDK/ChatPlexSDK.hpp"
 
 #include <conditional-dependencies/shared/main.hpp>
-#include <modloader/shared/modloader.hpp>
+#include <scotland2/shared/modloader.h>
 #include <GlobalNamespace/GameScenesManager.hpp>
 
 namespace CP_SDK_BS::Game {
@@ -69,18 +69,24 @@ namespace CP_SDK_BS::Game {
         /// Doesn't seem to be required on Quest
     }
 
-    ////////////////////////////////////////////////////////////////////////////
+    bool Scoring::HasMod(std::string id) {
+        auto mods = modloader::get_all();
+        return std::ranges::find_if(mods, [id](const modloader::ModResult& val) { return val.info.id == id; }) != mods.end();
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Init scoring utils
     void Scoring::Init()
     {
+
         if (m_Init)
             return;
 
-        m_IsScoreSaberPresent = Modloader::getMods().contains("scoresaber");
+        m_IsScoreSaberPresent = HasMod("scoresaber");
 
-        m_IsBeatLeaderPresent = Modloader::getMods().contains("BeatLeader");
+        m_IsBeatLeaderPresent = HasMod("BeatLeader");
         if (m_IsBeatLeaderPresent)
             m_BeatLeaderIsInReplayFN = CondDeps::FindUnsafe<bool>("replay", "IsInReplay");
 
