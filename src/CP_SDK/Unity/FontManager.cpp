@@ -30,6 +30,8 @@ namespace CP_SDK::Unity {
     /// @brief Init the font manager
     void FontManager::Init()
     {
+        ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][FontManager.Init] Loading font asset bundle...");
+        
         static auto s_LoadFromMemory = reinterpret_cast<t_AssetBundle_LoadFromMemory>(il2cpp_functions::resolve_icall("UnityEngine.AssetBundle::LoadFromMemory_Internal"));
 
         m_AssetBundle = s_LoadFromMemory(Assets::QuestFonts_bundle, 0);

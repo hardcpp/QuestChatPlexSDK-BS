@@ -43,14 +43,14 @@ namespace CP_SDK::Unity {
 
         m_RunCondition = true;
 
-        auto l_ThreadStartMethod = il2cpp_functions::class_get_method_from_name(classof(__MTThreadInvokerDummy*), "Dummy", 0);
+        /*auto l_ThreadStartMethod = il2cpp_functions::class_get_method_from_name(classof(__MTThreadInvokerDummy*), "Dummy", 0);
         m_UpdateThread = _u::Thread::New_ctor(
             _u::ThreadStart::New_ctor(
                 nullptr,
                 _u::IntPtr::op_Explicit_void_(reinterpret_cast<int64_t>(l_ThreadStartMethod))
             )
         );
-        m_UpdateThread->Start();
+        m_UpdateThread->Start();*/
     }
     /// @brief Stop
     void MTThreadInvoker::Destroy()
