@@ -39,12 +39,12 @@ namespace CP_SDK::UI::DefaultComponents {
 
         get_gameObject()->set_layer(UISystem::UILayer);
 
-        m_RTransform = reinterpret_cast<RectTransform*>(get_transform());
+        m_RTransform = get_transform().try_cast<RectTransform>().value_or(nullptr);
         m_RTransform->set_sizeDelta(Vector2(5.0f, 5.0f));
 
         m_LElement = get_gameObject()->AddComponent<LayoutElement*>();
 
-        m_ImageC = reinterpret_cast<Image*>(get_gameObject()->AddComponent(UISystem::Override_UnityComponent_Image.ptr()));
+        m_ImageC = get_gameObject()->AddComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
         m_ImageC->set_material                  (UISystem::Override_GetUIMaterial());
         m_ImageC->set_type                      (Image::Type::Simple);
         m_ImageC->set_pixelsPerUnitMultiplier   (1);

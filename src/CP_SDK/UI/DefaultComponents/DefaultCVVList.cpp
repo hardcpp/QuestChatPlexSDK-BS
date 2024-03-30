@@ -54,7 +54,7 @@ namespace CP_SDK::UI::DefaultComponents {
         if (m_RTransform)
             return;
 
-        m_RTransform = reinterpret_cast<RectTransform*>(get_transform());
+        m_RTransform = get_transform().try_cast<RectTransform>().value_or(nullptr);
 
         m_ScrollView = get_gameObject()->AddComponent<DefaultCVScrollView*>();
         m_ScrollView->Init();

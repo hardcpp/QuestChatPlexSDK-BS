@@ -3,7 +3,7 @@
 #define __CP_SDK_U16STR(__mX) u##__mX
 #define CP_SDK_U16STR(__mX) __CP_SDK_U16STR(#__mX)
 
-#include "../Logging/BMBFLogger.hpp"
+#include "../Logging/PaperLogger.hpp"
 #include "Internals/Il2cpp_enum.hpp"
 #include "Internals/il2cpp_customtype.hpp"
 #include "Internals/il2cpp_hook.hpp"
@@ -46,12 +46,12 @@ namespace CP_SDK::Utils {
 
         private:
             /// @brief Registered hooks
-            static std::vector<void (*)(Logger& logger)> m_InstalledFuncs;
+            static std::vector<void (*)(Paper::LoggerContext& logger)> m_InstalledFuncs;
 
         public:
             /// @brief Register a hook
             /// @param p_Function Function to register
-            static void Register(void (*p_Function)(Logger&));
+            static void Register(void (*p_Function)(Paper::LoggerContext&));
             /// @brief Install all hooks
             static void InstallHooks();
 

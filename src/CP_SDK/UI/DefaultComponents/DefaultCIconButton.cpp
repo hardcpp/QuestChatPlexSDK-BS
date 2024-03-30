@@ -49,11 +49,11 @@ namespace CP_SDK::UI::DefaultComponents {
 
         get_gameObject()->set_layer(UISystem::UILayer);
 
-        m_RTransform = reinterpret_cast<RectTransform*>(get_transform());
+        m_RTransform = get_transform().try_cast<RectTransform>().value_or(nullptr);
 
         m_LElement = get_gameObject()->AddComponent<LayoutElement*>();
 
-        m_IconImage = reinterpret_cast<Image*>(GameObject::New_ctor(u"Icon", ArrayW<System::Type*>({ UISystem::Override_UnityComponent_Image.ptr() }))->GetComponent(UISystem::Override_UnityComponent_Image.ptr()));
+        m_IconImage = GameObject::New_ctor(u"Icon", ArrayW<System::Type*>({ UISystem::Override_UnityComponent_Image.ptr() }))->GetComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
         m_IconImage->get_gameObject()->set_layer(UISystem::UILayer);
         m_IconImage->get_rectTransform()->SetParent           (get_transform(), false);
         m_IconImage->get_rectTransform()->set_anchorMin       (Vector2::get_zero());
@@ -73,7 +73,7 @@ namespace CP_SDK::UI::DefaultComponents {
         //m_Button->get_onClick()->RemoveAllListeners();
         m_Button->get_onClick()->AddListener(MakeUnityAction(std::bind(&DefaultCIconButton::Button_OnClick, this)));
 
-        auto l_FakeBg = reinterpret_cast<Image*>(get_gameObject()->AddComponent(UISystem::Override_UnityComponent_Image.ptr()));
+        auto l_FakeBg = get_gameObject()->AddComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
         l_FakeBg->set_material               (UISystem::Override_GetUIMaterial());
         l_FakeBg->set_type                   (Image::Type::Simple);
         l_FakeBg->set_pixelsPerUnitMultiplier(1);

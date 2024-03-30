@@ -71,7 +71,9 @@ namespace CP_SDK_BS::Game {
 
     bool Scoring::HasMod(std::string id) {
         auto mods = modloader::get_all();
-        return std::ranges::find_if(mods, [id](const modloader::ModResult& val) { return val.info.id == id; }) != mods.end();
+        return std::ranges::find_if(mods, [id](const modloader::ModResult& val) {
+            return std::holds_alternative<modloader::ModData>(val) && std::get<modloader::ModData>(val).info.id == id;
+        }) != mods.end();
     }
 
     /////////////////////////////////////////////////////////////////////////////

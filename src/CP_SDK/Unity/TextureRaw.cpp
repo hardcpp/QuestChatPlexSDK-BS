@@ -29,17 +29,17 @@ namespace CP_SDK::Unity {
         p_Width     = 0;
         p_Height    = 0;
 
-        if (p_Bytes == nullptr && p_Bytes->Length() == 0)
+        if (p_Bytes == nullptr && p_Bytes->get_Length() == 0)
             return false;
 
         int l_InputChannels;
 
-        if (!stbi_info_from_memory(p_Bytes->values, p_Bytes->Length(), &p_Width, &p_Height, &l_InputChannels))
+        if (!stbi_info_from_memory(p_Bytes->_values, p_Bytes->get_Length(), &p_Width, &p_Height, &l_InputChannels))
             return false;
 
         stbi_set_flip_vertically_on_load(1);
 
-        auto l_STBIBuffer = stbi_load_from_memory(p_Bytes->values, p_Bytes->Length(), &p_Width, &p_Height, &l_InputChannels, 4);
+        auto l_STBIBuffer = stbi_load_from_memory(p_Bytes->_values, p_Bytes->get_Length(), &p_Width, &p_Height, &l_InputChannels, 4);
         if (!l_STBIBuffer)
             return false;
 

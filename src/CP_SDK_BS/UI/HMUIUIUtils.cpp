@@ -26,7 +26,7 @@ namespace CP_SDK_BS::UI {
         if (m_MainFlowCoordinator)
             return m_MainFlowCoordinator.Ptr();
 
-        m_MainFlowCoordinator = Resources::FindObjectsOfTypeAll<GlobalNamespace::MainFlowCoordinator*>().First();
+        m_MainFlowCoordinator = Resources::FindObjectsOfTypeAll<GlobalNamespace::MainFlowCoordinator*>()->First();
 
         return m_MainFlowCoordinator.Ptr();
     }
@@ -39,10 +39,10 @@ namespace CP_SDK_BS::UI {
     HMUI::FlowCoordinator* HMUIUIUtils::CreateFlowCoordinator(System::Type* p_Type)
     {
         if (!m_MainFlowCoordinator)
-            m_MainFlowCoordinator = Resources::FindObjectsOfTypeAll<GlobalNamespace::MainFlowCoordinator*>().First();
+            m_MainFlowCoordinator = Resources::FindObjectsOfTypeAll<GlobalNamespace::MainFlowCoordinator*>()->First();
 
         auto l_InputModule = m_MainFlowCoordinator->_baseInputModule;
-        auto l_Coordinator = reinterpret_cast<HMUI::FlowCoordinator*>(GameObject::New_ctor(p_Type->get_Name())->AddComponent(p_Type));
+        auto l_Coordinator = GameObject::New_ctor(p_Type->get_Name())->AddComponent(p_Type).try_cast<HMUI::FlowCoordinator>().value_or(nullptr);
 
         l_Coordinator->_baseInputModule = l_InputModule;
 
@@ -53,10 +53,10 @@ namespace CP_SDK_BS::UI {
     HMUI::ViewController* HMUIUIUtils::CreateViewController(System::Type* p_Type)
     {
         if (!m_CanvasTemplate)
-            m_CanvasTemplate = Resources::FindObjectsOfTypeAll<Canvas*>().First([](Canvas* x) -> bool { return x->get_name() == u"DropdownTableView"; });
+            m_CanvasTemplate = Resources::FindObjectsOfTypeAll<Canvas*>()->First([](Canvas* x) -> bool { return x->get_name() == u"DropdownTableView"; });
 
         if (!m_PhysicsRaycaster)
-            m_PhysicsRaycaster = Resources::FindObjectsOfTypeAll<MainMenuViewController*>().First()->GetComponent<VRGraphicRaycaster*>()->_physicsRaycaster;
+            m_PhysicsRaycaster = Resources::FindObjectsOfTypeAll<MainMenuViewController*>()->First()->GetComponent<VRGraphicRaycaster*>()->_physicsRaycaster;
 
         auto l_GameObject = GameObject::New_ctor(p_Type->get_Name());
         auto l_Canvas     = l_GameObject->AddComponent<Canvas*>();
@@ -78,7 +78,7 @@ namespace CP_SDK_BS::UI {
         l_GameObject->get_gameObject()->AddComponent<VRGraphicRaycaster*>()->_physicsRaycaster = m_PhysicsRaycaster.Ptr();
         l_GameObject->get_gameObject()->AddComponent<CanvasGroup*>();
 
-        auto l_View = reinterpret_cast<HMUI::ViewController*>(l_GameObject->AddComponent(p_Type));
+        auto l_View = l_GameObject->AddComponent(p_Type).try_cast<HMUI::ViewController>().value_or(nullptr);
         l_View->get_rectTransform()->set_anchorMin       (Vector2(0.0f, 0.0f));
         l_View->get_rectTransform()->set_anchorMax       (Vector2(1.0f, 1.0f));
         l_View->get_rectTransform()->set_sizeDelta       (Vector2(0.0f, 0.0f));

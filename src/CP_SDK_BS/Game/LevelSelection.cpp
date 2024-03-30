@@ -1,4 +1,4 @@
-#include "CP_SDK_BS/Game/LevelSelection.hpp"
+/*#include "CP_SDK_BS/Game/LevelSelection.hpp"
 #include "CP_SDK_BS/Game/Logic.hpp"
 #include "CP_SDK/Unity/MTCoroutineStarter.hpp"
 #include <custom-types/shared/delegate.hpp>
@@ -15,7 +15,7 @@
 
 namespace CP_SDK_BS::Game {
 
-    _v::MonoPtr<_u::CustomPreviewBeatmapLevel>  LevelSelection::m_PendingFilterSong;
+    _v::MonoPtr<_u::BeatmapLevel>  LevelSelection::m_PendingFilterSong;
     bool                                        LevelSelection::m_PreventLevelSearchViewController_didStartLoadingEvent;
 
     ////////////////////////////////////////////////////////////////////////////
@@ -28,13 +28,13 @@ namespace CP_SDK_BS::Game {
 
     /// @brief Filter to specific song
     /// @param p_SongToFilter Song to filter
-    bool LevelSelection::FilterToSpecificSong(_u::CustomPreviewBeatmapLevel* p_SongToFilter)
+    bool LevelSelection::FilterToSpecificSong(_u::BeatmapLevel* p_SongToFilter)
     {
         m_PendingFilterSong = p_SongToFilter;
 
         try
         {
-            auto l_LevelFilteringNavigationController = _u::Resources::FindObjectsOfTypeAll<_u::LevelSelectionNavigationController*>().FirstOrDefault();
+            auto l_LevelFilteringNavigationController = _u::Resources::FindObjectsOfTypeAll<_u::LevelSelectionNavigationController*>()->FirstOrDefault();
             if (l_LevelFilteringNavigationController)
             {
                 if (l_LevelFilteringNavigationController->get_gameObject()->get_activeInHierarchy())
@@ -268,3 +268,4 @@ namespace CP_SDK_BS::Game {
     }
 
 }   ///< namespace CP_SDK_BS::Game
+*/

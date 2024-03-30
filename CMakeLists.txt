@@ -1,5 +1,6 @@
 # include some defines automatically made by qpm
 include(qpm_defines.cmake)
+include(${EXTERN_DIR}/includes/kaleb/shared/cmake/assets.cmake)
 
 add_definitions(-DCP_SDK_BMBF)
 add_definitions(-DDEBUG_SCENES)
@@ -82,6 +83,9 @@ add_library(
         ${c_file_list}
 )
 
+# Add any assets
+add_assets(assets_${COMPILE_ID} STATIC ${CMAKE_CURRENT_LIST_DIR}/assets ${INCLUDE_DIR}/assets.hpp)
+
 # get the vcpkg dir from env variables
 if(EXISTS $ENV{VCPKG_ROOT})
     set(VCPKG_ROOT $ENV{VCPKG_ROOT})
@@ -101,6 +105,7 @@ target_include_directories(${COMPILE_ID} PUBLIC ${SHARED_DIR})
 target_include_directories(${COMPILE_ID} PRIVATE ${EXTERN_DIR}/includes/${CODEGEN_ID}/include)
 
 target_link_libraries(${COMPILE_ID} PRIVATE -llog)
+target_link_libraries(${COMPILE_ID} PRIVATE assets_${COMPILE_ID})
 
 # add extern stuff like libs and other includes
 include(extern.cmake)
@@ -145,6 +150,3 @@ add_custom_command(TARGET ${COMPILE_ID} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy ${a_file} debug/${file}
         COMMENT "Copy a files for ndk stack")
         endforeach()
-
-
-include(assets_include.cmake)

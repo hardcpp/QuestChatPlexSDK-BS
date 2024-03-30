@@ -51,7 +51,7 @@ namespace CP_SDK::UI::DefaultComponents {
 
         get_gameObject()->set_layer(UISystem::UILayer);
 
-        m_RTransform = reinterpret_cast<RectTransform*>(get_transform());
+        m_RTransform = get_transform().try_cast<RectTransform>().value_or(nullptr);
         m_RTransform->set_sizeDelta(Vector2(60.0f, 5.50f));
 
         m_LElement = get_gameObject()->AddComponent<LayoutElement*>();
@@ -60,7 +60,7 @@ namespace CP_SDK::UI::DefaultComponents {
         m_LElement->set_preferredHeight(5.0f);
         m_LElement->set_flexibleWidth  (150.0f);
 
-        m_BG = reinterpret_cast<Image*>(GameObject::New_ctor("BG", ArrayW<System::Type*>({ UISystem::Override_UnityComponent_Image.ptr() }))->GetComponent(UISystem::Override_UnityComponent_Image.ptr()));
+        m_BG = GameObject::New_ctor("BG", ArrayW<System::Type*>({ UISystem::Override_UnityComponent_Image.ptr() }))->GetComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
         m_BG->get_gameObject()->set_layer(UISystem::UILayer);
         m_BG->get_rectTransform()->SetParent           (get_transform(), false);
         m_BG->get_rectTransform()->set_anchorMin       (Vector2::get_zero());

@@ -71,7 +71,7 @@ namespace CP_SDK_BS::UI::DefaultComponentsOverrides {
         {
             /// Refresh VR pointer due to bug
             auto l_VRPointers    = Resources::FindObjectsOfTypeAll<VRPointer*>();
-            auto l_VRPointer     = CP_SDK::ChatPlexSDK::ActiveGenericScene() == CP_SDK::EGenericScene::Playing ? l_VRPointers.LastOrDefault() : l_VRPointers.FirstOrDefault();
+            auto l_VRPointer     = CP_SDK::ChatPlexSDK::ActiveGenericScene() == CP_SDK::EGenericScene::Playing ? l_VRPointers->LastOrDefault() : l_VRPointers->FirstOrDefault();
 
             if (l_VRPointer)
             {
@@ -117,7 +117,7 @@ namespace CP_SDK_BS::UI::DefaultComponentsOverrides {
     void BS_CFloatingPanel::CreateMover(VRPointer* p_VRPointer)
     {
         if (!p_VRPointer)
-            p_VRPointer = Resources::FindObjectsOfTypeAll<VRPointer*>().FirstOrDefault();
+            p_VRPointer = Resources::FindObjectsOfTypeAll<VRPointer*>()->FirstOrDefault();
 
         if (p_VRPointer == nullptr)
         {

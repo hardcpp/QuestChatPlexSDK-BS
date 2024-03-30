@@ -89,7 +89,7 @@ namespace CP_SDK::UI::DefaultComponents {
 
         get_gameObject()->set_layer(UISystem::UILayer);
 
-        m_RTransform = reinterpret_cast<RectTransform*>(get_transform());
+        m_RTransform = get_transform().try_cast<RectTransform>().value_or(nullptr);
         m_RTransform->set_anchorMin(Vector2(0.0f, 0.0f));
         m_RTransform->set_anchorMax(Vector2(1.0f, 1.0f));
         m_RTransform->set_sizeDelta(Vector2(0.0f, 0.0f));
@@ -290,7 +290,7 @@ namespace CP_SDK::UI::DefaultComponents {
             }
 
             l_CurrentBarSize += l_ChildSize;
-            m_ItemList.push_back(l_Child);
+            m_ItemList.push_back(l_Child.ptr());
 
             /// We need the largest element height to determine the starting position of the next line
             if (l_ChildOtherSize > l_CurrentBarSpace)   l_CurrentBarSpace = l_ChildOtherSize;

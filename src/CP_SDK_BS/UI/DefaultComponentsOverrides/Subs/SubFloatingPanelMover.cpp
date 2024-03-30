@@ -69,7 +69,7 @@ namespace CP_SDK_BS::UI::DefaultComponentsOverrides::Subs {
 
             for (auto l_I = 0; l_I < l_HitCount; ++l_I)
             {
-                auto& l_Hit             = m_RaycastBuffer->get(l_I);
+                auto& l_Hit             = m_RaycastBuffer->_values[l_I];
                 auto l_Collider         = l_Hit.get_collider();
                 auto l_TargetTransform  = (Transform*)nullptr;
 

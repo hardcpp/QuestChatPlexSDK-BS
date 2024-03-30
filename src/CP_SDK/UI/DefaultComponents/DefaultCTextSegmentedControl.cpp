@@ -52,7 +52,7 @@ namespace CP_SDK::UI::DefaultComponents {
 
         get_gameObject()->set_layer(UISystem::UILayer);
 
-        m_RTransform = reinterpret_cast<RectTransform*>(get_transform());
+        m_RTransform = get_transform().try_cast<RectTransform>().value_or(nullptr);
 
         m_CSizeFitter = get_gameObject()->AddComponent<ContentSizeFitter*>();
         m_CSizeFitter->set_horizontalFit(ContentSizeFitter::FitMode::Unconstrained);
@@ -131,7 +131,7 @@ namespace CP_SDK::UI::DefaultComponents {
             l_Control->SetParent(get_transform(), false);
             l_Control->set_sizeDelta(Vector2(0.0f, 5.0f));
 
-            auto l_Background = reinterpret_cast<Image*>(GameObject::New_ctor("BG", ArrayW<System::Type*>({ UISystem::Override_UnityComponent_Image.ptr() }))->GetComponent(UISystem::Override_UnityComponent_Image.ptr()));
+            auto l_Background = GameObject::New_ctor("BG", ArrayW<System::Type*>({ UISystem::Override_UnityComponent_Image.ptr() }))->GetComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
             l_Background->get_gameObject()->set_layer(UISystem::UILayer);
             l_Background->get_rectTransform()->SetParent(l_Control->get_transform(), false);
             l_Background->get_rectTransform()->set_anchorMin       (Vector2::get_zero());
@@ -163,7 +163,7 @@ namespace CP_SDK::UI::DefaultComponents {
 
             auto l_Button = l_Control->get_gameObject()->AddComponent<Button*>();
             l_Button->set_targetGraphic(l_Background);
-            l_Button->get_onClick()->AddListener(MakeUnityAction([=]() -> void {
+            l_Button->get_onClick()->AddListener(MakeUnityAction([this, l_Button]() -> void {
                 OnControlClicked(l_Button, true);
             }));
 

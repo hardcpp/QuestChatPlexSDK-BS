@@ -256,7 +256,7 @@ namespace CP_SDK::Network {
                 do
                 {
                     co_yield l_Waiter->i___System__Collections__IEnumerator();
-                    try { p_Progress(l_Request->get_downloadProgress()); } catch (const std::exception&) { }
+                    //try { p_Progress(l_Request->get_downloadProgress()); } catch (const std::exception&) { }
 
                     if (p_Token.get_IsCancellationRequested() || l_Request->get_isDone() || l_Request->get_result() == UnityWebRequest::Result::ProtocolError || l_Request->get_result() == UnityWebRequest::Result::ConnectionError)
                         break;

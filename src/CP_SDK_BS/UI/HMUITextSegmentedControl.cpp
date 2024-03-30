@@ -27,7 +27,7 @@ namespace CP_SDK_BS::UI {
     {
         if (!m_Template)
         {
-            m_Template = Resources::FindObjectsOfTypeAll<HMUI::TextSegmentedControl*>().First([](auto x) -> bool {
+            m_Template = Resources::FindObjectsOfTypeAll<HMUI::TextSegmentedControl*>()->First([](auto x) -> bool {
                 return x->get_name() == u"BeatmapDifficultySegmentedControl" && x->_container != nullptr;
             });
         }
@@ -37,7 +37,7 @@ namespace CP_SDK_BS::UI {
         l_Control->_container            = m_Template->_container;
         l_Control->_hideCellBackground   = p_HideCellBackground;
 
-        auto l_RectTransform = reinterpret_cast<RectTransform*>(l_Control->get_transform());
+        auto l_RectTransform = l_Control->get_transform().try_cast<RectTransform>().value_or(nullptr);
         l_RectTransform->set_anchorMin       (Vector2::op_Multiply(Vector2::get_one(), 0.5f));
         l_RectTransform->set_anchorMax       (Vector2::op_Multiply(Vector2::get_one(), 0.5f));
         l_RectTransform->set_anchoredPosition(Vector2::get_zero()      );

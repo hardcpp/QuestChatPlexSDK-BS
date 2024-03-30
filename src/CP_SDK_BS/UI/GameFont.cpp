@@ -19,7 +19,7 @@ namespace CP_SDK_BS::UI {
         if (m_BaseGameFont || CP_SDK::ChatPlexSDK::ActiveGenericScene() != CP_SDK::EGenericScene::Menu)
             return m_BaseGameFont.Ptr(false);
 
-        m_BaseGameFont = Resources::FindObjectsOfTypeAll<TMP_FontAsset*>().FirstOrDefault([](TMP_FontAsset* t) { return t->get_name() == "Teko-Medium SDF"; });
+        m_BaseGameFont = Resources::FindObjectsOfTypeAll<TMP_FontAsset*>()->FirstOrDefault([](TMP_FontAsset* t) { return t->get_name() == "Teko-Medium SDF"; });
         return m_BaseGameFont.Ptr(false);
     }
     /// @brief Get main game font curved material
@@ -28,7 +28,7 @@ namespace CP_SDK_BS::UI {
         if (m_BaseGameFontSharedMaterial || CP_SDK::ChatPlexSDK::ActiveGenericScene() != CP_SDK::EGenericScene::Menu)
             return m_BaseGameFontSharedMaterial.Ptr(false);
 
-        m_BaseGameFontSharedMaterial = Material::Instantiate(Resources::FindObjectsOfTypeAll<Material*>().Last([](Material* t) { return t->get_name() == "Teko-Medium SDF Curved Softer"; }));
+        m_BaseGameFontSharedMaterial = Material::Instantiate(Resources::FindObjectsOfTypeAll<Material*>()->Last([](Material* t) { return t->get_name() == "Teko-Medium SDF Curved Softer"; }));
         return m_BaseGameFontSharedMaterial.Ptr(false);
     }
 

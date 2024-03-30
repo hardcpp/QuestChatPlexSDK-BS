@@ -68,7 +68,7 @@ namespace CP_SDK::UI::DefaultComponents {
 
         m_LElement = get_gameObject()->AddComponent<LayoutElement*>();
 
-        m_RTransform = reinterpret_cast<RectTransform*>(get_transform());
+        m_RTransform = get_transform().try_cast<RectTransform>().value_or(nullptr);
         m_RTransform->set_anchorMin    (Vector2(0.0f, 1.0f));
         m_RTransform->set_anchorMax    (Vector2(1.0f, 1.0f));
         m_RTransform->set_sizeDelta    (Vector2::get_zero());
@@ -76,7 +76,7 @@ namespace CP_SDK::UI::DefaultComponents {
 
         ////////////////////////////////////////////////////////////////////////////
 
-        auto l_ScrollBar = reinterpret_cast<RectTransform*>(GameObject::New_ctor("ScrollBar", ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()) }))->get_transform());
+        auto l_ScrollBar = GameObject::New_ctor("ScrollBar", ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()) }))->get_transform().try_cast<RectTransform>().value_or(nullptr);
         l_ScrollBar->get_gameObject()->set_layer(UISystem::UILayer);
         l_ScrollBar->SetParent(get_transform(), false);
         l_ScrollBar->set_anchorMin       (Vector2(                      1.0f, 0.0f));
@@ -84,7 +84,7 @@ namespace CP_SDK::UI::DefaultComponents {
         l_ScrollBar->set_sizeDelta       (Vector2(          m_ScrollBarWidth, 0.0f));
         l_ScrollBar->set_anchoredPosition(Vector2(-(m_ScrollBarWidth / 2.0f), 0.0f));
 
-        auto l_ScrollBarBG = reinterpret_cast<Image*>(l_ScrollBar->get_gameObject()->AddComponent(UISystem::Override_UnityComponent_Image.ptr()));
+        auto l_ScrollBarBG = l_ScrollBar->get_gameObject()->AddComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
         l_ScrollBarBG->set_material               (UISystem::Override_GetUIMaterial());
         l_ScrollBarBG->set_color                  (ColorU::WithAlpha("#202020", 0.7f));
         l_ScrollBarBG->set_pixelsPerUnitMultiplier(1);
@@ -121,21 +121,21 @@ namespace CP_SDK::UI::DefaultComponents {
         m_DownButton->IconImageC()->get_rectTransform()->set_sizeDelta       (Vector2( 4.0f,  2.0f));
         m_DownButton->SetSprite(UISystem::GetUIDownArrowSprite().Ptr())->OnClick({this, &DefaultCVScrollView::OnDownButton});
 
-        auto l_ScrollIndicator = reinterpret_cast<RectTransform*>(GameObject::New_ctor("ScrollIndicator", ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()) }))->get_transform());
+        auto l_ScrollIndicator = GameObject::New_ctor("ScrollIndicator", ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()) }))->get_transform().try_cast<RectTransform>().value_or(nullptr);
         l_ScrollIndicator->get_gameObject()->set_layer(UISystem::UILayer);
         l_ScrollIndicator->SetParent(l_ScrollBar->get_transform(), false);
         l_ScrollIndicator->set_anchorMin(Vector2(0.5f,   0.0f));
         l_ScrollIndicator->set_anchorMax(Vector2(0.5f,   1.0f));
         l_ScrollIndicator->set_sizeDelta(Vector2(1.6f, -12.0f));
 
-        auto l_ScrollIndicatorImage = reinterpret_cast<Image*>(l_ScrollIndicator->get_gameObject()->AddComponent(UISystem::Override_UnityComponent_Image.ptr()));
+        auto l_ScrollIndicatorImage = l_ScrollIndicator->get_gameObject()->AddComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
         l_ScrollIndicatorImage->set_sprite       (UISystem::GetUIRoundBGSprite().Ptr());
         l_ScrollIndicatorImage->set_color        (Color(0.0f, 0.0f, 0.0f, 0.5f));
         l_ScrollIndicatorImage->set_type         (Image::Type::Sliced);
         l_ScrollIndicatorImage->set_material     (UISystem::Override_GetUIMaterial());
         l_ScrollIndicatorImage->set_raycastTarget(false);
 
-        m_Handle = reinterpret_cast<Image*>(GameObject::New_ctor("Handle", ArrayW<System::Type*>({ UISystem::Override_UnityComponent_Image.ptr() }))->GetComponent(UISystem::Override_UnityComponent_Image.ptr()));
+        m_Handle = GameObject::New_ctor("Handle", ArrayW<System::Type*>({ UISystem::Override_UnityComponent_Image.ptr() }))->GetComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
         m_Handle->get_gameObject()->set_layer(UISystem::UILayer);
         m_Handle->get_rectTransform()->SetParent(l_ScrollIndicator->get_transform(), false);
         m_Handle->get_rectTransform()->set_pivot    (Vector2(0.5f, 1.0f));
@@ -150,10 +150,10 @@ namespace CP_SDK::UI::DefaultComponents {
 
         ////////////////////////////////////////////////////////////////////////////
 
-        m_ViewPort = reinterpret_cast<RectTransform*>(GameObject::New_ctor("ViewPort", ArrayW<System::Type*>({
+        m_ViewPort = GameObject::New_ctor("ViewPort", ArrayW<System::Type*>({
             reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()),
             reinterpret_cast<System::Type*>(csTypeOf(RectMask2D*).convert())
-        }))->get_transform());
+        }))->get_transform().try_cast<RectTransform>().value_or(nullptr);
         m_ViewPort->get_gameObject()->set_layer(UISystem::UILayer);
         m_ViewPort->SetParent(get_transform(), false);
         m_ViewPort->set_anchorMin    (Vector2(                      0.0f, 0.0f));
@@ -162,11 +162,11 @@ namespace CP_SDK::UI::DefaultComponents {
         m_ViewPort->set_localPosition(Vector3(-(m_ScrollBarWidth / 2.0f), 0.0f, 0.0f));
         m_ViewPort->GetComponent<RectMask2D*>()->set_padding(Vector4(0.25f, 0.25f, 0.25f, 0.25f));
 
-        m_VScrollViewContent = reinterpret_cast<RectTransform*>(GameObject::New_ctor("ScrollViewContent", ArrayW<System::Type*>({
+        m_VScrollViewContent = GameObject::New_ctor("ScrollViewContent", ArrayW<System::Type*>({
             reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()),
             reinterpret_cast<System::Type*>(csTypeOf(ContentSizeFitter*).convert()),
             reinterpret_cast<System::Type*>(csTypeOf(VerticalLayoutGroup*).convert())
-        }))->get_transform());
+        }))->get_transform().try_cast<RectTransform>().value_or(nullptr);
         m_VScrollViewContent->get_gameObject()->set_layer(UISystem::UILayer);
         m_VScrollViewContent->SetParent(m_ViewPort.Ptr(), false);
         m_VScrollViewContent->set_anchorMin(Vector2(0.0f, 1.0f));
@@ -189,11 +189,11 @@ namespace CP_SDK::UI::DefaultComponents {
 
         ////////////////////////////////////////////////////////////////////////////
 
-        m_Container = reinterpret_cast<RectTransform*>(GameObject::New_ctor("Container", ArrayW<System::Type*>({
+        m_Container = GameObject::New_ctor("Container", ArrayW<System::Type*>({
             reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()),
             reinterpret_cast<System::Type*>(csTypeOf(VerticalLayoutGroup*).convert()),
             reinterpret_cast<System::Type*>(csTypeOf(LayoutElement*).convert())
-        }))->get_transform());
+        }))->get_transform().try_cast<RectTransform>().value_or(nullptr);
         m_Container->get_gameObject()->set_layer(UISystem::UILayer);
         m_Container->SetParent(m_VScrollViewContent.Ptr(), false);
         m_Container->set_anchorMin(Vector2(0.0f, 1.0f));

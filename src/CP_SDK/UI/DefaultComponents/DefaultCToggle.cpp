@@ -79,7 +79,7 @@ namespace CP_SDK::UI::DefaultComponents {
 
         get_gameObject()->set_layer(UISystem::UILayer);
 
-        m_RTransform = reinterpret_cast<RectTransform*>(get_transform());
+        m_RTransform = get_transform().try_cast<RectTransform>().value_or(nullptr);
         m_RTransform->set_sizeDelta(Vector2(15.0f, 5.0f));
 
         m_LElement = get_gameObject()->AddComponent<LayoutElement*>();
@@ -88,7 +88,7 @@ namespace CP_SDK::UI::DefaultComponents {
         m_LElement->set_minWidth       (15.0f);
         m_LElement->set_minHeight      ( 5.0f);
 
-        auto l_View = reinterpret_cast<RectTransform*>(GameObject::New_ctor("View", ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()) }))->get_transform());
+        auto l_View = GameObject::New_ctor("View", ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()) }))->get_transform().try_cast<RectTransform>().value_or(nullptr);
         l_View->get_gameObject()->set_layer(UISystem::UILayer);
         l_View->SetParent(get_transform(), false);
         l_View->set_anchorMin        (Vector2::op_Multiply(Vector2::get_one(), 0.5f));
@@ -100,7 +100,7 @@ namespace CP_SDK::UI::DefaultComponents {
         m_Toggle->onValueChanged->AddListener(MakeUnityAction<bool>(this, il2cpp_functions::class_get_method_from_name(this->klass, "Toggle_onValueChanged", 1)));
         m_Toggle->StateDidChangeEvent += {this, &DefaultCToggle::Toggle_StateDidChange};
 
-        m_BackgroundImage = reinterpret_cast<Image*>(GameObject::New_ctor("BG", ArrayW<System::Type*>({ UISystem::Override_UnityComponent_Image.ptr() }))->GetComponent(UISystem::Override_UnityComponent_Image.ptr()));
+        m_BackgroundImage = GameObject::New_ctor("BG", ArrayW<System::Type*>({ UISystem::Override_UnityComponent_Image.ptr() }))->GetComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
         m_BackgroundImage->get_gameObject()->set_layer(UISystem::UILayer);
         m_BackgroundImage->get_rectTransform()->SetParent(l_View, false);
         m_BackgroundImage->get_rectTransform()->set_anchorMin(Vector2::op_Multiply(Vector2::get_one(), 0.5f));
@@ -126,7 +126,7 @@ namespace CP_SDK::UI::DefaultComponents {
         m_OnText->RTransform()->set_sizeDelta    (Vector2( 6.00f, 0.00f));
         m_OnText->RTransform()->set_localPosition(Vector3(-3.25f, 0.00f, 0.00f));
 
-        auto l_Knob = reinterpret_cast<RectTransform*>(GameObject::New_ctor("Knob", ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()) }))->get_transform());
+        auto l_Knob = GameObject::New_ctor("Knob", ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()) }))->get_transform().try_cast<RectTransform>().value_or(nullptr);
         l_Knob->get_gameObject()->set_layer(UISystem::UILayer);
         l_Knob->SetParent(m_BackgroundImage->get_rectTransform(), false);
         l_Knob->set_anchorMin    (Vector2( 0.50f, 0.0f));
@@ -134,7 +134,7 @@ namespace CP_SDK::UI::DefaultComponents {
         l_Knob->set_sizeDelta    (Vector2( 7.50f, 0.0f));
         l_Knob->set_localPosition(Vector3( 0.00f, 0.0f, 0.00f));
 
-        m_KnobImage = reinterpret_cast<Image*>(GameObject::New_ctor("Image", ArrayW<System::Type*>({ UISystem::Override_UnityComponent_Image.ptr() }))->GetComponent(UISystem::Override_UnityComponent_Image.ptr()));
+        m_KnobImage = GameObject::New_ctor("Image", ArrayW<System::Type*>({ UISystem::Override_UnityComponent_Image.ptr() }))->GetComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
         m_KnobImage->get_gameObject()->set_layer(UISystem::UILayer);
         m_KnobImage->get_rectTransform()->SetParent(l_Knob, false);
         m_KnobImage->get_rectTransform()->set_anchorMin    (Vector2( 0.00f, 0.5f));

@@ -86,7 +86,7 @@ namespace CP_SDK::UI::Data {
         if (!m_RTransform)
             m_RTransform = get_gameObject()->AddComponent<RectTransform*>();
 
-        m_Image = reinterpret_cast<Image*>(GetComponent(UISystem::Override_UnityComponent_Image.ptr()));
+        m_Image = GetComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
         m_Image->set_material               (UISystem::Override_GetUIMaterial());
         m_Image->set_type                   (Image::Type::Sliced);
         m_Image->set_pixelsPerUnitMultiplier(1);

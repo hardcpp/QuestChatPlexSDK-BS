@@ -11,8 +11,8 @@
 #include <GlobalNamespace/BeatmapCharacteristicSegmentedControlController.hpp>
 #include <GlobalNamespace/BeatmapCharacteristicSO.hpp>
 #include <GlobalNamespace/BeatmapDifficulty.hpp>
-#include <GlobalNamespace/CustomPreviewBeatmapLevel.hpp>
-#include <GlobalNamespace/IDifficultyBeatmap.hpp>
+#include <GlobalNamespace/BeatmapKey.hpp>
+#include <GlobalNamespace/BeatmapLevel.hpp>
 #include <HMUI/ImageView.hpp>
 #include <HMUI/TextSegmentedControl.hpp>
 #include <HMUI/IconSegmentedControl.hpp>
@@ -65,7 +65,7 @@ namespace CP_SDK_BS::UI {
             _v::MonoPtr<_v::CSecondaryButton>                                   m_SecondaryButton;
             _v::MonoPtr<_v::CPrimaryButton>                                     m_PrimaryButton;
             _v::MonoPtr<_u::GameObject>                                         m_FavoriteToggle;
-            _v::MonoPtr<_u::CustomPreviewBeatmapLevel>                          m_LocalBeatMap;
+            _v::MonoPtr<_u::BeatmapLevel>                                       m_LocalBeatMap;
             Game::BeatMaps::MapDetail::Ptr                                      m_BeatMap;
 
         private:
@@ -85,7 +85,7 @@ namespace CP_SDK_BS::UI {
             _v::MonoPtr<_u::BeatmapCharacteristicSO>    SelectedBeatmapCharacteristicSO;
             _u::BeatmapDifficulty                       SelectedBeatmapDifficulty;
 
-            _v::Event<_u::IDifficultyBeatmap*> OnActiveDifficultyChanged;
+            _v::Event<_u::BeatmapKey> OnActiveDifficultyChanged;
 
             _v::Action<> OnSecondaryButton;
             _v::Action<> OnPrimaryButton;
@@ -136,7 +136,7 @@ namespace CP_SDK_BS::UI {
             /// @param p_Cover          Cover texture
             /// @param p_Characteristic Game mode
             /// @param p_Difficulty     Difficulty
-            bool FromSongCore(_u::IBeatmapLevel* p_BeatMap, _u::Sprite* p_Cover, _u::BeatmapCharacteristicSO* p_Characteristic, _u::BeatmapDifficulty p_Difficulty);
+            bool FromSongCore(_u::BeatmapLevel* p_BeatMap, _u::Sprite* p_Cover, _u::BeatmapCharacteristicSO* p_Characteristic, _u::BeatmapDifficulty p_Difficulty);
             /// @brief Set from BeatSaver
             /// @param p_BeatMap BeatMap
             /// @param p_Cover   Cover texture
@@ -199,8 +199,8 @@ namespace CP_SDK_BS::UI {
             void OnPrimaryButtonClicked();
 
         private:
-            /// @brief Get IDifficultyBeatmap
-            _u::IDifficultyBeatmap* GetIDifficultyBeatMap();
+            /// @brief Get BeatmapKey
+            _u::BeatmapKey GetBeatmapKey();
 
     };
 

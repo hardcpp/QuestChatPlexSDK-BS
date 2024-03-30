@@ -27,7 +27,7 @@ namespace CP_SDK::UI {
     {
         CP_SDK_UI_IL2CPP_BIND_FIELD(RTransform, m_RTransform);
 
-        m_RTransform = reinterpret_cast<RectTransform*>(get_transform());
+        m_RTransform = get_transform().try_cast<RectTransform>().value_or(nullptr);
     }
 
 }   ///< namespace CP_SDK::UI

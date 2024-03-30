@@ -17,7 +17,7 @@ namespace CP_SDK::Unity {
     /// @param p_Bytes Raw Texture 2D data
     Texture2D* Texture2DU::CreateFromRaw(::Array<uint8_t>* p_Bytes)
     {
-        if (p_Bytes->Length() > 0)
+        if (p_Bytes->get_Length() > 0)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace CP_SDK::Unity {
     /// @param p_Callback Callback
     void Texture2DU::CreateFromRawThreaded(_v::MonoPtr<::Array<uint8_t>> p_Bytes, _v::Action<Texture2D*> p_Callback)
     {
-        if (p_Bytes && p_Bytes->Length() > 0)
+        if (p_Bytes && p_Bytes->get_Length() > 0)
         {
             stbi_uc* l_STBIBuffer = nullptr;
             try
@@ -48,12 +48,12 @@ namespace CP_SDK::Unity {
                 int l_Width;
                 int l_Height;
 
-                if (!stbi_info_from_memory(p_Bytes->values, p_Bytes->Length(), &l_Width, &l_Height, &l_InputChannels))
+                if (!stbi_info_from_memory(p_Bytes->_values, p_Bytes->get_Length(), &l_Width, &l_Height, &l_InputChannels))
                     throw std::runtime_error("Failed to load picture");
 
                 stbi_set_flip_vertically_on_load(1);
 
-                l_STBIBuffer = stbi_load_from_memory(p_Bytes->values, p_Bytes->Length(), &l_Width, &l_Height, &l_InputChannels, 4);
+                l_STBIBuffer = stbi_load_from_memory(p_Bytes->_values, p_Bytes->get_Length(), &l_Width, &l_Height, &l_InputChannels, 4);
                 if (!l_STBIBuffer)
                     throw std::runtime_error("Failed to load picture");
 
@@ -62,7 +62,7 @@ namespace CP_SDK::Unity {
                 for (auto l_I = 0; l_I < (l_Width * l_Height); ++l_I)
                 {
                     auto l_SrcPixel = &l_STBIBuffer[l_I * 4];
-                    l_Pixels->values[l_I] = Extensions::ColorU::Convert(Color32(0, l_SrcPixel[0], l_SrcPixel[1], l_SrcPixel[2], l_SrcPixel[3]));
+                    l_Pixels->_values[l_I] = Extensions::ColorU::Convert(Color32(0, l_SrcPixel[0], l_SrcPixel[1], l_SrcPixel[2], l_SrcPixel[3]));
                 }
 
                 stbi_image_free(l_STBIBuffer);

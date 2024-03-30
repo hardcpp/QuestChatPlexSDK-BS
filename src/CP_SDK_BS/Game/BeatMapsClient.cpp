@@ -4,7 +4,7 @@
 
 #include <filesystem>
 
-#include <songloader/shared/API.hpp>
+#include <songcore/shared/SongCore.hpp>
 #include <System/TimeSpan.hpp>
 #include <System/IO/Path.hpp>
 #include <System/Threading/CancellationTokenSource.hpp>
@@ -233,7 +233,7 @@ namespace CP_SDK_BS::Game {
 
                 try
                 {
-                    std::u16string l_CustomSongsPath = _v::StrToU16Str(RuntimeSongLoader::API::GetCustomLevelsPath());
+                    std::u16string l_CustomSongsPath = _v::StrToU16Str(SongCore::API::Loading::GetPreferredCustomLevelPath().string());
 
                     CP_SDK::ChatPlexSDK::Logger()->Info(u"[CP_SDK_BS.Game][BeatMapsClient] Downloaded zip!");
 
@@ -280,7 +280,7 @@ namespace CP_SDK_BS::Game {
 
             for (auto l_I = 0; l_I < l_BasePath.length(); ++l_I)
             {
-                if (!l_InvalidChars.Contains(l_BasePath[l_I]))
+                if (!l_InvalidChars.contains(l_BasePath[l_I]))
                     continue;
 
                 l_BasePath = l_BasePath.substr(0, l_I) + l_BasePath.substr(l_I + 1);
@@ -305,7 +305,7 @@ namespace CP_SDK_BS::Game {
 
             /// zip_stream_extract create directory if needed
             int  l_Args = 2;
-            auto l_ExtractResult = zip_stream_extract((const char*)p_ZIPBytes->values, p_ZIPBytes->Length(), l_OutPath.c_str(), +[](const char*, void*) -> int {
+            auto l_ExtractResult = zip_stream_extract((const char*)p_ZIPBytes->_values, p_ZIPBytes->get_Length(), l_OutPath.c_str(), +[](const char*, void*) -> int {
                 return 0;
             }, &l_Args);
 

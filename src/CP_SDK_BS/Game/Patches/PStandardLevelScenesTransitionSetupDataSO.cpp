@@ -1,4 +1,3 @@
-
 #include "CP_SDK_BS/Game/Patches/PStandardLevelScenesTransitionSetupDataSO.hpp"
 #include "CP_SDK_BS/Game/Logic.hpp"
 #include "CP_SDK_BS/Game/Scoring.hpp"
@@ -26,11 +25,11 @@ namespace CP_SDK_BS::Game::Patches {
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
-    CP_SDK_IL2CPP_HOOK_MAKE_AUTO_HOOK_MATCH(
+    /*CP_SDK_IL2CPP_HOOK_MAKE_AUTO_HOOK_MATCH(
         StandardLevelScenesTransitionSetupDataSO_Init, &StandardLevelScenesTransitionSetupDataSO::Init,
         void, StandardLevelScenesTransitionSetupDataSO* __Instance,
 
-        StringW      __a, IDifficultyBeatmap* __b, IPreviewBeatmapLevel*   __c, OverrideEnvironmentSettings* __d,
+        StringW      __a, BeatmapKey __b, BeatmapLevel*   __c, OverrideEnvironmentSettings* __d,
         ColorScheme* __e, ColorScheme*        __f, GameplayModifiers*      __g, PlayerSpecificSettings*      __h,
    PracticeSettings* __i, StringW             __j, bool                    __k, bool                         __l,
    BeatmapDataCache* __m, System::Nullable_1<__RecordingToolManager__SetupData> __n)
@@ -89,6 +88,6 @@ namespace CP_SDK_BS::Game::Patches {
         s_PStandardLevelScenesTransitionSetupDataSO_LevelData = nullptr;
 
         //CP_SDK::ChatPlexSDK::Logger()->Error(u"Exit StandardLevelScenesTransitionSetupDataSO_Finish");
-    }
+    }*/
 
 }   ///< namespace CP_SDK_BS::Game::Patches

@@ -41,10 +41,10 @@ namespace CP_SDK::Unity::Extensions {
             inline static _u::Color Convert(_u::Color32 p_Src)
             {
                  return _u::Color(
-                    static_cast<float>(p_Src.__get_r()) / 255.0f,
-                    static_cast<float>(p_Src.__get_g()) / 255.0f,
-                    static_cast<float>(p_Src.__get_b()) / 255.0f,
-                    static_cast<float>(p_Src.__get_a()) / 255.0f
+                    static_cast<float>(p_Src.r) / 255.0f,
+                    static_cast<float>(p_Src.g) / 255.0f,
+                    static_cast<float>(p_Src.b) / 255.0f,
+                    static_cast<float>(p_Src.a) / 255.0f
                 );
             }
             /// @brief Convert a Color to Color32
@@ -108,12 +108,12 @@ namespace CP_SDK::Unity::Extensions {
                 return std::u16string(
                 {
                     u'#',
-                    s_IntToHex[(l_Color32.__get_r() >> 4) & 0xF],
-                    s_IntToHex[(l_Color32.__get_r() >> 0) & 0xF],
-                    s_IntToHex[(l_Color32.__get_g() >> 4) & 0xF],
-                    s_IntToHex[(l_Color32.__get_g() >> 0) & 0xF],
-                    s_IntToHex[(l_Color32.__get_b() >> 4) & 0xF],
-                    s_IntToHex[(l_Color32.__get_b() >> 0) & 0xF]
+                    s_IntToHex[(l_Color32.r >> 4) & 0xF],
+                    s_IntToHex[(l_Color32.r >> 0) & 0xF],
+                    s_IntToHex[(l_Color32.g >> 4) & 0xF],
+                    s_IntToHex[(l_Color32.g >> 0) & 0xF],
+                    s_IntToHex[(l_Color32.b >> 4) & 0xF],
+                    s_IntToHex[(l_Color32.b >> 0) & 0xF]
                 });
             }
             /// @brief To hexadecimal RGBA with # prefix
@@ -126,14 +126,14 @@ namespace CP_SDK::Unity::Extensions {
                 return std::u16string(
                 {
                     u'#',
-                    s_IntToHex[(l_Color32.__get_r() >> 4) & 0xF],
-                    s_IntToHex[(l_Color32.__get_r() >> 0) & 0xF],
-                    s_IntToHex[(l_Color32.__get_g() >> 4) & 0xF],
-                    s_IntToHex[(l_Color32.__get_g() >> 0) & 0xF],
-                    s_IntToHex[(l_Color32.__get_b() >> 4) & 0xF],
-                    s_IntToHex[(l_Color32.__get_b() >> 0) & 0xF],
-                    s_IntToHex[(l_Color32.__get_a() >> 4) & 0xF],
-                    s_IntToHex[(l_Color32.__get_a() >> 0) & 0xF]
+                    s_IntToHex[(l_Color32.r >> 4) & 0xF],
+                    s_IntToHex[(l_Color32.r >> 0) & 0xF],
+                    s_IntToHex[(l_Color32.g >> 4) & 0xF],
+                    s_IntToHex[(l_Color32.g >> 0) & 0xF],
+                    s_IntToHex[(l_Color32.b >> 4) & 0xF],
+                    s_IntToHex[(l_Color32.b >> 0) & 0xF],
+                    s_IntToHex[(l_Color32.a >> 4) & 0xF],
+                    s_IntToHex[(l_Color32.a >> 0) & 0xF]
                 });
             }
 

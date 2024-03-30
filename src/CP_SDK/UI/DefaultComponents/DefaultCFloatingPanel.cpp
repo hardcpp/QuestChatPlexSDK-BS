@@ -44,7 +44,7 @@ namespace CP_SDK::UI::DefaultComponents {
 
         get_gameObject()->set_layer(UISystem::UILayer);
 
-        m_RTransform = reinterpret_cast<RectTransform*>(get_transform());
+        m_RTransform = get_transform().try_cast<RectTransform>().value_or(nullptr);
         m_RTransform->set_localPosition(Vector3::get_zero());
         m_RTransform->set_localRotation(Quaternion::get_identity());
         m_RTransform->set_localScale   (Vector3(0.02f, 0.02f, 0.02f));

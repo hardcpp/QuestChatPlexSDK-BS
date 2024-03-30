@@ -10,19 +10,16 @@
 #include <GlobalNamespace/BeatmapDataLoader.hpp>
 #include <GlobalNamespace/BeatmapDataBasicInfo.hpp>
 #include <GlobalNamespace/BeatmapDifficultySerializedMethods.hpp>
-#include <GlobalNamespace/BeatmapLevelDataExtensions.hpp>
 #include <GlobalNamespace/BeatmapLevelSO.hpp>
-#include <GlobalNamespace/CustomDifficultyBeatmap.hpp>
 #include <GlobalNamespace/IBeatmapLevelData.hpp>
 #include <GlobalNamespace/LocalizedHoverHint.hpp>
-#include <GlobalNamespace/PreviewDifficultyBeatmapSet.hpp>
 #include <GlobalNamespace/StandardLevelDetailView.hpp>
 #include <GlobalNamespace/StandardLevelInfoSaveData.hpp>
 #include <HMUI/HoverHint.hpp>
 #include <HMUI/HoverHintController.hpp>
 #include <HMUI/SegmentedControl.hpp>
 #include <HMUI/ToggleWithCallbacks.hpp>
-#include <Polyglot/Localization.hpp>
+#include <BGLib/Polyglot/Localization.hpp>
 #include <System/Action_1.hpp>
 #include <System/Action_2.hpp>
 #include <System/Math.hpp>
@@ -32,6 +29,8 @@
 #include <System/IO/File.hpp>
 #include <System/Text/RegularExpressions/Regex.hpp>
 #include <UnityEngine/Resources.hpp>
+
+#include "songcore/shared/SongLoader/CustomBeatmapLevel.hpp"
 
 #include "CP_SDK_BS/UI/DefaultComponentsOverrides/Subs/SubFloatingPanelMover.hpp"
 
@@ -53,7 +52,7 @@ namespace CP_SDK_BS::UI {
         if (m_SongDetailViewTemplate)
             return;
 
-        auto l_Result = Resources::FindObjectsOfTypeAll<StandardLevelDetailView*>().FirstOrDefault([](StandardLevelDetailView* x) -> bool {
+        auto l_Result = Resources::FindObjectsOfTypeAll<StandardLevelDetailView*>()->FirstOrDefault([](StandardLevelDetailView* x) -> bool {
             return x->get_gameObject()->get_name() == u"LevelDetail";
         });
 
@@ -237,7 +236,7 @@ namespace CP_SDK_BS::UI {
         /// Re-bind play button
         if (l_PlayButton->GetComponent<Button*>())
         {
-            auto l_ActionButtonsRTransform = reinterpret_cast<RectTransform*>(l_ActionButtons->get_transform());
+            auto l_ActionButtonsRTransform = l_ActionButtons->get_transform().try_cast<RectTransform>().value_or(nullptr);
             l_ActionButtonsRTransform->set_anchoredPosition(Vector2(-0.5f, l_ActionButtonsRTransform->get_anchoredPosition().y));
 
             auto l_ButtonsParent = l_PlayButton->get_transform()->get_parent();
@@ -261,15 +260,15 @@ namespace CP_SDK_BS::UI {
         }
 
         m_CharacteristicSegmentedControllerClone    = m_GameObject->get_transform()->Find(u"BeatmapCharacteristic")->Find(u"BeatmapCharacteristicSegmentedControl")->GetComponent<BeatmapCharacteristicSegmentedControlController*>();
-        m_SongCharacteristicSegmentedControl        = HMUIIconSegmentedControl::Create(reinterpret_cast<RectTransform*>(m_CharacteristicSegmentedControllerClone->get_transform()), true);
+        m_SongCharacteristicSegmentedControl        = HMUIIconSegmentedControl::Create(m_CharacteristicSegmentedControllerClone->get_transform().try_cast<RectTransform>().value_or(nullptr), true);
 
         m_DifficultiesSegmentedControllerClone  = m_GameObject->get_transform()->Find(u"BeatmapDifficulty")->GetComponentInChildren<BeatmapDifficultySegmentedControlController*>();
-        m_SongDiffSegmentedControl              = HMUITextSegmentedControl::Create(reinterpret_cast<RectTransform*>(m_DifficultiesSegmentedControllerClone->get_transform()), true);
+        m_SongDiffSegmentedControl              = HMUITextSegmentedControl::Create(m_DifficultiesSegmentedControllerClone->get_transform().try_cast<RectTransform>().value_or(nullptr), true);
 
         auto l_LevelBarBig = m_GameObject->get_transform()->Find(u"LevelBarBig");
 
-        m_SongNameText      = l_LevelBarBig->GetComponentsInChildren<TextMeshProUGUI*>().First([](auto x) { return x->get_gameObject()->get_name() == u"SongNameText"; });
-        m_AuthorNameText    = l_LevelBarBig->GetComponentsInChildren<TextMeshProUGUI*>().First([](auto x) { return x->get_gameObject()->get_name() == u"AuthorNameText"; });
+        m_SongNameText      = l_LevelBarBig->GetComponentsInChildren<TextMeshProUGUI*>()->First([](auto x) { return x->get_gameObject()->get_name() == u"SongNameText"; });
+        m_AuthorNameText    = l_LevelBarBig->GetComponentsInChildren<TextMeshProUGUI*>()->First([](auto x) { return x->get_gameObject()->get_name() == u"AuthorNameText"; });
         m_SongCoverImage    = l_LevelBarBig->Find(u"SongArtwork")->GetComponent<HMUI::ImageView*>();
 
         m_SongCoverImage->get_rectTransform()->set_anchoredPosition(Vector2( 2.000f, m_SongCoverImage->get_rectTransform()->get_anchoredPosition().y));
@@ -285,37 +284,37 @@ namespace CP_SDK_BS::UI {
         l_BeatmapParamsPanel->get_gameObject()->AddComponent<HorizontalLayoutGroup*>()->set_childControlHeight(false);
         l_BeatmapParamsPanel->get_gameObject()->AddComponent<LayoutElement*>();
 
-        m_SongNPSText       = l_BeatmapParamsPanel->GetComponentsInChildren<TextMeshProUGUI*>().First([](auto x) { return x->get_gameObject()->get_transform()->get_parent()->get_name() == u"NPS";});
-        m_SongNotesText     = l_BeatmapParamsPanel->GetComponentsInChildren<TextMeshProUGUI*>().First([](auto x) { return x->get_gameObject()->get_transform()->get_parent()->get_name() == u"NotesCount";});
-        m_SongObstaclesText = l_BeatmapParamsPanel->GetComponentsInChildren<TextMeshProUGUI*>().First([](auto x) { return x->get_gameObject()->get_transform()->get_parent()->get_name() == u"ObstaclesCount";});
-        m_SongBombsText     = l_BeatmapParamsPanel->GetComponentsInChildren<TextMeshProUGUI*>().First([](auto x) { return x->get_gameObject()->get_transform()->get_parent()->get_name() == u"BombsCount";});
+        m_SongNPSText       = l_BeatmapParamsPanel->GetComponentsInChildren<TextMeshProUGUI*>()->First([](auto x) { return x->get_gameObject()->get_transform()->get_parent()->get_name() == u"NPS";});
+        m_SongNotesText     = l_BeatmapParamsPanel->GetComponentsInChildren<TextMeshProUGUI*>()->First([](auto x) { return x->get_gameObject()->get_transform()->get_parent()->get_name() == u"NotesCount";});
+        m_SongObstaclesText = l_BeatmapParamsPanel->GetComponentsInChildren<TextMeshProUGUI*>()->First([](auto x) { return x->get_gameObject()->get_transform()->get_parent()->get_name() == u"ObstaclesCount";});
+        m_SongBombsText     = l_BeatmapParamsPanel->GetComponentsInChildren<TextMeshProUGUI*>()->First([](auto x) { return x->get_gameObject()->get_transform()->get_parent()->get_name() == u"BombsCount";});
 
-        auto l_SizeDelta = reinterpret_cast<RectTransform*>(m_SongNPSText->get_transform()->get_parent()->get_transform())->get_sizeDelta();
+        auto l_SizeDelta = m_SongNPSText->get_transform()->get_parent()->get_transform().try_cast<RectTransform>().value_or(nullptr)->get_sizeDelta();
         l_SizeDelta.y *= 2;
 
         m_SongNPSText->get_transform()->get_parent()->get_gameObject()->AddComponent<VerticalLayoutGroup*>()->set_padding(RectOffset::New_ctor(0, 0, 0, 3));
         m_SongNPSText->get_transform()->get_parent()->get_gameObject()->AddComponent<LayoutElement*>();
-        reinterpret_cast<RectTransform*>(m_SongNPSText->get_transform()->get_parent()->get_transform())->set_sizeDelta(l_SizeDelta);
+        m_SongNPSText->get_transform()->get_parent()->get_transform().try_cast<RectTransform>().value_or(nullptr)->set_sizeDelta(l_SizeDelta);
 
         m_SongNotesText->get_transform()->get_parent()->get_gameObject()->AddComponent<VerticalLayoutGroup*>()->set_padding(RectOffset::New_ctor(0, 0, 0, 3));
         m_SongNotesText->get_transform()->get_parent()->get_gameObject()->AddComponent<LayoutElement*>();
-        reinterpret_cast<RectTransform*>(m_SongNotesText->get_transform()->get_parent()->get_transform())->set_sizeDelta(l_SizeDelta);
+        m_SongNotesText->get_transform()->get_parent()->get_transform().try_cast<RectTransform>().value_or(nullptr)->set_sizeDelta(l_SizeDelta);
 
         m_SongObstaclesText->get_transform()->get_parent()->get_gameObject()->AddComponent<VerticalLayoutGroup*>()->set_padding(RectOffset::New_ctor(0, 0, 0, 3));
         m_SongObstaclesText->get_transform()->get_parent()->get_gameObject()->AddComponent<LayoutElement*>();
-        reinterpret_cast<RectTransform*>(m_SongObstaclesText->get_transform()->get_parent()->get_transform())->set_sizeDelta(l_SizeDelta);
+        m_SongObstaclesText->get_transform()->get_parent()->get_transform()->get_transform()->get_parent()->get_transform().try_cast<RectTransform>().value_or(nullptr)->set_sizeDelta(l_SizeDelta);
 
         m_SongBombsText->get_transform()->get_parent()->get_gameObject()->AddComponent<VerticalLayoutGroup*>()->set_padding(RectOffset::New_ctor(0, 0, 0, 3));
         m_SongBombsText->get_transform()->get_parent()->get_gameObject()->AddComponent<LayoutElement*>();
-        reinterpret_cast<RectTransform*>(m_SongBombsText->get_transform()->get_parent()->get_transform())->set_sizeDelta(l_SizeDelta);
+        m_SongBombsText->get_transform()->get_parent()->get_transform().try_cast<RectTransform>().value_or(nullptr)->set_sizeDelta(l_SizeDelta);
 
         /// Patch
-        auto l_OffsetSprite = CP_SDK::Unity::SpriteU::CreateFromRaw(IncludedAssets::Offset_png.Raw(), 100.0f, Vector2::op_Multiply(Vector2::get_one(), 16.0f));
+        auto l_OffsetSprite = CP_SDK::Unity::SpriteU::CreateFromRaw(Assets::Offset_png, 100.0f, Vector2::op_Multiply(Vector2::get_one(), 16.0f));
         m_SongOffsetText = GameObject::Instantiate(m_SongNPSText->get_transform()->get_parent()->get_gameObject(), m_SongNPSText->get_transform()->get_parent()->get_parent())->GetComponentInChildren<TextMeshProUGUI*>();
         m_SongOffsetText->get_transform()->get_parent()->SetAsFirstSibling();
         m_SongOffsetText->get_transform()->get_parent()->GetComponentInChildren<HMUI::ImageView*>()->set_sprite(l_OffsetSprite);
 
-        auto l_NJSSprite = CP_SDK::Unity::SpriteU::CreateFromRaw(IncludedAssets::NJS_png.Raw(), 100.0f, Vector2::op_Multiply(Vector2::get_one(), 16.0f));
+        auto l_NJSSprite = CP_SDK::Unity::SpriteU::CreateFromRaw(Assets::NJS_png, 100.0f, Vector2::op_Multiply(Vector2::get_one(), 16.0f));
         m_SongNJSText = GameObject::Instantiate(m_SongNPSText->get_transform()->get_parent()->get_gameObject(), m_SongNPSText->get_transform()->get_parent()->get_parent())->GetComponentInChildren<TextMeshProUGUI*>();
         m_SongNJSText->get_transform()->get_parent()->SetAsFirstSibling();
         m_SongNJSText->get_transform()->get_parent()->GetComponentInChildren<HMUI::ImageView*>()->set_sprite(l_NJSSprite);
@@ -324,20 +323,20 @@ namespace CP_SDK_BS::UI {
 
         m_SongBPMText = GameObject::Instantiate(m_SongNPSText->get_transform()->get_parent()->get_gameObject(), m_SongNPSText->get_transform()->get_parent()->get_parent())->GetComponentInChildren<TextMeshProUGUI*>();
         m_SongBPMText->get_transform()->get_parent()->SetAsFirstSibling();
-        m_SongBPMText->get_transform()->get_parent()->GetComponentInChildren<HMUI::ImageView*>()->set_sprite(Resources::FindObjectsOfTypeAll<Sprite*>().First([](auto x) { return x->get_name() == u"MetronomeIcon"; }));
+        m_SongBPMText->get_transform()->get_parent()->GetComponentInChildren<HMUI::ImageView*>()->set_sprite(Resources::FindObjectsOfTypeAll<Sprite*>()->First([](auto x) { return x->get_name() == u"MetronomeIcon"; }));
 
         m_SongTimeText = GameObject::Instantiate(m_SongNPSText->get_transform()->get_parent()->get_gameObject(), m_SongNPSText->get_transform()->get_parent()->get_parent())->GetComponentInChildren<TextMeshProUGUI*>();
         m_SongTimeText->get_transform()->get_parent()->SetAsFirstSibling();
-        m_SongTimeText->get_transform()->get_parent()->GetComponentInChildren<HMUI::ImageView*>()->set_sprite(Resources::FindObjectsOfTypeAll<Sprite*>().First([](auto x) { return x->get_name() == u"ClockIcon"; }));
+        m_SongTimeText->get_transform()->get_parent()->GetComponentInChildren<HMUI::ImageView*>()->set_sprite(Resources::FindObjectsOfTypeAll<Sprite*>()->First([](auto x) { return x->get_name() == u"ClockIcon"; }));
 
         /// Bind events
         m_SongCharacteristicSegmentedControl->add_didSelectCellEvent(
-            custom_types::MakeDelegate<::System::Action_2<::HMUI::SegmentedControl*, int>*>(std::function([this](HMUI::SegmentedControl* __a, int __b) -> void {
+            custom_types::MakeDelegate<::System::Action_2<UnityW<::HMUI::SegmentedControl>, int>*>(std::function([this](UnityW<::HMUI::SegmentedControl> __a, int __b) -> void {
                 OnCharacteristicChanged(__a, __b);
             }))
         );
         m_SongDiffSegmentedControl->add_didSelectCellEvent(
-            custom_types::MakeDelegate<::System::Action_2<::HMUI::SegmentedControl*, int>*>(std::function([this](HMUI::SegmentedControl* __a, int __b) -> void {
+            custom_types::MakeDelegate<::System::Action_2<UnityW<::HMUI::SegmentedControl>, int>*>(std::function([this](UnityW<HMUI::SegmentedControl> __a, int __b) -> void {
                 OnDifficultyChanged(__a, __b);
             }))
         );
@@ -384,7 +383,7 @@ namespace CP_SDK_BS::UI {
     /// @param p_Cover          Cover texture
     /// @param p_Characteristic Game mode
     /// @param p_Difficulty     Difficulty
-    bool LevelDetail::FromSongCore(IBeatmapLevel* p_BeatMap, Sprite* p_Cover, BeatmapCharacteristicSO* p_Characteristic, BeatmapDifficulty p_Difficulty)
+    bool LevelDetail::FromSongCore(BeatmapLevel* p_BeatMap, Sprite* p_Cover, BeatmapCharacteristicSO* p_Characteristic, BeatmapDifficulty p_Difficulty)
     {
         m_LocalBeatMap      = nullptr;
         m_BeatMap           = nullptr;
@@ -395,23 +394,21 @@ namespace CP_SDK_BS::UI {
             return false;
         }
 
-        auto l_PreviewBeatmapLevel = p_BeatMap->i___GlobalNamespace__IPreviewBeatmapLevel();
-
         /// Display mode
-        Characteristic(HMUI::IconSegmentedControl::DataItem::New_ctor(p_Characteristic->icon, Polyglot::Localization::Get(p_Characteristic->descriptionLocalizationKey)));
+        Characteristic(HMUI::IconSegmentedControl::DataItem::New_ctor(p_Characteristic->get_icon(), BGLib::Polyglot::Localization::Get(p_Characteristic->get_descriptionLocalizationKey())));
 
-        auto l_IDifficultyBeatmap = BeatmapLevelDataExtensions::GetDifficultyBeatmap(p_BeatMap->get_beatmapLevelData(), p_Characteristic, p_Difficulty);
+        auto l_BeatmapKey = BeatmapKey(p_Characteristic, p_Difficulty, p_BeatMap->levelID);
 
         /// Display difficulty
         Difficulty(Game::Levels::BeatmapDifficultySerializedNameToDifficultyName(BeatmapDifficultySerializedMethods::SerializedName(p_Difficulty)));
 
-        Name          (l_PreviewBeatmapLevel->get_songName());
-        AuthorNameText(u"Mapped by <b><u>" + l_PreviewBeatmapLevel->get_levelAuthorName() + u"</b></u>");
+        Name          (p_BeatMap->songName);
+        AuthorNameText(u"Mapped by <b><u>" + p_BeatMap->allMappers[0] + u"</b></u>");
         Cover         (p_Cover ? p_Cover : Game::Levels::GetDefaultPackCover());
-        Time          (l_PreviewBeatmapLevel->get_songDuration());
-        BPM           (l_PreviewBeatmapLevel->get_beatsPerMinute());
-        NJS           ((int)l_IDifficultyBeatmap->get_noteJumpMovementSpeed());
-        Offset        (l_IDifficultyBeatmap->get_noteJumpStartBeatOffset());
+        Time          (p_BeatMap->songDuration);
+        BPM           (p_BeatMap->beatsPerMinute);
+        NJS           (-1);//((int)l_BeatmapKey->get_noteJumpMovementSpeed());
+        Offset        (-1);//(l_BeatmapKey->get_noteJumpStartBeatOffset());
 
         NPS      (-1);
         Notes    (-1);
@@ -447,7 +444,7 @@ namespace CP_SDK_BS::UI {
         {
             auto l_BeatmapCharacteristicSO = (BeatmapCharacteristicSO*)nullptr;
             if (Game::Levels::TryGetBeatmapCharacteristicSOBySerializedName(l_Current, &l_BeatmapCharacteristicSO))
-                l_Characteristics->Add(HMUI::IconSegmentedControl::DataItem::New_ctor(l_BeatmapCharacteristicSO->icon, Polyglot::Localization::Get(l_BeatmapCharacteristicSO->descriptionLocalizationKey)));
+                l_Characteristics->Add(HMUI::IconSegmentedControl::DataItem::New_ctor(l_BeatmapCharacteristicSO->icon, BGLib::Polyglot::Localization::Get(l_BeatmapCharacteristicSO->descriptionLocalizationKey)));
         }
 
         if (l_Characteristics->get_Count() == 0)
@@ -500,7 +497,7 @@ namespace CP_SDK_BS::UI {
         if (l_HoverHint == nullptr || !l_HoverHint)
         {
             l_HoverHint = m_FavoriteToggle->AddComponent<HMUI::HoverHint*>();
-            l_HoverHint->_hoverHintController = Resources::FindObjectsOfTypeAll<HMUI::HoverHintController*>().First();
+            l_HoverHint->_hoverHintController = Resources::FindObjectsOfTypeAll<HMUI::HoverHintController*>()->First();
         }
 
         l_HoverHint->set_text(p_Hint);
@@ -583,17 +580,17 @@ namespace CP_SDK_BS::UI {
         if (m_LocalBeatMap)
         {
             std::vector<BeatmapCharacteristicSO*> l_Characs;
-            auto l_PreviewDifficultyBeatMapSets         = m_LocalBeatMap->previewDifficultyBeatmapSets;
-            auto l_PreviewDifficultyBeatMapSetsCount    = m_LocalBeatMap->previewDifficultyBeatmapSets->i___System__Collections__Generic__IReadOnlyCollection_1_T_()->get_Count();
-            for (auto l_I = 0; l_I < l_PreviewDifficultyBeatMapSetsCount; ++l_I)
+            auto l_BeatmapKeys      = ListW<BeatmapKey>::New();
+            l_BeatmapKeys->AddRange(m_LocalBeatMap->GetBeatmapKeys());
+
+            for (auto& l_Current : l_BeatmapKeys)
             {
-                auto l_Current  = l_PreviewDifficultyBeatMapSets->get_Item(l_I)->beatmapCharacteristic;
-                auto l_It       = std::find(l_Characs.begin(), l_Characs.end(), l_Current);
+                auto l_It       = std::find(l_Characs.begin(), l_Characs.end(), l_Current.beatmapCharacteristic.ptr());
 
                 if (l_It != l_Characs.end())
                     continue;
 
-                l_Characs.push_back(l_Current);
+                l_Characs.push_back(l_Current.beatmapCharacteristic.ptr());
             }
 
             if (p_Index > l_Characs.size())
@@ -601,20 +598,16 @@ namespace CP_SDK_BS::UI {
 
             SelectedBeatmapCharacteristicSO = l_Characs[p_Index];
 
-            auto l_Difficulties                         = System::Collections::Generic::List_1<StringW>::New_ctor();
-            auto l_PreviewDifficultyBeatmapSets         = m_LocalBeatMap->previewDifficultyBeatmapSets;
-            auto l_PreviewDifficultyBeatmapSetsCount    = m_LocalBeatMap->previewDifficultyBeatmapSets->i___System__Collections__Generic__IReadOnlyCollection_1_T_()->get_Count();
+            auto l_Difficulties     = System::Collections::Generic::List_1<StringW>::New_ctor();
+            auto l_BeatmapKeys_      = ListW<BeatmapKey>::New();
+            l_BeatmapKeys_->AddRange(m_LocalBeatMap->GetBeatmapKeys());
 
-            for (auto l_I = 0; l_I < l_PreviewDifficultyBeatmapSetsCount; ++l_I)
+            for (auto& l_Current : l_BeatmapKeys_)
             {
-                auto l_Current = l_PreviewDifficultyBeatmapSets->get_Item(l_I);
-                if (l_Current->beatmapCharacteristic != SelectedBeatmapCharacteristicSO.Ptr())
+                if (l_Current.beatmapCharacteristic != SelectedBeatmapCharacteristicSO)
                     continue;
 
-                for (auto l_Difficulty : l_Current->beatmapDifficulties)
-                    l_Difficulties->Add(BeatmapDifficultySerializedMethods::SerializedName(l_Difficulty));
-
-                break;
+                l_Difficulties->Add(Game::Levels::BeatmapDifficultySerializedNameToDifficultyName(BeatmapDifficultySerializedMethods::SerializedName(l_Current.difficulty)));
             }
 
             m_SongDiffSegmentedControl->SetTexts(l_Difficulties->AsReadOnly()->i___System__Collections__Generic__IReadOnlyList_1_T_());
@@ -650,34 +643,36 @@ namespace CP_SDK_BS::UI {
         if (m_LocalBeatMap)
         {
             std::vector<BeatmapCharacteristicSO*> l_Characs;
-            auto l_PreviewDifficultyBeatMapSets         = m_LocalBeatMap->previewDifficultyBeatmapSets;
-            auto l_PreviewDifficultyBeatMapSetsCount    = m_LocalBeatMap->previewDifficultyBeatmapSets->i___System__Collections__Generic__IReadOnlyCollection_1_T_()->get_Count();
-            for (auto l_I = 0; l_I < l_PreviewDifficultyBeatMapSetsCount; ++l_I)
+            auto l_BeatmapKeys      = ListW<BeatmapKey>::New();
+            l_BeatmapKeys->AddRange(m_LocalBeatMap->GetBeatmapKeys());
+
+            for (auto& l_Current : l_BeatmapKeys)
             {
-                auto l_Current  = l_PreviewDifficultyBeatMapSets->get_Item(l_I)->beatmapCharacteristic;
-                auto l_It       = std::find(l_Characs.begin(), l_Characs.end(), l_Current);
+                auto l_It       = std::find(l_Characs.begin(), l_Characs.end(), l_Current.beatmapCharacteristic.ptr());
 
                 if (l_It != l_Characs.end())
                     continue;
 
-                l_Characs.push_back(l_Current);
+                l_Characs.push_back(l_Current.beatmapCharacteristic.ptr());
             }
 
             if (m_SongCharacteristicSegmentedControl->get_selectedCellNumber() > l_Characs.size())
                 return;
 
             StandardLevelInfoSaveData::DifficultyBeatmapSet* l_Difficulties = nullptr;
-            auto l_DifficultyBeatmapSets = m_LocalBeatMap->standardLevelInfoSaveData->difficultyBeatmapSets;
+
+            auto l_CustomBeatmapLevel = reinterpret_cast<SongCore::SongLoader::CustomBeatmapLevel*>(m_LocalBeatMap.Ptr());
+            auto l_DifficultyBeatmapSets = l_CustomBeatmapLevel->get_standardLevelInfoSaveData()->get_difficultyBeatmapSets();
             for (auto l_Current : l_DifficultyBeatmapSets)
             {
-                if (!l_Current->beatmapCharacteristicName->Equals(SelectedBeatmapCharacteristicSO->serializedName))
+                if (!l_Current->get_beatmapCharacteristicName()->Equals(SelectedBeatmapCharacteristicSO->serializedName))
                     continue;
 
                 l_Difficulties = l_Current;
                 break;
             }
 
-            if (p_Index < 0 || p_Index >= l_Difficulties->difficultyBeatmaps->Length())
+            if (p_Index < 0 || p_Index >= l_Difficulties->get_difficultyBeatmaps().size())
             {
                 Time     (-1.0f);
                 NPS      (-1.0f);
@@ -689,7 +684,7 @@ namespace CP_SDK_BS::UI {
                 return;
             }
 
-            auto l_DifficultyBeatMap = l_Difficulties->difficultyBeatmaps->get(p_Index);
+            /*auto l_DifficultyBeatMap = l_Difficulties->difficultyBeatmaps->_values[p_Index];
             auto l_DifficultyPath    = m_LocalBeatMap->customLevelPath + "/" + l_DifficultyBeatMap->beatmapFilename;
             auto l_Loader            = BeatmapDataLoader::New_ctor();
 
@@ -709,7 +704,7 @@ namespace CP_SDK_BS::UI {
                     Obstacles(l_Info->get_obstaclesCount());
                     Bombs    (l_Info->get_bombsCount());
 
-                    OnActiveDifficultyChanged(GetIDifficultyBeatMap());
+                    OnActiveDifficultyChanged(GetBeatmapKey());
                 }
             }
             catch (const std::exception& p_Exception)
@@ -725,7 +720,7 @@ namespace CP_SDK_BS::UI {
                 Obstacles(-1);
                 Bombs    (-1);
                 return;
-            }
+            }*/
         }
         else if (m_BeatMap)
         {
@@ -760,7 +755,7 @@ namespace CP_SDK_BS::UI {
             Obstacles(l_SelectedBeatmapCharacteristicDifficulty->obstacles);
             Bombs    (l_SelectedBeatmapCharacteristicDifficulty->bombs);
 
-            OnActiveDifficultyChanged(GetIDifficultyBeatMap());
+            OnActiveDifficultyChanged(GetBeatmapKey());
         }
     }
     /// @brief Secondary button on click
@@ -777,10 +772,10 @@ namespace CP_SDK_BS::UI {
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
-    /// @brief Get IDifficultyBeatmap
-    IDifficultyBeatmap* LevelDetail::GetIDifficultyBeatMap()
+    /// @brief Get BeatmapKey
+    BeatmapKey LevelDetail::GetBeatmapKey()
     {
-        return nullptr;
+        return BeatmapKey();
         /*
         var l_CharacIndex = m_SongCharacteristicSegmentedControl.selectedCellNumber;
         if (l_CharacIndex >= m_BeatMap.Metadata.Characteristics.Count)
@@ -789,7 +784,7 @@ namespace CP_SDK_BS::UI {
         var l_LocalSong = SongCore.Loader.GetLevelByHash(m_BeatMap.Hash);
         if (l_LocalSong != null && SongCore.Loader.CustomLevels.ContainsKey(l_LocalSong.customLevelPath))
         {
-            IBeatmapLevel l_Level = null;
+            BeatmapLevel l_Level = null;
 
             var task = Task.Run(async () => { await Game.Level.LoadSong(l_LocalSong.levelID, (x) => l_Level = x); });
             task.Wait();
@@ -799,9 +794,9 @@ namespace CP_SDK_BS::UI {
         else
         {
             var l_BSBeatmapLevel            = Game.BeatSaver.CreateFakeCustomBeatmapLevelFromBeatMap(m_BeatMap);
-            var l_BSIDifficultyBeatmapSet   = l_BSBeatmapLevel.beatmapLevelData.difficultyBeatmapSets.Where(x => x.beatmapCharacteristic == SelectedBeatmapCharacteristicSO).FirstOrDefault();
+            var l_BSBeatmapKeySet   = l_BSBeatmapLevel.beatmapLevelData.difficultyBeatmapSets.Where(x => x.beatmapCharacteristic == SelectedBeatmapCharacteristicSO)->FirstOrDefault();
 
-            return l_BSIDifficultyBeatmapSet.difficultyBeatmaps.Where(x => x.difficulty == SelecteBeatmapDifficulty).FirstOrDefault();
+            return l_BSBeatmapKeySet.difficultyBeatmaps.Where(x => x.difficulty == SelecteBeatmapDifficulty)->FirstOrDefault();
         }*/
     }
 

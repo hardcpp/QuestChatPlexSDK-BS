@@ -30,7 +30,7 @@ namespace CP_SDK::UI::Views {
     /// @brief On view creation
     void MainRightView::OnViewCreation_Impl()
     {
-        auto l_Sprite = Unity::SpriteU::CreateFromRaw(IncludedAssets::ChatPlexLogoTransparent_png.Raw());
+        auto l_Sprite = Unity::SpriteU::CreateFromRaw(Assets::ChatPlexLogoTransparent_png);
 
         Templates::FullRectLayout({
             Templates::TitleBar(u"Powered By"),

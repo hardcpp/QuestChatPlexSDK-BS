@@ -55,7 +55,7 @@ namespace CP_SDK::UI::DefaultComponents {
 
         get_gameObject()->set_layer(UISystem::UILayer);
 
-        m_RTransform = reinterpret_cast<RectTransform*>(get_transform());
+        m_RTransform = get_transform().try_cast<RectTransform>().value_or(nullptr);
 
         m_CSizeFitter = get_gameObject()->AddComponent<ContentSizeFitter*>();
         m_CSizeFitter->set_horizontalFit(ContentSizeFitter::FitMode::PreferredSize);
@@ -64,7 +64,7 @@ namespace CP_SDK::UI::DefaultComponents {
         m_LElement = get_gameObject()->AddComponent<LayoutElement*>();
         m_LElement->set_minHeight(5.0f);
 
-        m_BackgroundImage = reinterpret_cast<Image*>(GameObject::New_ctor("BG", ArrayW<System::Type*>({ UISystem::Override_UnityComponent_Image.ptr() }))->GetComponent(UISystem::Override_UnityComponent_Image.ptr()));
+        m_BackgroundImage = GameObject::New_ctor("BG", ArrayW<System::Type*>({ UISystem::Override_UnityComponent_Image.ptr() }))->GetComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
         m_BackgroundImage->get_gameObject()->set_layer(UISystem::UILayer);
         m_BackgroundImage->get_rectTransform()->SetParent           (get_transform(), false);
         m_BackgroundImage->get_rectTransform()->set_anchorMin       (Vector2::get_zero());
@@ -82,7 +82,7 @@ namespace CP_SDK::UI::DefaultComponents {
         m_Label->SetAlign(TMPro::TextAlignmentOptions::Capline);
         m_Label->SetStyle(FontStyles::Bold);
 
-        m_IconImage = reinterpret_cast<Image*>(GameObject::New_ctor("Icon", ArrayW<System::Type*>({ UISystem::Override_UnityComponent_Image.ptr() }))->GetComponent(UISystem::Override_UnityComponent_Image.ptr()));
+        m_IconImage = GameObject::New_ctor("Icon", ArrayW<System::Type*>({ UISystem::Override_UnityComponent_Image.ptr() }))->GetComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
         m_IconImage->get_gameObject()->set_layer(UISystem::UILayer);
         m_IconImage->get_rectTransform()->SetParent           (get_transform(), false);
         m_IconImage->get_rectTransform()->set_anchorMin       (Vector2::get_zero());

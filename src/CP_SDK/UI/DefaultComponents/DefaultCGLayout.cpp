@@ -40,7 +40,7 @@ namespace CP_SDK::UI::DefaultComponents {
 
         get_gameObject()->set_layer(UISystem::UILayer);
 
-        m_RTransform = reinterpret_cast<RectTransform*>(get_transform());
+        m_RTransform = get_transform().try_cast<RectTransform>().value_or(nullptr);
         m_RTransform->set_anchorMin(Vector2(0.0f, 0.0f));
         m_RTransform->set_anchorMax(Vector2(1.0f, 1.0f));
         m_RTransform->set_sizeDelta(Vector2(5.0f, 5.0f));

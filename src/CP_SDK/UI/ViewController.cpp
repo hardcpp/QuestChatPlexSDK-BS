@@ -200,7 +200,7 @@ namespace CP_SDK::UI {
         l_Modal->RTransform()->set_anchoredPosition(Vector2(0.0f, 0.0f));
         l_Modal->RTransform()->set_sizeDelta       (Vector2(0.0f, 0.0f));
 
-        auto l_Background = reinterpret_cast<Image*>(l_GameObject->GetComponent(UISystem::Override_UnityComponent_Image.ptr()));
+        auto l_Background = l_GameObject->GetComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
         l_Background->set_material                (UISystem::Override_GetUIMaterial());
         l_Background->set_raycastTarget           (true);
         l_Background->set_pixelsPerUnitMultiplier (1);

@@ -41,9 +41,9 @@ namespace CP_SDK::UI {
                 if (l_Type && m_Instances.contains(l_Type))
                     return *reinterpret_cast<_v::MonoPtr<t_Base>*>(&m_Instances[l_Type]);
 
-                auto l_Ptr = reinterpret_cast<t_Base*>(_u::GameObject::New_ctor("[CP_SDK.UI.FlowCoordinator<" + l_Type->get_FullName() + ">]", ArrayW<_u::Type*>({
+                auto l_Ptr = _u::GameObject::New_ctor("[CP_SDK.UI.FlowCoordinator<" + l_Type->get_FullName() + ">]", ArrayW<_u::Type*>({
                     l_Type
-                }))->GetComponent(l_Type));
+                }))->GetComponent(l_Type).try_cast<t_Base>().value_or(nullptr);
                 _u::GameObject::DontDestroyOnLoad(l_Ptr->get_gameObject());
 
                 m_Instances[l_Type] = l_Ptr;

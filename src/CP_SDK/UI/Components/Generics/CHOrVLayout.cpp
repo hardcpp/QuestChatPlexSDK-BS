@@ -48,7 +48,7 @@ namespace CP_SDK::UI::Components {
         {
             if (!m_Background)
             {
-                m_Background = reinterpret_cast<Image*>(get_gameObject()->AddComponent(UISystem::Override_UnityComponent_Image.ptr()));
+                m_Background = get_gameObject()->AddComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
                 m_Background->set_material(UISystem::Override_GetUIMaterial());
                 m_Background->set_raycastTarget(p_RaycastTarget);
             }

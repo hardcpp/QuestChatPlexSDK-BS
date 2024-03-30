@@ -88,7 +88,7 @@ namespace CP_SDK::UI::DefaultComponents::Subs {
     /// @brief Refresh handle
     void SubVScrollIndicator::RefreshHandle()
     {
-        auto l_Progress  = reinterpret_cast<RectTransform*>(get_transform())->get_rect().get_size().y - 2.0f * m_Padding;
+        auto l_Progress  = get_transform().try_cast<RectTransform>().value_or(nullptr)->get_rect().get_size().y - 2.0f * m_Padding;
         auto l_PosY      = (0.0f - m_Progress) * (1.0f - m_NormalizedPageHeight) * l_Progress - m_Padding;
 
         if (std::isnan(l_PosY))
