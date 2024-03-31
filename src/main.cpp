@@ -164,7 +164,7 @@ void OnEnable()
     {
         CP_SDK::UI::FlowCoordinators::MainFlowCoordinator::OverrideTitle(u"QBeatSaberPlus");
 
-        BSML::Register::RegisterMenuButton("QBeatSaberPlus", s_ModInfo.id,
+        BSML::Register::RegisterMenuButton("QBeatSaber+", s_ModInfo.id,
             [](){
                 CP_SDK::UI::FlowCoordinators::MainFlowCoordinator::Instance()->Present(true);
             }
