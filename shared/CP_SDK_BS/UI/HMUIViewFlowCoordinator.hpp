@@ -43,7 +43,7 @@ namespace CP_SDK_BS::UI {
             template<class t_Base> requires(std::is_assignable_v<HMUIViewFlowCoordinator*&, t_Base*>)
             static _v::MonoPtr<t_Base>& _Instance()
             {
-                auto l_Type = reinterpret_cast<System::Type*>(csTypeOf(t_Base*));
+                auto l_Type = reinterpret_cast<System::Type*>(csTypeOf(t_Base*).convert());
                 if (l_Type && m_Instances.contains(l_Type))
                     return *reinterpret_cast<_v::MonoPtr<t_Base>*>(&m_Instances[l_Type]);
 
@@ -53,7 +53,7 @@ namespace CP_SDK_BS::UI {
             template<class t_Base> requires(std::is_assignable_v<HMUIViewFlowCoordinator*&, t_Base*>)
             static void _Destroy()
             {
-                auto l_Type = reinterpret_cast<System::Type*>(csTypeOf(t_Base*));
+                auto l_Type = reinterpret_cast<System::Type*>(csTypeOf(t_Base*).convert());
                 auto l_It   = m_Instances.find(l_Type);
                 if (!l_Type || l_It == m_Instances.end())
                     return;

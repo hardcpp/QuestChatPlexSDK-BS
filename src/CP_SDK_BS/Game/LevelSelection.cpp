@@ -1,21 +1,21 @@
-#include "CP_SDK_BS/Game/LevelSelection.hpp"
+/*#include "CP_SDK_BS/Game/LevelSelection.hpp"
 #include "CP_SDK_BS/Game/Logic.hpp"
 #include "CP_SDK/Unity/MTCoroutineStarter.hpp"
 #include <custom-types/shared/delegate.hpp>
+#include <beatsaber-hook/shared/utils/byref.hpp>
 
-#include <HMUI/ViewController_DidActivateDelegate.hpp>
+#include <HMUI/ViewController.hpp>
 #include <HMUI/IconSegmentedControl.hpp>
 #include <HMUI/InputFieldView.hpp>
 #include <GlobalNamespace/LevelFilteringNavigationController.hpp>
-#include <GlobalNamespace/LevelFilterParams.hpp>
+#include <GlobalNamespace/LevelFilter.hpp>
 #include <GlobalNamespace/SelectLevelCategoryViewController.hpp>
-#include <GlobalNamespace/SelectLevelCategoryViewController_LevelCategoryInfo.hpp>
 #include <System/Collections/Generic/HashSet_1.hpp>
 #include <UnityEngine/Resources.hpp>
 
 namespace CP_SDK_BS::Game {
 
-    _v::MonoPtr<_u::CustomPreviewBeatmapLevel>  LevelSelection::m_PendingFilterSong;
+    _v::MonoPtr<_u::BeatmapLevel>  LevelSelection::m_PendingFilterSong;
     bool                                        LevelSelection::m_PreventLevelSearchViewController_didStartLoadingEvent;
 
     ////////////////////////////////////////////////////////////////////////////
@@ -28,13 +28,13 @@ namespace CP_SDK_BS::Game {
 
     /// @brief Filter to specific song
     /// @param p_SongToFilter Song to filter
-    bool LevelSelection::FilterToSpecificSong(_u::CustomPreviewBeatmapLevel* p_SongToFilter)
+    bool LevelSelection::FilterToSpecificSong(_u::BeatmapLevel* p_SongToFilter)
     {
         m_PendingFilterSong = p_SongToFilter;
 
         try
         {
-            auto l_LevelFilteringNavigationController = _u::Resources::FindObjectsOfTypeAll<_u::LevelSelectionNavigationController*>().FirstOrDefault();
+            auto l_LevelFilteringNavigationController = _u::Resources::FindObjectsOfTypeAll<_u::LevelSelectionNavigationController*>()->FirstOrDefault();
             if (l_LevelFilteringNavigationController)
             {
                 if (l_LevelFilteringNavigationController->get_gameObject()->get_activeInHierarchy())
@@ -115,17 +115,17 @@ namespace CP_SDK_BS::Game {
         if (!p_LevelSelectionNavigationController || !p_LevelSelectionNavigationController->get_isInViewControllerHierarchy() || !p_LevelSelectionNavigationController->get_isActiveAndEnabled())
             co_return;
 
-        auto l_LevelFilteringNavigationController = p_LevelSelectionNavigationController->levelFilteringNavigationController;
+        auto l_LevelFilteringNavigationController = p_LevelSelectionNavigationController->_levelFilteringNavigationController;
         if (!_v::IsUnityPtrValid(l_LevelFilteringNavigationController))
             co_return;
 
         if (l_LevelFilteringNavigationController->get_selectedLevelCategory() != _u::SelectLevelCategoryViewController::LevelCategory::All)
         {
-            auto l_Selector = l_LevelFilteringNavigationController->selectLevelCategoryViewController;
+            auto l_Selector = l_LevelFilteringNavigationController->_selectLevelCategoryViewController;
             if (_v::IsUnityPtrValid(l_Selector))
             {
-                auto l_SegmentControl    = l_Selector->levelFilterCategoryIconSegmentedControl;
-                auto l_Tags              = l_Selector->levelCategoryInfos;
+                auto l_SegmentControl    = l_Selector->_levelFilterCategoryIconSegmentedControl;
+                auto l_Tags              = l_Selector->_levelCategoryInfos;
                 auto l_IndexToSelect     = -1;
 
 
@@ -147,7 +147,7 @@ namespace CP_SDK_BS::Game {
 
                 CP_SDK::Unity::MTCoroutineStarter::Start(custom_types::Helpers::CoroutineHelper::New(
                     LevelSelection_FilterLevel(
-                        l_LevelFilteringNavigationController->levelSearchViewController,
+                        l_LevelFilteringNavigationController->_levelSearchViewController,
                         true
                     )
                 ));
@@ -157,7 +157,7 @@ namespace CP_SDK_BS::Game {
         {
             CP_SDK::Unity::MTCoroutineStarter::Start(custom_types::Helpers::CoroutineHelper::New(
                 LevelSelection_FilterLevel(
-                    l_LevelFilteringNavigationController->levelSearchViewController,
+                    l_LevelFilteringNavigationController->_levelSearchViewController,
                     false
                 )
             ));
@@ -199,8 +199,9 @@ namespace CP_SDK_BS::Game {
             auto l_Set = System::Collections::Generic::HashSet_1<::StringW>::New_ctor();
             l_Set->Add(m_PendingFilterSong->levelID);
 
+            auto filter = GlobalNamespace::LevelFilter(false, false, false, GlobalNamespace::BeatmapDifficultyMask::All, GlobalNamespace::SongPackMask::get_all(), "", 0.0f, 0.0f, 0, "", l_Set);
             p_LevelSearchViewController->UpdateSearchLevelFilterParams(
-                _u::LevelFilterParams::ByBeatmapLevelIds(l_Set)
+                byref(filter)
             );
             m_PreventLevelSearchViewController_didStartLoadingEvent = false;
         }
@@ -222,12 +223,12 @@ namespace CP_SDK_BS::Game {
 
         try
         {
-            auto l_Filter = p_LevelSearchViewController->currentFilterParams;
-            if (l_Filter && l_Filter->filterByLevelIds)
+            auto l_Filter = p_LevelSearchViewController->____currentSearchFilter;
+            if (l_Filter.limitIds && l_Filter.limitIds.Length() == 1)
             {
                 p_LevelSearchViewController->ResetCurrentFilterParams();
 
-                auto l_InputFieldView = p_LevelSearchViewController->searchTextInputFieldView;
+                auto l_InputFieldView = p_LevelSearchViewController->_searchTextInputFieldView;
                 if (_v::IsUnityPtrValid(l_InputFieldView))
                 {
                     l_InputFieldView->UpdateClearButton();
@@ -267,3 +268,4 @@ namespace CP_SDK_BS::Game {
     }
 
 }   ///< namespace CP_SDK_BS::Game
+*/

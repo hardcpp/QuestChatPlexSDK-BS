@@ -192,7 +192,7 @@ And to initilize the module
 #include "MyModule.hpp"
 
 #include <CP_SDK/ChatPlexSDK.hpp>
-#include <CP_SDK/Logging/BMBFLogger.hpp>
+#include <CP_SDK/Logging/PaperLogger.hpp>
 
 #include <beatsaber-hook/shared/utils/il2cpp-functions.hpp>
 #include <custom-types/shared/register.hpp>

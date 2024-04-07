@@ -3,6 +3,7 @@
 
 #include <UnityEngine/SpriteMeshType.hpp>
 #include <UnityEngine/Time.hpp>
+#include <UnityEngine/Vector2.hpp>
 
 using namespace UnityEngine;
 using namespace UnityEngine::UI;

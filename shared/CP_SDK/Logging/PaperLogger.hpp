@@ -4,18 +4,20 @@
 
 #include <beatsaber-hook/shared/utils/logging.hpp>
 
+#include "paper/shared/logger.hpp"
+
 namespace CP_SDK::Logging {
 
-    /// @brief BMBF Logger
-    class BMBFLogger : public ILogger
+    /// @brief Paper Logger
+    class PaperLogger : public ILogger
     {
         public:
             /// @brief Constructor
-            /// @param p_BMBFLogger BMBF logger instance
-            BMBFLogger(Logger* p_BMBFLogger);
+            /// @param p_Name Paper Logger name
+            PaperLogger(const std::string& p_Name);
 
-            /// @brief Get BMBF Logger
-            Logger* GetBMBFLogger() const { return m_BMBFLogger; }
+            /// @brief Get Paper Logger
+            Paper::LoggerContext* GetPaperLogger() const { return m_PaperLogger; }
 
         protected:
             /// @brief Log implementation
@@ -28,7 +30,7 @@ namespace CP_SDK::Logging {
             void LogImplementation(ELogType p_Type, const std::exception& p_Data) override;
 
         private:
-            Logger* m_BMBFLogger; ///< BMBF logger instance
+        Paper::LoggerContext* m_PaperLogger; ///< Paper logger instance
 
     };
 

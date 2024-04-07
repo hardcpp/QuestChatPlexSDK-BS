@@ -185,7 +185,7 @@ namespace CP_SDK::Utils::Internals {
             }                                                                                                                               \
             static void addField(::custom_types::FieldRegistrator* inst) {                                                                  \
                 fields.push_back(inst);                                                                                                     \
-                ::custom_types::_logger().debug("Adding instance field: %s.%s new size: %lu", #__mName, inst->name(), fields.size());       \
+                ::custom_types::logger.debug("Adding instance field: %s.%s new size: %lu", #__mName, inst->name(), fields.size());       \
             }                                                                                                                               \
             static inline std::vector<::custom_types::StaticFieldRegistrator*> staticFields;                                                \
             std::vector<::custom_types::StaticFieldRegistrator*> const getStaticFields() const override {                                   \
@@ -193,7 +193,7 @@ namespace CP_SDK::Utils::Internals {
             }                                                                                                                               \
             static void addStaticFieldInstance(::custom_types::StaticFieldRegistrator* inst) {                                              \
                 staticFields.push_back(inst);                                                                                               \
-                ::custom_types::_logger().debug("Adding static field: %s.%s new size: %lu", #__mName, inst->name(), staticFields.size());   \
+                ::custom_types::logger.debug("Adding static field: %s.%s new size: %lu", #__mName, inst->name(), staticFields.size());   \
             }                                                                                                                               \
             static inline std::vector<::custom_types::MethodRegistrator*> methods;                                                          \
             std::vector<::custom_types::MethodRegistrator*> const getMethods() const override {                                             \
@@ -201,7 +201,7 @@ namespace CP_SDK::Utils::Internals {
             }                                                                                                                               \
             static void addMethod(::custom_types::MethodRegistrator* inst) {                                                                \
                 methods.push_back(inst);                                                                                                    \
-                ::custom_types::_logger().debug("Adding method: %s.%s new size: %lu", #__mName, inst->name(), methods.size());              \
+                ::custom_types::logger.debug("Adding method: %s.%s new size: %lu", #__mName, inst->name(), methods.size());              \
             }                                                                                                                               \
             static inline size_t staticFieldOffset;                                                                                         \
             static size_t addStaticField(size_t sz) {                                                                                       \

@@ -21,6 +21,9 @@ namespace CP_SDK_BS::Game {
             static t_BeatLeaderIsInReplay   m_BeatLeaderIsInReplayFN;
 
         public:
+            static bool HasMod(std::string id);
+
+        public:
             static bool IsScoreSaberPresent();
             static bool IsBeatLeaderPresent();
 

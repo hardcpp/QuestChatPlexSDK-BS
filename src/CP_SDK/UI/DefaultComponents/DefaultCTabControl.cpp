@@ -86,7 +86,7 @@ namespace CP_SDK::UI::DefaultComponents {
 
         get_gameObject()->set_layer(UISystem::UILayer);
 
-        m_RTransform = reinterpret_cast<RectTransform*>(get_transform());
+        m_RTransform = get_transform().try_cast<RectTransform>().value_or(nullptr);
 
         m_LElement = get_gameObject()->AddComponent<LayoutElement*>();
         m_LElement->set_minHeight      (15.0f);

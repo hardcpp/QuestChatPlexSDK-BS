@@ -72,7 +72,7 @@ namespace CP_SDK_BS::Game {
                 if (ActiveScene() != ESceneType::Menu)
                     OnMenuSceneActive();
 
-                auto l_GameScenesManager = _u::Resources::FindObjectsOfTypeAll<_u::GameScenesManager*>().FirstOrDefault();
+                auto l_GameScenesManager = _u::Resources::FindObjectsOfTypeAll<_u::GameScenesManager*>()->FirstOrDefault();
                 if (l_GameScenesManager != nullptr)
                 {
                     if (p_Current.get_name() == "EmptyTransition" && !m_LastMainSceneWasNotMenu)
@@ -143,7 +143,7 @@ namespace CP_SDK_BS::Game {
                 m_WasChatPlexUnityInitialized = true;
             }
 
-            auto l_GameScenesManager = _u::Resources::FindObjectsOfTypeAll<_u::GameScenesManager*>().FirstOrDefault();
+            auto l_GameScenesManager = _u::Resources::FindObjectsOfTypeAll<_u::GameScenesManager*>()->FirstOrDefault();
             if (l_GameScenesManager != nullptr)
                 l_GameScenesManager->remove_transitionDidFinishEvent(m_Delegate1);
 

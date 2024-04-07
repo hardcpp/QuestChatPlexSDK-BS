@@ -29,7 +29,7 @@ namespace CP_SDK::UI::DefaultComponents::Subs {
     void SubToggleWithCallbacks::Selectable__DoStateTransition(Selectable::SelectionState p_State, bool p_Instant)
     {
         CP_SDK_IL2CPP_CALL_BASE_METHOD(Selectable, "DoStateTransition", p_State, p_Instant);
-        StateDidChangeEvent(static_cast<ESelectionState>(p_State.value));
+        StateDidChangeEvent(static_cast<ESelectionState>(p_State.value__));
     }
 
 }   ///< namespace CP_SDK::UI::DefaultComponents::Subs

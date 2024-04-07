@@ -111,11 +111,11 @@ namespace CP_SDK::Unity {
     /// @param p_ForcedHeight Forced height
     void EnhancedImage::FromRawAnimated(std::u16string p_ID, Animation::EAnimationType p_Type, _v::CMonoPtrRef<::Array<uint8_t>> p_Bytes, _v::CActionRef<const EnhancedImage::Ptr&> p_Callback, int p_ForcedHeight)
     {
-        if (p_Type == Animation::EAnimationType::AUTODETECT && p_Bytes->Length() > 0)
+        if (p_Type == Animation::EAnimationType::AUTODETECT && p_Bytes->get_Length() > 0)
         {
-            if (p_Bytes->Length() > 3 && p_Bytes->values[0] == 0x47 && ContainBytePattern(p_Bytes, ANIMATED_GIF_PATTERN, sizeof(ANIMATED_GIF_PATTERN)))
+            if (p_Bytes->get_Length() > 3 && p_Bytes->_values[0] == 0x47 && ContainBytePattern(p_Bytes, ANIMATED_GIF_PATTERN, sizeof(ANIMATED_GIF_PATTERN)))
                 p_Type = Animation::EAnimationType::GIF;
-            else if (p_Bytes->Length() > 16 && ContainBytePattern(p_Bytes, WEBPVP8_PATTERN, sizeof(WEBPVP8_PATTERN)))
+            else if (p_Bytes->get_Length() > 16 && ContainBytePattern(p_Bytes, WEBPVP8_PATTERN, sizeof(WEBPVP8_PATTERN)))
                 p_Type = Animation::EAnimationType::WEBP;
             else
                 p_Type = Animation::EAnimationType::NONE;
@@ -313,9 +313,9 @@ namespace CP_SDK::Unity {
     bool EnhancedImage::ContainBytePattern(_v::CMonoPtrRef<::Array<uint8_t>> p_Array, const uint8_t* p_Pattern, int p_PatternSize)
     {
         auto l_PatternPosition = 0;
-        for (int l_I = 0; l_I < p_Array->Length(); ++l_I)
+        for (int l_I = 0; l_I < p_Array->get_Length(); ++l_I)
         {
-            if (p_Array->values[l_I] != p_Pattern[l_PatternPosition])
+            if (p_Array->_values[l_I] != p_Pattern[l_PatternPosition])
             {
                 l_PatternPosition = 0;
                 continue;

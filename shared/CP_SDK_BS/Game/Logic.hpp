@@ -28,7 +28,7 @@ namespace CP_SDK_BS::Game {
     {
         CP_SDK_NO_DEF_CTORS(Logic);
 
-        using t_Delegate1 = System::Action_2<_u::ScenesTransitionSetupDataSO*, Zenject::DiContainer*>*;
+        using t_Delegate1 = System::Action_2<UnityW<_u::ScenesTransitionSetupDataSO>, Zenject::DiContainer*>*;
 
         public:
             /// @brief Scenes

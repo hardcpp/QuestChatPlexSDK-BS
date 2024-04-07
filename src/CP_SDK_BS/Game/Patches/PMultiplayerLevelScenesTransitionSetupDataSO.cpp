@@ -1,4 +1,3 @@
-
 #include "CP_SDK_BS/Game/Patches/PMultiplayerLevelScenesTransitionSetupDataSO.hpp"
 #include "CP_SDK_BS/Game/Logic.hpp"
 #include "CP_SDK_BS/Game/Scoring.hpp"
@@ -28,12 +27,12 @@ namespace CP_SDK_BS::Game::Patches {
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
-    CP_SDK_IL2CPP_HOOK_MAKE_AUTO_HOOK_MATCH(
+    /*CP_SDK_IL2CPP_HOOK_MAKE_AUTO_HOOK_MATCH(
         MultiplayerLevelScenesTransitionSetupDataSO_Init, &MultiplayerLevelScenesTransitionSetupDataSO::Init,
         void, MultiplayerLevelScenesTransitionSetupDataSO* __Instance,
 
-        StringW             __a, IPreviewBeatmapLevel* __b, BeatmapDifficulty  __c, BeatmapCharacteristicSO* __d,
-        IDifficultyBeatmap* __e, ColorScheme*          __f, GameplayModifiers* __g, PlayerSpecificSettings*  __h,
+        StringW             __a, BeatmapLevel* __b, BeatmapDifficulty  __c, BeatmapCharacteristicSO* __d,
+        BeatmapKey __e, ColorScheme*          __f, GameplayModifiers* __g, PlayerSpecificSettings*  __h,
         PracticeSettings*   __i, bool                  __j)
     {
         //CP_SDK::ChatPlexSDK::Logger()->Error(u"Enter MultiplayerLevelScenesTransitionSetupDataSO_Init");
@@ -97,6 +96,6 @@ namespace CP_SDK_BS::Game::Patches {
         s_PMultiplayerLevelScenesTransitionSetupDataSO_LevelData = nullptr;
 
         //CP_SDK::ChatPlexSDK::Logger()->Error(u"Exit MultiplayerLevelScenesTransitionSetupDataSO_Finish");
-    }
+    }*/
 
 }   ///< namespace CP_SDK_BS::Game::Patches

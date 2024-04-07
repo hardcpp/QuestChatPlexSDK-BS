@@ -2,6 +2,7 @@
 #include "CP_SDK/Animation/AnimationStateUpdater.hpp"
 
 #include <UnityEngine/GameObject.hpp>
+#include <UnityEngine/Vector2.hpp>
 
 using namespace UnityEngine;
 using namespace UnityEngine::UI;
@@ -31,7 +32,7 @@ namespace CP_SDK::UI::Components {
     /// @param p_Width Width
     CImage* CImage::SetWidth(float p_Width)
     {
-        RTransform()->set_sizeDelta(Vector2(p_Width, RTransform()->get_sizeDelta().y));
+        RTransform()->set_sizeDelta({p_Width, RTransform()->get_sizeDelta().y});
         LElement()->set_preferredWidth(p_Width);
         return this;
     }

@@ -22,7 +22,7 @@ namespace CP_SDK::Animation::WEBP {
         Unity::MTThreadInvoker::EnqueueOnThread([=]() -> void {
             WebPBitstreamFeatures l_Features = {};
 
-            if (WebPGetFeatures(p_Raw->values, p_Raw->Length(), &l_Features) != VP8_STATUS_OK)
+            if (WebPGetFeatures(p_Raw->_values, p_Raw->get_Length(), &l_Features) != VP8_STATUS_OK)
             {
                 ChatPlexSDK::Logger()->Error(u"[CP_SDK.Animation.WEBP][WEBP.ProcessingThread] Failed to get WebPFeatures");
                 p_Callback(nullptr);
@@ -115,8 +115,8 @@ namespace CP_SDK::Animation::WEBP {
                 ///l_Options.color_mode = Natives.WEBP.WEBP_CSP_MODE.MODE_RGBA;
 
                 auto l_WebPData = WebPData();
-                l_WebPData.bytes = p_Raw->values;
-                l_WebPData.size  = p_Raw->Length();
+                l_WebPData.bytes = p_Raw->_values;
+                l_WebPData.size  = p_Raw->get_Length();
 
                 auto l_Decoder = WebPAnimDecoderNew(&l_WebPData, nullptr);
                 if (l_Decoder)

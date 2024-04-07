@@ -1,11 +1,10 @@
 #include "CP_SDK_BS/Game/LevelCompletionData.hpp"
 #include "CP_SDK_BS/Game/Levels.hpp"
 
-#include <songloader/shared/API.hpp>
+#include <songcore/shared/SongCore.hpp>
 
 #include <GlobalNamespace/IReadonlyBeatmapData.hpp>
-#include <GlobalNamespace/IDifficultyBeatmap.hpp>
-#include <GlobalNamespace/IDifficultyBeatmapSet.hpp>
+#include <GlobalNamespace/BeatmapKey.hpp>
 
 namespace CP_SDK_BS::Game {
 
@@ -15,7 +14,7 @@ namespace CP_SDK_BS::Game {
             return false;
 
         std::vector<std::u16string> l_Requirements;
-        if (Levels::TryGetCustomRequirementsFor(Data->previewBeatmapLevel, Data->difficultyBeatmap->get_parentDifficultyBeatmapSet()->get_beatmapCharacteristic(), Data->difficultyBeatmap->get_difficulty(), &l_Requirements))
+        if (Levels::TryGetCustomRequirementsFor(Data->beatmapLevel, Data->beatmapKey.beatmapCharacteristic, Data->beatmapKey.difficulty, &l_Requirements))
         {
             for (auto& l_Current : l_Requirements)
             {
@@ -34,7 +33,7 @@ namespace CP_SDK_BS::Game {
             return false;
 
         std::vector<std::u16string> l_Requirements;
-        if (Levels::TryGetCustomRequirementsFor(Data->previewBeatmapLevel, Data->difficultyBeatmap->get_parentDifficultyBeatmapSet()->get_beatmapCharacteristic(), Data->difficultyBeatmap->get_difficulty(), &l_Requirements))
+        if (Levels::TryGetCustomRequirementsFor(Data->beatmapLevel, Data->beatmapKey.beatmapCharacteristic, Data->beatmapKey.difficulty, &l_Requirements))
         {
             for (auto& l_Current : l_Requirements)
             {

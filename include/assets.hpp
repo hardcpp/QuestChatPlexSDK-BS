@@ -1,75 +1,26 @@
 #pragma once
+#include "kaleb/shared/kaleb.hpp"
 
-#include <string_view>
-#include "beatsaber-hook/shared/utils/typedefs.h"
-
-struct IncludedAsset {
-
-    IncludedAsset(uint8_t* start, uint8_t* end) : array(reinterpret_cast<Array<uint8_t>*>(start)) {
-        array->klass = nullptr;
-        array->monitor = nullptr;
-        array->bounds = nullptr;
-        array->max_length = end - start - 33;
-        *(end - 1)= '\0';
-    }
-
-    operator ArrayW<uint8_t>() const {
-        init();
-        return array;
-    }
-
-    Array<uint8_t>* Raw() const {
-        init();
-        return array;
-    }
-
-    operator std::string_view() const {
-        return { reinterpret_cast<char*>(array->values), array->Length() };
-    }
-
-    operator std::span<uint8_t>() const {
-        return { array->values, array->Length() };
-    }
-
-    void init() const {
-        if(!array->klass)
-            array->klass = classof(Array<uint8_t>*);
-    }
-
-    private:
-        Array<uint8_t>* array;
-
-};
-
-#define DECLARE_FILE(name)                         \
-    extern "C" uint8_t _binary_##name##_start[];  \
-    extern "C" uint8_t _binary_##name##_end[];    \
-    const IncludedAsset name { _binary_##name##_start, _binary_##name##_end};
-
-namespace IncludedAssets {
-
-	DECLARE_FILE(ChatPlexLogoLoading_webp)
-	DECLARE_FILE(ChatPlexLogoTransparent_png)
-	DECLARE_FILE(DefaultPackCover_png)
-	DECLARE_FILE(Heart_png)
-	DECLARE_FILE(NJS_png)
-	DECLARE_FILE(Offset_png)
-	DECLARE_FILE(QuestFonts_bundle)
-	DECLARE_FILE(UIButton_png)
-	DECLARE_FILE(UIColorPickerFBG_png)
-	DECLARE_FILE(UIColorPickerHBG_png)
-	DECLARE_FILE(UIColorPickerSBG_png)
-	DECLARE_FILE(UIColorPickerVBG_png)
-	DECLARE_FILE(UIDownArrow_png)
-	DECLARE_FILE(UIIconGear_png)
-	DECLARE_FILE(UIIconLocked_png)
-	DECLARE_FILE(UIIconUnlocked_png)
-	DECLARE_FILE(UIRectBG_png)
-	DECLARE_FILE(UIRoundBG_png)
-	DECLARE_FILE(UIRoundRectLeftBG_png)
-	DECLARE_FILE(UIRoundRectRightBG_png)
-	DECLARE_FILE(UIRoundSmoothFrame_png)
-	DECLARE_FILE(UISliderBG_png)
-	DECLARE_FILE(UISliderHandle_png)
-
-}
+DECLARE_FILE(_binary_ChatPlexLogoLoading_webp, Assets, ChatPlexLogoLoading_webp);
+DECLARE_FILE(_binary_ChatPlexLogoTransparent_png, Assets, ChatPlexLogoTransparent_png);
+DECLARE_FILE(_binary_DefaultPackCover_png, Assets, DefaultPackCover_png);
+DECLARE_FILE(_binary_Heart_png, Assets, Heart_png);
+DECLARE_FILE(_binary_NJS_png, Assets, NJS_png);
+DECLARE_FILE(_binary_Offset_png, Assets, Offset_png);
+DECLARE_FILE(_binary_QuestFonts_bundle, Assets, QuestFonts_bundle);
+DECLARE_FILE(_binary_UIButton_png, Assets, UIButton_png);
+DECLARE_FILE(_binary_UIColorPickerFBG_png, Assets, UIColorPickerFBG_png);
+DECLARE_FILE(_binary_UIColorPickerHBG_png, Assets, UIColorPickerHBG_png);
+DECLARE_FILE(_binary_UIColorPickerSBG_png, Assets, UIColorPickerSBG_png);
+DECLARE_FILE(_binary_UIColorPickerVBG_png, Assets, UIColorPickerVBG_png);
+DECLARE_FILE(_binary_UIDownArrow_png, Assets, UIDownArrow_png);
+DECLARE_FILE(_binary_UIIconGear_png, Assets, UIIconGear_png);
+DECLARE_FILE(_binary_UIIconLocked_png, Assets, UIIconLocked_png);
+DECLARE_FILE(_binary_UIIconUnlocked_png, Assets, UIIconUnlocked_png);
+DECLARE_FILE(_binary_UIRectBG_png, Assets, UIRectBG_png);
+DECLARE_FILE(_binary_UIRoundBG_png, Assets, UIRoundBG_png);
+DECLARE_FILE(_binary_UIRoundRectLeftBG_png, Assets, UIRoundRectLeftBG_png);
+DECLARE_FILE(_binary_UIRoundRectRightBG_png, Assets, UIRoundRectRightBG_png);
+DECLARE_FILE(_binary_UIRoundSmoothFrame_png, Assets, UIRoundSmoothFrame_png);
+DECLARE_FILE(_binary_UISliderBG_png, Assets, UISliderBG_png);
+DECLARE_FILE(_binary_UISliderHandle_png, Assets, UISliderHandle_png);

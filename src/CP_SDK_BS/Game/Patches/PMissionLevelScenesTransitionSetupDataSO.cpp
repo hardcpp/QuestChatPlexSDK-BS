@@ -1,4 +1,3 @@
-
 #include "CP_SDK_BS/Game/Patches/PMissionLevelScenesTransitionSetupDataSO.hpp"
 #include "CP_SDK_BS/Game/Logic.hpp"
 #include "CP_SDK_BS/Game/Scoring.hpp"
@@ -26,11 +25,11 @@ namespace CP_SDK_BS::Game::Patches {
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
-    CP_SDK_IL2CPP_HOOK_MAKE_AUTO_HOOK_MATCH(
+    /*CP_SDK_IL2CPP_HOOK_MAKE_AUTO_HOOK_MATCH(
         MissionLevelScenesTransitionSetupDataSO_Init, &MissionLevelScenesTransitionSetupDataSO::Init,
         void, MissionLevelScenesTransitionSetupDataSO* __Instance,
 
-        StringW      __a, IDifficultyBeatmap* __b, IPreviewBeatmapLevel*   __c, ArrayW<MissionObjective*> __d,
+        StringW      __a, BeatmapKey __b, BeatmapLevel*   __c, ArrayW<MissionObjective*> __d,
         ColorScheme* __e, GameplayModifiers*  __f, PlayerSpecificSettings* __g, StringW                   __h)
     {
         //CP_SDK::ChatPlexSDK::Logger()->Error(u"Enter MissionLevelScenesTransitionSetupDataSO_Init");
@@ -87,6 +86,6 @@ namespace CP_SDK_BS::Game::Patches {
         s_PMissionLevelScenesTransitionSetupDataSO_LevelData = nullptr;
 
         //CP_SDK::ChatPlexSDK::Logger()->Error(u"Exit MissionLevelScenesTransitionSetupDataSO_Finish");
-    }
+    }*/
 
 }   ///< namespace CP_SDK_BS::Game::Patches

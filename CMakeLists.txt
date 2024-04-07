@@ -1,5 +1,6 @@
 # include some defines automatically made by qpm
 include(qpm_defines.cmake)
+include(${EXTERN_DIR}/includes/kaleb/shared/cmake/assets.cmake)
 
 add_definitions(-DCP_SDK_BMBF)
 add_definitions(-DDEBUG_SCENES)
@@ -32,10 +33,34 @@ set(SHARED_DIR ${CMAKE_CURRENT_SOURCE_DIR}/shared)
 # compile options used
 add_compile_options(-frtti -fexceptions)
 add_compile_options(-O3)
+
+# get git info
+execute_process(COMMAND git config user.name OUTPUT_VARIABLE GIT_USER)
+execute_process(COMMAND git branch --show-current OUTPUT_VARIABLE GIT_BRANCH)
+execute_process(COMMAND git rev-parse --short HEAD OUTPUT_VARIABLE GIT_COMMIT)
+execute_process(COMMAND git diff-index --quiet HEAD RESULT_VARIABLE GIT_MODIFIED)
+
+string(STRIP "${GIT_USER}" GIT_USER)
+string(STRIP "${GIT_BRANCH}" GIT_BRANCH)
+string(STRIP "${GIT_COMMIT}" GIT_COMMIT)
+string(STRIP "${GIT_MODIFIED}" GIT_MODIFIED)
+
+message(STATUS "GIT_USER: ${GIT_USER}")
+message(STATUS "GIT_BRANCH: ${GIT_BRANCH}")
+message(STATUS "GIT_COMMIT: 0x${GIT_COMMIT}")
+message(STATUS "GIT_MODIFIED: ${GIT_MODIFIED}")
+
+# set git defines
+add_compile_definitions(GIT_USER=\"${GIT_USER}\")
+add_compile_definitions(GIT_BRANCH=\"${GIT_BRANCH}\")
+add_compile_definitions(GIT_COMMIT=0x${GIT_COMMIT})
+add_compile_definitions(GIT_MODIFIED=${GIT_MODIFIED})
+
 # compile definitions used
 add_compile_definitions(VERSION=\"${MOD_VERSION}\")
 add_compile_definitions(MOD_ID=\"${MOD_ID}\")
 add_compile_definitions(__USE_LARGEFILE64)
+add_compile_definitions(BEATSABER_1_29_4_OR_NEWER)
 
 # recursively get all src files
 RECURSE_FILES(h_file_lista ${INCLUDE_DIR}/*.hpp)
@@ -58,6 +83,9 @@ add_library(
         ${c_file_list}
 )
 
+# Add any assets
+add_assets(assets_${COMPILE_ID} STATIC ${CMAKE_CURRENT_LIST_DIR}/assets ${INCLUDE_DIR}/assets.hpp)
+
 # get the vcpkg dir from env variables
 if(EXISTS $ENV{VCPKG_ROOT})
     set(VCPKG_ROOT $ENV{VCPKG_ROOT})
@@ -77,6 +105,7 @@ target_include_directories(${COMPILE_ID} PUBLIC ${SHARED_DIR})
 target_include_directories(${COMPILE_ID} PRIVATE ${EXTERN_DIR}/includes/${CODEGEN_ID}/include)
 
 target_link_libraries(${COMPILE_ID} PRIVATE -llog)
+target_link_libraries(${COMPILE_ID} PRIVATE assets_${COMPILE_ID})
 
 # add extern stuff like libs and other includes
 include(extern.cmake)
@@ -121,6 +150,3 @@ add_custom_command(TARGET ${COMPILE_ID} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy ${a_file} debug/${file}
         COMMENT "Copy a files for ndk stack")
         endforeach()
-
-
-include(assets_include.cmake)

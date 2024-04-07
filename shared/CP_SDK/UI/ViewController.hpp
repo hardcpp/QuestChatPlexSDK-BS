@@ -54,7 +54,7 @@ namespace CP_SDK::UI {
             template<class t_Base> requires(std::is_assignable_v<ViewController*&, t_Base*>)
             static _v::MonoPtr<t_Base>& _Instance()
             {
-                auto l_Type = reinterpret_cast<_u::Type*>(csTypeOf(t_Base*));
+                auto l_Type = reinterpret_cast<_u::Type*>(csTypeOf(t_Base*).convert());
                 if (l_Type && m_Instances.contains(l_Type))
                     return *reinterpret_cast<_v::MonoPtr<t_Base>*>(&m_Instances[l_Type]);
 
@@ -108,7 +108,7 @@ namespace CP_SDK::UI {
             template<class t_ModalType>
             t_ModalType* CreateModal()
             {
-                return reinterpret_cast<t_ModalType*>(CreateModal_Impl(reinterpret_cast<_u::Type*>(csTypeOf(t_ModalType*))));
+                return reinterpret_cast<t_ModalType*>(CreateModal_Impl(reinterpret_cast<_u::Type*>(csTypeOf(t_ModalType*).convert())));
             }
 
         private:

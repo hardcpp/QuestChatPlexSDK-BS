@@ -1,6 +1,6 @@
 #include "CP_SDK/ChatPlexSDK.hpp"
 #include "CP_SDK/ModuleBase.hpp"
-#include "CP_SDK/Logging/BMBFLogger.hpp"
+#include "CP_SDK/Logging/PaperLogger.hpp"
 #include "CP_SDK/UI/FlowCoordinators/MainFlowCoordinator.hpp"
 #include "CP_SDK/UI/ScreenSystem.hpp"
 #include "CP_SDK/UI/UISystem.hpp"
@@ -25,7 +25,7 @@
 #include <UnityEngine/Resources.hpp>
 #include <VRUIControls/VRGraphicRaycaster.hpp>
 
-static ModInfo s_ModInfo;
+static modloader::ModInfo s_ModInfo{"ChatPlexSDK-BS", VERSION, GIT_COMMIT};
 
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
@@ -49,14 +49,14 @@ void ScreenSystem_OnPresent()
         if (!CP_SDK::Utils::IsUnityPtrValid(p_HMUIScreen) || !p_HMUIScreen->get_gameObject()->get_activeSelf())
             return;
 
-        m_HMUIDeactivatedScreens.push_back(p_HMUIScreen->get_gameObject());
+        m_HMUIDeactivatedScreens.push_back(p_HMUIScreen->get_gameObject().ptr());
         p_HMUIScreen->get_gameObject()->SetActive(false);
     };
 
     if (!m_HMUIScreenSystem)
     {
         m_HMUIDeactivatedScreens.clear();
-        m_HMUIScreenSystem = UnityEngine::Resources::FindObjectsOfTypeAll<HMUI::ScreenSystem*>().FirstOrDefault();
+        m_HMUIScreenSystem = UnityEngine::Resources::FindObjectsOfTypeAll<HMUI::ScreenSystem*>()->FirstOrDefault();
     }
 
     if (!m_HMUIScreenSystem)
@@ -88,19 +88,19 @@ void PatchUI()
 
     CP_SDK::UI::UISystem::UILayer = UnityEngine::LayerMask::NameToLayer("UI");
 
-    CP_SDK::UI::UISystem::Override_UnityComponent_Image            = csTypeOf(HMUI::ImageView*);
-    CP_SDK::UI::UISystem::Override_UnityComponent_TextMeshProUGUI  = csTypeOf(HMUI::CurvedTextMeshPro*);
+    CP_SDK::UI::UISystem::Override_UnityComponent_Image            = reinterpret_cast<System::Type*>(csTypeOf(HMUI::ImageView*).convert());
+    CP_SDK::UI::UISystem::Override_UnityComponent_TextMeshProUGUI  = reinterpret_cast<System::Type*>(csTypeOf(HMUI::CurvedTextMeshPro*).convert());
 
     CP_SDK::UI::UISystem::Override_GetUIMaterial = []()
     {
         if (m_UINoGlowMaterial || CP_SDK::ChatPlexSDK::ActiveGenericScene() != CP_SDK::EGenericScene::Menu) return m_UINoGlowMaterial.Ptr();
-        m_UINoGlowMaterial = UnityEngine::Material::Instantiate(UnityEngine::Resources::FindObjectsOfTypeAll<UnityEngine::Material*>().FirstOrDefault([](auto x) { return x->get_name() == u"UINoGlow"; }));
+        m_UINoGlowMaterial = UnityEngine::Material::Instantiate(UnityEngine::Resources::FindObjectsOfTypeAll<UnityEngine::Material*>()->FirstOrDefault([](auto x) { return x->get_name() == u"UINoGlow"; }));
         return m_UINoGlowMaterial.Ptr();
     };
     CP_SDK::UI::UISystem::Override_OnClick = [](UnityEngine::MonoBehaviour* p_MonoBehavior)
     {
         if (!m_BasicUIAudioManager || CP_SDK::ChatPlexSDK::ActiveGenericScene() != CP_SDK::EGenericScene::Menu)
-            m_BasicUIAudioManager = UnityEngine::Resources::FindObjectsOfTypeAll<GlobalNamespace::BasicUIAudioManager*>().FirstOrDefault();
+            m_BasicUIAudioManager = UnityEngine::Resources::FindObjectsOfTypeAll<GlobalNamespace::BasicUIAudioManager*>()->FirstOrDefault();
         if (m_BasicUIAudioManager) m_BasicUIAudioManager->HandleButtonClickEvent();
     };
 
@@ -110,10 +110,10 @@ void PatchUI()
             return;
 
         if (!m_VRGraphicRaycasterCache)
-            m_VRGraphicRaycasterCache = UnityEngine::Resources::FindObjectsOfTypeAll<VRUIControls::VRGraphicRaycaster*>().FirstOrDefault([](auto y) { return y->physicsRaycaster != nullptr; });
+            m_VRGraphicRaycasterCache = UnityEngine::Resources::FindObjectsOfTypeAll<VRUIControls::VRGraphicRaycaster*>()->FirstOrDefault([](auto y) { return y->_physicsRaycaster != nullptr; });
 
         if (m_VRGraphicRaycasterCache)
-            x->get_gameObject()->AddComponent<VRUIControls::VRGraphicRaycaster*>()->physicsRaycaster = m_VRGraphicRaycasterCache->physicsRaycaster;
+            x->get_gameObject()->AddComponent<VRUIControls::VRGraphicRaycaster*>()->_physicsRaycaster = m_VRGraphicRaycasterCache->_physicsRaycaster;
     };
 
     ////////////////////////////////////////////////////////////////////////////
@@ -178,14 +178,13 @@ void OnEnable()
 ////////////////////////////////////////////////////////////////////////////
 
 // Called at the early stages of game loading
-extern "C" void setup(ModInfo & p_ModInfo)
+extern "C" void setup(CModInfo* p_ModInfo)
 {
-    p_ModInfo.id        = "ChatPlexSDK-BS";
-    p_ModInfo.version   = VERSION;
+    p_ModInfo->id = s_ModInfo.id.c_str();
+    p_ModInfo->version = s_ModInfo.version.c_str();
+    p_ModInfo->version_long = s_ModInfo.versionLong;
 
-    s_ModInfo = p_ModInfo;
-
-    auto l_Logger = new CP_SDK::Logging::BMBFLogger(new Logger(p_ModInfo, LoggerOptions(false, true)));
+    auto l_Logger = new CP_SDK::Logging::PaperLogger(p_ModInfo->id);
 
     CP_SDK::ChatPlexSDK::Configure(
         l_Logger,
@@ -196,7 +195,7 @@ extern "C" void setup(ModInfo & p_ModInfo)
     CP_SDK::ChatPlexSDK::OnAssemblyLoaded();
 
     CP_SDK::Unity::FontManager::Setup([](TMPro::TMP_FontAsset* p_Input) -> TMPro::TMP_FontAsset* {
-        auto l_MainFont = UnityEngine::Resources::FindObjectsOfTypeAll<TMPro::TMP_FontAsset*>().FirstOrDefault([](auto x) { return x->get_name() == u"Teko-Medium SDF"; });
+        auto l_MainFont = UnityEngine::Resources::FindObjectsOfTypeAll<TMPro::TMP_FontAsset*>()->FirstOrDefault([](auto x) { return x->get_name() == u"Teko-Medium SDF"; });
         if (l_MainFont && p_Input)
         {
             p_Input->material->set_shader(l_MainFont->material->get_shader());
@@ -217,7 +216,7 @@ extern "C" void setup(ModInfo & p_ModInfo)
 static bool s_IsLoaded = false;
 
 // Called later on in the game loading - a good time to install function hooks
-extern "C" void load()
+extern "C" void late_load()
 {
     if (s_IsLoaded)
         return;

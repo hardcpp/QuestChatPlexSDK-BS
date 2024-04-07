@@ -11,7 +11,7 @@
 #include <UnityEngine/Events/UnityAction_2.hpp>
 #include <UnityEngine/Events/UnityAction_3.hpp>
 #include <UnityEngine/Events/UnityAction_4.hpp>
-#include <UnityEngine/UI/Button_ButtonClickedEvent.hpp>
+#include <UnityEngine/UI/Button.hpp>
 
 namespace CP_SDK::UI {
 
@@ -32,7 +32,6 @@ namespace CP_SDK::UI {
     template<class t_Type>
     struct UIFieldDefault
     {
-        static_assert(std::is_assignable_v<UnityEngine::Object, t_Type>);
         static Utils::MonoPtr<t_Type> Value;
     };
     template<class t_Type> Utils::MonoPtr<t_Type> UIFieldDefault<t_Type>::Value;

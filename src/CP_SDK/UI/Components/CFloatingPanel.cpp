@@ -3,6 +3,8 @@
 #include "CP_SDK/UI/UISystem.hpp"
 #include "CP_SDK/Unity/Extensions/ColorU.hpp"
 
+#include <UnityEngine/Quaternion.hpp>
+
 using namespace CP_SDK::Unity::Extensions;
 using namespace UnityEngine;
 using namespace UnityEngine::UI;
@@ -152,7 +154,7 @@ namespace CP_SDK::UI::Components {
         {
             if (!m_Background)
             {
-                m_Background = reinterpret_cast<Image*>(GameObject::New_ctor("BG", ArrayW<System::Type*>({ UISystem::Override_UnityComponent_Image.ptr() }))->GetComponent(UISystem::Override_UnityComponent_Image.ptr()));
+                m_Background = GameObject::New_ctor("BG", ArrayW<System::Type*>({ UISystem::Override_UnityComponent_Image.ptr() }))->GetComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
                 m_Background->get_gameObject()->set_layer(UISystem::UILayer);
                 m_Background->get_rectTransform()->SetParent           (get_transform(), false);
                 m_Background->get_rectTransform()->set_localPosition   (Vector3::get_zero());

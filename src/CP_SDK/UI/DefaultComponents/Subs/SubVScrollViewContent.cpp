@@ -33,7 +33,7 @@ namespace CP_SDK::UI::DefaultComponents::Subs {
     /// @brief Component first frame
     void SubVScrollViewContent::Start()
     {
-        LayoutRebuilder::ForceRebuildLayoutImmediate(reinterpret_cast<RectTransform*>(get_transform()));
+        LayoutRebuilder::ForceRebuildLayoutImmediate(get_transform().try_cast<RectTransform>().value_or(nullptr));
 
         StopAllCoroutines();
         StartCoroutine(custom_types::Helpers::CoroutineHelper::New(Coroutine_DisableCanvas(this)));
@@ -70,7 +70,7 @@ namespace CP_SDK::UI::DefaultComponents::Subs {
     {
         co_yield nullptr;
 
-        auto l_RTransform = reinterpret_cast<RectTransform*>(p_Self->get_transform()->GetChild(0));
+        auto l_RTransform = p_Self->get_transform()->GetChild(0).try_cast<RectTransform>().value_or(nullptr);
 
         while (l_RTransform->get_sizeDelta().y == -1.0f)
             co_yield nullptr;
@@ -80,7 +80,7 @@ namespace CP_SDK::UI::DefaultComponents::Subs {
     /// @brief Update scroll view content size & buttons
     void SubVScrollViewContent::UpdateScrollView()
     {
-        VScrollView->SetContentSize(reinterpret_cast<RectTransform*>(get_transform()->GetChild(0))->get_rect().m_Height);
+        VScrollView->SetContentSize(get_transform()->GetChild(0).try_cast<RectTransform>().value_or(nullptr)->get_rect().m_Height);
         VScrollView->RefreshScrollButtons();
     }
 

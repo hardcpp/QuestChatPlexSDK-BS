@@ -5,6 +5,7 @@
 #include <UnityEngine/Canvas.hpp>
 #include <UnityEngine/GameObject.hpp>
 #include <UnityEngine/UI/CanvasScaler.hpp>
+#include <UnityEngine/Quaternion.hpp>
 
 using namespace UnityEngine;
 using namespace UnityEngine::UI;
@@ -43,13 +44,13 @@ namespace CP_SDK::UI::DefaultComponents {
 
         get_gameObject()->set_layer(UISystem::UILayer);
 
-        m_RTransform = reinterpret_cast<RectTransform*>(get_transform());
+        m_RTransform = get_transform().try_cast<RectTransform>().value_or(nullptr);
         m_RTransform->set_localPosition(Vector3::get_zero());
         m_RTransform->set_localRotation(Quaternion::get_identity());
         m_RTransform->set_localScale   (Vector3(0.02f, 0.02f, 0.02f));
 
         auto l_Canvas = get_gameObject()->AddComponent<Canvas*>();
-        l_Canvas->set_additionalShaderChannels(AdditionalCanvasShaderChannels::TexCoord1 | AdditionalCanvasShaderChannels::TexCoord2);
+        l_Canvas->set_additionalShaderChannels(AdditionalCanvasShaderChannels::TexCoord1.value__ | AdditionalCanvasShaderChannels::TexCoord2.value__);
         l_Canvas->set_sortingOrder            (3);
 
         auto l_CanvasScaler = get_gameObject()->AddComponent<CanvasScaler*>();

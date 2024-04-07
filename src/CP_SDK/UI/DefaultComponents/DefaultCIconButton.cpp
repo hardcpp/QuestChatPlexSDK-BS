@@ -6,7 +6,7 @@
 #include <UnityEngine/GameObject.hpp>
 #include <UnityEngine/Rect.hpp>
 #include <UnityEngine/Time.hpp>
-#include <UnityEngine/UI/Button_ButtonClickedEvent.hpp>
+#include <UnityEngine/UI/Button.hpp>
 
 using namespace CP_SDK::Unity::Extensions;
 using namespace UnityEngine;
@@ -49,11 +49,11 @@ namespace CP_SDK::UI::DefaultComponents {
 
         get_gameObject()->set_layer(UISystem::UILayer);
 
-        m_RTransform = reinterpret_cast<RectTransform*>(get_transform());
+        m_RTransform = get_transform().try_cast<RectTransform>().value_or(nullptr);
 
         m_LElement = get_gameObject()->AddComponent<LayoutElement*>();
 
-        m_IconImage = reinterpret_cast<Image*>(GameObject::New_ctor(u"Icon", ArrayW<System::Type*>({ UISystem::Override_UnityComponent_Image.ptr() }))->GetComponent(UISystem::Override_UnityComponent_Image.ptr()));
+        m_IconImage = GameObject::New_ctor(u"Icon", ArrayW<System::Type*>({ UISystem::Override_UnityComponent_Image.ptr() }))->GetComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
         m_IconImage->get_gameObject()->set_layer(UISystem::UILayer);
         m_IconImage->get_rectTransform()->SetParent           (get_transform(), false);
         m_IconImage->get_rectTransform()->set_anchorMin       (Vector2::get_zero());
@@ -73,7 +73,7 @@ namespace CP_SDK::UI::DefaultComponents {
         //m_Button->get_onClick()->RemoveAllListeners();
         m_Button->get_onClick()->AddListener(MakeUnityAction(std::bind(&DefaultCIconButton::Button_OnClick, this)));
 
-        auto l_FakeBg = reinterpret_cast<Image*>(get_gameObject()->AddComponent(UISystem::Override_UnityComponent_Image.ptr()));
+        auto l_FakeBg = get_gameObject()->AddComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
         l_FakeBg->set_material               (UISystem::Override_GetUIMaterial());
         l_FakeBg->set_type                   (Image::Type::Simple);
         l_FakeBg->set_pixelsPerUnitMultiplier(1);
@@ -81,11 +81,11 @@ namespace CP_SDK::UI::DefaultComponents {
         l_FakeBg->set_color                  (ColorU::WithAlpha(Color::get_black(), 0.01f));
 
         auto l_Colors = m_Button->get_colors();
-        l_Colors.set_normalColor        (ColorU::Convert(Color32(255, 255, 255, 150)));
-        l_Colors.set_highlightedColor   (ColorU::Convert(Color32(255, 255, 255, 255)));
-        l_Colors.set_pressedColor       (ColorU::Convert(Color32(255, 255, 255, 255)));
+        l_Colors.set_normalColor        (ColorU::Convert(Color32(0, 255, 255, 255, 150)));
+        l_Colors.set_highlightedColor   (ColorU::Convert(Color32(0, 255, 255, 255, 255)));
+        l_Colors.set_pressedColor       (ColorU::Convert(Color32(0, 255, 255, 255, 255)));
         l_Colors.set_selectedColor      (l_Colors.get_normalColor());
-        l_Colors.set_disabledColor      (ColorU::Convert(Color32(127, 127, 127, 150)));
+        l_Colors.set_disabledColor      (ColorU::Convert(Color32(0, 127, 127, 127, 150)));
         l_Colors.set_fadeDuration       (0.05f);
         m_Button->set_colors(l_Colors);
 
@@ -133,7 +133,7 @@ namespace CP_SDK::UI::DefaultComponents {
             return;
 
         StopAllCoroutines();
-        StartCoroutine(custom_types::Helpers::CoroutineHelper::New(Coroutine_AnimateScale(this, 1.25f * Vector3::get_one(), 0.075f)));
+        StartCoroutine(custom_types::Helpers::CoroutineHelper::New(Coroutine_AnimateScale(this, Vector3::op_Multiply(Vector3::get_one(), 1.25f), 0.075f)));
     }
     /// @brief On pointer exit
     /// @param p_EventData Event data

@@ -14,7 +14,7 @@ namespace CP_SDK::UI::DefaultFactories {
     /// @param p_Parent Parent transform
     Components::CPrimaryButton* DefaultPrimaryButtonFactory::Create(std::u16string_view p_Name, Transform* p_Parent)
     {
-        auto l_GameObject = GameObject::New_ctor(p_Name, ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*)) }));
+        auto l_GameObject = GameObject::New_ctor(p_Name, ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()) }));
         l_GameObject->get_transform()->SetParent(p_Parent, false);
 
         auto l_Element = l_GameObject->AddComponent<DefaultComponents::DefaultCPrimaryButton*>();

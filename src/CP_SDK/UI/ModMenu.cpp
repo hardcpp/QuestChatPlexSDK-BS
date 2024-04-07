@@ -56,7 +56,7 @@ namespace CP_SDK::UI {
             return;
 
         m_Instance = GameObject::New_ctor("[CP_SDK.UI.ModMenu]", ArrayW<System::Type*>({
-            reinterpret_cast<System::Type*>(csTypeOf(ModMenu*)),
+            reinterpret_cast<System::Type*>(csTypeOf(ModMenu*).convert()),
         }))->GetComponent<ModMenu*>();
         GameObject::DontDestroyOnLoad(m_Instance->get_gameObject());
 

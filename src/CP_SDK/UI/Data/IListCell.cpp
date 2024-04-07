@@ -4,7 +4,7 @@
 #include "CP_SDK/UI/UISystem.hpp"
 #include "CP_SDK/Unity/Extensions/ColorU.hpp"
 
-#include <UnityEngine/UI/Button_ButtonClickedEvent.hpp>
+#include <UnityEngine/UI/Button.hpp>
 
 using namespace CP_SDK::Unity::Extensions;
 using namespace UnityEngine;
@@ -51,8 +51,8 @@ namespace CP_SDK::UI::Data {
     {
         auto l_NewCell = m_AddSelfComponent(GameObject::New_ctor("ListCell", ArrayW<System::Type*>({
             UISystem::Override_UnityComponent_Image.ptr() ,
-            reinterpret_cast<System::Type*>(csTypeOf(RectTransform*)),
-            reinterpret_cast<System::Type*>(csTypeOf(Button*))
+            reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()),
+            reinterpret_cast<System::Type*>(csTypeOf(Button*).convert())
         })));
         l_NewCell->get_transform()->SetParent(p_Parent, false);
         l_NewCell->get_gameObject()->SetActive(false);
@@ -86,7 +86,7 @@ namespace CP_SDK::UI::Data {
         if (!m_RTransform)
             m_RTransform = get_gameObject()->AddComponent<RectTransform*>();
 
-        m_Image = reinterpret_cast<Image*>(GetComponent(UISystem::Override_UnityComponent_Image.ptr()));
+        m_Image = GetComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
         m_Image->set_material               (UISystem::Override_GetUIMaterial());
         m_Image->set_type                   (Image::Type::Sliced);
         m_Image->set_pixelsPerUnitMultiplier(1);
@@ -116,11 +116,11 @@ namespace CP_SDK::UI::Data {
 
         auto l_IsOdd  = ((Index() & 1) != 0) ? true : false;
         auto l_Colors = m_Button->get_colors();
-        l_Colors.set_normalColor     (ColorU::Convert(Color32(255, 255, 255, p_State ? (uint8_t)100 : (l_IsOdd ? (uint8_t)15 : (uint8_t)0))));
-        l_Colors.set_highlightedColor(ColorU::Convert(Color32(255, 255, 255, p_State ? (uint8_t)100 : (uint8_t)75)));
-        l_Colors.set_pressedColor    (ColorU::Convert(Color32(255, 255, 255, p_State ? (uint8_t)100 : (uint8_t)75)));
+        l_Colors.set_normalColor     (ColorU::Convert(Color32(0, 255, 255, 255, p_State ? (uint8_t)100 : (l_IsOdd ? (uint8_t)15 : (uint8_t)0))));
+        l_Colors.set_highlightedColor(ColorU::Convert(Color32(0, 255, 255, 255, p_State ? (uint8_t)100 : (uint8_t)75)));
+        l_Colors.set_pressedColor    (ColorU::Convert(Color32(0, 255, 255, 255, p_State ? (uint8_t)100 : (uint8_t)75)));
         l_Colors.set_selectedColor   (l_Colors.get_normalColor());
-        l_Colors.set_disabledColor   (ColorU::Convert(Color32(127, 127, 127, p_State ? (uint8_t)100 : (uint8_t)75)));
+        l_Colors.set_disabledColor   (ColorU::Convert(Color32(0, 127, 127, 127, p_State ? (uint8_t)100 : (uint8_t)75)));
         l_Colors.set_fadeDuration    (0.05f);
         m_Button->set_colors(l_Colors);
     }

@@ -1,81 +1,30 @@
 {
+  "version": "0.1.0",
   "sharedDir": "shared",
   "dependenciesDir": "extern",
   "info": {
     "name": "ChatPlexSDK-BS",
     "id": "chatplex-sdk-bs",
-    "version": "6.2.0",
+    "version": "6.2.1",
     "url": "https://github.com/hardcpp/QuestChatPlexSDK-BS",
     "additionalData": {
       "overrideSoName": "libchatplex-sdk-bs.so",
       "cmake": true
     }
   },
-  "dependencies": [
-    {
-      "id": "beatsaber-hook",
-      "versionRange": "^3.14.0",
-      "additionalData": {
-        "extraFiles": [
-          "src/inline-hook"
-        ]
-      }
-    },
-    {
-      "id": "codegen",
-      "versionRange": "^0.33.0",
-      "additionalData": {}
-    },
-    {
-      "id": "custom-types",
-      "versionRange": "^0.15.24",
-      "additionalData": {}
-    },
-    {
-      "id": "modloader",
-      "versionRange": "^1.2.3",
-      "additionalData": {}
-    },
-    {
-      "id": "bsml",
-      "versionRange": "^0.3.1",
-      "additionalData": {
-        "private": true
-      }
-    },
-    {
-      "id": "libil2cpp",
-      "versionRange": "^0.2.3",
-      "additionalData": {}
-    },
-    {
-      "id": "songloader",
-      "versionRange": "^0.10.17",
-      "additionalData": {
-        "private": true
-      }
-    },
-    {
-      "id": "conditional-dependencies",
-      "versionRange": "*",
-      "additionalData": {
-        "private": true
-      }
-    }
-  ],
   "workspace": {
     "scripts": {
-      "copy": [
-        "pwsh ./copy.ps1"
-      ],
       "build": [
         "pwsh ./build.ps1"
       ],
-      "log": [
-        "pwsh ./start-logging.ps1"
-      ],
       "clean": [
         "pwsh ./build.ps1 -clean"
+      ],
+      "copy": [
+        "pwsh ./copy.ps1"
+      ],
+      "log": [
+        "pwsh ./start-logging.ps1"
       ],
       "qmod": [
         "pwsh ./build.ps1 -clean",
@@ -87,5 +36,63 @@
         "pwsh ./createqmod.ps1 -clean"
       ]
     }
-  }
+  },
+  "dependencies": [
+    {
+      "id": "beatsaber-hook",
+      "versionRange": "^5.1.6",
+      "additionalData": {}
+    },
+    {
+      "id": "bs-cordl",
+      "versionRange": "^3500.0.0",
+      "additionalData": {}
+    },
+    {
+      "id": "custom-types",
+      "versionRange": "^0.17.6",
+      "additionalData": {}
+    },
+    {
+      "id": "scotland2",
+      "versionRange": "^0.1.4",
+      "additionalData": {}
+    },
+    {
+      "id": "bsml",
+      "versionRange": "^0.4.20",
+      "additionalData": {
+        "private": true
+      }
+    },
+    {
+      "id": "libil2cpp",
+      "versionRange": "^0.3.1",
+      "additionalData": {}
+    },
+    {
+      "id": "songcore",
+      "versionRange": "=1.1.4",
+      "additionalData": {
+        "private": true
+      }
+    },
+    {
+      "id": "conditional-dependencies",
+      "versionRange": "^0.3.0",
+      "additionalData": {
+        "private": true
+      }
+    },
+    {
+      "id": "paper",
+      "versionRange": "^3.6.3",
+      "additionalData": {}
+    },
+    {
+      "id": "kaleb",
+      "versionRange": "^0.1.9",
+      "additionalData": {}
+    }
+  ]
 }
