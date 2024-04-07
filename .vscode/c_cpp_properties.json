@@ -1,6 +1,6 @@
 {
     "env": {
-        "ndkPath": "D:/User/Repositories/GitHubQuestModding/android-ndk-r24"
+        "ndkPath": "D:/User/Repositories/GitHubQuestModding/android-ndk-r27-canary"
     },
     "configurations": [
         {
@@ -13,7 +13,7 @@
             ],
             "includePath": [
                 "${workspaceFolder}/extern/includes/libil2cpp/il2cpp/libil2cpp",
-                "${workspaceFolder}/extern/includes/codegen/include",
+                "${workspaceFolder}/extern/includes/bs-cordl/include",
                 "${workspaceFolder}/extern/includes",
                 "${workspaceFolder}/include",
                 "${workspaceFolder}/shared",

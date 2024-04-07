@@ -89,6 +89,26 @@ namespace CP_SDK::UI {
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
+    ViewController* ViewController::_Instance(_u::Type* p_Type)
+    {
+        if (p_Type && m_Instances.contains(p_Type))
+            return m_Instances[p_Type].Ptr(false);
+
+        return nullptr;
+    }
+    _v::MonoPtr<ViewController>& ViewController::_InstanceEx(_u::Type* p_Type)
+    {
+        static auto s_Default = _v::MonoPtr<ViewController>(nullptr);
+
+        if (p_Type && m_Instances.contains(p_Type))
+            return m_Instances[p_Type];
+
+        return s_Default;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+
     /// @brief Can UI be updated
     bool ViewController::CanBeUpdated()
     {
