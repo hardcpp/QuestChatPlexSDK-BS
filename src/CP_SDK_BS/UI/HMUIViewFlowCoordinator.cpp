@@ -161,7 +161,7 @@ namespace CP_SDK_BS::UI {
     void HMUIViewFlowCoordinator::ChangeView(HMUI::ViewController * p_NewView, HMUI::ViewController * p_Left, HMUI::ViewController * p_Right)
     {
         auto l_TopViewController = get_topViewController();
-        if (IsFlowCoordinatorInHierarchy(this) && l_TopViewController.ptr() == p_NewView)
+        if (IsFlowCoordinatorInHierarchy(this) && l_TopViewController.unsafePtr() == p_NewView)
             return;
 
         m_SwitchQueue.push({p_NewView, p_Left, p_Right});
