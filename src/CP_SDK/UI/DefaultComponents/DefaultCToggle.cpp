@@ -1,6 +1,7 @@
 #include "CP_SDK/UI/DefaultComponents/DefaultCToggle.hpp"
 #include "CP_SDK/UI/UISystem.hpp"
 #include "CP_SDK/Unity/Extensions/ColorU.hpp"
+#include "CP_SDK/Unity/Operators.hpp"
 
 #include <UnityEngine/GameObject.hpp>
 #include <UnityEngine/Mathf.hpp>
@@ -91,8 +92,8 @@ namespace CP_SDK::UI::DefaultComponents {
         auto l_View = GameObject::New_ctor("View", ArrayW<System::Type*>({ reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()) }))->get_transform().try_cast<RectTransform>().value_or(nullptr);
         l_View->get_gameObject()->set_layer(UISystem::UILayer);
         l_View->SetParent(get_transform(), false);
-        l_View->set_anchorMin        (Vector2::op_Multiply(Vector2::get_one(), 0.5f));
-        l_View->set_anchorMax        (Vector2::op_Multiply(Vector2::get_one(), 0.5f));
+        l_View->set_anchorMin        (Vector2::get_one() * 0.5f);
+        l_View->set_anchorMax        (Vector2::get_one() * 0.5f);
         l_View->set_sizeDelta        (Vector2(15.0f, 5.0f));
 
         m_Toggle = l_View->get_gameObject()->AddComponent<Subs::SubToggleWithCallbacks*>();
@@ -103,8 +104,8 @@ namespace CP_SDK::UI::DefaultComponents {
         m_BackgroundImage = GameObject::New_ctor("BG", ArrayW<System::Type*>({ UISystem::Override_UnityComponent_Image.ptr() }))->GetComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
         m_BackgroundImage->get_gameObject()->set_layer(UISystem::UILayer);
         m_BackgroundImage->get_rectTransform()->SetParent(l_View, false);
-        m_BackgroundImage->get_rectTransform()->set_anchorMin(Vector2::op_Multiply(Vector2::get_one(), 0.5f));
-        m_BackgroundImage->get_rectTransform()->set_anchorMax(Vector2::op_Multiply(Vector2::get_one(), 0.5f));
+        m_BackgroundImage->get_rectTransform()->set_anchorMin(Vector2::get_one() * 0.5f);
+        m_BackgroundImage->get_rectTransform()->set_anchorMax(Vector2::get_one() * 0.5f);
         m_BackgroundImage->get_rectTransform()->set_sizeDelta(Vector2(15.0f, 5.0f));
         m_BackgroundImage->set_sprite     (UISystem::GetUIRoundBGSprite().Ptr());
         m_BackgroundImage->set_color      (Color(0.0f, 0.0f, 0.0f, 0.5f));

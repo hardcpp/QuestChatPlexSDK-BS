@@ -2,6 +2,7 @@
 #include "CP_SDK/UI/UISystem.hpp"
 #include "CP_SDK/Unity/Extensions/ColorU.hpp"
 #include "CP_SDK/ChatPlexSDK.hpp"
+#include "CP_SDK/Unity/Operators.hpp"
 
 #include <UnityEngine/GameObject.hpp>
 #include <UnityEngine/Rect.hpp>
@@ -133,7 +134,7 @@ namespace CP_SDK::UI::DefaultComponents {
             return;
 
         StopAllCoroutines();
-        StartCoroutine(custom_types::Helpers::CoroutineHelper::New(Coroutine_AnimateScale(this, Vector3::op_Multiply(Vector3::get_one(), 1.25f), 0.075f)));
+        StartCoroutine(custom_types::Helpers::CoroutineHelper::New(Coroutine_AnimateScale(this, Vector3::get_one() * 1.25f, 0.075f)));
     }
     /// @brief On pointer exit
     /// @param p_EventData Event data

@@ -1,5 +1,6 @@
 #include "CP_SDK/UI/LoadingProgressBar.hpp"
 #include "CP_SDK/UI/UISystem.hpp"
+#include "CP_SDK/Unity/Operators.hpp"
 
 #include "UnityEngine/GameObject.hpp"
 #include "UnityEngine/Transform.hpp"
@@ -76,7 +77,7 @@ namespace CP_SDK::UI {
             Sprite::Create(
                 Texture2D::get_whiteTexture(),
                 Rect(0, 0, Texture2D::get_whiteTexture()->get_width(), Texture2D::get_whiteTexture()->get_height()),
-                Vector2::op_Multiply(Vector2::get_one(), 0.5f),
+                Vector2::get_one() * 0.5f,
                 100,
                 1,
                 SpriteMeshType::FullRect,

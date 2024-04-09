@@ -4,6 +4,7 @@
 #include "CP_SDK_BS/Game/Levels.hpp"
 #include "CP_SDK/UI/UISystem.hpp"
 #include "CP_SDK/Unity/SpriteU.hpp"
+#include "CP_SDK/Unity/Operators.hpp"
 #include "assets.hpp"
 
 #include <BeatmapSaveDataVersion3/BeatmapSaveData.hpp>
@@ -279,7 +280,7 @@ namespace CP_SDK_BS::UI {
         l_LevelBarBig->Find(u"MultipleLineTextContainer")->get_gameObject()->SetActive(false);
 
         auto l_BeatmapParamsPanel = m_GameObject->get_transform()->Find(u"BeatmapParamsPanel");
-        l_BeatmapParamsPanel->get_transform()->set_localPosition(Vector3::op_Addition(l_BeatmapParamsPanel->get_transform()->get_localPosition(), Vector3::op_Multiply(2, Vector3::get_up())));
+        l_BeatmapParamsPanel->get_transform()->set_localPosition(l_BeatmapParamsPanel->get_transform()->get_localPosition() + (2 * Vector3::get_up()));
 
         l_BeatmapParamsPanel->get_gameObject()->AddComponent<HorizontalLayoutGroup*>()->set_childControlHeight(false);
         l_BeatmapParamsPanel->get_gameObject()->AddComponent<LayoutElement*>();
@@ -309,12 +310,12 @@ namespace CP_SDK_BS::UI {
         m_SongBombsText->get_transform()->get_parent()->get_transform().try_cast<RectTransform>().value_or(nullptr)->set_sizeDelta(l_SizeDelta);
 
         /// Patch
-        auto l_OffsetSprite = CP_SDK::Unity::SpriteU::CreateFromRaw(Assets::Offset_png, 100.0f, Vector2::op_Multiply(Vector2::get_one(), 16.0f));
+        auto l_OffsetSprite = CP_SDK::Unity::SpriteU::CreateFromRaw(Assets::Offset_png, 100.0f, Vector2::get_one() * 16.0f);
         m_SongOffsetText = GameObject::Instantiate(m_SongNPSText->get_transform()->get_parent()->get_gameObject(), m_SongNPSText->get_transform()->get_parent()->get_parent())->GetComponentInChildren<TextMeshProUGUI*>();
         m_SongOffsetText->get_transform()->get_parent()->SetAsFirstSibling();
         m_SongOffsetText->get_transform()->get_parent()->GetComponentInChildren<HMUI::ImageView*>()->set_sprite(l_OffsetSprite);
 
-        auto l_NJSSprite = CP_SDK::Unity::SpriteU::CreateFromRaw(Assets::NJS_png, 100.0f, Vector2::op_Multiply(Vector2::get_one(), 16.0f));
+        auto l_NJSSprite = CP_SDK::Unity::SpriteU::CreateFromRaw(Assets::NJS_png, 100.0f, Vector2::get_one() * 16.0f);
         m_SongNJSText = GameObject::Instantiate(m_SongNPSText->get_transform()->get_parent()->get_gameObject(), m_SongNPSText->get_transform()->get_parent()->get_parent())->GetComponentInChildren<TextMeshProUGUI*>();
         m_SongNJSText->get_transform()->get_parent()->SetAsFirstSibling();
         m_SongNJSText->get_transform()->get_parent()->GetComponentInChildren<HMUI::ImageView*>()->set_sprite(l_NJSSprite);

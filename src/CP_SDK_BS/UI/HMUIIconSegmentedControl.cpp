@@ -1,4 +1,5 @@
 #include "CP_SDK_BS/UI/HMUIIconSegmentedControl.hpp"
+#include "CP_SDK/Unity/Operators.hpp"
 
 #include <HMUI/HoverHint.hpp>
 #include <GlobalNamespace/BeatmapCharacteristicSegmentedControlController.hpp>
@@ -36,10 +37,10 @@ namespace CP_SDK_BS::UI {
         l_Control->_hideCellBackground   = p_HideCellBackground;
 
         auto l_RectTransform = l_Control->get_transform().try_cast<RectTransform>().value_or(nullptr);
-        l_RectTransform->set_anchorMin       (Vector2::op_Multiply(Vector2::get_one(), 0.5f));
-        l_RectTransform->set_anchorMax       (Vector2::op_Multiply(Vector2::get_one(), 0.5f));
+        l_RectTransform->set_anchorMin       (Vector2::get_one() * 0.5f);
+        l_RectTransform->set_anchorMax       (Vector2::get_one() * 0.5f);
         l_RectTransform->set_anchoredPosition(Vector2::get_zero()      );
-        l_RectTransform->set_pivot           (Vector2::op_Multiply(Vector2::get_one(), 0.5f));
+        l_RectTransform->set_pivot           (Vector2::get_one() * 0.5f);
 
         auto l_ChildCount = l_Control->get_transform()->get_childCount();
         for (auto l_I = 0; l_I < l_ChildCount; ++l_I)

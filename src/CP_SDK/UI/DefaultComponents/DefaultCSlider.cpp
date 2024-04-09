@@ -1,6 +1,7 @@
 #include "CP_SDK/UI/DefaultComponents/DefaultCSlider.hpp"
 #include "CP_SDK/UI/UISystem.hpp"
 #include "CP_SDK/Unity/Extensions/ColorU.hpp"
+#include "CP_SDK/Unity/Operators.hpp"
 
 #include <System/Math.hpp>
 #include <UnityEngine/GameObject.hpp>
@@ -435,7 +436,7 @@ namespace CP_SDK::UI::DefaultComponents {
         auto l_HandleRect            = l_HandleRectTransform->get_rect();
         auto l_SlidingRect           = m_SlidingArea->get_rect();
 
-        auto l_Point = Vector2::op_Multiply(Vector2::op_Subtraction(Vector2::op_Subtraction(Vector2::op_Subtraction(l_LocalPoint, l_SlidingRect.get_position()), Vector2(l_HandleRect.m_Width * 0.5f, 0.0f)), Vector2::op_Subtraction(l_HandleRect.get_size(), l_HandleRectTransform->get_sizeDelta())), 0.5f);
+        auto l_Point = l_LocalPoint - l_SlidingRect.get_position() - Vector2(l_HandleRect.m_Width * 0.5f, 0.0f) - (l_HandleRect.get_size() - l_HandleRectTransform->get_sizeDelta()) * 0.5f;
         auto l_Value = l_SlidingRect.m_Width * (1.0f - m_HandleSize / l_SlidingRect.m_Width);
 
         m_DragTargetValue = (l_Point.x / l_Value);
