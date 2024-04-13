@@ -113,6 +113,12 @@ namespace CP_SDK_BS::Game {
             m_ActiveScene = ESceneType::Menu;
             m_LevelData   = nullptr;
 
+            if (!m_WasChatPlexUnityInitialized)
+            {
+                CP_SDK::ChatPlexSDK::OnUnityReady();
+                m_WasChatPlexUnityInitialized = true;
+            }
+
             CP_SDK::ChatPlexSDK::Fire_OnGenericMenuScene();
 
             OnSceneChange.Invoke(m_ActiveScene);

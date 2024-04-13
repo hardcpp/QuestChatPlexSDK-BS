@@ -85,7 +85,7 @@ namespace CP_SDK_BS::UI {
             _v::MonoPtr<_u::BeatmapCharacteristicSO>    SelectedBeatmapCharacteristicSO;
             _u::BeatmapDifficulty                       SelectedBeatmapDifficulty;
 
-            _v::Event<_u::BeatmapKey> OnActiveDifficultyChanged;
+            _v::Event<_u::BeatmapKey&> OnActiveDifficultyChanged;
 
             _v::Action<> OnSecondaryButton;
             _v::Action<> OnPrimaryButton;
@@ -131,12 +131,12 @@ namespace CP_SDK_BS::UI {
             void SetActive(bool p_Active);
 
         public:
-            /// @brief Set from SongCore
+            /// @brief Set from game
             /// @param p_BeatMap        BeatMap
             /// @param p_Cover          Cover texture
             /// @param p_Characteristic Game mode
             /// @param p_Difficulty     Difficulty
-            bool FromSongCore(_u::BeatmapLevel* p_BeatMap, _u::Sprite* p_Cover, _u::BeatmapCharacteristicSO* p_Characteristic, _u::BeatmapDifficulty p_Difficulty);
+            bool FromGame(_u::BeatmapLevel* p_BeatMap, _u::Sprite* p_Cover, _u::BeatmapCharacteristicSO* p_Characteristic, _u::BeatmapDifficulty p_Difficulty);
             /// @brief Set from BeatSaver
             /// @param p_BeatMap BeatMap
             /// @param p_Cover   Cover texture
@@ -197,10 +197,6 @@ namespace CP_SDK_BS::UI {
             void OnSecondaryButtonClicked();
             /// @brief Primary button on click
             void OnPrimaryButtonClicked();
-
-        private:
-            /// @brief Get BeatmapKey
-            _u::BeatmapKey GetBeatmapKey();
 
     };
 

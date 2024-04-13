@@ -2,6 +2,7 @@
 #include "CP_SDK_BS/UI/DefaultComponentsOverrides/Subs/SubFloatingPanelMoverHandle.hpp"
 #include "CP_SDK_BS/UI/DefaultComponentsOverrides/BS_CFloatingPanel.hpp"
 #include "CP_SDK/UI/UISystem.hpp"
+#include "CP_SDK/Unity/Operators.hpp"
 
 #include <limits>
 
@@ -48,11 +49,7 @@ namespace CP_SDK_BS::UI::DefaultComponentsOverrides::Subs {
     /// @brief On frame
     void SubFloatingPanelMover::Update()
     {
-#if BEATSABER_1_29_4_OR_NEWER
         auto l_VRController          = m_VRPointer ? m_VRPointer->get_lastSelectedVrController() : nullptr;
-#else
-        auto l_VRController          = m_VRPointer ? m_VRPointer->____lastSelectedVrController() : nullptr;
-#endif
         auto l_VRControllerTransform = l_VRController != nullptr ? l_VRController->get_transform() : nullptr;
         auto l_ButtonDown            = l_VRController != nullptr ? l_VRController->get_triggerValue() > 0.9f : false;
 
@@ -88,7 +85,7 @@ namespace CP_SDK_BS::UI::DefaultComponentsOverrides::Subs {
                 m_FloatingPanel         = l_SubFloatingPanelMoverHandle->FloatingPanel;
                 m_GrabbingController    = l_VRController;
                 m_GrabPosition          = l_VRControllerTransform->InverseTransformPoint(m_FloatingPanel->RTransform()->get_position());
-                m_GrabRotation          = Quaternion::op_Multiply(Quaternion::Inverse(l_VRControllerTransform->get_rotation()), m_FloatingPanel->RTransform()->get_rotation());
+                m_GrabRotation          = Quaternion::Inverse(l_VRControllerTransform->get_rotation()) * m_FloatingPanel->RTransform()->get_rotation();
 
                 m_FloatingPanel->FireOnGrab();
                 break;
@@ -109,19 +106,15 @@ namespace CP_SDK_BS::UI::DefaultComponentsOverrides::Subs {
         if (!m_GrabbingController)
             return;
 
-//#if BEATSABER_1_29_4_OR_NEWER
         auto l_Delta = m_GrabbingController->get_thumbstick().y * Time::get_unscaledDeltaTime();
-//#else
-//auto l_Delta = m_GrabbingController->v() * Time::get_unscaledDeltaTime();
-//#endif
-        if (m_GrabPosition.get_magnitude() > MinScrollDistance) m_GrabPosition = Vector3::op_Subtraction(m_GrabPosition, Vector3::op_Multiply(Vector3::get_forward(), l_Delta));
-        else                                                    m_GrabPosition = Vector3::op_Subtraction(m_GrabPosition, Vector3::op_Multiply(Vector3::get_forward(), std::clamp<float>(l_Delta, std::numeric_limits<float>::min(), 0.0f)));
+        if (m_GrabPosition.get_magnitude() > MinScrollDistance) m_GrabPosition -= Vector3::get_forward() * l_Delta;
+        else                                                    m_GrabPosition -= Vector3::get_forward() * std::clamp<float>(l_Delta, std::numeric_limits<float>::min(), 0.0f);
 
         auto l_RTransform            = m_FloatingPanel->RTransform();
         auto l_ControllerTransform   = m_GrabbingController->get_transform();
 
         auto l_RealPosition = m_GrabbingController->get_transform()->TransformPoint(m_GrabPosition);
-        auto l_RealRotation = Quaternion::op_Multiply(m_GrabbingController->get_transform()->get_rotation(), m_GrabRotation);
+        auto l_RealRotation = m_GrabbingController->get_transform()->get_rotation() * m_GrabRotation;
 
         l_RTransform->set_position(Vector3::Lerp(l_RTransform->get_position(),       l_RealPosition, 10.0f * Time::get_unscaledDeltaTime()));
         l_RTransform->set_rotation(Quaternion::Slerp(l_RTransform->get_rotation(),   l_RealRotation,  5.0f * Time::get_unscaledDeltaTime()));

@@ -29,14 +29,14 @@ namespace CP_SDK_BS::UI {
         if (!m_Template)
         {
             m_Template = Resources::FindObjectsOfTypeAll<HMUI::TextSegmentedControl*>()->First([](auto x) -> bool {
-                return x->get_name() == u"BeatmapDifficultySegmentedControl" && x->_container != nullptr;
+                return x->get_name() == u"BeatmapDifficultySegmentedControl" && x->____container != nullptr;
             });
         }
 
         auto l_Control = GameObject::Instantiate(m_Template.Ptr(), p_Parent, false);
         l_Control->set_name(u"BSPTextSegmentedControl");
-        l_Control->_container            = m_Template->_container;
-        l_Control->_hideCellBackground   = p_HideCellBackground;
+        l_Control->____container            = m_Template->____container;
+        l_Control->____hideCellBackground   = p_HideCellBackground;
 
         auto l_RectTransform = l_Control->get_transform().try_cast<RectTransform>().value_or(nullptr);
         l_RectTransform->set_anchorMin       (Vector2::get_one() * 0.5f);

@@ -178,7 +178,7 @@ namespace CP_SDK {
     {
         try
         {
-            //UI::LoadingProgressBar::TouchInstance();
+            UI::LoadingProgressBar::TouchInstance();
         }
         catch (const std::exception& l_Exception)
         {

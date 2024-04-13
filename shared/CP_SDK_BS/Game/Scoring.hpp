@@ -20,8 +20,6 @@ namespace CP_SDK_BS::Game {
             static bool                     m_IsBeatLeaderPresent;
             static t_BeatLeaderIsInReplay   m_BeatLeaderIsInReplayFN;
 
-        public:
-            static bool HasMod(std::string id);
 
         public:
             static bool IsScoreSaberPresent();
@@ -47,6 +45,11 @@ namespace CP_SDK_BS::Game {
             /// @brief Set score saber is in replay
             /// @param p_Is Is in replay?
             static void __SetScoreSaberIsInReplay(bool p_Is);
+
+        private:
+            /// @brief Check for mod precense by ID
+            /// @param p_ModID ID of the mod
+            static bool HasMod(std::string_view p_ModID);
 
     };
 
