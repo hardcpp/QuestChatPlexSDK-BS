@@ -141,7 +141,7 @@ namespace CP_SDK_BS::Game {
             /// @brief For each of BeatmapKey for a BeatmapLevel
             /// @param p_BeatmapLevel Input beatmap level
             /// @param p_Functor      Functor for each element, return true mean we continue iterating
-            static void BeatmapLevel_ForEachBeatmapKey(_u::BeatmapLevel* p_BeatmapLevel, _v::CFuncRef<bool, _u::BeatmapKey&> p_Functor);
+            static void BeatmapLevel_ForEachBeatmapKey(_u::BeatmapLevel* p_BeatmapLevel, _v::CFuncRef<bool, const _u::BeatmapKey&> p_Functor);
 
         public:
             /// @brief Check if a difficulty is present in a BeatmapLevel

@@ -475,23 +475,25 @@ namespace CP_SDK_BS::Game {
     /// @brief For each of BeatmapKey for a BeatmapLevel
     /// @param p_BeatmapLevel Input beatmap level
     /// @param p_Functor      Functor for each element, return true mean we continue iterating
-    void Levels::BeatmapLevel_ForEachBeatmapKey(BeatmapLevel* p_BeatmapLevel, _v::CFuncRef<bool, BeatmapKey&> p_Functor)
+    void Levels::BeatmapLevel_ForEachBeatmapKey(BeatmapLevel* p_BeatmapLevel, _v::CFuncRef<bool, const BeatmapKey&> p_Functor)
     {
         if (!p_BeatmapLevel)
             return;
 
         try
         {
-            auto l_Enumerator = p_BeatmapLevel->GetBeatmapKeys()->GetEnumerator()->i___System__Collections__IEnumerator();
-            while (l_Enumerator->MoveNext())
+            /// Force cache generation
+            p_BeatmapLevel->GetBeatmapKeys();
+
+            for (const auto& l_Current : p_BeatmapLevel->____beatmapKeysCache)
             {
-                if (!p_Functor(*((BeatmapKey*)l_Enumerator->get_Current())))
+                if (!p_Functor(l_Current))
                     break;
             }
         }
         catch(const std::exception&)
         {
-            CP_SDK::ChatPlexSDK::Logger()->Info(u"[CP_SDK_BS.Game][Level.BeatmapLevel_ForEachBeatmapKey] Resolution failed");
+            CP_SDK::ChatPlexSDK::Logger()->Error(u"[CP_SDK_BS.Game][Level.BeatmapLevel_ForEachBeatmapKey] Resolution failed");
         }
     }
 
@@ -527,7 +529,7 @@ namespace CP_SDK_BS::Game {
             return false;
 
         auto l_Found = false;
-        BeatmapLevel_ForEachBeatmapKey(p_BeatmapLevel, [&](BeatmapKey& l_Current) -> bool
+        BeatmapLevel_ForEachBeatmapKey(p_BeatmapLevel, [&](const BeatmapKey& l_Current) -> bool
         {
             auto l_BeatmapCharacteristicSO = l_Current.beatmapCharacteristic.unsafePtr();
             if (l_BeatmapCharacteristicSO->____serializedName != p_BeatmapCharacteristicSO->____serializedName)
@@ -867,14 +869,14 @@ namespace CP_SDK_BS::Game {
         auto l_PlayerData       = l_PlayerDataModel ? l_PlayerDataModel->____playerData : nullptr;
         auto l_LevelStatsData   = l_PlayerData ? l_PlayerData->get_levelsStatsData() : nullptr;
 
-        BeatmapLevel_ForEachBeatmapKey(l_BeatmapLevel, [&](BeatmapKey& l_Current) -> bool
+        BeatmapLevel_ForEachBeatmapKey(l_BeatmapLevel, [&](const BeatmapKey& l_Current) -> bool
         {
-            auto l_BeatmapCharacteristicSO = l_Current.beatmapCharacteristic.unsafePtr();
+            auto l_BeatmapCharacteristicSO = const_cast<BeatmapCharacteristicSO*>(l_Current.beatmapCharacteristic.unsafePtr());
             if (!l_Results.contains(l_BeatmapCharacteristicSO))
                 l_Results[l_BeatmapCharacteristicSO] = t_CharacteristicScores();
 
             PlayerLevelStatsData* l_PlayerLevelStatsData = nullptr;
-            if (l_LevelStatsData->TryGetValue(l_Current, byref(l_PlayerLevelStatsData)) && l_PlayerLevelStatsData->____validScore)
+            if (l_LevelStatsData->TryGetValue(l_Current, byref(l_PlayerLevelStatsData)) && l_PlayerLevelStatsData && l_PlayerLevelStatsData->____playCount)
             {
                 if (p_HaveAnyScore) *p_HaveAnyScore = true;
                 l_Results[l_BeatmapCharacteristicSO].push_back(std::make_tuple(l_Current.difficulty, l_PlayerLevelStatsData->____highScore));

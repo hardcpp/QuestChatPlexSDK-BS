@@ -598,13 +598,13 @@ namespace CP_SDK_BS::UI {
         if (m_LocalBeatMap)
         {
             std::vector<BeatmapCharacteristicSO*> l_Characs;
-            Game::Levels::BeatmapLevel_ForEachBeatmapKey(m_LocalBeatMap.Ptr(), [&](BeatmapKey& p_Current) -> bool
+            Game::Levels::BeatmapLevel_ForEachBeatmapKey(m_LocalBeatMap.Ptr(), [&](const BeatmapKey& p_Current) -> bool
             {
                 auto l_It = std::find(l_Characs.begin(), l_Characs.end(), p_Current.beatmapCharacteristic.unsafePtr());
                 if (l_It != l_Characs.end())
                     return true;    ///< Continue
 
-                l_Characs.push_back(p_Current.beatmapCharacteristic.unsafePtr());
+                l_Characs.push_back(const_cast<BeatmapCharacteristicSO*>(p_Current.beatmapCharacteristic.unsafePtr()));
                 return true;    ///< Continue
             });
 
@@ -614,7 +614,7 @@ namespace CP_SDK_BS::UI {
             SelectedBeatmapCharacteristicSO = l_Characs[p_Index];
 
             auto l_Difficulties = System::Collections::Generic::List_1<StringW>::New_ctor();
-            Game::Levels::BeatmapLevel_ForEachBeatmapKey(m_LocalBeatMap.Ptr(), [&](BeatmapKey& p_Current) -> bool
+            Game::Levels::BeatmapLevel_ForEachBeatmapKey(m_LocalBeatMap.Ptr(), [&](const BeatmapKey& p_Current) -> bool
             {
                 auto l_Name = Game::Levels::BeatmapDifficultySerializedNameToDifficultyName(BeatmapDifficultySerializedMethods::SerializedName(p_Current.difficulty));
                 if (l_Difficulties->Contains(l_Name))
@@ -657,7 +657,7 @@ namespace CP_SDK_BS::UI {
         if (m_LocalBeatMap)
         {
             std::vector<BeatmapKey> l_Difficulties;
-            Game::Levels::BeatmapLevel_ForEachBeatmapKey(m_LocalBeatMap.Ptr(), [&](BeatmapKey& p_Current) -> bool
+            Game::Levels::BeatmapLevel_ForEachBeatmapKey(m_LocalBeatMap.Ptr(), [&](const BeatmapKey& p_Current) -> bool
             {
                 if (p_Current.beatmapCharacteristic.unsafePtr() != SelectedBeatmapCharacteristicSO.Ptr(false))
                     return true;    ///< Continue
