@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Utils/Il2cpp.hpp"
+#include "../Utils/MonoPtr.hpp"
 
 #include <beatsaber-hook/shared/utils/typedefs-array.hpp>
 #include <UnityEngine/Color32.hpp>
@@ -16,6 +17,11 @@ namespace CP_SDK::Animation {
         using namespace UnityEngine;
     }
 
+    namespace _v
+    {
+        using namespace CP_SDK::Utils;
+    }
+
     /// @brief Animation frame info
     class AnimationInfo
     {
@@ -26,10 +32,10 @@ namespace CP_SDK::Animation {
             using Ptr = std::shared_ptr<AnimationInfo>;
 
         public:
-            int32_t                         Width;
-            int32_t                         Height;
-            std::vector<_u::Color32*>       Frames;
-            std::vector<uint16_t>           Delays;
+            int32_t                                     Width;
+            int32_t                                     Height;
+            std::vector<_v::MonoPtr<Array<uint8_t>>>    Frames;
+            std::vector<uint16_t>                       Delays;
 
         public:
             /// @brief Constructor

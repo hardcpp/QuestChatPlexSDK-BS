@@ -16,14 +16,11 @@ namespace CP_SDK::Animation {
         Delays.resize(p_FrameCount);
 
         for (int l_I = 0; l_I < p_FrameCount; ++l_I)
-            Frames.push_back(new Color32[p_Width * p_Height]);
+            Frames.push_back(Array<uint8_t>::NewLength(4 * p_Width * p_Height));
     }
     /// @brief Destructor
     AnimationInfo::~AnimationInfo()
     {
-        for (int l_I = 0; l_I < Frames.size(); ++l_I)
-            delete[] Frames[l_I];
-
         Frames.clear();
     }
 

@@ -68,7 +68,8 @@ namespace CP_SDK::Animation {
         {
             auto l_FrameTexture = Texture2D::New_ctor(p_AnimationInfo->Width, p_AnimationInfo->Height, TextureFormat::RGBA32, false);
             l_FrameTexture->set_wrapMode(TextureWrapMode::Clamp);
-            l_FrameTexture->LoadRawTextureData(p_AnimationInfo->Frames[l_FrameI], sizeof(Color32) * p_AnimationInfo->Width * p_AnimationInfo->Height);
+            l_FrameTexture->LoadRawTextureData(p_AnimationInfo->Frames[l_FrameI].Ptr());
+
             l_SubTextures->_values[l_FrameI] = l_FrameTexture;
 
             co_yield nullptr;

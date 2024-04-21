@@ -138,17 +138,18 @@ namespace CP_SDK::Animation::WEBP {
                                 break;
                             }
 
-                            auto l_TargetArray = l_AnimationInfo->Frames[l_FrameI];
+                            auto l_TargetArray = l_AnimationInfo->Frames[l_FrameI].Ptr();
                             for (int l_Line = 0; l_Line < l_Infos.canvas_height; ++l_Line)
                             {
                                 for (int l_X = 0; l_X < l_Infos.canvas_width; ++l_X)
                                 {
                                     auto l_DestOffset = ((l_Infos.canvas_height - (l_Line + 1)) * l_Infos.canvas_width) + l_X;
                                     auto l_SourOffset = (l_Line * l_Infos.canvas_width * 4) + (l_X * 4);
-                                    l_TargetArray[l_DestOffset].r = l_Buffer[l_SourOffset + 0];
-                                    l_TargetArray[l_DestOffset].g = l_Buffer[l_SourOffset + 1];
-                                    l_TargetArray[l_DestOffset].b = l_Buffer[l_SourOffset + 2];
-                                    l_TargetArray[l_DestOffset].a = l_Buffer[l_SourOffset + 3];
+
+                                    l_TargetArray->_values[(l_DestOffset * 4) + 0] = l_Buffer[l_SourOffset + 0];
+                                    l_TargetArray->_values[(l_DestOffset * 4) + 1] = l_Buffer[l_SourOffset + 1];
+                                    l_TargetArray->_values[(l_DestOffset * 4) + 2] = l_Buffer[l_SourOffset + 2];
+                                    l_TargetArray->_values[(l_DestOffset * 4) + 3] = l_Buffer[l_SourOffset + 3];
                                 }
                             }
 
