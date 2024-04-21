@@ -196,12 +196,12 @@ namespace CP_SDK_BS::Game {
             m_PreventLevelSearchViewController_didStartLoadingEvent = true;
             p_LevelSearchViewController->ResetAllFilterSettings(false);
 
-            auto l_Set = System::Collections::Generic::HashSet_1<::StringW>::New_ctor();
-            l_Set->Add(m_PendingFilterSong->___levelID);
+            auto l_Filter = GlobalNamespace::LevelFilter();
+            l_Filter.limitIds     = ArrayW<StringW>({ m_PendingFilterSong->___levelID });
+            l_Filter.searchText   = u"";
 
-            auto filter = GlobalNamespace::LevelFilter(false, false, false, GlobalNamespace::BeatmapDifficultyMask::All, GlobalNamespace::SongPackMask::get_all(), "", 0.0f, 0.0f, 0, "", l_Set);
             p_LevelSearchViewController->Refresh(
-                byref(filter)
+                byref(l_Filter)
             );
             m_PreventLevelSearchViewController_didStartLoadingEvent = false;
         }
