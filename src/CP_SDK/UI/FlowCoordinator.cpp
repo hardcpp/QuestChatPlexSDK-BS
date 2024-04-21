@@ -23,4 +23,34 @@ namespace CP_SDK::UI {
 
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+
+    _v::MonoPtr<FlowCoordinator>& FlowCoordinator::_InstanceEx(_u::Type* p_Type)
+    {
+        if (p_Type && m_Instances.contains(p_Type))
+            return m_Instances[p_Type];
+
+        auto l_Ptr = _u::GameObject::New_ctor("[CP_SDK.UI.FlowCoordinator<" + p_Type->get_FullName() + ">]", ArrayW<_u::Type*>({
+            p_Type
+        }))->GetComponent(p_Type).try_cast<FlowCoordinator>().value_or(nullptr);
+        _u::GameObject::DontDestroyOnLoad(l_Ptr->get_gameObject());
+
+        m_Instances[p_Type] = l_Ptr;
+
+        return m_Instances[p_Type];
+    }
+
+    void FlowCoordinator::_DestroyEx(_u::Type* p_Type)
+    {
+        auto l_It = m_Instances.find(p_Type);
+        if (!p_Type || l_It == m_Instances.end())
+            return;
+
+        if (m_Instances[p_Type])
+            _u::GameObject::Destroy(m_Instances[p_Type]->get_gameObject());
+
+        m_Instances.erase(l_It);
+    }
+
 }   ///< namespace CP_SDK::UI

@@ -37,31 +37,20 @@ namespace CP_SDK::UI {
             template<class t_Base> requires(std::is_assignable_v<FlowCoordinator*&, t_Base*>)
             static _v::MonoPtr<t_Base>& _Instance()
             {
-                auto l_Type = reinterpret_cast<_u::Type*>(csTypeOf(t_Base*).convert());
-                if (l_Type && m_Instances.contains(l_Type))
-                    return *reinterpret_cast<_v::MonoPtr<t_Base>*>(&m_Instances[l_Type]);
+                auto  l_Type = reinterpret_cast<_u::Type*>(csTypeOf(t_Base*).convert());
+                auto& l_Ptr  = _InstanceEx(l_Type);
 
-                auto l_Ptr = _u::GameObject::New_ctor("[CP_SDK.UI.FlowCoordinator<" + l_Type->get_FullName() + ">]", ArrayW<_u::Type*>({
-                    l_Type
-                }))->GetComponent(l_Type).try_cast<t_Base>().value_or(nullptr);
-                _u::GameObject::DontDestroyOnLoad(l_Ptr->get_gameObject());
-
-                m_Instances[l_Type] = l_Ptr;
-                return *reinterpret_cast<_v::MonoPtr<t_Base>*>(&m_Instances[l_Type]);
+                return *reinterpret_cast<_v::MonoPtr<t_Base>*>(&l_Ptr);
             }
+            static _v::MonoPtr<FlowCoordinator>& _InstanceEx(_u::Type* p_Type);
+
             template<class t_Base> requires(std::is_assignable_v<FlowCoordinator*&, t_Base*>)
             static void _Destroy()
             {
                 auto l_Type = reinterpret_cast<_u::Type*>(csTypeOf(t_Base*).convert());
-                auto l_It   = m_Instances.find(l_Type);
-                if (!l_Type || l_It == m_Instances.end())
-                    return;
-
-                if (m_Instances[l_Type])
-                    _u::GameObject::Destroy(m_Instances[l_Type]->get_gameObject());
-
-                m_Instances.erase(l_It);
+                _DestroyEx(l_Type);
             }
+            static void _DestroyEx(_u::Type* p_Type);
 
     };
 
