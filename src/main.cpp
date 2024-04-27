@@ -160,7 +160,7 @@ void OnEnable()
         break;
     }
 
-    if (l_HasBSPModules || true)
+    if (l_HasBSPModules)
     {
         CP_SDK::UI::FlowCoordinators::MainFlowCoordinator::OverrideTitle(u"QBeatSaberPlus");
 
