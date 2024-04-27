@@ -59,11 +59,11 @@ namespace CP_SDK_BS::Game {
                 auto l_Task = l_Current->____platformUserModel->GetUserInfo(System::Threading::CancellationToken::get_None());
                 l_Task->Wait();
 
-                auto l_PlayerID = l_Task->get_Result()->platformUserId;
+                auto l_PlayerID = l_Task->get_Result()->___platformUserId;
                 if (!System::String::IsNullOrEmpty(l_PlayerID))
                 {
                     m_UserID    = l_PlayerID;
-                    m_UserName  = l_Task->get_Result()->userName;
+                    m_UserName  = l_Task->get_Result()->___userName;
                     return;
                 }
             }
