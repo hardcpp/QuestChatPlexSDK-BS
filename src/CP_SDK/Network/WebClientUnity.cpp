@@ -231,14 +231,15 @@ namespace CP_SDK::Network {
                 l_Request = UnityWebRequest::Get(p_URL);
             else if (p_HttpMethod == u"POST" || p_HttpMethod == u"PATCH")
             {
-                static auto s_UploadHandler_InternalSetContentType = il2cpp_utils::resolve_icall<void, UploadHandler*, StringW>("UnityEngine.Networking.UploadHandler::InternalSetContentType");
+                ChatPlexSDK::Logger()->Error(u"WebClientUnity POST & PATCH are disabled for now");
+                throw std::runtime_error("WebClientUnity POST & PATCH are disabled for now");
+                /// TODO Disabled until fixed
+                /*static auto s_UploadHandler_InternalSetContentType = il2cpp_utils::resolve_icall<void, UploadHandler*, StringW>("UnityEngine.Networking.UploadHandler::InternalSetContentType");
 
-                //auto l_UploadHandler = UploadHandlerRaw::New_ctor(p_Content->Bytes.Ptr());
-                //s_UploadHandler_InternalSetContentType(l_UploadHandler, p_Content->Type);
+                auto l_UploadHandler = UploadHandlerRaw::New_ctor(p_Content->Bytes.Ptr());
+                s_UploadHandler_InternalSetContentType(l_UploadHandler, p_Content->Type);
 
-                l_Request = UnityWebRequest::New_ctor(p_URL, p_HttpMethod, nullptr, nullptr);
-                //l_Request->set_uploadHandler(l_UploadHandler);
-                l_Request->set_downloadHandler(DownloadHandlerBuffer::New_ctor());
+                l_Request = UnityWebRequest::New_ctor(p_URL, p_HttpMethod, DownloadHandlerBuffer::New_ctor(), l_UploadHandler);*/
             }
             else if (p_HttpMethod == u"DELETE")
                 l_Request = UnityWebRequest::New_ctor(p_URL, p_HttpMethod, nullptr, nullptr);
@@ -256,7 +257,13 @@ namespace CP_SDK::Network {
                 do
                 {
                     co_yield l_Waiter->i___System__Collections__IEnumerator();
-                    //try { p_Progress(l_Request->get_downloadProgress()); } catch (const std::exception&) { }
+                    try {
+                        static auto s_UnityWebRequest_IsExecuting           = il2cpp_utils::resolve_icall<float, UnityWebRequest*>("UnityEngine.Networking.UnityWebRequest::IsExecuting");
+                        static auto s_UnityWebRequest_GetDownloadProgress   = il2cpp_utils::resolve_icall<float, UnityWebRequest*>("UnityEngine.Networking.UnityWebRequest::GetDownloadProgress");
+
+                        auto l_Progress = (!s_UnityWebRequest_IsExecuting(l_Request.Ptr()) && !l_Request->get_isDone()) ? -1.0f : s_UnityWebRequest_GetDownloadProgress(l_Request.Ptr());
+                        p_Progress(l_Progress);
+                    } catch (const std::exception&) { }
 
                     if (p_Token.get_IsCancellationRequested() || l_Request->get_isDone() || l_Request->get_result() == UnityWebRequest::Result::ProtocolError || l_Request->get_result() == UnityWebRequest::Result::ConnectionError)
                         break;

@@ -53,10 +53,10 @@ namespace CP_SDK_BS::Game {
 
             for (GlobalNamespace::PlatformLeaderboardsModel * l_Current : l_PlatformLeaderboardsModels)
             {
-                if (l_Current->_platformUserModel == nullptr)
+                if (l_Current->____platformUserModel == nullptr)
                     continue;
 
-                auto l_Task = l_Current->_platformUserModel->GetUserInfo(System::Threading::CancellationToken::get_None());
+                auto l_Task = l_Current->____platformUserModel->GetUserInfo(System::Threading::CancellationToken::get_None());
                 l_Task->Wait();
 
                 auto l_PlayerID = l_Task->get_Result()->platformUserId;

@@ -7,6 +7,8 @@
 #include "CP_SDK/Unity/Operators.hpp"
 #include "assets.hpp"
 
+#include <fmt/core.h>
+
 #include <BeatmapSaveDataVersion3/BeatmapSaveData.hpp>
 #include <GlobalNamespace/BeatmapDataLoader.hpp>
 #include <GlobalNamespace/BeatmapDataBasicInfo.hpp>
@@ -127,7 +129,7 @@ namespace CP_SDK_BS::UI {
     void                                    LevelDetail::Time(double p_Value)
     {
         m_Time = p_Value;
-        m_SongTimeText->set_text("todo");
+        m_SongTimeText->set_text(p_Value >= 0.0 ? fmt::format("{:.0f}:{:02.0f}", std::floor(p_Value / 60), std::floor(std::fmod(p_Value, 60))) : "--");
     }
     float                                   LevelDetail::BPM()
     {
@@ -136,7 +138,7 @@ namespace CP_SDK_BS::UI {
     void                                    LevelDetail::BPM(float p_Value)
     {
         m_BPM = p_Value;
-        m_SongBPMText->set_text("todo");
+        m_SongBPMText->set_text(fmt::format("{:.0f}", p_Value));
     }
     float                                   LevelDetail::NPS()
     {
@@ -145,7 +147,7 @@ namespace CP_SDK_BS::UI {
     void                                    LevelDetail::NPS(float p_Value)
     {
         m_NPS = p_Value;
-        m_SongNPSText->set_text("todo");
+        m_SongNPSText->set_text(p_Value >= 0.0f ? fmt::format("{:.2f}", p_Value) : "--");
     }
     int                                     LevelDetail::NJS()
     {
@@ -163,7 +165,7 @@ namespace CP_SDK_BS::UI {
     void                                    LevelDetail::Offset(float p_Value)
     {
         m_Offset = p_Value;
-        m_SongOffsetText->set_text("todo");
+        m_SongOffsetText->set_text(!std::isnan(p_Value) ? fmt::format("{:.1f}", p_Value) : "--");
     }
     int                                     LevelDetail::Notes()
     {

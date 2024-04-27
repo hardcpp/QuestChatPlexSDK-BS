@@ -218,8 +218,8 @@ namespace CP_SDK_BS::Game {
             {
                 m_LevelData->IsReplay = m_WasInReplay;
 
-                if (m_LevelData->Data && m_LevelData->Data->transformedBeatmapData)
-                    m_LevelData->MaxMultipliedScore = _u::ScoreModel::ComputeMaxMultipliedScoreForBeatmap(m_LevelData->Data->transformedBeatmapData);
+                if (m_LevelData->Data && m_LevelData->Data->get_transformedBeatmapData())
+                    m_LevelData->MaxMultipliedScore = _u::ScoreModel::ComputeMaxMultipliedScoreForBeatmap(m_LevelData->Data->get_transformedBeatmapData());
 
                 m_LevelCompletionData = nullptr;
 
@@ -250,8 +250,8 @@ namespace CP_SDK_BS::Game {
         m_LevelCompletionData     = nullptr;
         m_LevelData               = p_LevelData;
 
-        if (m_LevelData != nullptr && m_LevelData->Data && m_LevelData->Data->transformedBeatmapData)
-            m_LevelData->MaxMultipliedScore = _u::ScoreModel::ComputeMaxMultipliedScoreForBeatmap(m_LevelData->Data->transformedBeatmapData);
+        if (m_LevelData != nullptr && m_LevelData->Data && m_LevelData->Data->get_transformedBeatmapData())
+            m_LevelData->MaxMultipliedScore = _u::ScoreModel::ComputeMaxMultipliedScoreForBeatmap(m_LevelData->Data->get_transformedBeatmapData());
     }
     /// @brief On level ended
     /// @param p_LevelCompletionData Level completion data
@@ -264,8 +264,8 @@ namespace CP_SDK_BS::Game {
         m_LevelCompletionData             = p_LevelCompletionData;
         m_LevelCompletionData->IsReplay   = m_WasInReplay;
 
-        if (m_LevelCompletionData != nullptr && m_LevelCompletionData->Data && m_LevelCompletionData->Data->transformedBeatmapData)
-            m_LevelCompletionData->MaxMultipliedScore = _u::ScoreModel::ComputeMaxMultipliedScoreForBeatmap(m_LevelCompletionData->Data->transformedBeatmapData);
+        if (m_LevelCompletionData != nullptr && m_LevelCompletionData->Data && m_LevelCompletionData->Data->get_transformedBeatmapData())
+            m_LevelCompletionData->MaxMultipliedScore = _u::ScoreModel::ComputeMaxMultipliedScoreForBeatmap(m_LevelCompletionData->Data->get_transformedBeatmapData());
     }
 
 }   ///< namespace CP_SDK_BS::Game

@@ -49,6 +49,7 @@ namespace CP_SDK::Unity {
         m_RunCondition = false;
         if (m_UpdateThread->joinable())
             m_UpdateThread->join();
+        delete m_UpdateThread;
         m_UpdateThread = nullptr;
 
         for (int l_I = 0; l_I < 2; ++l_I)

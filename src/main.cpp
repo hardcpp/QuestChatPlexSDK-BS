@@ -63,11 +63,11 @@ void ScreenSystem_OnPresent()
         return;
 
     m_HMUIDeactivatedScreens.clear();
-    DeactivateScreenSafe(m_HMUIScreenSystem->leftScreen);
-    DeactivateScreenSafe(m_HMUIScreenSystem->mainScreen);
-    DeactivateScreenSafe(m_HMUIScreenSystem->rightScreen);
-    DeactivateScreenSafe(m_HMUIScreenSystem->bottomScreen);
-    DeactivateScreenSafe(m_HMUIScreenSystem->topScreen);
+    DeactivateScreenSafe(m_HMUIScreenSystem->____leftScreen);
+    DeactivateScreenSafe(m_HMUIScreenSystem->____mainScreen);
+    DeactivateScreenSafe(m_HMUIScreenSystem->____rightScreen);
+    DeactivateScreenSafe(m_HMUIScreenSystem->____bottomScreen);
+    DeactivateScreenSafe(m_HMUIScreenSystem->____topScreen);
 
     CP_SDK::UI::ScreenSystem::Instance()->get_transform()->set_localScale(m_HMUIScreenSystem->get_transform()->get_localScale());
 }
@@ -113,7 +113,7 @@ void PatchUI()
             m_VRGraphicRaycasterCache = UnityEngine::Resources::FindObjectsOfTypeAll<VRUIControls::VRGraphicRaycaster*>()->FirstOrDefault([](auto y) { return y->_physicsRaycaster != nullptr; });
 
         if (m_VRGraphicRaycasterCache)
-            x->get_gameObject()->AddComponent<VRUIControls::VRGraphicRaycaster*>()->_physicsRaycaster = m_VRGraphicRaycasterCache->_physicsRaycaster;
+            x->get_gameObject()->AddComponent<VRUIControls::VRGraphicRaycaster*>()->____physicsRaycaster = m_VRGraphicRaycasterCache->____physicsRaycaster;
     };
 
     ////////////////////////////////////////////////////////////////////////////
@@ -160,7 +160,7 @@ void OnEnable()
         break;
     }
 
-    if (l_HasBSPModules)
+    if (l_HasBSPModules || true)
     {
         CP_SDK::UI::FlowCoordinators::MainFlowCoordinator::OverrideTitle(u"QBeatSaberPlus");
 
