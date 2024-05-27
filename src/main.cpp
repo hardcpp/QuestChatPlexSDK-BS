@@ -198,10 +198,10 @@ extern "C" void setup(CModInfo* p_ModInfo)
         auto l_MainFont = UnityEngine::Resources::FindObjectsOfTypeAll<TMPro::TMP_FontAsset*>()->FirstOrDefault([](auto x) { return x->get_name() == u"Teko-Medium SDF"; });
         if (l_MainFont && p_Input)
         {
-            p_Input->material->set_shader(l_MainFont->material->get_shader());
-            p_Input->material->SetColor("_FaceColor", p_Input->material->GetColor(u"_FaceColor"));
-            p_Input->material->EnableKeyword("CURVED");
-            p_Input->material->EnableKeyword("UNITY_UI_CLIP_RECT");
+            p_Input->___material->set_shader(l_MainFont->___material->get_shader());
+            p_Input->___material->SetColor("_FaceColor", p_Input->___material->GetColor(u"_FaceColor"));
+            p_Input->___material->EnableKeyword("CURVED");
+            p_Input->___material->EnableKeyword("UNITY_UI_CLIP_RECT");
         }
 
         return p_Input;

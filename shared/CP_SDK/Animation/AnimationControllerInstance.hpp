@@ -25,7 +25,7 @@ namespace CP_SDK::Animation {
     }
 
     /// @brief Animation controller data object
-    class AnimationControllerInstance
+    class CP_SDK_EXPORT_VISIBILITY AnimationControllerInstance
     {
         CP_SDK_NO_COPYMOVE_CTORS(AnimationControllerInstance);
         CP_SDK_PRIV_TAG();

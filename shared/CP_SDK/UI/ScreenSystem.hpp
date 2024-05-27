@@ -16,7 +16,7 @@ namespace CP_SDK::UI {
     }
 
     /// @brief ScreenSystem widget
-    class ScreenSystem : public _u::MonoBehaviour
+    class CP_SDK_EXPORT_VISIBILITY ScreenSystem : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI", ScreenSystem, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(ScreenSystem);

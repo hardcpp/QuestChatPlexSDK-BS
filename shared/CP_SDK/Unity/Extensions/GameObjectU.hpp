@@ -17,7 +17,7 @@ namespace CP_SDK::Unity::Extensions {
     }
 
     /// @brief Unity GameObject tools
-    class GameObjectU
+    class CP_SDK_EXPORT_VISIBILITY GameObjectU
     {
         public:
             /// @brief Change the layer of a GameObject and all his childs

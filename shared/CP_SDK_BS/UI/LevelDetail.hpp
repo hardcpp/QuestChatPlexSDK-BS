@@ -34,7 +34,7 @@ namespace CP_SDK_BS::UI {
     }
 
     /// @brief Song detail widget
-    class LevelDetail
+    class CP_SDK_EXPORT_VISIBILITY LevelDetail
     {
         CP_SDK_NO_COPYMOVE_CTORS(LevelDetail);
 

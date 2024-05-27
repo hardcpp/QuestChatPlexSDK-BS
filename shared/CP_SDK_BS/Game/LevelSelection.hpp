@@ -21,7 +21,7 @@ namespace CP_SDK_BS::Game {
     }
 
     /// @brief Level selection filter
-    class LevelSelection
+    class CP_SDK_EXPORT_VISIBILITY LevelSelection
     {
         CP_SDK_NO_DEF_CTORS(LevelSelection);
 

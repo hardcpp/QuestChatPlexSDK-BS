@@ -21,7 +21,7 @@ namespace CP_SDK::Unity {
     }
 
     /// @brief Il2Cpp pointers holder
-    class MonoPtrHolder : public _u::MonoBehaviour
+    class CP_SDK_EXPORT_VISIBILITY MonoPtrHolder : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.Unity", MonoPtrHolder, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(MonoPtrHolder);

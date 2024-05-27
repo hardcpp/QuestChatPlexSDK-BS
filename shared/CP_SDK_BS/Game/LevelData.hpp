@@ -20,7 +20,7 @@ namespace CP_SDK_BS::Game {
     }
 
     /// @brief Level data instance
-    class LevelData
+    class CP_SDK_EXPORT_VISIBILITY LevelData
     {
         CP_SDK_NO_DEF_CTORS(LevelData);
         CP_SDK_PRIV_TAG();

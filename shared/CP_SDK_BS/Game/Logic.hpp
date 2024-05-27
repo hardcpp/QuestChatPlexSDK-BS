@@ -24,7 +24,7 @@ namespace CP_SDK_BS::Game {
     }
 
     /// @brief Game helper
-    class Logic
+    class CP_SDK_EXPORT_VISIBILITY Logic
     {
         CP_SDK_NO_DEF_CTORS(Logic);
 

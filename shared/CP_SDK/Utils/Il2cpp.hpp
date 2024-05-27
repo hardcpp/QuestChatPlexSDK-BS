@@ -20,6 +20,8 @@
 #include <custom-types/shared/macros.hpp>
 #include <UnityEngine/Object.hpp>
 
+#define CP_SDK_EXPORT_VISIBILITY CUSTOM_TYPES_EXPORT_VISIBILITY
+
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 
@@ -40,7 +42,7 @@
 namespace CP_SDK::Utils {
 
     /// @brief Hook manager
-    class Hooks
+    class CP_SDK_EXPORT_VISIBILITY Hooks
     {
         CP_SDK_NO_DEF_CTORS(Hooks);
 

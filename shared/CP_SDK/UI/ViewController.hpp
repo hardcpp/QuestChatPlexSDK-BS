@@ -26,7 +26,7 @@ namespace CP_SDK::UI {
     }
 
     /// @brief IViewController interface
-    class ViewController : public IViewController
+    class CP_SDK_EXPORT_VISIBILITY ViewController : public IViewController
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI", ViewController, IViewController);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(ViewController);

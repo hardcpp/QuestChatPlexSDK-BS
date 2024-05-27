@@ -19,7 +19,7 @@ namespace CP_SDK_BS::Game {
     }
 
     /// @brief Player avatar picture provider
-    class PlayerAvatarPicture
+    class CP_SDK_EXPORT_VISIBILITY PlayerAvatarPicture
     {
         CP_SDK_NO_DEF_CTORS(PlayerAvatarPicture);
 

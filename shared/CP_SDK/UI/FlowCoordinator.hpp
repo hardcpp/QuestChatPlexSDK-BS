@@ -24,7 +24,7 @@ namespace CP_SDK::UI {
     }
 
     /// @brief Flow coordinator base class
-    class FlowCoordinator : public IFlowCoordinator
+    class CP_SDK_EXPORT_VISIBILITY FlowCoordinator : public IFlowCoordinator
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI", FlowCoordinator, IFlowCoordinator);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(FlowCoordinator);

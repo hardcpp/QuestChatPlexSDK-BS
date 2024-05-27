@@ -19,7 +19,7 @@ namespace CP_SDK::UI {
     }
 
     /// @brief Mod menu
-    class ModMenu : public _u::MonoBehaviour
+    class CP_SDK_EXPORT_VISIBILITY ModMenu : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI", ModMenu, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(ModMenu);

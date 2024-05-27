@@ -29,7 +29,7 @@ namespace CP_SDK::Misc {
     };
 
     /// @brief Time helper
-    class Time
+    class CP_SDK_EXPORT_VISIBILITY Time
     {
         CP_SDK_NO_DEF_CTORS(Time);
 

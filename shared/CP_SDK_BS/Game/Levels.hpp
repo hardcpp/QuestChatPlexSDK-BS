@@ -36,7 +36,7 @@ namespace CP_SDK_BS::Game {
     }
 
     /// @brief Level helper
-    class Levels
+    class CP_SDK_EXPORT_VISIBILITY Levels
     {
         CP_SDK_NO_DEF_CTORS(Levels);
 

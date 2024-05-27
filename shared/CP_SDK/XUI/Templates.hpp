@@ -5,7 +5,7 @@
 namespace CP_SDK::XUI {
 
     /// @brief XUI templates
-    class Templates
+    class CP_SDK_EXPORT_VISIBILITY Templates
     {
         public:
             /// @brief Modal rect layout
