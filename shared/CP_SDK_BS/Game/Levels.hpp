@@ -125,7 +125,7 @@ namespace CP_SDK_BS::Game {
             /// @brief Own a DLC level by level ID
             /// @param p_LevelID  Level ID
             /// @param p_Callback Callback for success/failure
-            static void OwnDLCLevelByLevelID(std::u16string_view p_LevelID, _v::Action<bool> p_Callback);
+            static void OwnDLCLevelByLevelID(std::u16string p_LevelID, _v::Action<bool> p_Callback);
 
         public:
             /// @brief Try to get BeatmapLevel by level ID
@@ -183,7 +183,7 @@ namespace CP_SDK_BS::Game {
             /// @brief Load a BeatmapLevelData by level ID
             /// @param p_LevelID      ID of the level
             /// @param p_LoadCallback Load callback
-            static void LoadBeatmapLevelDataByLevelID(  std::u16string_view                                                                         p_LevelID,
+            static void LoadBeatmapLevelDataByLevelID(  std::u16string                                                                              p_LevelID,
                                                         _v::Action<_v::MonoPtr<_u::BeatmapLevel, true>, _v::MonoPtr<_u::IBeatmapLevelData, true>>   p_LoadCallback);
             /// @brief Start a BeatmapLevel
             /// @param p_Level                       Loaded level
@@ -211,7 +211,7 @@ namespace CP_SDK_BS::Game {
             /// @brief Load IBeatmapLevelData from a level ID
             /// @param p_LevelID  Level ID
             /// @param p_Callback Callback for success/failure
-            static void LoadIBeatmapLevelDataAsync( std::u16string_view                                     p_LevelID,
+            static void LoadIBeatmapLevelDataAsync( std::u16string                                          p_LevelID,
                                                     _v::Action<_v::MonoPtr<_u::IBeatmapLevelData, true>>    p_Callback);
 
         public:

@@ -36,7 +36,7 @@ if ($help -eq $true) {
 $bspid = adb shell pidof com.beatgames.beatsaber
 $command = "adb logcat "
 
-if ($all -eq $false) {
+if ($all -eq $true) {
     $loops = 0
     while ([string]::IsNullOrEmpty($bspid) -and $loops -lt 3) {
         Start-Sleep -Milliseconds 100

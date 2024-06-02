@@ -38,7 +38,7 @@ namespace CP_SDK_BS::UI {
             template<class t_Base> requires(std::is_assignable_v<HMUI::FlowCoordinator*&, t_Base>)
             static t_Base CreateFlowCoordinator()
             {
-                return reinterpret_cast<t_Base>(CreateFlowCoordinator(csTypeOf(t_Base)));
+                return reinterpret_cast<t_Base>(CreateFlowCoordinator(reinterpret_cast<System::Type*>(csTypeOf(t_Base).convert())));
             }
             /// @brief Create a flow coordinator
             /// @param p_Type Flow coordinator type
@@ -49,7 +49,7 @@ namespace CP_SDK_BS::UI {
             template<class t_Base> requires(std::is_assignable_v<HMUI::ViewController*&, t_Base>)
             static t_Base CreateViewController()
             {
-                return reinterpret_cast<t_Base>(CreateViewController(csTypeOf(t_Base)));
+                return reinterpret_cast<t_Base>(CreateViewController(reinterpret_cast<System::Type*>(csTypeOf(t_Base).convert())));
             }
             /// @brief Create a view controller
             /// @param p_Type View controller type

@@ -211,6 +211,9 @@ namespace CP_SDK_BS::Game {
     {
         if (p_BeatmapCharacteristicSO) *p_BeatmapCharacteristicSO = nullptr;
 
+        if (p_SerializedName.length() == 0)
+            return false;
+
         if (!m_BeatmapCharacteristicCollection)
         {
             auto l_PlayerDataModel = Resources::FindObjectsOfTypeAll<PlayerDataModel*>()->FirstOrDefault();
@@ -224,11 +227,19 @@ namespace CP_SDK_BS::Game {
             return false;
         }
 
-        auto l_Result = m_BeatmapCharacteristicCollection->GetBeatmapCharacteristicBySerializedName(SanitizeBeatmapCharacteristicSOSerializedName(p_SerializedName));
-        if (l_Result && p_BeatmapCharacteristicSO)
-            *p_BeatmapCharacteristicSO = l_Result;
+        StringW                         l_SerializedName            = SanitizeBeatmapCharacteristicSOSerializedName(p_SerializedName);
+        UnityW<BeatmapCharacteristicSO> l_BeatmapCharacteristicSO;
+        bool                            l_Result                    = false;
 
-        return l_Result != nullptr;
+        if (m_BeatmapCharacteristicCollection->____beatmapCharacteristicsBySerializedName->TryGetValue(l_SerializedName, byref(l_BeatmapCharacteristicSO)))
+        {
+            l_Result = true;
+
+            if (p_BeatmapCharacteristicSO)
+                *p_BeatmapCharacteristicSO = l_BeatmapCharacteristicSO.unsafePtr();
+        }
+
+        return l_Result;
     }
     /// @brief Sanitize BeatmapCharacteristicSO serialized name
     /// @param p_SerializedName Input serialized name
@@ -365,7 +376,7 @@ namespace CP_SDK_BS::Game {
     /// @brief Own a DLC level by level ID
     /// @param p_LevelID  Level ID
     /// @param p_Callback Callback for success/failure
-    void Levels::OwnDLCLevelByLevelID(std::u16string_view p_LevelID, _v::Action<bool> p_Callback)
+    void Levels::OwnDLCLevelByLevelID(std::u16string p_LevelID, _v::Action<bool> p_Callback)
     {
         if (LevelID_IsCustom(p_LevelID))
         {
@@ -512,7 +523,10 @@ namespace CP_SDK_BS::Game {
         if (!p_BeatmapLevel || !p_BeatmapCharacteristicSO)
             return false;
 
-        return p_BeatmapLevel->GetDifficultyBeatmapData(p_BeatmapCharacteristicSO, p_BeatmapDifficulty) != nullptr;
+        if (p_BeatmapLevel->GetDifficultyBeatmapData(p_BeatmapCharacteristicSO, p_BeatmapDifficulty) == nullptr)
+            return false;
+
+        return true;
     }
     /// @brief Try get a beatmap key from a BeatmapLevel
     /// @param p_BeatmapLevel            Input beatmap level
@@ -652,7 +666,7 @@ namespace CP_SDK_BS::Game {
     /// @brief Load a BeatmapLevelData by level ID
     /// @param p_LevelID      ID of the level
     /// @param p_LoadCallback Load callback
-    void Levels::LoadBeatmapLevelDataByLevelID(  std::u16string_view                                                                        p_LevelID,
+    void Levels::LoadBeatmapLevelDataByLevelID( std::u16string                                                                              p_LevelID,
                                                 _v::Action<_v::MonoPtr<_u::BeatmapLevel, true>, _v::MonoPtr<_u::IBeatmapLevelData, true>>   p_LoadCallback)
     {
         auto            l_LevelID               = SanitizeLevelID(p_LevelID);
@@ -773,7 +787,7 @@ namespace CP_SDK_BS::Game {
     /// @brief Load IBeatmapLevelData from a level ID
     /// @param p_LevelID  Level ID
     /// @param p_Callback Callback for success/failure
-    void Levels::LoadIBeatmapLevelDataAsync(std::u16string_view                                     p_LevelID,
+    void Levels::LoadIBeatmapLevelDataAsync(std::u16string                                          p_LevelID,
                                             _v::Action<_v::MonoPtr<_u::IBeatmapLevelData, true>>    p_Callback)
     {
         if (!m_BeatmapLevelsModel)

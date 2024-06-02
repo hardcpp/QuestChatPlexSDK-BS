@@ -105,6 +105,8 @@ namespace CP_SDK::Utils {
             bool operator==(const MonoPtr<t_OtherPtr>& p_Other) const { return m_Wrapper == p_Other.m_Wrapper;           }
             template<class t_OtherPtr>
             bool operator==(t_OtherPtr* p_Pointer)              const { return m_Wrapper && m_Wrapper->Ptr == p_Pointer; }
+            template<class t_OtherPtr>
+            bool operator==(::UnityW<t_OtherPtr> p_Pointer)     const { return Ptr(false) == p_Pointer.unsafePtr();      }
 
         public:
             Unity::MonoPtrHolder::Wrapper* m_Wrapper;
@@ -137,3 +139,7 @@ namespace CP_SDK::Utils {
     }
 
 }   ///< namespace CP_SDK::Utils
+
+template <typename t_Left, typename t_Right> constexpr bool operator==(UnityW<t_Left> const& p_Left, CP_SDK::Utils::MonoPtr<t_Right> const& p_Right) {
+    return p_Left.isAlive() == p_Right.operator bool() && p_Left.unsafePtr() == p_Right.Ptr(false);
+}
