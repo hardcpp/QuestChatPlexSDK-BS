@@ -34,6 +34,7 @@
 #include <UnityEngine/FilterMode.hpp>
 #include <UnityEngine/UI/Image.hpp>
 #include <TMPro/TextMeshProUGUI.hpp>
+#include <System/Reflection/MemberInfo.hpp>
 
 using namespace CP_SDK::Unity::Extensions;
 using namespace TMPro;
@@ -108,8 +109,8 @@ namespace CP_SDK::UI {
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
-    SafePtr<System::Type> UISystem::Override_UnityComponent_Image            = csTypeOf(Image*);
-    SafePtr<System::Type> UISystem::Override_UnityComponent_TextMeshProUGUI  = csTypeOf(TextMeshProUGUI*);
+    SafePtr<System::Type> UISystem::Override_UnityComponent_Image            = reinterpret_cast<System::Type*>(csTypeOf(Image*).convert());
+    SafePtr<System::Type> UISystem::Override_UnityComponent_TextMeshProUGUI  = reinterpret_cast<System::Type*>(csTypeOf(TextMeshProUGUI*).convert());
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
@@ -132,7 +133,7 @@ namespace CP_SDK::UI {
         Unity::EnhancedImage::FromRawAnimated(
             u"CP_SDK._Resources.ChatPlexLogoLoading.webp",
             Animation::EAnimationType::WEBP,
-            reinterpret_cast<::Array<uint8_t>*>(IncludedAssets::ChatPlexLogoLoading_webp.operator ArrayW<uint8_t, Array<uint8_t> *>().convert()),
+            reinterpret_cast<::Array<uint8_t>*>(Assets::ChatPlexLogoLoading_webp.operator ArrayW<uint8_t, Array<uint8_t> *>().convert()),
             [](const Unity::EnhancedImage::Ptr& x) -> void {
                 m_LoadingAnimation = x;
             }
@@ -163,22 +164,22 @@ namespace CP_SDK::UI {
     #define AUTO_SPRITE_GETTER(__Field, __Variable, __Asset, __Borders) \
         UIFieldRefDelExtractor<typeof(__Field)>::t_DelType __Field = []() -> UIFieldRefDelExtractor<typeof(__Field)>::t_PtrType { return GetXSprite(__Variable, __Asset, __Borders); };
 
-    AUTO_SPRITE_GETTER(UISystem::GetUIButtonSprite,             m_UIButtonSprite,            IncludedAssets::UIButton_png.Raw(),             Vector4(10, 10, 10, 10));
-    AUTO_SPRITE_GETTER(UISystem::GetUIColorPickerFBGSprite,     m_UIColorPickerFBGSprite,    IncludedAssets::UIColorPickerFBG_png.Raw(),     Vector4::get_zero());
-    AUTO_SPRITE_GETTER(UISystem::GetUIColorPickerHBGSprite,     m_UIColorPickerHBGSprite,    IncludedAssets::UIColorPickerHBG_png.Raw(),     Vector4::get_zero());
-    AUTO_SPRITE_GETTER(UISystem::GetUIColorPickerSBGSprite,     m_UIColorPickerSBGSprite,    IncludedAssets::UIColorPickerSBG_png.Raw(),     Vector4::get_zero());
-    AUTO_SPRITE_GETTER(UISystem::GetUIColorPickerVBGSprite,     m_UIColorPickerVBGSprite,    IncludedAssets::UIColorPickerVBG_png.Raw(),     Vector4::get_zero());
-    AUTO_SPRITE_GETTER(UISystem::GetUIDownArrowSprite,          m_UIDownArrowSprite,         IncludedAssets::UIDownArrow_png.Raw(),          Vector4::get_zero());
-    AUTO_SPRITE_GETTER(UISystem::GetUIIconGearSprite,           m_UIIconGear,                IncludedAssets::UIIconGear_png.Raw(),           Vector4::get_zero());
-    AUTO_SPRITE_GETTER(UISystem::GetUIIconLockedSprite,         m_UIIconLocked,              IncludedAssets::UIIconLocked_png.Raw(),         Vector4::get_zero());
-    AUTO_SPRITE_GETTER(UISystem::GetUIIconUnlockedSprite,       m_UIIconUnlocked,            IncludedAssets::UIIconUnlocked_png.Raw(),       Vector4::get_zero());
-    AUTO_SPRITE_GETTER(UISystem::GetUIRectBGSprite,             m_UIRectBGSprite,            IncludedAssets::UIRectBG_png.Raw(),             Vector4(15, 15, 15, 15));
-    AUTO_SPRITE_GETTER(UISystem::GetUIRoundBGSprite,            m_UIRoundBGSprite,           IncludedAssets::UIRoundBG_png.Raw(),            Vector4(15, 15, 15, 15));
-    AUTO_SPRITE_GETTER(UISystem::GetUIRoundRectLeftBGSprite,    m_UIRoundRectLeftBGSprite,   IncludedAssets::UIRoundRectLeftBG_png.Raw(),    Vector4(15, 15, 15, 15));
-    AUTO_SPRITE_GETTER(UISystem::GetUIRoundRectRightBGSprite,   m_UIRoundRectRightBGSprite,  IncludedAssets::UIRoundRectRightBG_png.Raw(),   Vector4(15, 15, 15, 15));
-    AUTO_SPRITE_GETTER(UISystem::GetUIRoundSmoothFrameSprite,   m_UIRoundSmoothFrameSprite,  IncludedAssets::UIRoundSmoothFrame_png.Raw(),   Vector4(15, 15, 15, 15));
-    AUTO_SPRITE_GETTER(UISystem::GetUISliderBGSprite,           m_UISliderBGSprite,          IncludedAssets::UISliderBG_png.Raw(),           Vector4(15, 15, 15, 15));
-    AUTO_SPRITE_GETTER(UISystem::GetUISliderHandleSprite,       m_UISliderHandleSprite,      IncludedAssets::UISliderHandle_png.Raw(),       Vector4::get_zero());
+    AUTO_SPRITE_GETTER(UISystem::GetUIButtonSprite,             m_UIButtonSprite,            Assets::UIButton_png,             Vector4(10, 10, 10, 10));
+    AUTO_SPRITE_GETTER(UISystem::GetUIColorPickerFBGSprite,     m_UIColorPickerFBGSprite,    Assets::UIColorPickerFBG_png,     Vector4::get_zero());
+    AUTO_SPRITE_GETTER(UISystem::GetUIColorPickerHBGSprite,     m_UIColorPickerHBGSprite,    Assets::UIColorPickerHBG_png,     Vector4::get_zero());
+    AUTO_SPRITE_GETTER(UISystem::GetUIColorPickerSBGSprite,     m_UIColorPickerSBGSprite,    Assets::UIColorPickerSBG_png,     Vector4::get_zero());
+    AUTO_SPRITE_GETTER(UISystem::GetUIColorPickerVBGSprite,     m_UIColorPickerVBGSprite,    Assets::UIColorPickerVBG_png,     Vector4::get_zero());
+    AUTO_SPRITE_GETTER(UISystem::GetUIDownArrowSprite,          m_UIDownArrowSprite,         Assets::UIDownArrow_png,          Vector4::get_zero());
+    AUTO_SPRITE_GETTER(UISystem::GetUIIconGearSprite,           m_UIIconGear,                Assets::UIIconGear_png,           Vector4::get_zero());
+    AUTO_SPRITE_GETTER(UISystem::GetUIIconLockedSprite,         m_UIIconLocked,              Assets::UIIconLocked_png,         Vector4::get_zero());
+    AUTO_SPRITE_GETTER(UISystem::GetUIIconUnlockedSprite,       m_UIIconUnlocked,            Assets::UIIconUnlocked_png,       Vector4::get_zero());
+    AUTO_SPRITE_GETTER(UISystem::GetUIRectBGSprite,             m_UIRectBGSprite,            Assets::UIRectBG_png,             Vector4(15, 15, 15, 15));
+    AUTO_SPRITE_GETTER(UISystem::GetUIRoundBGSprite,            m_UIRoundBGSprite,           Assets::UIRoundBG_png,            Vector4(15, 15, 15, 15));
+    AUTO_SPRITE_GETTER(UISystem::GetUIRoundRectLeftBGSprite,    m_UIRoundRectLeftBGSprite,   Assets::UIRoundRectLeftBG_png,    Vector4(15, 15, 15, 15));
+    AUTO_SPRITE_GETTER(UISystem::GetUIRoundRectRightBGSprite,   m_UIRoundRectRightBGSprite,  Assets::UIRoundRectRightBG_png,   Vector4(15, 15, 15, 15));
+    AUTO_SPRITE_GETTER(UISystem::GetUIRoundSmoothFrameSprite,   m_UIRoundSmoothFrameSprite,  Assets::UIRoundSmoothFrame_png,   Vector4(15, 15, 15, 15));
+    AUTO_SPRITE_GETTER(UISystem::GetUISliderBGSprite,           m_UISliderBGSprite,          Assets::UISliderBG_png,           Vector4(15, 15, 15, 15));
+    AUTO_SPRITE_GETTER(UISystem::GetUISliderHandleSprite,       m_UISliderHandleSprite,      Assets::UISliderHandle_png,       Vector4::get_zero());
 
     #undef AUTO_SPRITE_GETTER
 
@@ -191,12 +192,12 @@ namespace CP_SDK::UI {
             return ViewController::_Instance(p_Type);
 
         auto l_GameObject = GameObject::New_ctor(p_Type->get_Name(), ArrayW<System::Type*>({
-            reinterpret_cast<System::Type*>(csTypeOf(RectTransform*)),
-            reinterpret_cast<System::Type*>(csTypeOf(CanvasGroup*))
+            reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()),
+            reinterpret_cast<System::Type*>(csTypeOf(CanvasGroup*).convert())
         }));
         GameObject::DontDestroyOnLoad(l_GameObject);
 
-        auto l_ViewController = reinterpret_cast<ViewController*>(l_GameObject->AddComponent(p_Type));
+        auto l_ViewController = l_GameObject->AddComponent(p_Type).try_cast<ViewController>().value_or(nullptr);
         l_ViewController->RTransform()->set_anchorMin       (Vector2::get_zero());
         l_ViewController->RTransform()->set_anchorMax       (Vector2::get_one());
         l_ViewController->RTransform()->set_sizeDelta       (Vector2::get_zero());

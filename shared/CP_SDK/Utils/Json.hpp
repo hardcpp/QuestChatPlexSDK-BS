@@ -64,7 +64,7 @@
 namespace CP_SDK::Utils {
 
     /// @brief Json utils
-    class Json
+    class CP_SDK_EXPORT_VISIBILITY Json
     {
         CP_SDK_NO_DEF_CTORS(Json);
 

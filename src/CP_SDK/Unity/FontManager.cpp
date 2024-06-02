@@ -13,7 +13,8 @@ namespace CP_SDK::Unity {
 
     bool                                                FontManager::m_IsInitialized        = false;
     _v::MonoPtr<AssetBundle>                            FontManager::m_AssetBundle          = nullptr;
-    _v::MonoPtr<TMP_FontAsset>                          FontManager::m_BundleFont           = nullptr;
+    _v::MonoPtr<TMP_FontAsset>                          FontManager::m_BundleMainFont       = nullptr;
+    _v::MonoPtr<TMP_FontAsset>                          FontManager::m_BundleChatFont       = nullptr;
     _v::MonoPtr<TMP_FontAsset>                          FontManager::m_MainFont             = nullptr;
     _v::MonoPtr<TMP_FontAsset>                          FontManager::m_ChatFont             = nullptr;
     _v::Func<_u::TMP_FontAsset*, _u::TMP_FontAsset*>    FontManager::m_TMPFontAssetSetup    = nullptr;
@@ -30,9 +31,11 @@ namespace CP_SDK::Unity {
     /// @brief Init the font manager
     void FontManager::Init()
     {
+        ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][FontManager.Init] Loading font asset bundle...");
+
         static auto s_LoadFromMemory = reinterpret_cast<t_AssetBundle_LoadFromMemory>(il2cpp_functions::resolve_icall("UnityEngine.AssetBundle::LoadFromMemory_Internal"));
 
-        m_AssetBundle = s_LoadFromMemory(IncludedAssets::QuestFonts_bundle.Raw(), 0);
+        m_AssetBundle = s_LoadFromMemory(Assets::QuestFonts_bundle, 0);
         if (!m_AssetBundle)
         {
             ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][FontManager.Init] Failed to load the font asset bundle");
@@ -56,24 +59,19 @@ namespace CP_SDK::Unity {
 
         if (!m_MainFont)
         {
-            if (!m_BundleFont)
-                m_BundleFont = m_AssetBundle->LoadAsset<TMP_FontAsset*>("[CP_SDK]segoeui SDF");
+            if (!m_BundleMainFont)
+                m_BundleMainFont = m_AssetBundle->LoadAsset<TMP_FontAsset*>("[CP_SDK]segoeui SDF Main");
 
-            m_MainFont = TMP_FontAsset::CreateFontAsset(m_BundleFont.Ptr()->get_sourceFontFile());
-            m_MainFont->set_name(m_BundleFont->get_name() + " CloneMain");
-            m_MainFont->hashCode = TMP_TextUtilities::GetSimpleHashCode(m_MainFont->get_name());
-            m_MainFont->set_fallbackFontAssetTable(m_BundleFont->get_fallbackFontAssetTable());
+            m_MainFont = m_BundleMainFont;
 
             if (m_TMPFontAssetSetup.IsValid())
                 m_MainFont = m_TMPFontAssetSetup(m_MainFont.Ptr());
 
-            m_MainFont->normalStyle          =  0.5f;
-            m_MainFont->normalSpacingOffset  = -1.0f;
-            m_MainFont->boldStyle            =  2.0f;
-            m_MainFont->boldSpacing          =  2.0f;
-            m_MainFont->italicStyle          = 15;
-
-            m_ChatFont = m_BundleFont.Ptr();
+            m_MainFont->___normalStyle          =  0.5f;
+            m_MainFont->___normalSpacingOffset  = -1.0f;
+            m_MainFont->___boldStyle            =  2.0f;
+            m_MainFont->___boldSpacing          =  2.0f;
+            m_MainFont->___italicStyle          = 15;
         }
 
         return m_MainFont.Ptr();
@@ -86,10 +84,10 @@ namespace CP_SDK::Unity {
 
         if (!m_ChatFont)
         {
-            if (!m_BundleFont)
-                m_BundleFont = m_AssetBundle->LoadAsset<TMP_FontAsset*>("[CP_SDK]segoeui SDF");
+            if (!m_BundleChatFont)
+                m_BundleChatFont = m_AssetBundle->LoadAsset<TMP_FontAsset*>("[CP_SDK]segoeui SDF");
 
-            m_ChatFont = m_BundleFont.Ptr();
+            m_ChatFont = m_BundleChatFont.Ptr();
 
             if (m_TMPFontAssetSetup.IsValid())
                 m_ChatFont = m_TMPFontAssetSetup(m_ChatFont.Ptr());

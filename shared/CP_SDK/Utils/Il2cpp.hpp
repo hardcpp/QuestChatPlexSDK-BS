@@ -3,7 +3,7 @@
 #define __CP_SDK_U16STR(__mX) u##__mX
 #define CP_SDK_U16STR(__mX) __CP_SDK_U16STR(#__mX)
 
-#include "../Logging/BMBFLogger.hpp"
+#include "../Logging/PaperLogger.hpp"
 #include "Internals/Il2cpp_enum.hpp"
 #include "Internals/il2cpp_customtype.hpp"
 #include "Internals/il2cpp_hook.hpp"
@@ -19,6 +19,8 @@
 #include <beatsaber-hook/shared/utils/hooking.hpp>
 #include <custom-types/shared/macros.hpp>
 #include <UnityEngine/Object.hpp>
+
+#define CP_SDK_EXPORT_VISIBILITY CUSTOM_TYPES_EXPORT_VISIBILITY
 
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
@@ -40,18 +42,18 @@
 namespace CP_SDK::Utils {
 
     /// @brief Hook manager
-    class Hooks
+    class CP_SDK_EXPORT_VISIBILITY Hooks
     {
         CP_SDK_NO_DEF_CTORS(Hooks);
 
         private:
             /// @brief Registered hooks
-            static std::vector<void (*)(Logger& logger)> m_InstalledFuncs;
+            static std::vector<void (*)(Paper::LoggerContext& logger)> m_InstalledFuncs;
 
         public:
             /// @brief Register a hook
             /// @param p_Function Function to register
-            static void Register(void (*p_Function)(Logger&));
+            static void Register(void (*p_Function)(Paper::LoggerContext&));
             /// @brief Install all hooks
             static void InstallHooks();
 
@@ -137,11 +139,11 @@ namespace CP_SDK::Utils {
 
 /// @brief Override a base class method with a custom BASECLASS__NAME method (PRESERVE CSHARP NAME)
 #define CP_SDK_IL2CPP_OVERRIDE_METHOD(__mBaseClass, __mRet, __mMethodName, ...) \
-      __CP_SDK_IL2CPP_OVERRIDE_METHOD(__mBaseClass, __mRet, __mMethodName, il2cpp_utils::il2cpp_type_check::MetadataGetter<&__mBaseClass::__mMethodName>::get() __VA_OPT__(,) __VA_ARGS__)
+      __CP_SDK_IL2CPP_OVERRIDE_METHOD(__mBaseClass, __mRet, __mMethodName, il2cpp_utils::il2cpp_type_check::MetadataGetter<&__mBaseClass::__mMethodName>::methodInfo() __VA_OPT__(,) __VA_ARGS__)
 
 /// @brief Override a base class method with a custom BASECLASS__NAME method inside a namespace (PRESERVE CSHARP NAME)
 #define CP_SDK_IL2CPP_OVERRIDE_METHOD_EX(__mNamespace, __mBaseClass, __mRet, __mMethodName, ...) \
-      __CP_SDK_IL2CPP_OVERRIDE_METHOD(__mBaseClass, __mRet, __mMethodName, il2cpp_utils::il2cpp_type_check::MetadataGetter<&__mNamespace::__mBaseClass::__mMethodName>::get() __VA_OPT__(,) __VA_ARGS__)
+      __CP_SDK_IL2CPP_OVERRIDE_METHOD(__mBaseClass, __mRet, __mMethodName, il2cpp_utils::il2cpp_type_check::MetadataGetter<&__mNamespace::__mBaseClass::__mMethodName>::methodInfo() __VA_OPT__(,) __VA_ARGS__)
 
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////

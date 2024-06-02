@@ -6,8 +6,7 @@
 
 #include <custom-types/shared/delegate.hpp>
 
-#include <HMUI/ViewController_AnimationType.hpp>
-#include <HMUI/ViewController_AnimationDirection.hpp>
+#include <HMUI/ViewController.hpp>
 #include <System/Action.hpp>
 #include <UnityEngine/Resources.hpp>
 #include <UnityEngine/WaitUntil.hpp>
@@ -93,7 +92,7 @@ namespace CP_SDK_BS::UI {
 
         m_BackupFlowCoordinator = nullptr;
 
-        auto l_BackupFlowCoordinator = p_IgnoreBackuping ? nullptr : UnityEngine::Resources::FindObjectsOfTypeAll<HMUI::FlowCoordinator*>().LastOrDefault([this](auto x) {
+        auto l_BackupFlowCoordinator = p_IgnoreBackuping ? nullptr : UnityEngine::Resources::FindObjectsOfTypeAll<HMUI::FlowCoordinator*>()->LastOrDefault([this](auto x) {
             return x->get_isActivated() && x != this && IsFlowCoordinatorInHierarchy(x);
         });
 
@@ -162,7 +161,7 @@ namespace CP_SDK_BS::UI {
     void HMUIViewFlowCoordinator::ChangeView(HMUI::ViewController * p_NewView, HMUI::ViewController * p_Left, HMUI::ViewController * p_Right)
     {
         auto l_TopViewController = get_topViewController();
-        if (IsFlowCoordinatorInHierarchy(this) && l_TopViewController == p_NewView)
+        if (IsFlowCoordinatorInHierarchy(this) && l_TopViewController.unsafePtr() == p_NewView)
             return;
 
         m_SwitchQueue.push({p_NewView, p_Left, p_Right});

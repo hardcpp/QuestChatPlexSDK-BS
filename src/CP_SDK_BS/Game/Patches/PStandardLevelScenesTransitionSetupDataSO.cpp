@@ -1,4 +1,3 @@
-
 #include "CP_SDK_BS/Game/Patches/PStandardLevelScenesTransitionSetupDataSO.hpp"
 #include "CP_SDK_BS/Game/Logic.hpp"
 #include "CP_SDK_BS/Game/Scoring.hpp"
@@ -27,33 +26,31 @@ namespace CP_SDK_BS::Game::Patches {
     ////////////////////////////////////////////////////////////////////////////
 
     CP_SDK_IL2CPP_HOOK_MAKE_AUTO_HOOK_MATCH(
-        StandardLevelScenesTransitionSetupDataSO_Init, &StandardLevelScenesTransitionSetupDataSO::Init,
+        StandardLevelScenesTransitionSetupDataSO_InitAndSetupScenes, &StandardLevelScenesTransitionSetupDataSO::InitAndSetupScenes,
         void, StandardLevelScenesTransitionSetupDataSO* __Instance,
 
-        StringW      __a, IDifficultyBeatmap* __b, IPreviewBeatmapLevel*   __c, OverrideEnvironmentSettings* __d,
-        ColorScheme* __e, GameplayModifiers*  __f, PlayerSpecificSettings* __g, PracticeSettings*            __h,
-        StringW      __i, bool                __j, bool                    __k, BeatmapDataCache*            __l)
+        PlayerSpecificSettings* __a, StringW __b, bool __c)
     {
-        //CP_SDK::ChatPlexSDK::Logger()->Error(u"Enter StandardLevelScenesTransitionSetupDataSO_Init");
-        Scoring::__SetScoreSaberIsInReplay(__a == u"Replay");
-        StandardLevelScenesTransitionSetupDataSO_Init(__Instance, __a, __b, __c, __d, __e, __f, __g, __h, __i, __j, __k, __l);
+        //CP_SDK::ChatPlexSDK::Logger()->Error(u"Enter StandardLevelScenesTransitionSetupDataSO_InitAndSetupScenes");
+        Scoring::__SetScoreSaberIsInReplay(__Instance->get_gameMode() == u"Replay");
+        StandardLevelScenesTransitionSetupDataSO_InitAndSetupScenes(__Instance, __a, __b, __c);
 
         try
         {
             s_PStandardLevelScenesTransitionSetupDataSO_LevelData = LevelData::Make();
             auto& l_LevelData = s_PStandardLevelScenesTransitionSetupDataSO_LevelData;
             l_LevelData->Type = LevelType::Solo;
-            l_LevelData->Data = __Instance->gameplayCoreSceneSetupData;
+            l_LevelData->Data = __Instance->get_gameplayCoreSceneSetupData();
 
             Logic::FireLevelStarted(l_LevelData);
         }
         catch (const std::exception& l_Exception)
         {
-            CP_SDK::ChatPlexSDK::Logger()->Error(u"[CP_SDK_BS.Game.Patches][StandardLevelScenesTransitionSetupDataSO_Init] Error:");
+            CP_SDK::ChatPlexSDK::Logger()->Error(u"[CP_SDK_BS.Game.Patches][StandardLevelScenesTransitionSetupDataSO_InitAndSetupScenes] Error:");
             CP_SDK::ChatPlexSDK::Logger()->Error(l_Exception);
         }
 
-        //CP_SDK::ChatPlexSDK::Logger()->Error(u"Exit StandardLevelScenesTransitionSetupDataSO_Init");
+        //CP_SDK::ChatPlexSDK::Logger()->Error(u"Exit StandardLevelScenesTransitionSetupDataSO_InitAndSetupScenes");
     }
     CP_SDK_IL2CPP_HOOK_MAKE_AUTO_HOOK_MATCH(
         StandardLevelScenesTransitionSetupDataSO_Finish, &StandardLevelScenesTransitionSetupDataSO::Finish,

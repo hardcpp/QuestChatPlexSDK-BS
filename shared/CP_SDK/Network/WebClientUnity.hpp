@@ -22,7 +22,7 @@ namespace CP_SDK::Network {
     }
 
     /// @brief WebClientUnity using unity web requests
-    class WebClientUnity : public IWebClient, public std::enable_shared_from_this<WebClientUnity>
+    class CP_SDK_EXPORT_VISIBILITY WebClientUnity : public IWebClient, public std::enable_shared_from_this<WebClientUnity>
     {
         CP_SDK_NO_COPYMOVE_CTORS(WebClientUnity);
         CP_SDK_PRIV_TAG();

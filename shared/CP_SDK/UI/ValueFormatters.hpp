@@ -1,10 +1,12 @@
 #pragma once
 
+#include "../Utils/Il2cpp.hpp"
+
 #include <string>
 
 namespace CP_SDK::UI {
 
-    class ValueFormatters
+    class CP_SDK_EXPORT_VISIBILITY ValueFormatters
     {
         public:
             static std::u16string Percentage(float p_Value);

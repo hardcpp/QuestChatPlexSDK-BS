@@ -21,7 +21,7 @@ namespace CP_SDK::Unity {
     }
 
     /// @brief Main thread task system
-    class MTMainThreadInvoker : public _u::MonoBehaviour
+    class CP_SDK_EXPORT_VISIBILITY MTMainThreadInvoker : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.Unity", MTMainThreadInvoker, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(MTMainThreadInvoker);

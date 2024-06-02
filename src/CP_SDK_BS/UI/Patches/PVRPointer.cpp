@@ -10,15 +10,9 @@ namespace CP_SDK_BS::UI::Patches {
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
-#if BEATSABER_1_29_4_OR_NEWER
     CP_SDK_IL2CPP_HOOK_MAKE_AUTO_HOOK_MATCH(
-        VRPointer__OnEnable, &VRPointer::EnabledLastSelectedPointer,
-        void, VRPointer* __Instance)
-#else
-    CP_SDK_IL2CPP_HOOK_MAKE_AUTO_HOOK_MATCH(
-        VRPointer__OnEnable, &VRPointer::OnEnable,
-        void, VRPointer* __Instance)
-#endif
+            VRPointer__OnEnable, &VRPointer::EnabledLastSelectedPointer,
+            void, VRPointer* __Instance)
     {
         VRPointer__OnEnable(__Instance);
 

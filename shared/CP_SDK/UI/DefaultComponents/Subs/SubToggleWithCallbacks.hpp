@@ -4,7 +4,6 @@
 #include "../../../Utils/Il2cpp.hpp"
 
 #include <UnityEngine/UI/Selectable.hpp>
-#include <UnityEngine/UI/Selectable_SelectionState.hpp>
 #include <UnityEngine/UI/Toggle.hpp>
 
 namespace CP_SDK::UI::DefaultComponents::Subs {

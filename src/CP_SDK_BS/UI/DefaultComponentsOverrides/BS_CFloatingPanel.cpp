@@ -71,7 +71,7 @@ namespace CP_SDK_BS::UI::DefaultComponentsOverrides {
         {
             /// Refresh VR pointer due to bug
             auto l_VRPointers    = Resources::FindObjectsOfTypeAll<VRPointer*>();
-            auto l_VRPointer     = CP_SDK::ChatPlexSDK::ActiveGenericScene() == CP_SDK::EGenericScene::Playing ? l_VRPointers.LastOrDefault() : l_VRPointers.FirstOrDefault();
+            auto l_VRPointer     = CP_SDK::ChatPlexSDK::ActiveGenericScene() == CP_SDK::EGenericScene::Playing ? l_VRPointers->LastOrDefault() : l_VRPointers->FirstOrDefault();
 
             if (l_VRPointer)
             {
@@ -117,7 +117,7 @@ namespace CP_SDK_BS::UI::DefaultComponentsOverrides {
     void BS_CFloatingPanel::CreateMover(VRPointer* p_VRPointer)
     {
         if (!p_VRPointer)
-            p_VRPointer = Resources::FindObjectsOfTypeAll<VRPointer*>().FirstOrDefault();
+            p_VRPointer = Resources::FindObjectsOfTypeAll<VRPointer*>()->FirstOrDefault();
 
         if (p_VRPointer == nullptr)
         {
@@ -131,7 +131,7 @@ namespace CP_SDK_BS::UI::DefaultComponentsOverrides {
         if (!m_MoverHandle)
         {
             m_MoverHandle = GameObject::New_ctor("MoverHandle", ArrayW<System::Type*>({
-                reinterpret_cast<System::Type*>(csTypeOf(Subs::SubFloatingPanelMoverHandle*))
+                reinterpret_cast<System::Type*>(csTypeOf(Subs::SubFloatingPanelMoverHandle*).convert())
             }))->GetComponent<Subs::SubFloatingPanelMoverHandle*>();
             m_MoverHandle->get_transform()->SetParent(get_transform());
             m_MoverHandle->get_transform()->set_localPosition(Vector3::get_zero());

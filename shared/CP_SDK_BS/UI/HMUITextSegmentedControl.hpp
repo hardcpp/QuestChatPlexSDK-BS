@@ -14,7 +14,7 @@ namespace CP_SDK_BS::UI {
     }
 
     /// @brief Text segmented control
-    class HMUITextSegmentedControl
+    class CP_SDK_EXPORT_VISIBILITY HMUITextSegmentedControl
     {
         CP_SDK_NO_DEF_CTORS(HMUITextSegmentedControl);
 

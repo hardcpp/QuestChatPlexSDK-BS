@@ -22,7 +22,7 @@ namespace CP_SDK::UI {
     }
 
     /// @brief Tooltip widget
-    class Tooltip : public _u::MonoBehaviour
+    class CP_SDK_EXPORT_VISIBILITY Tooltip : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI", Tooltip, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(Tooltip);

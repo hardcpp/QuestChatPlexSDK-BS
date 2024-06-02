@@ -20,7 +20,7 @@ namespace CP_SDK::Unity {
     }
 
     /// @brief Open type to TextMeshPro font manager
-    class FontManager
+    class CP_SDK_EXPORT_VISIBILITY FontManager
     {
         CP_SDK_NO_DEF_CTORS(FontManager);
 
@@ -29,7 +29,8 @@ namespace CP_SDK::Unity {
         private:
             static bool                                             m_IsInitialized;
             static _v::MonoPtr<_u::AssetBundle>                     m_AssetBundle;
-            static _v::MonoPtr<_u::TMP_FontAsset>                   m_BundleFont;
+            static _v::MonoPtr<_u::TMP_FontAsset>                   m_BundleMainFont;
+            static _v::MonoPtr<_u::TMP_FontAsset>                   m_BundleChatFont;
             static _v::MonoPtr<_u::TMP_FontAsset>                   m_MainFont;
             static _v::MonoPtr<_u::TMP_FontAsset>                   m_ChatFont;
             static _v::Func<_u::TMP_FontAsset*, _u::TMP_FontAsset*> m_TMPFontAssetSetup;

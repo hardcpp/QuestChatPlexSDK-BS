@@ -5,7 +5,7 @@
 
 #include <custom-types/shared/coroutine.hpp>
 
-#include <GlobalNamespace/CustomPreviewBeatmapLevel.hpp>
+#include <GlobalNamespace/BeatmapLevel.hpp>
 #include <GlobalNamespace/LevelSelectionNavigationController.hpp>
 #include <GlobalNamespace/LevelSearchViewController.hpp>
 
@@ -21,18 +21,18 @@ namespace CP_SDK_BS::Game {
     }
 
     /// @brief Level selection filter
-    class LevelSelection
+    class CP_SDK_EXPORT_VISIBILITY LevelSelection
     {
         CP_SDK_NO_DEF_CTORS(LevelSelection);
 
         private:
-            static _v::MonoPtr<_u::CustomPreviewBeatmapLevel>   m_PendingFilterSong;
+            static _v::MonoPtr<_u::BeatmapLevel>   m_PendingFilterSong;
             static bool                                         m_PreventLevelSearchViewController_didStartLoadingEvent;
 
         public:
             /// @brief Filter to specific song
             /// @param p_SongToFilter Song to filter
-            static bool FilterToSpecificSong(_u::CustomPreviewBeatmapLevel* p_SongToFilter);
+            static bool FilterToSpecificSong(_u::BeatmapLevel* p_SongToFilter);
 
         public:
             /// @brief Change current song view to all songs view

@@ -15,7 +15,7 @@ namespace CP_SDK::Unity::Extensions {
     }
 
     /// @brief Unity Color tools
-    class ColorU
+    class CP_SDK_EXPORT_VISIBILITY ColorU
     {
         public:
             /// @brief Get color with alpha
@@ -53,6 +53,7 @@ namespace CP_SDK::Unity::Extensions {
             inline static _u::Color32 Convert(_u::Color p_Src)
             {
                 return _u::Color32(
+                    0,
                     (uint8_t)(p_Src.r * 255.0f),
                     (uint8_t)(p_Src.g * 255.0f),
                     (uint8_t)(p_Src.b * 255.0f),
@@ -83,7 +84,7 @@ namespace CP_SDK::Unity::Extensions {
                 if ((l_Length - l_Offset) > 6)
                     l_A = (ConvertSingleByte(p_Src, l_Length, l_Offset + 6) << 4) | ConvertSingleByte(p_Src, l_Length, l_Offset + 7);
 
-                *p_Color = Convert(_u::Color32((uint8_t)l_R, (uint8_t)l_G, (uint8_t)l_B, (uint8_t)l_A));
+                *p_Color = Convert(_u::Color32(0, (uint8_t)l_R, (uint8_t)l_G, (uint8_t)l_B, (uint8_t)l_A));
 
                 return true;
             }

@@ -3,6 +3,7 @@
 #include "CP_SDK/Unity/Extensions/ColorU.hpp"
 
 #include <UnityEngine/GameObject.hpp>
+#include <UnityEngine/Quaternion.hpp>
 
 using namespace CP_SDK::Unity::Extensions;
 using namespace UnityEngine;
@@ -49,7 +50,7 @@ namespace CP_SDK::UI {
         l_Tooltip->m_ContentSizeFitter->set_horizontalFit(ContentSizeFitter::FitMode::PreferredSize);
         l_Tooltip->m_ContentSizeFitter->set_verticalFit  (ContentSizeFitter::FitMode::PreferredSize);
 
-        l_Tooltip->m_Image = reinterpret_cast<Image*>(l_Tooltip->get_gameObject()->AddComponent(UISystem::Override_UnityComponent_Image.ptr()));
+        l_Tooltip->m_Image = l_Tooltip->get_gameObject()->AddComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
         l_Tooltip->m_Image->set_material               (UISystem::Override_GetUIMaterial());
         l_Tooltip->m_Image->set_type                   (Image::Type::Sliced);
         l_Tooltip->m_Image->set_pixelsPerUnitMultiplier(1);

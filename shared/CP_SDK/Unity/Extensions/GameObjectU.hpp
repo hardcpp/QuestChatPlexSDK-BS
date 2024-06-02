@@ -17,7 +17,7 @@ namespace CP_SDK::Unity::Extensions {
     }
 
     /// @brief Unity GameObject tools
-    class GameObjectU
+    class CP_SDK_EXPORT_VISIBILITY GameObjectU
     {
         public:
             /// @brief Change the layer of a GameObject and all his childs
@@ -34,7 +34,7 @@ namespace CP_SDK::Unity::Extensions {
                 for (auto l_I = 0; l_I < l_ChildCount; ++l_I)
                 {
                     auto l_Child = p_This->get_transform()->GetChild(l_I)->get_gameObject();
-                    if (_v::IsUnityPtrValid(l_Child))
+                    if (l_Child.isAlive())
                         ChangerLayerRecursive(l_Child, p_Layer);
                 }
             }
@@ -47,10 +47,10 @@ namespace CP_SDK::Unity::Extensions {
                     return nullptr;
 
                 auto l_LeftTransform = p_Left->get_transform();
-                while (_v::IsUnityPtrValid(l_LeftTransform))
+                while (l_LeftTransform.isAlive())
                 {
                     auto l_RightTransform = p_Right->get_transform();
-                    while (_v::IsUnityPtrValid(l_RightTransform))
+                    while (l_RightTransform.isAlive())
                     {
                         if (l_LeftTransform == l_RightTransform)
                             return l_LeftTransform->get_gameObject();
@@ -67,7 +67,7 @@ namespace CP_SDK::Unity::Extensions {
             /// @param p_This Instance
             inline static void DestroyChilds(_u::GameObject* p_This)
             {
-                if (!p_This)
+                if (!_v::IsUnityPtrValid(p_This))
                     return;
 
                 auto l_ChildCount = p_This->get_transform()->get_childCount();

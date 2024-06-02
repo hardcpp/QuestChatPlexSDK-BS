@@ -26,7 +26,7 @@ namespace CP_SDK::UI {
     }
 
     /// @brief Loading progress bar
-    class LoadingProgressBar : public _u::MonoBehaviour
+    class CP_SDK_EXPORT_VISIBILITY LoadingProgressBar : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI", LoadingProgressBar, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(LoadingProgressBar);

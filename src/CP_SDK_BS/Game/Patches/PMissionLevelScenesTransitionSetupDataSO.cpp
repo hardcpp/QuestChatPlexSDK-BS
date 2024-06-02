@@ -1,9 +1,9 @@
-
 #include "CP_SDK_BS/Game/Patches/PMissionLevelScenesTransitionSetupDataSO.hpp"
 #include "CP_SDK_BS/Game/Logic.hpp"
 #include "CP_SDK_BS/Game/Scoring.hpp"
 #include "CP_SDK/Utils/Il2cpp.hpp"
 
+#include <GlobalNamespace/MenuTransitionsHelper.hpp>
 #include <GlobalNamespace/MissionLevelScenesTransitionSetupDataSO.hpp>
 #include <GlobalNamespace/MissionCompletionResults.hpp>
 
@@ -27,32 +27,41 @@ namespace CP_SDK_BS::Game::Patches {
     ////////////////////////////////////////////////////////////////////////////
 
     CP_SDK_IL2CPP_HOOK_MAKE_AUTO_HOOK_MATCH(
-        MissionLevelScenesTransitionSetupDataSO_Init, &MissionLevelScenesTransitionSetupDataSO::Init,
-        void, MissionLevelScenesTransitionSetupDataSO* __Instance,
+        MenuTransitionsHelper_StartMissionLevel, &MenuTransitionsHelper::StartMissionLevel,
+        void, MenuTransitionsHelper* __Instance,
 
-        StringW      __a, IDifficultyBeatmap* __b, IPreviewBeatmapLevel*   __c, ArrayW<MissionObjective*> __d,
-        ColorScheme* __e, GameplayModifiers*  __f, PlayerSpecificSettings* __g, StringW                   __h)
+        StringW                                                                                         __a,
+        ByRef<BeatmapKey>                                                                               __b,
+        BeatmapLevel*                                                                                   __c,
+        ColorScheme*                                                                                    __d,
+        GameplayModifiers*                                                                              __e,
+        ::ArrayW<MissionObjective*, ::Array<MissionObjective*>*>                                        __f,
+        PlayerSpecificSettings*                                                                         __g,
+        EnvironmentsListModel*                                                                          __h,
+        System::Action*                                                                                 __i,
+        System::Action_2<UnityW<MissionLevelScenesTransitionSetupDataSO>, MissionCompletionResults*>*   __j,
+        System::Action_2<UnityW<MissionLevelScenesTransitionSetupDataSO>, MissionCompletionResults*>*   __k)
     {
-        //CP_SDK::ChatPlexSDK::Logger()->Error(u"Enter MissionLevelScenesTransitionSetupDataSO_Init");
+        //CP_SDK::ChatPlexSDK::Logger()->Error(u"Enter MenuTransitionsHelper_StartMissionLevel");
         Scoring::__SetScoreSaberIsInReplay(false);
-        MissionLevelScenesTransitionSetupDataSO_Init(__Instance, __a, __b, __c, __d, __e, __f, __g, __h);
+        MenuTransitionsHelper_StartMissionLevel(__Instance, __a, __b, __c, __d, __e, __f, __g, __h, __i, __j, __k);
 
         try
         {
             s_PMissionLevelScenesTransitionSetupDataSO_LevelData = LevelData::Make();
             auto& l_LevelData = s_PMissionLevelScenesTransitionSetupDataSO_LevelData;
             l_LevelData->Type = LevelType::Solo;
-            l_LevelData->Data = __Instance->gameplayCoreSceneSetupData;
+            l_LevelData->Data = __Instance->____missionLevelScenesTransitionSetupData->get_gameplayCoreSceneSetupData();
 
             Logic::FireLevelStarted(l_LevelData);
         }
         catch(const std::exception& l_Exception)
         {
-            CP_SDK::ChatPlexSDK::Logger()->Error(u"[CP_SDK_BS.Game.Patches][MissionLevelScenesTransitionSetupDataSO_Init] Error:");
+            CP_SDK::ChatPlexSDK::Logger()->Error(u"[CP_SDK_BS.Game.Patches][MenuTransitionsHelper_StartMissionLevel] Error:");
             CP_SDK::ChatPlexSDK::Logger()->Error(l_Exception);
         }
 
-        //CP_SDK::ChatPlexSDK::Logger()->Error(u"Exit MissionLevelScenesTransitionSetupDataSO_Init");
+        //CP_SDK::ChatPlexSDK::Logger()->Error(u"Exit MenuTransitionsHelper_StartMissionLevel");
     }
     CP_SDK_IL2CPP_HOOK_MAKE_AUTO_HOOK_MATCH(
         MissionLevelScenesTransitionSetupDataSO_Finish, &MissionLevelScenesTransitionSetupDataSO::Finish,
@@ -72,7 +81,7 @@ namespace CP_SDK_BS::Game::Patches {
             auto l_LevelCompletionData = LevelCompletionData::Make();
             l_LevelCompletionData->Type     = LevelType::Solo;
             l_LevelCompletionData->Data     = l_LevelData->Data;
-            l_LevelCompletionData->Results  = __a->levelCompletionResults;
+            l_LevelCompletionData->Results  = __a->___levelCompletionResults;
 
             Scoring::__SetScoreSaberIsInReplay(false);
 

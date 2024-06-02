@@ -2,21 +2,21 @@
 #include "CP_SDK_BS/Game/Logic.hpp"
 #include "CP_SDK/Unity/MTCoroutineStarter.hpp"
 #include <custom-types/shared/delegate.hpp>
+#include <beatsaber-hook/shared/utils/byref.hpp>
 
-#include <HMUI/ViewController_DidActivateDelegate.hpp>
+#include <HMUI/ViewController.hpp>
 #include <HMUI/IconSegmentedControl.hpp>
 #include <HMUI/InputFieldView.hpp>
 #include <GlobalNamespace/LevelFilteringNavigationController.hpp>
-#include <GlobalNamespace/LevelFilterParams.hpp>
+#include <GlobalNamespace/LevelFilter.hpp>
 #include <GlobalNamespace/SelectLevelCategoryViewController.hpp>
-#include <GlobalNamespace/SelectLevelCategoryViewController_LevelCategoryInfo.hpp>
 #include <System/Collections/Generic/HashSet_1.hpp>
 #include <UnityEngine/Resources.hpp>
 
 namespace CP_SDK_BS::Game {
 
-    _v::MonoPtr<_u::CustomPreviewBeatmapLevel>  LevelSelection::m_PendingFilterSong;
-    bool                                        LevelSelection::m_PreventLevelSearchViewController_didStartLoadingEvent;
+    _v::MonoPtr<_u::BeatmapLevel>   LevelSelection::m_PendingFilterSong;
+    bool                            LevelSelection::m_PreventLevelSearchViewController_didStartLoadingEvent;
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
@@ -28,13 +28,13 @@ namespace CP_SDK_BS::Game {
 
     /// @brief Filter to specific song
     /// @param p_SongToFilter Song to filter
-    bool LevelSelection::FilterToSpecificSong(_u::CustomPreviewBeatmapLevel* p_SongToFilter)
+    bool LevelSelection::FilterToSpecificSong(_u::BeatmapLevel* p_SongToFilter)
     {
         m_PendingFilterSong = p_SongToFilter;
 
         try
         {
-            auto l_LevelFilteringNavigationController = _u::Resources::FindObjectsOfTypeAll<_u::LevelSelectionNavigationController*>().FirstOrDefault();
+            auto l_LevelFilteringNavigationController = _u::Resources::FindObjectsOfTypeAll<_u::LevelSelectionNavigationController*>()->FirstOrDefault();
             if (l_LevelFilteringNavigationController)
             {
                 if (l_LevelFilteringNavigationController->get_gameObject()->get_activeInHierarchy())
@@ -101,7 +101,7 @@ namespace CP_SDK_BS::Game {
     /// @param p_LevelSelectionNavigationController LevelSelectionNavigationController instance
     custom_types::Helpers::Coroutine LevelSelection::LevelSelection_SelectLevelCategory(_u::LevelSelectionNavigationController* p_LevelSelectionNavigationController)
     {
-        while (!_v::IsUnityPtrValid(p_LevelSelectionNavigationController) || p_LevelSelectionNavigationController->isInTransition)
+        while (!_v::IsUnityPtrValid(p_LevelSelectionNavigationController) || p_LevelSelectionNavigationController->____isInTransition)
         {
             if (!_v::IsUnityPtrValid(p_LevelSelectionNavigationController))
                 co_return;
@@ -115,23 +115,23 @@ namespace CP_SDK_BS::Game {
         if (!p_LevelSelectionNavigationController || !p_LevelSelectionNavigationController->get_isInViewControllerHierarchy() || !p_LevelSelectionNavigationController->get_isActiveAndEnabled())
             co_return;
 
-        auto l_LevelFilteringNavigationController = p_LevelSelectionNavigationController->levelFilteringNavigationController;
-        if (!_v::IsUnityPtrValid(l_LevelFilteringNavigationController))
+        auto l_LevelFilteringNavigationController = p_LevelSelectionNavigationController->____levelFilteringNavigationController;
+        if (!l_LevelFilteringNavigationController.isAlive())
             co_return;
 
         if (l_LevelFilteringNavigationController->get_selectedLevelCategory() != _u::SelectLevelCategoryViewController::LevelCategory::All)
         {
-            auto l_Selector = l_LevelFilteringNavigationController->selectLevelCategoryViewController;
-            if (_v::IsUnityPtrValid(l_Selector))
+            auto l_Selector = l_LevelFilteringNavigationController->____selectLevelCategoryViewController;
+            if (l_Selector.isAlive())
             {
-                auto l_SegmentControl    = l_Selector->levelFilterCategoryIconSegmentedControl;
-                auto l_Tags              = l_Selector->levelCategoryInfos;
+                auto l_SegmentControl    = l_Selector->____levelFilterCategoryIconSegmentedControl;
+                auto l_Tags              = l_Selector->____levelCategoryInfos;
                 auto l_IndexToSelect     = -1;
 
 
-                for (auto l_I = 0; l_I < l_Tags.Length(); ++l_I)
+                for (auto l_I = 0; l_I < l_Tags->get_Length(); ++l_I)
                 {
-                    if (l_Tags[l_I]->levelCategory != _u::SelectLevelCategoryViewController::LevelCategory::All)
+                    if (l_Tags[l_I]->___levelCategory != _u::SelectLevelCategoryViewController::LevelCategory::All)
                         continue;
 
                     l_IndexToSelect = l_I;
@@ -147,7 +147,7 @@ namespace CP_SDK_BS::Game {
 
                 CP_SDK::Unity::MTCoroutineStarter::Start(custom_types::Helpers::CoroutineHelper::New(
                     LevelSelection_FilterLevel(
-                        l_LevelFilteringNavigationController->levelSearchViewController,
+                        l_LevelFilteringNavigationController->____levelSearchViewController,
                         true
                     )
                 ));
@@ -157,7 +157,7 @@ namespace CP_SDK_BS::Game {
         {
             CP_SDK::Unity::MTCoroutineStarter::Start(custom_types::Helpers::CoroutineHelper::New(
                 LevelSelection_FilterLevel(
-                    l_LevelFilteringNavigationController->levelSearchViewController,
+                    l_LevelFilteringNavigationController->____levelSearchViewController,
                     false
                 )
             ));
@@ -176,7 +176,7 @@ namespace CP_SDK_BS::Game {
 
         if (p_Wait)
         {
-            while (!_v::IsUnityPtrValid(p_LevelSearchViewController) || p_LevelSearchViewController->isInTransition)
+            while (!_v::IsUnityPtrValid(p_LevelSearchViewController) || p_LevelSearchViewController->____isInTransition)
             {
                 if (!_v::IsUnityPtrValid(p_LevelSearchViewController))
                     co_return;
@@ -194,13 +194,14 @@ namespace CP_SDK_BS::Game {
         try
         {
             m_PreventLevelSearchViewController_didStartLoadingEvent = true;
-            p_LevelSearchViewController->ResetCurrentFilterParams();
+            p_LevelSearchViewController->ResetAllFilterSettings(false);
 
-            auto l_Set = System::Collections::Generic::HashSet_1<::StringW>::New_ctor();
-            l_Set->Add(m_PendingFilterSong->levelID);
+            auto l_Filter = GlobalNamespace::LevelFilter();
+            l_Filter.limitIds     = ArrayW<StringW>({ m_PendingFilterSong->___levelID });
+            l_Filter.searchText   = u"";
 
-            p_LevelSearchViewController->UpdateSearchLevelFilterParams(
-                _u::LevelFilterParams::ByBeatmapLevelIds(l_Set)
+            p_LevelSearchViewController->Refresh(
+                byref(l_Filter)
             );
             m_PreventLevelSearchViewController_didStartLoadingEvent = false;
         }
@@ -222,13 +223,13 @@ namespace CP_SDK_BS::Game {
 
         try
         {
-            auto l_Filter = p_LevelSearchViewController->currentFilterParams;
-            if (l_Filter && l_Filter->filterByLevelIds)
+            auto l_Filter = p_LevelSearchViewController->____currentSearchFilter;
+            if (l_Filter.limitIds && l_Filter.limitIds->get_Length() == 1)
             {
-                p_LevelSearchViewController->ResetCurrentFilterParams();
+                p_LevelSearchViewController->ResetAllFilterSettings(false);
 
-                auto l_InputFieldView = p_LevelSearchViewController->searchTextInputFieldView;
-                if (_v::IsUnityPtrValid(l_InputFieldView))
+                auto l_InputFieldView = p_LevelSearchViewController->____searchTextInputFieldView;
+                if (l_InputFieldView)
                 {
                     l_InputFieldView->UpdateClearButton();
                     l_InputFieldView->UpdatePlaceholder();
@@ -237,7 +238,7 @@ namespace CP_SDK_BS::Game {
         }
         catch (const std::exception& l_Exception)
         {
-            CP_SDK::ChatPlexSDK::Logger()->Error(u"[CP_SDK_BS.Game.Patches][LevelSearchViewController_LevelSearchViewController_UpdateBeatmapLevelPackCollectionAsync] Error:");
+            CP_SDK::ChatPlexSDK::Logger()->Error(u"[CP_SDK_BS.Game.Patches][LevelSearchViewController_didStartLoadingEvent] Error:");
             CP_SDK::ChatPlexSDK::Logger()->Error(l_Exception);
         }
     }
@@ -246,12 +247,12 @@ namespace CP_SDK_BS::Game {
     ////////////////////////////////////////////////////////////////////////////
 
     CP_SDK_IL2CPP_HOOK_MAKE_AUTO_HOOK_MATCH(
-        LevelSearchViewController_UpdateBeatmapLevelPackCollectionAsync, &_u::LevelSearchViewController::UpdateBeatmapLevelPackCollectionAsync,
+        LevelSearchViewController_RefreshAsync, &_u::LevelSearchViewController::RefreshAsync,
         void, _u::LevelSearchViewController* __Instance)
     {
-        //CP_SDK::ChatPlexSDK::Logger()->Error(u"Enter LevelSearchViewController_UpdateBeatmapLevelPackCollectionAsync");
+        //CP_SDK::ChatPlexSDK::Logger()->Error(u"Enter LevelSearchViewController_RefreshAsync");
 
-        LevelSearchViewController_UpdateBeatmapLevelPackCollectionAsync(__Instance);
+        LevelSearchViewController_RefreshAsync(__Instance);
 
         try
         {
@@ -259,11 +260,11 @@ namespace CP_SDK_BS::Game {
         }
         catch (const std::exception& l_Exception)
         {
-            CP_SDK::ChatPlexSDK::Logger()->Error(u"[CP_SDK_BS.Game][LevelSelection.LevelSearchViewController_UpdateBeatmapLevelPackCollectionAsync] Error:");
+            CP_SDK::ChatPlexSDK::Logger()->Error(u"[CP_SDK_BS.Game][LevelSelection.LevelSearchViewController_RefreshAsync] Error:");
             CP_SDK::ChatPlexSDK::Logger()->Error(l_Exception);
         }
 
-        //CP_SDK::ChatPlexSDK::Logger()->Error(u"Exit LevelSearchViewController_UpdateBeatmapLevelPackCollectionAsync");
+        //CP_SDK::ChatPlexSDK::Logger()->Error(u"Exit LevelSearchViewController_RefreshAsync");
     }
 
 }   ///< namespace CP_SDK_BS::Game

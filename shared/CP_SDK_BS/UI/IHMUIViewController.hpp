@@ -7,6 +7,8 @@
 #include <UnityEngine/Color.hpp>
 #include <UnityEngine/RectTransform.hpp>
 #include <UnityEngine/Vector3.hpp>
+#include "System/Reflection/MemberInfo.hpp"
+#include "System/Type.hpp"
 
 #include <string>
 

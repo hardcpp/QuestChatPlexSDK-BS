@@ -11,17 +11,12 @@ const int MAX_QUEUE_SIZE = 1000;
 
 namespace CP_SDK::Unity {
 
-    CP_SDK_IL2CPP_INHERIT_INIT(__MTThreadInvokerDummy);
-
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-
-    bool                        MTThreadInvoker::m_RunCondition = false;
-    _v::MonoPtr<_u::Thread>     MTThreadInvoker::m_UpdateThread;
-    MTThreadInvoker::Queue**    MTThreadInvoker::m_Queues;
-    bool                        MTThreadInvoker::m_Queued       = false;
-    int                         MTThreadInvoker::m_FrontQueue   = 0;
-    std::mutex                  MTThreadInvoker::m_Mutex;
+    bool                                MTThreadInvoker::m_RunCondition = false;
+    il2cpp_utils::il2cpp_aware_thread*  MTThreadInvoker::m_UpdateThread = nullptr;
+    MTThreadInvoker::Queue**            MTThreadInvoker::m_Queues;
+    bool                                MTThreadInvoker::m_Queued       = false;
+    int                                 MTThreadInvoker::m_FrontQueue   = 0;
+    std::mutex                          MTThreadInvoker::m_Mutex;
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
@@ -29,7 +24,7 @@ namespace CP_SDK::Unity {
     /// @brief Initialize
     void MTThreadInvoker::Initialize()
     {
-        if (m_UpdateThread != 0)
+        if (m_UpdateThread)
             return;
 
         m_Queues = new MTThreadInvoker::Queue*[2];
@@ -43,25 +38,19 @@ namespace CP_SDK::Unity {
 
         m_RunCondition = true;
 
-        auto l_ThreadStartMethod = il2cpp_functions::class_get_method_from_name(classof(__MTThreadInvokerDummy*), "Dummy", 0);
-        m_UpdateThread = _u::Thread::New_ctor(
-            _u::ThreadStart::New_ctor(
-                nullptr,
-                _u::IntPtr(reinterpret_cast<int64_t>(l_ThreadStartMethod))
-            )
-        );
-        m_UpdateThread->Start();
+        m_UpdateThread = new il2cpp_utils::il2cpp_aware_thread(&MTThreadInvoker::__INTERNAL_Update);
     }
     /// @brief Stop
     void MTThreadInvoker::Destroy()
     {
-        if (m_UpdateThread == 0)
+        if (!m_UpdateThread)
             return;
 
         m_RunCondition = false;
-        if (m_UpdateThread && m_UpdateThread->get_IsAlive())
-            m_UpdateThread->Join();
-        m_UpdateThread = 0;
+        if (m_UpdateThread->joinable())
+            m_UpdateThread->join();
+        delete m_UpdateThread;
+        m_UpdateThread = nullptr;
 
         for (int l_I = 0; l_I < 2; ++l_I)
         {
@@ -160,15 +149,6 @@ namespace CP_SDK::Unity {
 
             _u::Thread::Sleep(10);
         }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-
-    /// @brief Dummy method for thread start
-    void __MTThreadInvokerDummy::Dummy()
-    {
-        MTThreadInvoker::__INTERNAL_Update();
     }
 
 }   ///< namespace CP_SDK::Unity

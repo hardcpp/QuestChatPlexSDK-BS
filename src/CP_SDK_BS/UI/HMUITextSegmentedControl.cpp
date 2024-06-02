@@ -1,4 +1,5 @@
 #include "CP_SDK_BS/UI/HMUITextSegmentedControl.hpp"
+#include "CP_SDK/Unity/Operators.hpp"
 
 #include <HMUI/HoverHint.hpp>
 #include <GlobalNamespace/BeatmapDifficultySegmentedControlController.hpp>
@@ -27,17 +28,17 @@ namespace CP_SDK_BS::UI {
     {
         if (!m_Template)
         {
-            m_Template = Resources::FindObjectsOfTypeAll<HMUI::TextSegmentedControl*>().First([](auto x) -> bool {
-                return x->get_name() == u"BeatmapDifficultySegmentedControl" && x->container != nullptr;
+            m_Template = Resources::FindObjectsOfTypeAll<HMUI::TextSegmentedControl*>()->First([](auto x) -> bool {
+                return x->get_name() == u"BeatmapDifficultySegmentedControl" && x->____container != nullptr;
             });
         }
 
         auto l_Control = GameObject::Instantiate(m_Template.Ptr(), p_Parent, false);
         l_Control->set_name(u"BSPTextSegmentedControl");
-        l_Control->container            = m_Template->container;
-        l_Control->hideCellBackground   = p_HideCellBackground;
+        l_Control->____container            = m_Template->____container;
+        l_Control->____hideCellBackground   = p_HideCellBackground;
 
-        auto l_RectTransform = reinterpret_cast<RectTransform*>(l_Control->get_transform());
+        auto l_RectTransform = l_Control->get_transform().try_cast<RectTransform>().value_or(nullptr);
         l_RectTransform->set_anchorMin       (Vector2::get_one() * 0.5f);
         l_RectTransform->set_anchorMax       (Vector2::get_one() * 0.5f);
         l_RectTransform->set_anchoredPosition(Vector2::get_zero()      );
@@ -58,7 +59,7 @@ namespace CP_SDK_BS::UI {
                 l_List->Add(l_Current);
         }
 
-        l_Control->SetTexts(l_List->AsReadOnly()->i_IReadOnlyList_1_T());
+        l_Control->SetTexts(l_List->AsReadOnly()->i___System__Collections__Generic__IReadOnlyList_1_T_());
 
         return l_Control;
     }

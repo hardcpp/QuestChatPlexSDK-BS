@@ -21,7 +21,7 @@ namespace CP_SDK_BS::Game::BeatMaps {
         using namespace CP_SDK::Utils;
     }
 
-    struct MapDetail : public std::enable_shared_from_this<MapDetail>
+    struct CP_SDK_EXPORT_VISIBILITY MapDetail : public std::enable_shared_from_this<MapDetail>
     {
         MapDetail() = default;
         CP_SDK_NO_COPYMOVE_CTORS(MapDetail);

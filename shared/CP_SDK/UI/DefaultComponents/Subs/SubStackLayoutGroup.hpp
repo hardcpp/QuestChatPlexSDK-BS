@@ -3,6 +3,8 @@
 #include "../../../Utils/Il2cpp.hpp"
 
 #include <UnityEngine/UI/LayoutGroup.hpp>
+#include <UnityEngine/UI/ILayoutElement.hpp>
+#include <UnityEngine/UI/ILayoutController.hpp>
 
 namespace CP_SDK::UI::DefaultComponents::Subs {
 

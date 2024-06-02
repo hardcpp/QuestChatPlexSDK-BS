@@ -7,7 +7,7 @@
 namespace CP_SDK::UI::Data {
 
     /// @brief Abstract List Item
-    class TextListItem : public IListItem
+    class CP_SDK_EXPORT_VISIBILITY TextListItem : public IListItem
     {
         CP_SDK_NO_DEF_CTORS(TextListItem);
 

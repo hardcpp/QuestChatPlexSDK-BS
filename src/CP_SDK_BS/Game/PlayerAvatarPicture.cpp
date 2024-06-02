@@ -40,7 +40,7 @@ namespace CP_SDK_BS::Game {
                 try
                 {
                     if (   p_AvatarResult == nullptr    || !p_AvatarResult->IsSuccessStatusCode()
-                        || !p_AvatarResult->BodyBytes() || p_AvatarResult->BodyBytes()->Length() == 0)
+                        || !p_AvatarResult->BodyBytes() || p_AvatarResult->BodyBytes()->get_Length() == 0)
                     {
                         p_OnFailCallback();
                         return;
@@ -70,7 +70,7 @@ namespace CP_SDK_BS::Game {
                 try
                 {
                     if (    p_PlayerResult == nullptr   || !p_PlayerResult->IsSuccessStatusCode()
-                        || !p_PlayerResult->BodyBytes() || p_PlayerResult->BodyBytes()->Length() == 0)
+                        || !p_PlayerResult->BodyBytes() || p_PlayerResult->BodyBytes()->get_Length() == 0)
                     {
                         p_OnFailCallback();
                         return;
@@ -90,7 +90,7 @@ namespace CP_SDK_BS::Game {
                             try
                             {
                                 if (    p_AvatarResult == nullptr   || !p_AvatarResult->IsSuccessStatusCode()
-                                    || !p_AvatarResult->BodyBytes() || p_AvatarResult->BodyBytes()->Length() == 0)
+                                    || !p_AvatarResult->BodyBytes() || p_AvatarResult->BodyBytes()->get_Length() == 0)
                                 {
                                     p_OnFailCallback();
                                     return;

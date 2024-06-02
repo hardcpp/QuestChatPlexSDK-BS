@@ -3,6 +3,9 @@
 #include "CP_SDK/UI/IModal.hpp"
 #include "CP_SDK/Unity/Extensions/ColorU.hpp"
 
+#include <System/Reflection/MemberInfo.hpp>
+#include <System/Type.hpp>
+
 using namespace CP_SDK::Unity::Extensions;
 using namespace UnityEngine;
 using namespace UnityEngine::UI;
@@ -81,6 +84,26 @@ namespace CP_SDK::UI {
 
         /// Unbind singleton
         m_Instances[GetType()] = nullptr;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+
+    ViewController* ViewController::_Instance(_u::Type* p_Type)
+    {
+        if (p_Type && m_Instances.contains(p_Type))
+            return m_Instances[p_Type].Ptr(false);
+
+        return nullptr;
+    }
+    _v::MonoPtr<ViewController>& ViewController::_InstanceEx(_u::Type* p_Type)
+    {
+        static auto s_Default = _v::MonoPtr<ViewController>(nullptr);
+
+        if (p_Type && m_Instances.contains(p_Type))
+            return m_Instances[p_Type];
+
+        return s_Default;
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -184,7 +207,7 @@ namespace CP_SDK::UI {
     IModal* ViewController::CreateModal_Impl(System::Type* p_Type)
     {
         auto l_GameObject = GameObject::New_ctor(p_Type->get_Name(), ArrayW<System::Type*>({
-            reinterpret_cast<System::Type*>(csTypeOf(RectTransform*)),
+            reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()),
             p_Type,
             UISystem::Override_UnityComponent_Image.ptr()
         }));
@@ -197,7 +220,7 @@ namespace CP_SDK::UI {
         l_Modal->RTransform()->set_anchoredPosition(Vector2(0.0f, 0.0f));
         l_Modal->RTransform()->set_sizeDelta       (Vector2(0.0f, 0.0f));
 
-        auto l_Background = reinterpret_cast<Image*>(l_GameObject->GetComponent(UISystem::Override_UnityComponent_Image.ptr()));
+        auto l_Background = l_GameObject->GetComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
         l_Background->set_material                (UISystem::Override_GetUIMaterial());
         l_Background->set_raycastTarget           (true);
         l_Background->set_pixelsPerUnitMultiplier (1);

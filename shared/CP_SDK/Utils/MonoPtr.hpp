@@ -41,13 +41,13 @@ namespace CP_SDK::Utils {
                 if constexpr (std::is_assignable_v<UnityEngine::Object, t_Ptr>)
                 {
                     auto l_UObject = reinterpret_cast<UnityEngine::Object*>(m_Wrapper->Ptr);
-                    if (l_IsDead || !l_UObject->m_CachedPtr.m_value)
+                    if (l_IsDead || !l_UObject->m_CachedPtr)
                         l_IsDead = true;
                 }
 
                 if (p_Throw && l_IsDead)
                 {
-                    ChatPlexSDK::Logger()->Error(u"Dead pointer " + csTypeOf(t_Ptr*)->get_Name());
+                    //ChatPlexSDK::Logger()->Error(u"Dead pointer " + csTypeOf(t_Ptr*).convert()->get_Name());
                     throw NullHandleException();
                 }
 
@@ -105,6 +105,8 @@ namespace CP_SDK::Utils {
             bool operator==(const MonoPtr<t_OtherPtr>& p_Other) const { return m_Wrapper == p_Other.m_Wrapper;           }
             template<class t_OtherPtr>
             bool operator==(t_OtherPtr* p_Pointer)              const { return m_Wrapper && m_Wrapper->Ptr == p_Pointer; }
+            template<class t_OtherPtr>
+            bool operator==(::UnityW<t_OtherPtr> p_Pointer)     const { return Ptr(false) == p_Pointer.unsafePtr();      }
 
         public:
             Unity::MonoPtrHolder::Wrapper* m_Wrapper;
@@ -123,17 +125,21 @@ namespace CP_SDK::Utils {
     //////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
 
-    template<class t_Type> requires(std::is_assignable_v<UnityEngine::Object, t_Type>)
+    template<class t_Type>
     static bool IsUnityPtrValid(t_Type* p_Ptr)
     {
         if (!p_Ptr)
             return false;
 
         auto l_UObject = reinterpret_cast<UnityEngine::Object*>(p_Ptr);
-        if (!l_UObject->m_CachedPtr.m_value)
+        if (!l_UObject->m_CachedPtr)
             return false;
 
         return true;
     }
 
 }   ///< namespace CP_SDK::Utils
+
+template <typename t_Left, typename t_Right> constexpr bool operator==(UnityW<t_Left> const& p_Left, CP_SDK::Utils::MonoPtr<t_Right> const& p_Right) {
+    return p_Left.isAlive() == p_Right.operator bool() && p_Left.unsafePtr() == p_Right.Ptr(false);
+}

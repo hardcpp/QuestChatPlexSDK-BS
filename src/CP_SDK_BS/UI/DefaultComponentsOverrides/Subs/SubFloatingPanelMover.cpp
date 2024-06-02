@@ -2,6 +2,7 @@
 #include "CP_SDK_BS/UI/DefaultComponentsOverrides/Subs/SubFloatingPanelMoverHandle.hpp"
 #include "CP_SDK_BS/UI/DefaultComponentsOverrides/BS_CFloatingPanel.hpp"
 #include "CP_SDK/UI/UISystem.hpp"
+#include "CP_SDK/Unity/Operators.hpp"
 
 #include <limits>
 
@@ -48,11 +49,7 @@ namespace CP_SDK_BS::UI::DefaultComponentsOverrides::Subs {
     /// @brief On frame
     void SubFloatingPanelMover::Update()
     {
-#if BEATSABER_1_29_4_OR_NEWER
         auto l_VRController          = m_VRPointer ? m_VRPointer->get_lastSelectedVrController() : nullptr;
-#else
-        auto l_VRController          = m_VRPointer ? m_VRPointer->get_vrController() : nullptr;
-#endif
         auto l_VRControllerTransform = l_VRController != nullptr ? l_VRController->get_transform() : nullptr;
         auto l_ButtonDown            = l_VRController != nullptr ? l_VRController->get_triggerValue() > 0.9f : false;
 
@@ -69,7 +66,7 @@ namespace CP_SDK_BS::UI::DefaultComponentsOverrides::Subs {
 
             for (auto l_I = 0; l_I < l_HitCount; ++l_I)
             {
-                auto& l_Hit             = m_RaycastBuffer->get(l_I);
+                auto& l_Hit             = m_RaycastBuffer->_values[l_I];
                 auto l_Collider         = l_Hit.get_collider();
                 auto l_TargetTransform  = (Transform*)nullptr;
 
@@ -109,13 +106,9 @@ namespace CP_SDK_BS::UI::DefaultComponentsOverrides::Subs {
         if (!m_GrabbingController)
             return;
 
-#if BEATSABER_1_29_4_OR_NEWER
         auto l_Delta = m_GrabbingController->get_thumbstick().y * Time::get_unscaledDeltaTime();
-#else
-        auto l_Delta = m_GrabbingController->get_verticalAxisValue() * Time::get_unscaledDeltaTime();
-#endif
-        if (m_GrabPosition.get_magnitude() > MinScrollDistance) m_GrabPosition = m_GrabPosition - (Vector3::get_forward() * l_Delta);
-        else                                                    m_GrabPosition = m_GrabPosition - (Vector3::get_forward() * std::clamp<float>(l_Delta, std::numeric_limits<float>::min(), 0.0f));
+        if (m_GrabPosition.get_magnitude() > MinScrollDistance) m_GrabPosition -= Vector3::get_forward() * l_Delta;
+        else                                                    m_GrabPosition -= Vector3::get_forward() * std::clamp<float>(l_Delta, std::numeric_limits<float>::min(), 0.0f);
 
         auto l_RTransform            = m_FloatingPanel->RTransform();
         auto l_ControllerTransform   = m_GrabbingController->get_transform();

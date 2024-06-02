@@ -68,18 +68,19 @@ namespace CP_SDK::Animation {
         {
             auto l_FrameTexture = Texture2D::New_ctor(p_AnimationInfo->Width, p_AnimationInfo->Height, TextureFormat::RGBA32, false);
             l_FrameTexture->set_wrapMode(TextureWrapMode::Clamp);
-            l_FrameTexture->LoadRawTextureData(p_AnimationInfo->Frames[l_FrameI], sizeof(Color32) * p_AnimationInfo->Width * p_AnimationInfo->Height);
-            l_SubTextures->values[l_FrameI] = l_FrameTexture;
+            l_FrameTexture->LoadRawTextureData(p_AnimationInfo->Frames[l_FrameI].Ptr());
+
+            l_SubTextures->_values[l_FrameI] = l_FrameTexture;
 
             co_yield nullptr;
         }
 
         auto l_UVs = l_AtlasTexture->PackTextures(l_SubTextures.Ptr(), 2, l_MaxAtlasTextureSize, true);
 
-        for (int l_I = 0; l_I < l_SubTextures->Length(); ++l_I)
+        for (int l_I = 0; l_I < l_SubTextures->get_Length(); ++l_I)
         {
-            GameObject::Destroy(l_SubTextures->values[l_I]);
-            l_SubTextures->values[l_I] = nullptr;
+            GameObject::Destroy(l_SubTextures->_values[l_I]);
+            l_SubTextures->_values[l_I] = nullptr;
         }
 
         auto l_UVsVec = std::vector<Rect>(l_UVs.begin(), l_UVs.end());

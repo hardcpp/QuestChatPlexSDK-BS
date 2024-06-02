@@ -39,12 +39,14 @@ namespace CP_SDK::Utils::Internals {
 ////////////////////////////////////////////////////////////////////////////
 
 #define __CP_SDK_IL2CPP_INHERIT(__mNamespace, __mName, __mBaseClass, ...)                      \
-    protected: __mName() = default;                                                             \
-    public:    __mName(const __mName&) = delete;                                                \
-    public:    __mName(__mName&&) = delete;                                                     \
+    protected: __mName() = default;                                                            \
+    public:    __mName(const __mName&) = delete;                                               \
+    public:    __mName(__mName&&) = delete;                                                    \
     __CP_SDK_IL2CPP_CUSTOM_TYPE_DECLARE(__mNamespace, __mName, __mBaseClass, std::vector<Il2CppClass*>({ __VA_ARGS__ }))
 
 #define __CP_SDK_IL2CPP_INHERIT_HELPERS(__mName)                                            \
+    MARK_REF_PTR_T(__mName);                                                                \
+    inline constexpr const int __mName::__IL2CPP_REFERENCE_TYPE_SIZE = sizeof(__mName);     \
     template<> struct ::il2cpp_utils::il2cpp_type_check::il2cpp_no_arg_class<::__mName*> {  \
         static inline Il2CppClass* get() {                                                  \
             return ::__mName::___TypeRegistration::klass_ptr;                               \
@@ -174,6 +176,8 @@ namespace CP_SDK::Utils::Internals {
         constexpr static auto ___Base__Size = sizeof(__mBaseClass);                                                                         \
         friend ::custom_types::Register;                                                                                                    \
         public:                                                                                                                             \
+        constexpr static bool __IL2CPP_IS_VALUE_TYPE = false;                                                                               \
+        static const int __IL2CPP_REFERENCE_TYPE_SIZE;                                                                                      \
         struct ___TypeRegistration : ::custom_types::TypeRegistration {                                                                     \
             ___TypeRegistration() {                                                                                                         \
                 ::custom_types::Register::AddType(this);                                                                                    \
@@ -185,7 +189,7 @@ namespace CP_SDK::Utils::Internals {
             }                                                                                                                               \
             static void addField(::custom_types::FieldRegistrator* inst) {                                                                  \
                 fields.push_back(inst);                                                                                                     \
-                ::custom_types::_logger().debug("Adding instance field: %s.%s new size: %lu", #__mName, inst->name(), fields.size());       \
+                ::custom_types::logger.debug("Adding instance field: %s.%s new size: %lu", #__mName, inst->name(), fields.size());          \
             }                                                                                                                               \
             static inline std::vector<::custom_types::StaticFieldRegistrator*> staticFields;                                                \
             std::vector<::custom_types::StaticFieldRegistrator*> const getStaticFields() const override {                                   \
@@ -193,7 +197,7 @@ namespace CP_SDK::Utils::Internals {
             }                                                                                                                               \
             static void addStaticFieldInstance(::custom_types::StaticFieldRegistrator* inst) {                                              \
                 staticFields.push_back(inst);                                                                                               \
-                ::custom_types::_logger().debug("Adding static field: %s.%s new size: %lu", #__mName, inst->name(), staticFields.size());   \
+                ::custom_types::logger.debug("Adding static field: %s.%s new size: %lu", #__mName, inst->name(), staticFields.size());      \
             }                                                                                                                               \
             static inline std::vector<::custom_types::MethodRegistrator*> methods;                                                          \
             std::vector<::custom_types::MethodRegistrator*> const getMethods() const override {                                             \
@@ -201,7 +205,7 @@ namespace CP_SDK::Utils::Internals {
             }                                                                                                                               \
             static void addMethod(::custom_types::MethodRegistrator* inst) {                                                                \
                 methods.push_back(inst);                                                                                                    \
-                ::custom_types::_logger().debug("Adding method: %s.%s new size: %lu", #__mName, inst->name(), methods.size());              \
+                ::custom_types::logger.debug("Adding method: %s.%s new size: %lu", #__mName, inst->name(), methods.size());                 \
             }                                                                                                                               \
             static inline size_t staticFieldOffset;                                                                                         \
             static size_t addStaticField(size_t sz) {                                                                                       \
@@ -226,7 +230,9 @@ namespace CP_SDK::Utils::Internals {
                 return __mNamespace;                                                                                                        \
             }                                                                                                                               \
             Il2CppClass* baseType() const override {                                                                                        \
-                return ::il2cpp_utils::il2cpp_type_check::il2cpp_no_arg_class<__mBaseClass*>::get();                                        \
+                auto klass = ::il2cpp_utils::il2cpp_type_check::il2cpp_no_arg_class<__mBaseClass*>::get();                                  \
+                if (!klass->initialized) il2cpp_functions::Class_Init(klass);                                                               \
+                return klass;                                                                                                               \
             }                                                                                                                               \
             std::vector<Il2CppClass*> const interfaces() const override {                                                                   \
                 return __mInterfaces;                                                                                                       \

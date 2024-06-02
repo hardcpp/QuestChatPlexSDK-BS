@@ -175,7 +175,7 @@ namespace CP_SDK_BS::UI {
     _v::IModal* ViewController::CreateModal_Impl(System::Type* p_Type)
     {
         auto l_GameObject = GameObject::New_ctor(p_Type->get_Name(), ArrayW<System::Type*>({
-            reinterpret_cast<System::Type*>(csTypeOf(RectTransform*)),
+            reinterpret_cast<System::Type*>(csTypeOf(RectTransform*).convert()),
             p_Type,
             _v::UISystem::Override_UnityComponent_Image.ptr()
         }));
@@ -188,7 +188,7 @@ namespace CP_SDK_BS::UI {
         l_Modal->RTransform()->set_anchoredPosition(Vector2(0.0f, 0.0f));
         l_Modal->RTransform()->set_sizeDelta       (Vector2(0.0f, 0.0f));
 
-        auto l_Background = reinterpret_cast<Image*>(l_GameObject->GetComponent(_v::UISystem::Override_UnityComponent_Image.ptr()));
+        auto l_Background = l_GameObject->GetComponent(_v::UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
         l_Background->set_material                (_v::UISystem::Override_GetUIMaterial());
         l_Background->set_raycastTarget           (true);
         l_Background->set_pixelsPerUnitMultiplier (1);

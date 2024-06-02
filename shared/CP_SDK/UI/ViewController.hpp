@@ -26,7 +26,7 @@ namespace CP_SDK::UI {
     }
 
     /// @brief IViewController interface
-    class ViewController : public IViewController
+    class CP_SDK_EXPORT_VISIBILITY ViewController : public IViewController
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI", ViewController, IViewController);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(ViewController);
@@ -54,19 +54,16 @@ namespace CP_SDK::UI {
             template<class t_Base> requires(std::is_assignable_v<ViewController*&, t_Base*>)
             static _v::MonoPtr<t_Base>& _Instance()
             {
-                auto l_Type = reinterpret_cast<_u::Type*>(csTypeOf(t_Base*));
-                if (l_Type && m_Instances.contains(l_Type))
-                    return *reinterpret_cast<_v::MonoPtr<t_Base>*>(&m_Instances[l_Type]);
+                auto  l_Type = reinterpret_cast<_u::Type*>(csTypeOf(t_Base*).convert());
+                auto& l_Ptr  = _InstanceEx(l_Type);
+
+                if (l_Ptr)
+                    return *reinterpret_cast<_v::MonoPtr<t_Base>*>(&l_Ptr);
 
                 return UIFieldDefault<t_Base>::Value;
             }
-            static ViewController* _Instance(_u::Type* p_Type)
-            {
-                if (p_Type && m_Instances.contains(p_Type))
-                    return m_Instances[p_Type].Ptr(false);
-
-                return nullptr;
-            }
+            static ViewController* _Instance(_u::Type* p_Type);
+            static _v::MonoPtr<ViewController>& _InstanceEx(_u::Type* p_Type);
 
         public:
             /// @brief Can UI be updated
@@ -108,7 +105,7 @@ namespace CP_SDK::UI {
             template<class t_ModalType>
             t_ModalType* CreateModal()
             {
-                return reinterpret_cast<t_ModalType*>(CreateModal_Impl(reinterpret_cast<_u::Type*>(csTypeOf(t_ModalType*))));
+                return reinterpret_cast<t_ModalType*>(CreateModal_Impl(reinterpret_cast<_u::Type*>(csTypeOf(t_ModalType*).convert())));
             }
 
         private:

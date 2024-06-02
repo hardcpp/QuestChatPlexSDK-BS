@@ -1,5 +1,6 @@
 #include "CP_SDK/UI/LoadingProgressBar.hpp"
 #include "CP_SDK/UI/UISystem.hpp"
+#include "CP_SDK/Unity/Operators.hpp"
 
 #include "UnityEngine/GameObject.hpp"
 #include "UnityEngine/Transform.hpp"
@@ -49,7 +50,7 @@ namespace CP_SDK::UI {
         m_Canvas->set_renderMode(RenderMode::WorldSpace);
         m_Canvas->set_enabled(false);
 
-        auto l_RectTransform = reinterpret_cast<RectTransform*>(m_Canvas->get_transform());
+        auto l_RectTransform = m_Canvas->get_transform().try_cast<RectTransform>().value_or(nullptr);
         l_RectTransform->set_sizeDelta(Vector2(100, 50));
 
         m_HeaderText = UISystem::TextFactory->Create(u"", m_Canvas->get_transform());
@@ -63,13 +64,13 @@ namespace CP_SDK::UI {
         }
 
         m_LoadingBackground = GameObject::New_ctor("Background")->AddComponent<Image*>();
-        l_RectTransform = reinterpret_cast<RectTransform*>(m_LoadingBackground->get_transform());
+        l_RectTransform = m_LoadingBackground->get_transform().try_cast<RectTransform>().value_or(nullptr);
         l_RectTransform->SetParent(m_Canvas->get_transform(), false);
         l_RectTransform->set_sizeDelta(Vector2(100, 10));
         m_LoadingBackground->set_color(Color(0, 0, 0, 0.2f));
 
         m_LoadingBar = GameObject::New_ctor("Loading Bar")->AddComponent<Image*>();
-        l_RectTransform = reinterpret_cast<RectTransform*>(m_LoadingBar->get_transform());
+        l_RectTransform = m_LoadingBar->get_transform().try_cast<RectTransform>().value_or(nullptr);
         l_RectTransform->SetParent(m_Canvas->get_transform(), false);
         l_RectTransform->set_sizeDelta(Vector2(100, 10));
         m_LoadingBar->set_sprite(
@@ -162,7 +163,7 @@ namespace CP_SDK::UI {
     /// @param p_Time Time in seconds
     custom_types::Helpers::Coroutine LoadingProgressBar::Coroutine_DisableCanvas(LoadingProgressBar* p_Self, float p_Time)
     {
-        co_yield WaitForSecondsRealtime::New_ctor(p_Time)->i_IEnumerator();
+        co_yield WaitForSecondsRealtime::New_ctor(p_Time)->i___System__Collections__IEnumerator();
         p_Self->m_Canvas->set_enabled(false);
     }
 
