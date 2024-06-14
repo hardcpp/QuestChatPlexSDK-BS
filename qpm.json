@@ -5,7 +5,7 @@
   "info": {
     "name": "ChatPlexSDK-BS",
     "id": "chatplex-sdk-bs",
-    "version": "6.3.0",
+    "version": "6.3.1",
     "url": "https://github.com/hardcpp/QuestChatPlexSDK-BS",
     "additionalData": {
       "overrideSoName": "libchatplex-sdk-bs.so",
@@ -75,7 +75,7 @@
     },
     {
       "id": "songcore",
-      "versionRange": "=1.1.4",
+      "versionRange": "^1.1.9",
       "additionalData": {
         "private": true
       }
