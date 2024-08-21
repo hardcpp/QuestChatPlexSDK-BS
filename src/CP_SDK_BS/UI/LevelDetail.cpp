@@ -68,6 +68,10 @@ namespace CP_SDK_BS::UI {
         m_SongDetailViewTemplate = GameObject::Instantiate(l_Result->get_gameObject());
         m_SongDetailViewTemplate->set_name(u"CP_SDK_BS_StandardLevelDetailView_Template");
 
+        auto l_LevelBarBig = m_SongDetailViewTemplate->get_transform()->Find(u"LevelBarBig");
+        if (l_LevelBarBig)
+            l_LevelBarBig->set_name("CP_SDK_BS_LevelBarBig");
+
         try
         {
             auto l_Component = m_SongDetailViewTemplate->GetComponent<StandardLevelDetailView*>();
@@ -75,7 +79,13 @@ namespace CP_SDK_BS::UI {
             {
                 auto l_Loader = BeatmapLevelLoader::New_ctor(nullptr, MockBeatmapDataAssetFileModel::New_ctor()->i___GlobalNamespace__IBeatmapDataAssetFileModel(), nullptr, BeatmapLevelLoader::InitData::New_ctor(0));
                 auto l_Packs = System::Collections::Generic::List_1<::UnityW<PackDefinitionSO>>::New_ctor();
-                l_Component->____beatmapLevelsModel = BeatmapLevelsModel::New_ctor(nullptr, l_Loader->i___GlobalNamespace__IBeatmapLevelLoader(), l_Packs->i___System__Collections__Generic__IEnumerable_1_T_());
+                l_Component->____beatmapLevelsModel = BeatmapLevelsModel::New_ctor(
+                    nullptr,
+                    l_Loader->i___GlobalNamespace__IBeatmapLevelLoader(),
+                    nullptr,
+                    nullptr,
+                    l_Packs->i___System__Collections__Generic__IEnumerable_1_T_()
+                );
 
                 GameObject::DestroyImmediate(l_Component);
             }
@@ -286,7 +296,7 @@ namespace CP_SDK_BS::UI {
         m_DifficultiesSegmentedControllerClone  = m_GameObject->get_transform()->Find(u"BeatmapDifficulty")->GetComponentInChildren<BeatmapDifficultySegmentedControlController*>();
         m_SongDiffSegmentedControl              = HMUITextSegmentedControl::Create(m_DifficultiesSegmentedControllerClone->get_transform().try_cast<RectTransform>().value_or(nullptr), true);
 
-        auto l_LevelBarBig = m_GameObject->get_transform()->Find(u"LevelBarBig");
+        auto l_LevelBarBig = m_GameObject->get_transform()->Find(u"CP_SDK_BS_LevelBarBig");
 
         m_SongNameText      = l_LevelBarBig->GetComponentsInChildren<TextMeshProUGUI*>()->First([](auto x) { return x->get_gameObject()->get_name() == u"SongNameText"; });
         m_AuthorNameText    = l_LevelBarBig->GetComponentsInChildren<TextMeshProUGUI*>()->First([](auto x) { return x->get_gameObject()->get_name() == u"AuthorNameText"; });
