@@ -44,7 +44,7 @@ namespace CP_SDK {
         m_NetworkUserAgent  = std::u16string(u"ChatPlexSDK_") + m_ProductName;
         m_RenderPipeline    = p_RenderPipeline;
     }
-    /// When the assembly is loaded
+    /// @brief When the assembly is loaded
     void ChatPlexSDK::OnAssemblyLoaded()
     {
         InstallWEBPCodecs();
@@ -52,7 +52,7 @@ namespace CP_SDK {
         /// Init config
         Chat::Service::Init();
     }
-    /// On assembly exit
+    /// @brief On assembly exit
     void ChatPlexSDK::OnAssemblyExit()
     {
         try
@@ -69,7 +69,7 @@ namespace CP_SDK {
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
-    /// When unity is ready
+    /// @brief When unity is ready
     void ChatPlexSDK::OnUnityReady()
     {
         try
@@ -92,7 +92,7 @@ namespace CP_SDK {
             m_Logger->Error(p_Exception);
         }
     }
-    /// When unity is exiting
+    /// @brief When unity is exiting
     void ChatPlexSDK::OnUnityExit()
     {
         try
@@ -122,13 +122,13 @@ namespace CP_SDK {
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
-    /// Register a module
-    /// @p_Module: Module instance
+    /// @brief Register a module
+    /// @param p_Module Module instance
     void ChatPlexSDK::RegisterModule(IModuleBase * p_Module)
     {
         m_Modules.push_back(p_Module);
     }
-    /// Init all the available modules
+    /// @brief Init all the available modules
     void ChatPlexSDK::InitModules()
     {
         try
@@ -153,7 +153,7 @@ namespace CP_SDK {
             m_Logger->Error(p_Exception);
         }
     }
-    /// Stop modules
+    /// @brief Stop modules
     void ChatPlexSDK::StopModules()
     {
         for (auto l_Module : m_Modules)
@@ -173,7 +173,7 @@ namespace CP_SDK {
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
-    /// On generic menu scene
+    /// @brief On generic menu scene
     void ChatPlexSDK::Fire_OnGenericMenuSceneLoaded()
     {
         try
@@ -204,7 +204,7 @@ namespace CP_SDK {
             m_Logger->Error(l_Exception);
         }
     }
-    /// On generic menu scene
+    /// @brief On generic menu scene
     void ChatPlexSDK::Fire_OnGenericMenuScene()
     {
         m_ActiveGenericScene = EGenericScene::Menu;
@@ -221,7 +221,7 @@ namespace CP_SDK {
             m_Logger->Error(l_Exception);
         }
     }
-    /// On generic play scene
+    /// @brief On generic play scene
     void ChatPlexSDK::Fire_OnGenericPlayingScene()
     {
         m_ActiveGenericScene = EGenericScene::Playing;
@@ -240,7 +240,7 @@ namespace CP_SDK {
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
-    /// Install WEBP codecs
+    /// @brief Install WEBP codecs
     void ChatPlexSDK::InstallWEBPCodecs()
     {
         /// Codecs are built-in sources
