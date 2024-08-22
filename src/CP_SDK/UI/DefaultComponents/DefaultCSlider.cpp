@@ -552,6 +552,8 @@ namespace CP_SDK::UI::DefaultComponents {
             m_IncButton->SetInteractable(l_IsInteractable);
             m_BG->set_color(ColorU::WithAlpha(l_IsInteractable ? m_OnColor : m_OffColor, l_IsInteractable ? 110.0f / 255.0f : 50.0f / 255.0f));
         }
+
+        m_ValueText->SetColor(l_IsInteractable ? UISystem::TextColor : UISystem::TextColorDisabled);
     }
     /// @brief Update visuals
     void DefaultCSlider::UpdateVisuals()

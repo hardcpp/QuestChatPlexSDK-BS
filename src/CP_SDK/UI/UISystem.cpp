@@ -105,6 +105,7 @@ namespace CP_SDK::UI {
     Color UISystem::TooltipBGColor          = ColorU::WithAlpha("#3A3A3B", 0.9875f);
 
     Color UISystem::TextColor               = ColorU::WithAlpha("#FFFFFF", 1.0000f);
+    Color UISystem::TextColorDisabled       = Color::op_Multiply(TextColor, 0.75f);
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////

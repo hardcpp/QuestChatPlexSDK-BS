@@ -146,7 +146,7 @@ namespace CP_SDK::UI::DefaultComponents {
     {
         m_Button->set_interactable(p_Interactable);
 
-        m_ValueText->SetColor(p_Interactable ? UISystem::PrimaryColor : UISystem::SecondaryColor);
+        m_ValueText->SetColor(p_Interactable ? UISystem::TextColor : UISystem::TextColorDisabled);
         m_Icon->SetInteractable(p_Interactable);
     }
     /// @brief Set available options
