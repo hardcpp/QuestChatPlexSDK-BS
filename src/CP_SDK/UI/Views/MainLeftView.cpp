@@ -2,8 +2,6 @@
 #include "CP_SDK/UI/FlowCoordinators/MainFlowCoordinator.hpp"
 #include "CP_SDK/Unity/SpriteU.hpp"
 
-#include <UnityEngine/Application.hpp>
-
 using namespace CP_SDK::XUI;
 using namespace UnityEngine;
 
@@ -59,13 +57,13 @@ namespace CP_SDK::UI::Views {
     void MainLeftView::OnDocumentationButton()
     {
         ShowMessageModal(u"URL opened in your web browser.");
-        Application::OpenURL("https://github.com/hardcpp/BeatSaberPlus/wiki");
+        ChatPlexSDK::OpenURL(u"https://github.com/hardcpp/BeatSaberPlus/wiki");
     }
     /// @brief Go to discord
     void MainLeftView::OnDiscordButton()
     {
         ShowMessageModal(u"URL opened in your web browser.");
-        Application::OpenURL("https://discord.chatplex.org");
+        ChatPlexSDK::OpenURL(u"https://discord.chatplex.org");
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -75,7 +73,7 @@ namespace CP_SDK::UI::Views {
     void MainLeftView::OnDonateButton()
     {
         ShowMessageModal(u"URL opened in your web browser.");
-        Application::OpenURL("https://donate.chatplex.org");
+        ChatPlexSDK::OpenURL(u"https://donate.chatplex.org");
     }
 
 }   ///< namespace CP_SDK::UI::Views

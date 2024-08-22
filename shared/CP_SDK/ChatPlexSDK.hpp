@@ -72,6 +72,11 @@ namespace CP_SDK {
             static const std::vector<IModuleBase*> & GetModules() { return m_Modules; }
 
         public:
+            /// @brief Open an URL on the system
+            /// @param p_URL URL to open
+            static void OpenURL(std::u16string_view p_URL);
+
+        public:
             /// @brief On generic menu scene
             static void Fire_OnGenericMenuSceneLoaded();
             /// @brief On generic menu scene

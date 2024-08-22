@@ -424,10 +424,10 @@ namespace CP_SDK::UI::DefaultComponents {
     void DefaultCSlider::UpdateDrag(PointerEventData* p_EventData)
     {
         Vector2 l_LocalPoint;
-        if (p_EventData->button != PointerEventData::InputButton::Left
+        if (p_EventData->get_button() != PointerEventData::InputButton::Left
             || !m_SlidingArea
-            || p_EventData->hovered->get_Count() == 0
-            || !RectTransformUtility::ScreenPointToLocalPointInRectangle(m_SlidingArea.Ptr(), p_EventData->position, p_EventData->get_pressEventCamera(), /*OUT*/l_LocalPoint)
+            || p_EventData->___hovered->get_Count() == 0
+            || !RectTransformUtility::ScreenPointToLocalPointInRectangle(m_SlidingArea.Ptr(), p_EventData->get_position(), p_EventData->get_pressEventCamera(), /*OUT*/l_LocalPoint)
             || std::isnan(l_LocalPoint.x)
             || std::isnan(l_LocalPoint.y))
             return;

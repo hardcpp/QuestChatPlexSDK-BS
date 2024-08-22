@@ -10,6 +10,8 @@
 #include "CP_SDK/Unity/MTThreadInvoker.hpp"
 #include "CP_SDK/ModuleBase.hpp"
 
+#include <UnityEngine/Application.hpp>
+
 namespace CP_SDK {
 
     Logging::ILogger*               ChatPlexSDK::m_Logger               = nullptr;
@@ -168,6 +170,18 @@ namespace CP_SDK {
                 m_Logger->Error(p_InitException);
             }
         }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+
+    /// @brief Open an URL on the system
+    /// @param p_URL URL to open
+    void ChatPlexSDK::OpenURL(std::u16string_view p_URL)
+    {
+        static auto s_Application_OpenURL = il2cpp_utils::resolve_icall<void, StringW>("UnityEngine.Application::OpenURL");
+        if (s_Application_OpenURL)
+            s_Application_OpenURL(p_URL);
     }
 
     ////////////////////////////////////////////////////////////////////////////
