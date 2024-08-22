@@ -67,6 +67,10 @@ namespace CP_SDK_BS::Game {
             /// @param p_Capability Capability name
             /// @return True or false
             static bool HasMappingCapability(std::u16string_view p_Capability);
+            /// @brief Sanatrize a mapping capability
+            /// @param p_Capability Capability name
+            /// @return Sanatized mapping capability
+            static std::u16string SanatizeMappingCapability(std::u16string_view p_Capability);
 
         public:
             /// @brief Sanitize a level ID for case matching

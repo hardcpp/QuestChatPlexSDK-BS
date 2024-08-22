@@ -122,15 +122,36 @@ namespace CP_SDK_BS::Game {
     bool Levels::HasMappingCapability(std::u16string_view p_Capability)
     {
         auto l_Capabilities = SongCore::API::Capabilities::GetRegisteredCapabilities();
+        auto l_Sanatized    = SanatizeMappingCapability(p_Capability);
+        CP_SDK::ChatPlexSDK::Logger()->Error(u"HasMappingCapability: " + l_Sanatized);
         for (auto& l_Capability : l_Capabilities)
         {
-            if (!CP_SDK::Utils::U16EqualsToCaseInsensitive(p_Capability, CP_SDK::Utils::StrToU16Str(l_Capability)))
+            CP_SDK::ChatPlexSDK::Logger()->Error(u"Mapping cap: " + CP_SDK::Utils::StrToU16Str(l_Capability));
+            if (!CP_SDK::Utils::U16EqualsToCaseInsensitive(l_Sanatized, CP_SDK::Utils::StrToU16Str(l_Capability)))
                 continue;
 
             return true;
         }
 
         return false;
+    }
+    /// @brief Sanatrize a mapping capability
+    /// @param p_Capability Capability name
+    /// @return Sanatized mapping capability
+    std::u16string Levels::SanatizeMappingCapability(std::u16string_view p_Capability)
+    {
+        std::u16string l_Result;
+
+        l_Result.reserve(p_Capability.size());
+        for (auto l_Char : p_Capability)
+        {
+            if (l_Char == u' ')
+                continue;
+
+            l_Result.push_back(std::towlower(l_Char));
+        }
+
+        return l_Result;
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -591,21 +612,23 @@ namespace CP_SDK_BS::Game {
             return false;
         }
 
-        auto l_StandardLevelInfoSaveData = il2cpp_utils::try_cast<SongCore::CustomJSONData::CustomLevelInfoSaveData>(l_CustomLevel->get_standardLevelInfoSaveData()).value_or(nullptr);
-        if (!l_StandardLevelInfoSaveData)
+        auto l_CustomSaveDataInfoWrapper = l_CustomLevel->get_CustomSaveDataInfo();
+        if (!l_CustomSaveDataInfoWrapper)
         {
             CP_SDK::ChatPlexSDK::Logger()->Error(u"[CP_SDK_BS.Game][Levels.TryGetCustomRequirementsFor] Failed to retrieve custom data level for id: " + p_BeatmapLevel->___levelID);
             return false;
         }
 
-        auto l_CharacteristicAndDifficultyWrapper = l_StandardLevelInfoSaveData->TryGetCharacteristicAndDifficulty(p_BeatmapCharacteristicSO->____serializedName, p_BeatmapDifficulty);
+        auto& l_CustomSaveDataInfo = l_CustomSaveDataInfoWrapper->get();
+
+        auto l_CharacteristicAndDifficultyWrapper = l_CustomSaveDataInfo.TryGetCharacteristicAndDifficulty(p_BeatmapCharacteristicSO->____serializedName, p_BeatmapDifficulty);
         if (!l_CharacteristicAndDifficultyWrapper)
         {
             CP_SDK::ChatPlexSDK::Logger()->Error(u"[CP_SDK_BS.Game][Levels.TryGetCustomRequirementsFor] Failed to retrieve custom data level for id: " + p_BeatmapLevel->___levelID);
             return false;
         }
 
-        auto l_CharacteristicAndDifficulty = l_CharacteristicAndDifficultyWrapper.value().get();
+        const auto& l_CharacteristicAndDifficulty = l_CharacteristicAndDifficultyWrapper.value().get();
 
         p_CustomRequirements->reserve(l_CharacteristicAndDifficulty.requirements.size());
         for (auto& l_Requirement : l_CharacteristicAndDifficulty.requirements)

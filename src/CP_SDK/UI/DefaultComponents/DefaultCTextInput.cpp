@@ -140,7 +140,7 @@ namespace CP_SDK::UI::DefaultComponents {
     {
         m_Button->set_interactable(p_Interactable);
 
-        m_ValueText->SetColor(ColorU::WithAlpha(Color::get_white(), p_Interactable ? 1.0f : 0.5f));
+        m_ValueText->SetColor(p_Interactable ? UISystem::TextColor : UISystem::TextColorDisabled);
         m_Icon->SetColor(ColorU::WithAlpha(Color::get_white(), p_Interactable ? 1.0f : 0.5f));
     }
     /// @brief Set is password

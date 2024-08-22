@@ -41,7 +41,7 @@ namespace CP_SDK::Utils {
                 if constexpr (std::is_assignable_v<UnityEngine::Object, t_Ptr>)
                 {
                     auto l_UObject = reinterpret_cast<UnityEngine::Object*>(m_Wrapper->Ptr);
-                    if (l_IsDead || !l_UObject->m_CachedPtr)
+                    if (l_IsDead || !l_UObject->___m_CachedPtr.m_value)
                         l_IsDead = true;
                 }
 
@@ -132,7 +132,7 @@ namespace CP_SDK::Utils {
             return false;
 
         auto l_UObject = reinterpret_cast<UnityEngine::Object*>(p_Ptr);
-        if (!l_UObject->m_CachedPtr)
+        if (!l_UObject->___m_CachedPtr.m_value)
             return false;
 
         return true;

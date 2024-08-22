@@ -29,7 +29,6 @@ namespace CP_SDK {
         CP_SDK_NO_DEF_CTORS(ChatPlexSDK);
 
         public:
-            /// Logger instance
             static Logging::ILogger*    Logger()                { return m_Logger;              }
 
             static std::u16string_view  ProductName()           { return m_ProductName;         }
@@ -49,38 +48,44 @@ namespace CP_SDK {
             /// @param p_BasePath       Base path for file storage
             /// @param p_RenderPipeline Rendering pipeline
             static void Configure(Logging::ILogger* p_Logger, std::u16string_view p_ProductName, std::string_view p_BasePath, ERenderPipeline p_RenderPipeline);
-            /// When the assembly is loaded
+            /// @brief When the assembly is loaded
             static void OnAssemblyLoaded();
-            /// On assembly exit
+            /// @brief On assembly exit
             static void OnAssemblyExit();
 
         public:
-            /// When unity is ready
+            /// @brief When unity is ready
             static void OnUnityReady();
-            /// When unity is exiting
+            /// @brief When unity is exiting
             static void OnUnityExit();
 
         public:
-            /// Register a module
-            /// @p_Module: Module instance
+            /// @brief Register a module
+            /// @param p_Module: Module instance
             static void RegisterModule(IModuleBase* p_Module);
-            /// Init all the available modules
+            /// @brief Init all the available modules
             static void InitModules();
-            /// Stop modules
+            /// @brief Stop modules
             static void StopModules();
-            /// Get modules
+            /// @brief Get modules
+            /// @return Const reference of a list containing the modules
             static const std::vector<IModuleBase*> & GetModules() { return m_Modules; }
 
         public:
-            /// On generic menu scene
+            /// @brief Open an URL on the system
+            /// @param p_URL URL to open
+            static void OpenURL(std::u16string_view p_URL);
+
+        public:
+            /// @brief On generic menu scene
             static void Fire_OnGenericMenuSceneLoaded();
-            /// On generic menu scene
+            /// @brief On generic menu scene
             static void Fire_OnGenericMenuScene();
-            /// On generic play scene
+            /// @brief On generic play scene
             static void Fire_OnGenericPlayingScene();
 
         private:
-            /// Install WEBP codecs
+            /// @brief Install WEBP codecs
             static void InstallWEBPCodecs();
 
         private:

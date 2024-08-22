@@ -5,8 +5,6 @@
 #include "CP_SDK/CPConfig.hpp"
 #include "CP_SDK/ModuleBase.hpp"
 
-#include <UnityEngine/Application.hpp>
-
 using namespace CP_SDK::XUI;
 using namespace UnityEngine;
 
@@ -163,7 +161,7 @@ namespace CP_SDK::UI::Views {
     void SettingsMainView::OnDocumentationButton(IModuleBase* p_Module)
     {
         ShowMessageModal(u"URL opened in your web browser.");
-        Application::OpenURL(p_Module->DocumentationURL());
+        ChatPlexSDK::OpenURL(p_Module->DocumentationURL());
     }
 
     ////////////////////////////////////////////////////////////////////////////

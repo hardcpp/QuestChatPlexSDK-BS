@@ -5,7 +5,7 @@
   "info": {
     "name": "ChatPlexSDK-BS",
     "id": "chatplex-sdk-bs",
-    "version": "6.3.1",
+    "version": "6.3.2",
     "url": "https://github.com/hardcpp/QuestChatPlexSDK-BS",
     "additionalData": {
       "overrideSoName": "libchatplex-sdk-bs.so",
@@ -40,17 +40,17 @@
   "dependencies": [
     {
       "id": "beatsaber-hook",
-      "versionRange": "^5.1.6",
+      "versionRange": "^5.1.9",
       "additionalData": {}
     },
     {
       "id": "bs-cordl",
-      "versionRange": "^3500.0.0",
+      "versionRange": "^3700.*",
       "additionalData": {}
     },
     {
       "id": "custom-types",
-      "versionRange": "^0.17.6",
+      "versionRange": "^0.17.8",
       "additionalData": {}
     },
     {
@@ -63,7 +63,7 @@
     },
     {
       "id": "bsml",
-      "versionRange": "^0.4.20",
+      "versionRange": "^0.4.34",
       "additionalData": {
         "private": true
       }
@@ -75,7 +75,7 @@
     },
     {
       "id": "songcore",
-      "versionRange": "^1.1.9",
+      "versionRange": "^1.1.12",
       "additionalData": {
         "private": true
       }

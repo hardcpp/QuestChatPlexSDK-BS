@@ -105,6 +105,7 @@ namespace CP_SDK::UI {
             static _u::Color TooltipBGColor;
 
             static _u::Color TextColor;
+            static _u::Color TextColorDisabled;
 
         public:
             static SafePtr<_u::Type> Override_UnityComponent_Image;
