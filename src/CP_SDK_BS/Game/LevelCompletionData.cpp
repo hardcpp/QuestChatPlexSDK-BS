@@ -14,11 +14,11 @@ namespace CP_SDK_BS::Game {
             return false;
 
         std::vector<std::u16string> l_Requirements;
-        if (Levels::TryGetCustomRequirementsFor(Data->beatmapLevel, Data->beatmapKey.beatmapCharacteristic, Data->beatmapKey.difficulty, &l_Requirements))
+        if (Levels::TryGetCustomRequirementsFor(Data->___beatmapLevel, Data->___beatmapKey.beatmapCharacteristic, Data->___beatmapKey.difficulty, &l_Requirements))
         {
             for (auto& l_Current : l_Requirements)
             {
-                if (_v::U16EqualsToCaseInsensitive(l_Current, u"Noodle Extensions"))
+                if (CP_SDK::Utils::U16EqualsToCaseInsensitive(Levels::SanatizeMappingCapability(l_Current), u"NoodleExtensions"))
                     continue;
 
                 return true;
@@ -33,11 +33,11 @@ namespace CP_SDK_BS::Game {
             return false;
 
         std::vector<std::u16string> l_Requirements;
-        if (Levels::TryGetCustomRequirementsFor(Data->beatmapLevel, Data->beatmapKey.beatmapCharacteristic, Data->beatmapKey.difficulty, &l_Requirements))
+        if (Levels::TryGetCustomRequirementsFor(Data->___beatmapLevel, Data->___beatmapKey.beatmapCharacteristic, Data->___beatmapKey.difficulty, &l_Requirements))
         {
             for (auto& l_Current : l_Requirements)
             {
-                if (_v::U16EqualsToCaseInsensitive(l_Current, u"Chroma"))
+                if (CP_SDK::Utils::U16EqualsToCaseInsensitive(Levels::SanatizeMappingCapability(l_Current), u"Chroma"))
                     continue;
 
                 return true;
