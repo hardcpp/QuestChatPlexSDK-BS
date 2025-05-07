@@ -20,13 +20,13 @@ runs:
     - name: Download canary ndk
       if: ${{ !steps.cache.outputs.cache-hit }}
       env:
-        CANARY_URL: https://github.com/QuestPackageManager/ndk-canary-archive/releases/download/27.0.1/android-ndk-10883340-linux-x86_64.zip
+        CANARY_URL: https://dl.google.com/android/repository/android-ndk-r28b-windows.zip
       run: wget ${CANARY_URL} -O ${HOME}/ndk.zip
       shell: bash
 
     - name: Unzip ndk
       if: ${{ !steps.cache.outputs.cache-hit }}
-      run: 7z x "${HOME}/ndk.zip" -o"${HOME}/"
+      run: 7z -snld x "${HOME}/ndk.zip" -o"${HOME}/"
       shell: bash
 
     - name: Set output
