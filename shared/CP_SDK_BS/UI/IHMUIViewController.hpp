@@ -25,7 +25,7 @@ namespace CP_SDK_BS::UI {
     }
 
     /// @brief IHMUIViewController interface
-    class IHMUIViewController : public HMUI::ViewController
+    class CP_SDK_EXPORT IHMUIViewController : public HMUI::ViewController
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK_BS.UI", IHMUIViewController, HMUI::ViewController);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(IHMUIViewController);

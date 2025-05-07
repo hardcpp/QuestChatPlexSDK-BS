@@ -15,7 +15,7 @@ namespace CP_SDK_BS::UI::DefaultComponentsOverrides {
     }
 
     /// @brief BeatSaber CFloatingPanel component
-    class BS_CFloatingPanel : public CP_SDK::UI::DefaultComponents::DefaultCFloatingPanel
+    class CP_SDK_EXPORT BS_CFloatingPanel : public CP_SDK::UI::DefaultComponents::DefaultCFloatingPanel
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK_BS.UI.DefaultComponentsOverrides", BS_CFloatingPanel, CP_SDK::UI::DefaultComponents::DefaultCFloatingPanel);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(BS_CFloatingPanel);

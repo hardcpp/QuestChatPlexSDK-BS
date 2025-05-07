@@ -826,6 +826,9 @@ namespace CP_SDK_BS::Game {
                 m_BeatmapLevelsModel = l_MainFlowCoordinator->____beatmapLevelsModel;
         }
 
+        if (!m_MenuTransitionsHelper)
+            m_MenuTransitionsHelper = Resources::FindObjectsOfTypeAll<_u::MenuTransitionsHelper*>()->First();
+
         if (m_BeatmapLevelsModel)
         {
             if (m_GetLevelCancellationTokenSource)
@@ -838,19 +841,19 @@ namespace CP_SDK_BS::Game {
                 auto l_VersionTask = m_MenuTransitionsHelper->____beatmapLevelsEntitlementModel->GetLevelDataVersionAsync(p_LevelID, m_GetLevelCancellationTokenSource->get_Token());
                 _v::AwaitTaskAsync<BeatmapLevelDataVersion>(
                     l_VersionTask,
-                    [=](_v::MonoPtrRef<Tasks::Task_1<BeatmapLevelDataVersion>> p_VersionTask, bool p_Success) {
+                    [=](_v::MonoPtrRef<Tasks::Task_1<BeatmapLevelDataVersion>> p_VersionTask, bool p_VersionSuccess) {
                         try
                         {
-                            if (p_Success)
+                            if (p_VersionSuccess)
                             {
                                 auto l_Task = m_BeatmapLevelsModel->LoadBeatmapLevelDataAsync(p_LevelID, p_VersionTask->get_Result(), m_GetLevelCancellationTokenSource->get_Token());
 
                                 _v::AwaitTaskAsync<LoadBeatmapLevelDataResult>(
                                     l_Task,
-                                    [=](_v::MonoPtrRef<Tasks::Task_1<LoadBeatmapLevelDataResult>> p_Task, bool p_Success) {
+                                    [=](_v::MonoPtrRef<Tasks::Task_1<LoadBeatmapLevelDataResult>> p_Task, bool p_Success2) {
                                         try
                                         {
-                                            if (p_Success && !p_Task->get_Result().isError)
+                                            if (p_Success2 && !p_Task->get_Result().isError)
                                                 p_Callback(p_Task->get_Result().beatmapLevelData);
                                             else
                                                 p_Callback(nullptr);
@@ -862,15 +865,17 @@ namespace CP_SDK_BS::Game {
                                         }
                                     }
                                 );
+
+                                return;
                             }
-                            else
-                                p_Callback(nullptr);
                         }
                         catch (const std::exception& l_Exception)
                         {
                             CP_SDK::ChatPlexSDK::Logger()->Error(u"[CP_SDK_BS.Game][Levels.GetLevelFromLevelID] Error:");
                             CP_SDK::ChatPlexSDK::Logger()->Error(l_Exception);
                         }
+
+                        p_Callback(nullptr);
                     }
                 );
 

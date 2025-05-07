@@ -209,7 +209,7 @@ extern "C" __attribute__((visibility("default"))) void setup(CModInfo* p_ModInfo
         return p_Input;
     });
 
-    CP_SDK::ChatPlexSDK::Logger()->Error(u"ChatPlexSDK-BS Completed setup!");
+    CP_SDK::ChatPlexSDK::Logger()->Info(u"ChatPlexSDK-BS Completed setup!");
 }
 
 ////////////////////////////////////////////////////////////////////////////
