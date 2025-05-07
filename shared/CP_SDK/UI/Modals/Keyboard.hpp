@@ -17,7 +17,7 @@ namespace CP_SDK::UI::Modals {
     }
 
     /// @brief Keyboard modal
-    class Keyboard : public IModal
+    class CP_SDK_EXPORT Keyboard : public IModal
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Modals", Keyboard, IModal);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(Keyboard);

@@ -10,7 +10,7 @@ namespace CP_SDK::UI::DefaultFactories {
     }
 
     /// @brief Default CVVList factory
-    class DefaultVVListFactory : public FactoryInterfaces::IVVListFactory
+    class CP_SDK_EXPORT DefaultVVListFactory : public FactoryInterfaces::IVVListFactory
     {
         public:
             /// @brief Create an CVVList into the parent

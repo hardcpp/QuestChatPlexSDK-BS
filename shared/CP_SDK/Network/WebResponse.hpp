@@ -23,7 +23,7 @@ namespace CP_SDK::Network {
     }
 
     /// @brief Web Response class
-    class WebResponse
+    class CP_SDK_EXPORT WebResponse
     {
         CP_SDK_NO_COPYMOVE_CTORS(WebResponse);
         CP_SDK_PRIV_TAG();

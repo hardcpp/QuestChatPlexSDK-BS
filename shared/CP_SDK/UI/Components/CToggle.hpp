@@ -22,7 +22,7 @@ namespace CP_SDK::UI::Components {
     }
 
     /// @brief CToggle component
-    class CToggle : public _u::MonoBehaviour
+    class CP_SDK_EXPORT CToggle : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CToggle, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(CToggle);

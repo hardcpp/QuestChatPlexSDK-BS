@@ -5,7 +5,7 @@
 namespace CP_SDK {
 
     /// @brief ChatPlex SDK config
-    class CPConfig : public Config::JsonConfig
+    class CP_SDK_EXPORT CPConfig : public Config::JsonConfig
     {
         CP_SDK_CONFIG_JSONCONFIG_INSTANCE_DECL(CPConfig);
 

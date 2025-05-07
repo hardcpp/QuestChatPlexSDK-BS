@@ -17,7 +17,7 @@ namespace CP_SDK::UI::Modals {
     }
 
     /// @brief Confirmation modal
-    class Confirmation : public IModal
+    class CP_SDK_EXPORT Confirmation : public IModal
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Modals", Confirmation, IModal);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(Confirmation);

@@ -24,7 +24,7 @@ namespace CP_SDK {
     };
 
     /// ChatPlex SDK main class
-    class CP_SDK_EXPORT_VISIBILITY ChatPlexSDK
+    class CP_SDK_EXPORT ChatPlexSDK
     {
         CP_SDK_NO_DEF_CTORS(ChatPlexSDK);
 

@@ -34,7 +34,7 @@ namespace CP_SDK::UI::Data {
     class IListItem;
 
     /// @brief Abstract List Cell component
-    class IListCell : public _u::MonoBehaviour
+    class CP_SDK_EXPORT IListCell : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Data", IListCell, _u::MonoBehaviour, CP_SDK_IL2CPP_INTERFACES(
             _u::IEventSystemHandler,

@@ -19,6 +19,15 @@ namespace CP_SDK_BS::UI {
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
+    /// @brief When the game is reloaded
+    void HMUITextSegmentedControl::OnGameSoftReload()
+    {
+        m_Template = nullptr;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+
     /// @brief Create icon segmented control
     /// @param p_Parent             Parent game object transform
     /// @param p_HideCellBackground Should hide cell background
@@ -59,7 +68,7 @@ namespace CP_SDK_BS::UI {
                 l_List->Add(l_Current);
         }
 
-        l_Control->SetTexts(l_List->AsReadOnly()->i___System__Collections__Generic__IReadOnlyList_1_T_());
+        l_Control->SetTexts(l_List->AsReadOnly()->i___System__Collections__Generic__IReadOnlyList_1_T_(), nullptr);
 
         return l_Control;
     }

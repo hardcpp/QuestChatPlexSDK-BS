@@ -28,7 +28,7 @@
 namespace CP_SDK::Config {
 
     /// @brief Json config file
-    class JsonConfig
+    class CP_SDK_EXPORT JsonConfig
     {
         CP_SDK_NO_COPYMOVE_CTORS(JsonConfig);
 

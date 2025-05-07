@@ -11,7 +11,10 @@ namespace CP_SDK::Logging {
     PaperLogger::PaperLogger(const std::string& p_Name)
         : m_PaperLogger(new Paper::LoggerContext(p_Name))
     {
-
+        Error(u"Test Error");
+        Warning(u"Test Warning");
+        Info(u"Test Info");
+        Debug(u"Test Debug");
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -29,10 +32,10 @@ namespace CP_SDK::Logging {
         auto l_String = l_UTF8Data.c_str();
         switch (p_Type)
         {
-            case ELogType::Error:    m_PaperLogger->error("{}", l_String);   break;
-            case ELogType::Warning:  m_PaperLogger->warn("{}", l_String); break;
-            case ELogType::Info:     m_PaperLogger->info("{}", l_String);    break;
-            case ELogType::Debug:    m_PaperLogger->debug("{}", l_String);   break;
+            case ELogType::Error:    m_PaperLogger->fmtLog<(Paper::LogLevel)Paper::ffi::paper2_LogLevel::Error>("{}", l_String);   break;
+            case ELogType::Warning:  m_PaperLogger->fmtLog<(Paper::LogLevel)Paper::ffi::paper2_LogLevel::Warn>("{}", l_String);    break;
+            case ELogType::Info:     m_PaperLogger->fmtLog<(Paper::LogLevel)Paper::ffi::paper2_LogLevel::Info>("{}", l_String);    break;
+            case ELogType::Debug:    m_PaperLogger->fmtLog<(Paper::LogLevel)Paper::ffi::paper2_LogLevel::Debug>("{}", l_String);   break;
         }
     }
     /// @brief Internal log method
@@ -43,10 +46,10 @@ namespace CP_SDK::Logging {
         auto l_String = p_Data.what();
         switch (p_Type)
         {
-            case ELogType::Error:    m_PaperLogger->error("{}", l_String);   break;
-            case ELogType::Warning:  m_PaperLogger->warn("{}", l_String); break;
-            case ELogType::Info:     m_PaperLogger->info("{}", l_String);    break;
-            case ELogType::Debug:    m_PaperLogger->debug("{}", l_String);   break;
+            case ELogType::Error:    m_PaperLogger->fmtLog<(Paper::LogLevel)Paper::ffi::paper2_LogLevel::Error>("{}", l_String);   break;
+            case ELogType::Warning:  m_PaperLogger->fmtLog<(Paper::LogLevel)Paper::ffi::paper2_LogLevel::Warn>("{}", l_String);    break;
+            case ELogType::Info:     m_PaperLogger->fmtLog<(Paper::LogLevel)Paper::ffi::paper2_LogLevel::Info>("{}", l_String);    break;
+            case ELogType::Debug:    m_PaperLogger->fmtLog<(Paper::LogLevel)Paper::ffi::paper2_LogLevel::Debug>("{}", l_String);   break;
         }
     }
 

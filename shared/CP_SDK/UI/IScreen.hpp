@@ -26,7 +26,7 @@ namespace CP_SDK::UI {
     class IViewController;
 
     /// @brief Abstract screen
-    class IScreen : public _u::MonoBehaviour
+    class CP_SDK_EXPORT IScreen : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI", IScreen, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(IScreen);

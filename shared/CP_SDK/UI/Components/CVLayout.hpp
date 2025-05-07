@@ -17,7 +17,7 @@ namespace CP_SDK::UI::Components {
     }
 
     /// @brief Vertical layout component
-    class CVLayout : public CHOrVLayout
+    class CP_SDK_EXPORT CVLayout : public CHOrVLayout
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CVLayout, CHOrVLayout);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(CVLayout);

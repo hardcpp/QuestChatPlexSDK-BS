@@ -10,7 +10,7 @@ namespace CP_SDK::UI::DefaultFactories {
     }
 
     /// @brief Default CColorInput factory
-    class DefaultColorInputFactory : public FactoryInterfaces::IColorInputFactory
+    class CP_SDK_EXPORT DefaultColorInputFactory : public FactoryInterfaces::IColorInputFactory
     {
         public:
             /// @brief Create an CColorInput into the parent

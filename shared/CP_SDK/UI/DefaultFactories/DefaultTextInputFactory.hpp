@@ -10,7 +10,7 @@ namespace CP_SDK::UI::DefaultFactories {
     }
 
     /// @brief Default CTextInput factory
-    class DefaultTextInputFactory : public FactoryInterfaces::ITextInputFactory
+    class CP_SDK_EXPORT DefaultTextInputFactory : public FactoryInterfaces::ITextInputFactory
     {
         public:
             /// @brief Create an CTextInput into the parent

@@ -14,7 +14,7 @@ namespace CP_SDK::UI {
     }
 
     /// @brief Flow coordinator interface
-    class IFlowCoordinator : public _u::MonoBehaviour
+    class CP_SDK_EXPORT IFlowCoordinator : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI", IFlowCoordinator, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(IFlowCoordinator);

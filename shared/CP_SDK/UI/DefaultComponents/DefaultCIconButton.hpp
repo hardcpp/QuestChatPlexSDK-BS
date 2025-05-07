@@ -24,7 +24,7 @@ namespace CP_SDK::UI::DefaultComponents {
     }
 
     /// @brief Default CIconButton component
-    class DefaultCIconButton : public Components::CIconButton
+    class CP_SDK_EXPORT DefaultCIconButton : public Components::CIconButton
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCIconButton, Components::CIconButton, CP_SDK_IL2CPP_INTERFACES(
             _u::IEventSystemHandler,

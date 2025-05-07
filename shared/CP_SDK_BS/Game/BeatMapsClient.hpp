@@ -20,7 +20,7 @@ namespace CP_SDK_BS::Game {
     }
 
     /// @brief BeatMaps client
-    class CP_SDK_EXPORT_VISIBILITY BeatMapsClient
+    class CP_SDK_EXPORT BeatMapsClient
     {
         CP_SDK_NO_DEF_CTORS(BeatMapsClient);
 

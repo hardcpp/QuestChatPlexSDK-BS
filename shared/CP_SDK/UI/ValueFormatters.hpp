@@ -6,12 +6,13 @@
 
 namespace CP_SDK::UI {
 
-    class CP_SDK_EXPORT_VISIBILITY ValueFormatters
+    class CP_SDK_EXPORT ValueFormatters
     {
         public:
             static std::u16string Percentage(float p_Value);
 
             static std::u16string Minutes(float p_Value);
+            static std::u16string Days(float p_Value);
 
             static std::u16string TimeShortBaseSeconds(float p_Value);
 

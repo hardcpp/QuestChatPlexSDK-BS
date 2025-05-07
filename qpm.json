@@ -1,11 +1,11 @@
 {
-  "version": "0.1.0",
+  "version": "0.4.0",
   "sharedDir": "shared",
   "dependenciesDir": "extern",
   "info": {
     "name": "ChatPlexSDK-BS",
     "id": "chatplex-sdk-bs",
-    "version": "6.3.2",
+    "version": "6.4.0",
     "url": "https://github.com/hardcpp/QuestChatPlexSDK-BS",
     "additionalData": {
       "overrideSoName": "libchatplex-sdk-bs.so",
@@ -35,27 +35,34 @@
         "qpm qmod build",
         "pwsh ./createqmod.ps1 -clean"
       ]
-    }
+    },
+    "ndk": "^27.2.12479018",
+    "qmodIncludeDirs": [
+      "build",
+      "extern/libs"
+    ],
+    "qmodIncludeFiles": [],
+    "qmodOutput": "./ChatPlexSDK-BS.qmod"
   },
   "dependencies": [
     {
       "id": "beatsaber-hook",
-      "versionRange": "^5.1.9",
+      "versionRange": "^6.4.1",
       "additionalData": {}
     },
     {
       "id": "bs-cordl",
-      "versionRange": "^3700.*",
+      "versionRange": "^4004.0.0",
       "additionalData": {}
     },
     {
       "id": "custom-types",
-      "versionRange": "^0.17.8",
+      "versionRange": "^0.18.2",
       "additionalData": {}
     },
     {
       "id": "scotland2",
-      "versionRange": "^0.1.4",
+      "versionRange": "^0.1.6",
       "additionalData": {
         "includeQmod": false,
         "private": true
@@ -63,19 +70,19 @@
     },
     {
       "id": "bsml",
-      "versionRange": "^0.4.34",
+      "versionRange": "^0.4.51",
       "additionalData": {
         "private": true
       }
     },
     {
       "id": "libil2cpp",
-      "versionRange": "^0.3.1",
+      "versionRange": "^0.4.0",
       "additionalData": {}
     },
     {
       "id": "songcore",
-      "versionRange": "^1.1.12",
+      "versionRange": "^1.1.20",
       "additionalData": {
         "private": true
       }
@@ -88,8 +95,8 @@
       }
     },
     {
-      "id": "paper",
-      "versionRange": "^3.6.3",
+      "id": "paper2_scotland2",
+      "versionRange": "^4.6.1",
       "additionalData": {}
     },
     {

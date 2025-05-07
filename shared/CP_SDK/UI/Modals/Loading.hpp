@@ -17,7 +17,7 @@ namespace CP_SDK::UI::Modals {
     }
 
     /// @brief Loading modal
-    class Loading : public IModal
+    class CP_SDK_EXPORT Loading : public IModal
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Modals", Loading, IModal);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(Loading);

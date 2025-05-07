@@ -1,12 +1,14 @@
 #pragma once
 
-#include <string>
+#include "../BuildConfig.hpp"
+
+#include <string_view>
 #include <exception>
 
 namespace CP_SDK::Logging {
 
     /// @brief Base logger
-    class ILogger
+    class CP_SDK_EXPORT ILogger
     {
         public:
             enum class ELogType

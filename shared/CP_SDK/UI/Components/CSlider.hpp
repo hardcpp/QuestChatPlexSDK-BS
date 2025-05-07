@@ -21,7 +21,7 @@ namespace CP_SDK::UI::Components {
     }
 
     /// @brief CSlider component
-    class CSlider : public _u::Selectable
+    class CP_SDK_EXPORT CSlider : public _u::Selectable
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CSlider, _u::Selectable);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(CSlider);

@@ -10,7 +10,7 @@ namespace CP_SDK::UI::DefaultFactories {
     }
 
     /// @brief Default CImage factory
-    class DefaultImageFactory : public FactoryInterfaces::IImageFactory
+    class CP_SDK_EXPORT DefaultImageFactory : public FactoryInterfaces::IImageFactory
     {
         public:
             /// @brief Create an CImage into the parent

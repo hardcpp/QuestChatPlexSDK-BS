@@ -19,7 +19,7 @@ namespace CP_SDK::UI::Components {
     }
 
     /// @brief CDropdown component
-    class CDropdown : public _u::MonoBehaviour
+    class CP_SDK_EXPORT CDropdown : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CDropdown, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(CDropdown);

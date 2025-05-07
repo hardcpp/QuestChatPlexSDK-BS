@@ -23,7 +23,7 @@ namespace CP_SDK::Animation {
     }
 
     /// @brief Animation frame info
-    class CP_SDK_EXPORT_VISIBILITY AnimationInfo
+    class CP_SDK_EXPORT AnimationInfo
     {
         CP_SDK_NO_COPYMOVE_CTORS(AnimationInfo);
         CP_SDK_PRIV_TAG();

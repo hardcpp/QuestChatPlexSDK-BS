@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - 'master'
+      - 'dev'
     paths-ignore:
       - '**.yml'
       - '!.github/workflows/build-ndk.yml'
@@ -38,14 +39,9 @@ jobs:
 
     - uses: seanmiddleditch/gha-setup-ninja@v3
 
-    # Use canary NDK to avoid lesser known compile bugs
-    - name: Setup canary NDK
-      id: setup-ndk
-      uses: ./.github/actions/canary-ndk
-
     - name: Create ndkpath.txt
       run: |
-        echo ${{ steps.setup-ndk.outputs.ndk-path }} > ${GITHUB_WORKSPACE}/ndkpath.txt
+        echo $ANDROID_NDK_HOME > ${GITHUB_WORKSPACE}/ndkpath.txt
         cat ${GITHUB_WORKSPACE}/ndkpath.txt
 
     # get version from pushed tag
@@ -79,21 +75,21 @@ jobs:
         echo "NAME=${files[0]}" >> $GITHUB_OUTPUT
 
     - name: Upload non-debug artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ steps.libname.outputs.NAME }}
         path: ./build/${{ steps.libname.outputs.NAME }}
         if-no-files-found: error
 
     - name: Upload debug artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: debug_${{ steps.libname.outputs.NAME }}
         path: ./build/debug/${{ steps.libname.outputs.NAME }}
         if-no-files-found: error
 
     - name: Upload qmod artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: ${{env.qmodName}}.qmod
         path: ./${{ env.qmodName }}.qmod

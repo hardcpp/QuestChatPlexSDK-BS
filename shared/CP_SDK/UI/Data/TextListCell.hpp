@@ -6,7 +6,7 @@
 namespace CP_SDK::UI::Data {
 
     /// @brief Text list cell
-    class TextListCell : public IListCell
+    class CP_SDK_EXPORT TextListCell : public IListCell
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Data", TextListCell, IListCell);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(TextListCell);

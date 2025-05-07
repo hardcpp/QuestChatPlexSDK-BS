@@ -10,7 +10,7 @@ namespace CP_SDK::UI::DefaultFactories {
     }
 
     /// @brief Default CToggle factory
-    class DefaultToggleFactory : public FactoryInterfaces::IToggleFactory
+    class CP_SDK_EXPORT DefaultToggleFactory : public FactoryInterfaces::IToggleFactory
     {
         public:
             /// @brief Create an CToggle into the parent

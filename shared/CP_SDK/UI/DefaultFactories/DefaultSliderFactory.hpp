@@ -10,7 +10,7 @@ namespace CP_SDK::UI::DefaultFactories {
     }
 
     /// @brief Default CSlider factory
-    class DefaultSliderFactory : public FactoryInterfaces::ISliderFactory
+    class CP_SDK_EXPORT DefaultSliderFactory : public FactoryInterfaces::ISliderFactory
     {
         public:
             /// @brief Create an CSlider into the parent

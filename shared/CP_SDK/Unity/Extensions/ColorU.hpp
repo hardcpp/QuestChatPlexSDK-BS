@@ -15,7 +15,7 @@ namespace CP_SDK::Unity::Extensions {
     }
 
     /// @brief Unity Color tools
-    class CP_SDK_EXPORT_VISIBILITY ColorU
+    class CP_SDK_EXPORT ColorU
     {
         public:
             /// @brief Get color with alpha

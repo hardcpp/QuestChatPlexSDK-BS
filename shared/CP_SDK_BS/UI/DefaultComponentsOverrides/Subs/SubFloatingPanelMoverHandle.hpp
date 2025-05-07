@@ -17,7 +17,7 @@ namespace CP_SDK_BS::UI::DefaultComponentsOverrides::Subs {
     }
 
     /// @brief Floating panel mover handle
-    class SubFloatingPanelMoverHandle : public _u::MonoBehaviour
+    class CP_SDK_EXPORT SubFloatingPanelMoverHandle : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK_BS.UI.DefaultComponentsOverrides.Subs", SubFloatingPanelMoverHandle, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(SubFloatingPanelMoverHandle);

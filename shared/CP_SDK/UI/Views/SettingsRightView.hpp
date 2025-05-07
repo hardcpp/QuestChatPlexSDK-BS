@@ -16,7 +16,7 @@ namespace CP_SDK::UI::Views {
     }
 
     /// @brief Settings right view controller
-    class SettingsRightView : public ViewController
+    class CP_SDK_EXPORT SettingsRightView : public ViewController
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Views", SettingsRightView, ViewController);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(SettingsRightView);

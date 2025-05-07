@@ -18,7 +18,7 @@ namespace CP_SDK::UI::DefaultComponents::Subs {
     }
 
     /// @brief Vertical scroll indicator component
-    class SubVScrollIndicator : public _u::MonoBehaviour
+    class CP_SDK_EXPORT SubVScrollIndicator : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK::UI::DefaultComponents::Subs", SubVScrollIndicator, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(SubVScrollIndicator);

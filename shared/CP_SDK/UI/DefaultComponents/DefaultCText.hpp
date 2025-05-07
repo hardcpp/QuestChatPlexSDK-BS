@@ -17,7 +17,7 @@ namespace CP_SDK::UI::DefaultComponents {
     }
 
     /// @brief Default CText component
-    class DefaultCText : public Components::CText
+    class CP_SDK_EXPORT DefaultCText : public Components::CText
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCText, Components::CText);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCText);

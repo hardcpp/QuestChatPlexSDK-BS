@@ -10,7 +10,7 @@ namespace CP_SDK::UI::DefaultFactories {
     }
 
     /// @brief Default CGLayout factory
-    class DefaultGLayoutFactory : public FactoryInterfaces::IGLayoutFactory
+    class CP_SDK_EXPORT DefaultGLayoutFactory : public FactoryInterfaces::IGLayoutFactory
     {
         public:
             /// @brief Create an CGLayout into the parent

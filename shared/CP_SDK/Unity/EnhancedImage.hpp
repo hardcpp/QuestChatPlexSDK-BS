@@ -21,7 +21,7 @@ namespace CP_SDK::Unity {
     }
 
     /// @brief Enhanced image info
-    class CP_SDK_EXPORT_VISIBILITY EnhancedImage
+    class CP_SDK_EXPORT EnhancedImage
     {
         CP_SDK_NO_COPYMOVE_CTORS(EnhancedImage);
         CP_SDK_PRIV_TAG();

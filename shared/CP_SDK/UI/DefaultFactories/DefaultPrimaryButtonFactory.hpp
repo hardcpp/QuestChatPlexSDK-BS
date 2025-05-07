@@ -10,7 +10,7 @@ namespace CP_SDK::UI::DefaultFactories {
     }
 
     /// @brief Default CPrimaryButton factory
-    class DefaultPrimaryButtonFactory : public FactoryInterfaces::IPrimaryButtonFactory
+    class CP_SDK_EXPORT DefaultPrimaryButtonFactory : public FactoryInterfaces::IPrimaryButtonFactory
     {
         public:
             /// @brief Create an CPrimaryButton into the parent

@@ -31,7 +31,7 @@ namespace CP_SDK_BS::UI {
     }
 
     /// @brief View flow coordinator base class
-    class CP_SDK_EXPORT_VISIBILITY ViewController : public IHMUIViewController
+    class CP_SDK_EXPORT ViewController : public IHMUIViewController
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK_BS.UI", ViewController, IHMUIViewController);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(ViewController);

@@ -22,7 +22,7 @@ namespace CP_SDK::UI::Components {
     }
 
     /// @brief CTextSegmentedControl component
-    class CTextSegmentedControl : public _u::MonoBehaviour
+    class CP_SDK_EXPORT CTextSegmentedControl : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CTextSegmentedControl, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(CTextSegmentedControl);

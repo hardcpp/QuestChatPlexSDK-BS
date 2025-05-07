@@ -10,7 +10,7 @@ namespace CP_SDK::UI::DefaultFactories {
     }
 
     /// @brief Default CSecondaryButton factory
-    class DefaultSecondaryButtonFactory : public FactoryInterfaces::ISecondaryButtonFactory
+    class CP_SDK_EXPORT DefaultSecondaryButtonFactory : public FactoryInterfaces::ISecondaryButtonFactory
     {
         public:
             /// @brief Create an CSecondaryButton into the parent

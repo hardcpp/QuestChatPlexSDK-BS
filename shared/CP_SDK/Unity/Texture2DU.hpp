@@ -17,7 +17,7 @@ namespace CP_SDK::Unity {
     }
 
     /// @brief Texture2D helper
-    class CP_SDK_EXPORT_VISIBILITY Texture2DU
+    class CP_SDK_EXPORT Texture2DU
     {
         CP_SDK_NO_DEF_CTORS(Texture2DU);
 

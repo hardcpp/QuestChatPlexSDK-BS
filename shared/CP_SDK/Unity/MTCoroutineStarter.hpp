@@ -23,7 +23,7 @@ namespace CP_SDK::Unity {
     }
 
     /// @brief MultiThreading coroutine starter
-    class CP_SDK_EXPORT_VISIBILITY MTCoroutineStarter : public _u::MonoBehaviour
+    class CP_SDK_EXPORT MTCoroutineStarter : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.Unity", MTCoroutineStarter, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(MTCoroutineStarter);

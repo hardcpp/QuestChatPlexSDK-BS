@@ -10,7 +10,7 @@ namespace CP_SDK::UI::DefaultFactories {
     }
 
     /// @brief Default CTabControl factory
-    class DefaultTabControlFactory : public FactoryInterfaces::ITabControlFactory
+    class CP_SDK_EXPORT DefaultTabControlFactory : public FactoryInterfaces::ITabControlFactory
     {
         public:
             /// @brief Create an CTabControl into the parent

@@ -17,7 +17,7 @@ namespace CP_SDK::UI::Modals {
     }
 
     /// @brief ColorPicker modal
-    class ColorPicker : public IModal
+    class CP_SDK_EXPORT ColorPicker : public IModal
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Modals", ColorPicker, IModal);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(ColorPicker);

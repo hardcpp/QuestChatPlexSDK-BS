@@ -18,7 +18,7 @@ namespace CP_SDK::UI {
     }
 
     /// @brief Abstract base modal component
-    class IModal : public _u::MonoBehaviour
+    class CP_SDK_EXPORT IModal : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI", IModal, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(IModal);

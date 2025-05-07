@@ -7,7 +7,7 @@
 namespace CP_SDK::UI::Data {
 
     /// @brief Abstract List Item
-    class IListItem : public std::enable_shared_from_this<IListItem>
+    class CP_SDK_EXPORT IListItem : public std::enable_shared_from_this<IListItem>
     {
         CP_SDK_NO_COPYMOVE_CTORS(IListItem);
 

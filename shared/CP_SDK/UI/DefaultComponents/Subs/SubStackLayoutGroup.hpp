@@ -19,7 +19,7 @@ namespace CP_SDK::UI::DefaultComponents::Subs {
     }
 
     /// @brief Stack layout group
-    class SubStackLayoutGroup : public _u::LayoutGroup
+    class CP_SDK_EXPORT SubStackLayoutGroup : public _u::LayoutGroup
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK::UI::DefaultComponents::Subs", SubStackLayoutGroup, _u::LayoutGroup);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(SubStackLayoutGroup);

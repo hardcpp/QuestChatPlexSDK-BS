@@ -18,7 +18,7 @@ namespace CP_SDK::UI::Views {
     }
 
     /// @brief Settings main view controller
-    class SettingsMainView : public ViewController
+    class CP_SDK_EXPORT SettingsMainView : public ViewController
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Views", SettingsMainView, ViewController);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(SettingsMainView);

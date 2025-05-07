@@ -14,7 +14,7 @@ namespace CP_SDK::Unity {
     }
 
     /// @brief Texture raw utilities
-    class CP_SDK_EXPORT_VISIBILITY TextureRaw
+    class CP_SDK_EXPORT TextureRaw
     {
         CP_SDK_NO_DEF_CTORS(TextureRaw);
 

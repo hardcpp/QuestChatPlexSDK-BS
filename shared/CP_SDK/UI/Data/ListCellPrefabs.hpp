@@ -19,7 +19,7 @@ namespace CP_SDK::UI::Data {
     /// @brief List cell prefabs getter
     /// @tparam t_ListCellType List cell type
     template<class t_ListCellType>
-    class CP_SDK_EXPORT_VISIBILITY ListCellPrefabs
+    class CP_SDK_EXPORT ListCellPrefabs
     {
         private:
             static _v::MonoPtr<t_ListCellType> m_Prefab;

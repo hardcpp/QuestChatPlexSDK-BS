@@ -14,7 +14,7 @@ namespace CP_SDK::UI {
     }
 
     /// @brief Mod button
-    class CP_SDK_EXPORT_VISIBILITY ModButton
+    class CP_SDK_EXPORT ModButton
     {
         CP_SDK_NO_DEF_CTORS(ModButton);
         CP_SDK_PRIV_TAG();

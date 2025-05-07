@@ -10,7 +10,7 @@ namespace CP_SDK::UI::DefaultFactories {
     }
 
     /// @brief Default CVLayout factory
-    class DefaultVLayoutFactory : public FactoryInterfaces::IVLayoutFactory
+    class CP_SDK_EXPORT DefaultVLayoutFactory : public FactoryInterfaces::IVLayoutFactory
     {
         public:
             /// @brief Create an CVLayout into the parent

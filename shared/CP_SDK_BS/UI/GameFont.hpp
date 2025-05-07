@@ -15,7 +15,7 @@ namespace CP_SDK_BS::UI {
     }
 
     /// @brief Helpers for game font
-    class CP_SDK_EXPORT_VISIBILITY GameFont
+    class CP_SDK_EXPORT GameFont
     {
         CP_SDK_NO_DEF_CTORS(GameFont);
 

@@ -20,7 +20,7 @@ namespace CP_SDK_BS::UI {
     }
 
     /// @brief View controller utils
-    class CP_SDK_EXPORT_VISIBILITY HMUIUIUtils
+    class CP_SDK_EXPORT HMUIUIUtils
     {
         CP_SDK_NO_DEF_CTORS(HMUIUIUtils);
 

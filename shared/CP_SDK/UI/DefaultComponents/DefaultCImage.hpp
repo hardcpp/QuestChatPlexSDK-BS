@@ -16,7 +16,7 @@ namespace CP_SDK::UI::DefaultComponents {
     }
 
     /// @brief Default CImage component
-    class DefaultCImage : public Components::CImage
+    class CP_SDK_EXPORT DefaultCImage : public Components::CImage
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCImage, Components::CImage);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCImage);

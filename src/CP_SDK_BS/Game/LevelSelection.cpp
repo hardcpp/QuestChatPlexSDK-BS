@@ -1,6 +1,8 @@
 #include "CP_SDK_BS/Game/LevelSelection.hpp"
 #include "CP_SDK_BS/Game/Logic.hpp"
 #include "CP_SDK/Unity/MTCoroutineStarter.hpp"
+#include "GlobalNamespace/zzzz__LevelSelectionFlowCoordinator_def.hpp"
+#include "GlobalNamespace/zzzz__PlayerSensitivityFlag_def.hpp"
 #include <custom-types/shared/delegate.hpp>
 #include <beatsaber-hook/shared/utils/byref.hpp>
 
@@ -128,7 +130,6 @@ namespace CP_SDK_BS::Game {
                 auto l_Tags              = l_Selector->____levelCategoryInfos;
                 auto l_IndexToSelect     = -1;
 
-
                 for (auto l_I = 0; l_I < l_Tags->get_Length(); ++l_I)
                 {
                     if (l_Tags[l_I]->___levelCategory != _u::SelectLevelCategoryViewController::LevelCategory::All)
@@ -197,9 +198,20 @@ namespace CP_SDK_BS::Game {
             p_LevelSearchViewController->ResetAllFilterSettings(false);
 
             auto l_Filter = GlobalNamespace::LevelFilter();
+            l_Filter.songOwned                      = false;
+            l_Filter.songNotOwned                   = false;
+            l_Filter.songUnplayed                   = false;
+            l_Filter.difficulties                   = _u::BeatmapDifficultyMask();
+            l_Filter.songPacks                      = _u::SongPackMask();
+            l_Filter.characteristicSerializedName   = nullptr;
+            l_Filter.minBpm                         = 0.0f;
+            l_Filter.maxBpm                         = 0.0f;
+            l_Filter.sensitivity                    = _u::PlayerSensitivityFlag();
+
             l_Filter.limitIds     = ArrayW<StringW>({ m_PendingFilterSong->___levelID });
             l_Filter.searchText   = u"";
 
+            p_LevelSearchViewController->ResetAllFilterSettings(false);
             p_LevelSearchViewController->Refresh(
                 byref(l_Filter)
             );
@@ -223,7 +235,7 @@ namespace CP_SDK_BS::Game {
 
         try
         {
-            auto l_Filter = p_LevelSearchViewController->____currentSearchFilter;
+            const auto& l_Filter = p_LevelSearchViewController->____currentSearchFilter;
             if (l_Filter.limitIds && l_Filter.limitIds->get_Length() == 1)
             {
                 p_LevelSearchViewController->ResetAllFilterSettings(false);

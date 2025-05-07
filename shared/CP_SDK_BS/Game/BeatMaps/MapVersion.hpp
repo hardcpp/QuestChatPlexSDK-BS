@@ -40,7 +40,7 @@ namespace CP_SDK_BS::Game::BeatMaps {
         CP_SDK_IL2CPP_ENUM_UTILS();
     };
 
-    struct MapVersion
+    struct CP_SDK_EXPORT MapVersion
     {
         MapVersion() = default;
         CP_SDK_NO_COPYMOVE_CTORS(MapVersion);

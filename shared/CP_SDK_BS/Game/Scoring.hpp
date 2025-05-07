@@ -6,7 +6,7 @@
 namespace CP_SDK_BS::Game {
 
     /// @brief Scoring utils
-    class CP_SDK_EXPORT_VISIBILITY Scoring
+    class CP_SDK_EXPORT Scoring
     {
         CP_SDK_NO_DEF_CTORS(Scoring);
 

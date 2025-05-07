@@ -39,7 +39,7 @@ namespace CP_SDK {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Module base interface
-    class IModuleBase
+    class CP_SDK_EXPORT IModuleBase
     {
         CP_SDK_NO_COPYMOVE_CTORS(IModuleBase);
 

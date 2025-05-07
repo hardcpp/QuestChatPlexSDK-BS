@@ -10,7 +10,7 @@ namespace CP_SDK::UI::DefaultFactories {
     }
 
     /// @brief Default CVScrollView factory
-    class DefaultVScrollViewFactory : public FactoryInterfaces::IVScrollViewFactory
+    class CP_SDK_EXPORT DefaultVScrollViewFactory : public FactoryInterfaces::IVScrollViewFactory
     {
         public:
             /// @brief Create an CVScrollView into the parent

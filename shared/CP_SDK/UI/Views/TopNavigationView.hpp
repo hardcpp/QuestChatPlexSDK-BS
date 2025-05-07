@@ -16,7 +16,7 @@ namespace CP_SDK::UI::Views {
     }
 
     /// @brief Top navigation view
-    class TopNavigationView : public ViewController
+    class CP_SDK_EXPORT TopNavigationView : public ViewController
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Views", TopNavigationView, ViewController);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(TopNavigationView);

@@ -17,7 +17,7 @@ namespace CP_SDK::UI::DefaultComponents {
     }
 
     /// @brief Default CTabControl component
-    class DefaultCTabControl : public Components::CTabControl
+    class CP_SDK_EXPORT DefaultCTabControl : public Components::CTabControl
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCTabControl, Components::CTabControl);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCTabControl);
