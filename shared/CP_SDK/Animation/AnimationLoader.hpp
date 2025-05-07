@@ -31,7 +31,7 @@ namespace CP_SDK::Animation {
     };
 
     /// @brief Animation loader
-    class CP_SDK_EXPORT_VISIBILITY AnimationLoader
+    class CP_SDK_EXPORT AnimationLoader
     {
         CP_SDK_NO_DEF_CTORS(AnimationLoader);
 

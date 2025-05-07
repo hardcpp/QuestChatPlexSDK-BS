@@ -24,7 +24,7 @@ namespace CP_SDK::UI::Components {
     }
 
     /// @brief Flow layout group
-    class CFLayout : public _u::LayoutGroup
+    class CP_SDK_EXPORT CFLayout : public _u::LayoutGroup
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CFLayout, _u::LayoutGroup);
         CP_SDK_IL2CPP_DECLARE_CTOR(CFLayout);

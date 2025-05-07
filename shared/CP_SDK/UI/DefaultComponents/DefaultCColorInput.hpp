@@ -20,7 +20,7 @@ namespace CP_SDK::UI::DefaultComponents {
     }
 
     /// @brief Default CColorInput component
-    class DefaultCColorInput : public Components::CColorInput
+    class CP_SDK_EXPORT DefaultCColorInput : public Components::CColorInput
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCColorInput, Components::CColorInput);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCColorInput);

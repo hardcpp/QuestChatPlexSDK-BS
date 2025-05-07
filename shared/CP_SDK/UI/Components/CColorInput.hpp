@@ -19,7 +19,7 @@ namespace CP_SDK::UI::Components {
     }
 
     /// @brief CColorInput component
-    class CColorInput : public _u::MonoBehaviour
+    class CP_SDK_EXPORT CColorInput : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CColorInput, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(CColorInput);

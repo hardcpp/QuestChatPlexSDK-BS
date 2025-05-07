@@ -20,7 +20,7 @@ namespace CP_SDK::Animation {
     }
 
     /// @brief Animation controller manager
-    class AnimationControllerManager : public _u::MonoBehaviour
+    class CP_SDK_EXPORT AnimationControllerManager : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.Animation", AnimationControllerManager, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(AnimationControllerManager);

@@ -29,7 +29,7 @@ namespace CP_SDK::UI {
     using KeyboardCustomKeys    = std::vector<KeyboardCustomKey>;
 
     /// @brief IViewController interface
-    class IViewController : public _u::MonoBehaviour
+    class CP_SDK_EXPORT IViewController : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI", IViewController, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(IViewController);

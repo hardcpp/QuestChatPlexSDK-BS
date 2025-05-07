@@ -20,7 +20,7 @@ namespace CP_SDK::UI::DefaultComponents {
     }
 
     /// @brief Default CTextInput component
-    class DefaultCTextInput : public Components::CTextInput
+    class CP_SDK_EXPORT DefaultCTextInput : public Components::CTextInput
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCTextInput, Components::CTextInput);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCTextInput);

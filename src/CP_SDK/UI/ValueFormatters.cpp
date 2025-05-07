@@ -30,6 +30,15 @@ namespace CP_SDK::UI {
         return Utils::StrToU16Str(l_Builder.str());
     }
 
+    std::u16string ValueFormatters::Days(float p_Value)
+    {
+        auto l_AsInt = static_cast<int>(p_Value);
+        std::ostringstream l_Builder;
+        l_Builder << l_AsInt << (l_AsInt > 1 ? " Days" : " Day");
+
+        return Utils::StrToU16Str(l_Builder.str());
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 

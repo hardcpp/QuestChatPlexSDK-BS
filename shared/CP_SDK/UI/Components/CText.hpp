@@ -25,7 +25,7 @@ namespace CP_SDK::UI::Components {
     }
 
     /// @brief CText component
-    class CText : public _u::MonoBehaviour
+    class CP_SDK_EXPORT CText : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CText, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(CText);

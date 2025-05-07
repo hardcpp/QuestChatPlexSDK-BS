@@ -21,7 +21,7 @@ namespace CP_SDK::UI::Components {
     }
 
     /// @brief CTextInput component
-    class CTextInput : public _u::MonoBehaviour
+    class CP_SDK_EXPORT CTextInput : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CTextInput, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(CTextInput);

@@ -57,6 +57,8 @@ namespace CP_SDK::UI::DefaultComponents {
         l_CanvasScaler->set_dynamicPixelsPerUnit  (3.44f);
         l_CanvasScaler->set_referencePixelsPerUnit(10.0f);
 
+        get_gameObject()->AddComponent<RectMask2D*>();
+
         SetBackground(true);
         SetSize(Vector2(20.0f, 20.0f));
 

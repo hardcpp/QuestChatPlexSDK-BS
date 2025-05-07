@@ -21,7 +21,7 @@ namespace CP_SDK::UI::DefaultComponents {
     }
 
     /// @brief Default CDropdown component
-    class DefaultCDropdown : public Components::CDropdown
+    class CP_SDK_EXPORT DefaultCDropdown : public Components::CDropdown
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCDropdown, Components::CDropdown);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCDropdown);

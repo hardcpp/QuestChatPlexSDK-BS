@@ -10,7 +10,7 @@ namespace CP_SDK_BS::UI::DefaultFactoriesOverrides {
     }
 
     /// @brief BeatSaber CFloatingPanel factory
-    class BS_FloatingPanelFactory : public CP_SDK::UI::FactoryInterfaces::IFloatingPanelFactory
+    class CP_SDK_EXPORT BS_FloatingPanelFactory : public CP_SDK::UI::FactoryInterfaces::IFloatingPanelFactory
     {
         public:
             /// @brief Create an CFloatingPanel into the parent

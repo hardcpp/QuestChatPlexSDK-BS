@@ -5,8 +5,8 @@
 
 #include "../Logging/PaperLogger.hpp"
 #include "Internals/Il2cpp_enum.hpp"
-#include "Internals/il2cpp_customtype.hpp"
-#include "Internals/il2cpp_hook.hpp"
+#include "Internals/Il2cpp_customtype.hpp"
+#include "Internals/Il2cpp_hook.hpp"
 #include "Internals/Il2cpp_string.hpp"
 
 #include <vector>
@@ -19,8 +19,6 @@
 #include <beatsaber-hook/shared/utils/hooking.hpp>
 #include <custom-types/shared/macros.hpp>
 #include <UnityEngine/Object.hpp>
-
-#define CP_SDK_EXPORT_VISIBILITY CUSTOM_TYPES_EXPORT_VISIBILITY
 
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
@@ -42,7 +40,7 @@
 namespace CP_SDK::Utils {
 
     /// @brief Hook manager
-    class CP_SDK_EXPORT_VISIBILITY Hooks
+    class CP_SDK_EXPORT Hooks
     {
         CP_SDK_NO_DEF_CTORS(Hooks);
 

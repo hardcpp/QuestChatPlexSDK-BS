@@ -20,7 +20,7 @@ namespace CP_SDK::Unity {
     }
 
     /// @brief Sprite helper
-    class CP_SDK_EXPORT_VISIBILITY SpriteU
+    class CP_SDK_EXPORT SpriteU
     {
         CP_SDK_NO_DEF_CTORS(SpriteU);
 

@@ -18,7 +18,7 @@ namespace CP_SDK::UI::DefaultComponents {
     }
 
     /// @brief Default CFLayout component
-    class DefaultCFLayout : public Components::CFLayout
+    class CP_SDK_EXPORT DefaultCFLayout : public Components::CFLayout
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCFLayout, Components::CFLayout);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCFLayout);

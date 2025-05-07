@@ -25,7 +25,7 @@ namespace CP_SDK::UI::Components {
     }
 
     /// @brief Generic virtual list interface
-    class CVXList : public _u::MonoBehaviour
+    class CP_SDK_EXPORT CVXList : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CVXList, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(CVXList);

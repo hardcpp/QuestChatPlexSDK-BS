@@ -21,7 +21,7 @@ namespace CP_SDK::UI::DefaultComponents {
     }
 
     /// @brief Default CVScrollView component
-    class DefaultCVScrollView : public Components::CVScrollView
+    class CP_SDK_EXPORT DefaultCVScrollView : public Components::CVScrollView
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCVScrollView, Components::CVScrollView);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCVScrollView);

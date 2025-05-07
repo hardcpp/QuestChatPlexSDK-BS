@@ -19,7 +19,7 @@ namespace CP_SDK::UI::DefaultComponents::Subs {
     }
 
     /// @brief Toggle with callbacks component
-    class SubToggleWithCallbacks : public _u::Toggle
+    class CP_SDK_EXPORT SubToggleWithCallbacks : public _u::Toggle
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK::UI::DefaultComponents::Subs", SubToggleWithCallbacks, _u::Toggle);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(SubToggleWithCallbacks);

@@ -1,6 +1,8 @@
 #include "CP_SDK_BS/Game/LevelSelection.hpp"
 #include "CP_SDK_BS/Game/Logic.hpp"
 #include "CP_SDK/Unity/MTCoroutineStarter.hpp"
+#include "GlobalNamespace/zzzz__LevelSelectionFlowCoordinator_def.hpp"
+#include "GlobalNamespace/zzzz__PlayerSensitivityFlag_def.hpp"
 #include <custom-types/shared/delegate.hpp>
 #include <beatsaber-hook/shared/utils/byref.hpp>
 
@@ -30,6 +32,7 @@ namespace CP_SDK_BS::Game {
     /// @param p_SongToFilter Song to filter
     bool LevelSelection::FilterToSpecificSong(_u::BeatmapLevel* p_SongToFilter)
     {
+        CP_SDK::ChatPlexSDK::Logger()->Info(u"filtering 5");
         m_PendingFilterSong = p_SongToFilter;
 
         try
@@ -64,6 +67,7 @@ namespace CP_SDK_BS::Game {
     /// @param p_LevelSelectionNavigationController instance
     void LevelSelection::LevelSelectionNavigationController_didActivateEvent(_u::LevelSelectionNavigationController* p_LevelSelectionNavigationController)
     {
+        CP_SDK::ChatPlexSDK::Logger()->Info(u"filtering 4");
         CP_SDK::Unity::MTCoroutineStarter::Start(custom_types::Helpers::CoroutineHelper::New(
             LevelSelection_SelectLevelCategory(p_LevelSelectionNavigationController)
         ));
@@ -73,6 +77,7 @@ namespace CP_SDK_BS::Game {
         void, _u::LevelSelectionNavigationController* __Instance,
         bool __a, bool __b, bool __c)
     {
+        CP_SDK::ChatPlexSDK::Logger()->Info(u"filtering 3");
         //CP_SDK::ChatPlexSDK::Logger()->Error(u"Enter LevelSelectionNavigationController_DidActivate");
 
         LevelSelectionNavigationController_DidActivate(__Instance, __a, __b, __c);
@@ -101,6 +106,7 @@ namespace CP_SDK_BS::Game {
     /// @param p_LevelSelectionNavigationController LevelSelectionNavigationController instance
     custom_types::Helpers::Coroutine LevelSelection::LevelSelection_SelectLevelCategory(_u::LevelSelectionNavigationController* p_LevelSelectionNavigationController)
     {
+        CP_SDK::ChatPlexSDK::Logger()->Info(u"filtering 2");
         while (!_v::IsUnityPtrValid(p_LevelSelectionNavigationController) || p_LevelSelectionNavigationController->____isInTransition)
         {
             if (!_v::IsUnityPtrValid(p_LevelSelectionNavigationController))
@@ -127,7 +133,6 @@ namespace CP_SDK_BS::Game {
                 auto l_SegmentControl    = l_Selector->____levelFilterCategoryIconSegmentedControl;
                 auto l_Tags              = l_Selector->____levelCategoryInfos;
                 auto l_IndexToSelect     = -1;
-
 
                 for (auto l_I = 0; l_I < l_Tags->get_Length(); ++l_I)
                 {
@@ -168,6 +173,7 @@ namespace CP_SDK_BS::Game {
     /// @param p_Wait Should wait for any transition
     custom_types::Helpers::Coroutine LevelSelection::LevelSelection_FilterLevel(_u::LevelSearchViewController* p_LevelSearchViewController, bool p_Wait)
     {
+        CP_SDK::ChatPlexSDK::Logger()->Info(u"filtering 1");
         if (Logic::ActiveScene() != Logic::ESceneType::Menu)
             co_return;
 
@@ -193,13 +199,25 @@ namespace CP_SDK_BS::Game {
 
         try
         {
+            CP_SDK::ChatPlexSDK::Logger()->Info(u"filtering ");
             m_PreventLevelSearchViewController_didStartLoadingEvent = true;
             p_LevelSearchViewController->ResetAllFilterSettings(false);
 
             auto l_Filter = GlobalNamespace::LevelFilter();
+            l_Filter.songOwned                      = false;
+            l_Filter.songNotOwned                   = false;
+            l_Filter.songUnplayed                   = false;
+            l_Filter.difficulties                   = _u::BeatmapDifficultyMask();
+            l_Filter.songPacks                      = _u::SongPackMask();
+            l_Filter.characteristicSerializedName   = nullptr;
+            l_Filter.minBpm                         = 0.0f;
+            l_Filter.maxBpm                         = 0.0f;
+            l_Filter.sensitivity                    = _u::PlayerSensitivityFlag();
+
             l_Filter.limitIds     = ArrayW<StringW>({ m_PendingFilterSong->___levelID });
             l_Filter.searchText   = u"";
 
+            p_LevelSearchViewController->ResetAllFilterSettings(false);
             p_LevelSearchViewController->Refresh(
                 byref(l_Filter)
             );
@@ -223,7 +241,7 @@ namespace CP_SDK_BS::Game {
 
         try
         {
-            auto l_Filter = p_LevelSearchViewController->____currentSearchFilter;
+            const auto& l_Filter = p_LevelSearchViewController->____currentSearchFilter;
             if (l_Filter.limitIds && l_Filter.limitIds->get_Length() == 1)
             {
                 p_LevelSearchViewController->ResetAllFilterSettings(false);

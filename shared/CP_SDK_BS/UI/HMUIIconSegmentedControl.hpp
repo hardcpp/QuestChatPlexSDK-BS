@@ -14,12 +14,17 @@ namespace CP_SDK_BS::UI {
     }
 
     /// @brief Vertical icon segmented control
-    class CP_SDK_EXPORT_VISIBILITY HMUIIconSegmentedControl
+    class CP_SDK_EXPORT HMUIIconSegmentedControl
     {
         CP_SDK_NO_DEF_CTORS(HMUIIconSegmentedControl);
 
+
         private:
             static CP_SDK::Utils::MonoPtr<HMUI::IconSegmentedControl> m_Template;
+
+        public:
+            /// @brief When the game is reloaded
+            static void OnGameSoftReload();
 
         public:
             /// @brief Create icon segmented control

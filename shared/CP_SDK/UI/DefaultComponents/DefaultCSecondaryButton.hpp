@@ -26,7 +26,7 @@ namespace CP_SDK::UI::DefaultComponents {
     }
 
     /// @brief Default CSecondaryButton component
-    class DefaultCSecondaryButton : public Components::CSecondaryButton
+    class CP_SDK_EXPORT DefaultCSecondaryButton : public Components::CSecondaryButton
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCSecondaryButton, Components::CSecondaryButton, CP_SDK_IL2CPP_INTERFACES(
             _u::IEventSystemHandler,

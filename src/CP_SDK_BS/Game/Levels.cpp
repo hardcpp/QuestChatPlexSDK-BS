@@ -186,7 +186,10 @@ namespace CP_SDK_BS::Game {
             *p_Hash = p_LevelID.substr(13);
 
             if (p_Hash->length() == 40) // TODO check for only hex
+            {
+                *p_Hash = p_Hash->substr(0, 40);
                 std::transform(p_Hash->begin(), p_Hash->end(), p_Hash->begin(), std::towupper);
+            }
         }
 
         return true;
@@ -660,7 +663,7 @@ namespace CP_SDK_BS::Game {
         }
 
         _v::MonoPtr<BeatmapLevel, true> l_PreviewBeatmapLevel(p_BeatmapLevel);
-        auto l_Task = p_BeatmapLevel->___previewMediaData->GetCoverSpriteAsync(CancellationToken::get_None());
+        auto l_Task = p_BeatmapLevel->___previewMediaData->GetCoverSpriteAsync();
 
         _v::AwaitTaskAsync<UnityW<Sprite>>(
             l_Task,
@@ -778,7 +781,8 @@ namespace CP_SDK_BS::Game {
                     /* BeatmapLevel                                                             beatmapLevel:                */ p_Level,
                     /* IBeatmapLevelData                                                        beatmapLevelData:            */ p_BeatmapLevelData,
                     /* OverrideEnvironmentSettings                                              overrideEnvironmentSettings: */ p_OverrideEnvironmentSettings,
-                    /* ColorScheme                                                              overrideColorScheme:         */ p_ColorScheme,
+                    /* ColorScheme                                                              playerOverrideColorScheme:   */ p_ColorScheme,
+                    /* bool                                                                     playerOverrideLightshowColors*/ false,
                     /* ColorScheme                                                              beatmapOverrideColorScheme:  */ nullptr,
                     /* GameplayModifiers                                                        gameplayModifiers:           */ p_GameplayModifiers ? p_GameplayModifiers : GameplayModifiers::New_ctor(),
                     /* PlayerSpecificSettings                                                   playerSpecificSettings:      */ p_PlayerSettings    ? p_PlayerSettings    : PlayerSpecificSettings::New_ctor(),
@@ -791,7 +795,7 @@ namespace CP_SDK_BS::Game {
                     /* Action<DiContainer>                                                      afterSceneSwitchCallback:    */ nullptr,
                     /* Action<StandardLevelScenesTransitionSetupDataSO, LevelCompletionResults> levelFinishedCallback:       */ l_Delegate,
                     /* Action<LevelScenesTransitionSetupDataSO, LevelCompletionResults>         levelRestartedCallback:      */ nullptr,
-                    /* RecordingToolManager.SetupData?                                          recordingToolData:           */ System::Nullable_1<__RecordingToolManager__SetupData>()
+                    /* RecordingToolManager.SetupData?                                          recordingToolData:           */ System::Nullable_1<_u::RecordingToolManager_SetupData>()
                 );
             }
             catch (const std::exception& l_Exception)
@@ -831,15 +835,34 @@ namespace CP_SDK_BS::Game {
 
             try
             {
-                auto l_Task = m_BeatmapLevelsModel->LoadBeatmapLevelDataAsync(p_LevelID, m_GetLevelCancellationTokenSource->get_Token());
-
-                _v::AwaitTaskAsync<LoadBeatmapLevelDataResult>(
-                    l_Task,
-                    [=](_v::MonoPtrRef<Tasks::Task_1<LoadBeatmapLevelDataResult>> p_Task, bool p_Success) {
+                auto l_VersionTask = m_MenuTransitionsHelper->____beatmapLevelsEntitlementModel->GetLevelDataVersionAsync(p_LevelID, m_GetLevelCancellationTokenSource->get_Token());
+                _v::AwaitTaskAsync<BeatmapLevelDataVersion>(
+                    l_VersionTask,
+                    [=](_v::MonoPtrRef<Tasks::Task_1<BeatmapLevelDataVersion>> p_VersionTask, bool p_Success) {
                         try
                         {
-                            if (p_Success && !p_Task->get_Result().isError)
-                                p_Callback(p_Task->get_Result().beatmapLevelData);
+                            if (p_Success)
+                            {
+                                auto l_Task = m_BeatmapLevelsModel->LoadBeatmapLevelDataAsync(p_LevelID, p_VersionTask->get_Result(), m_GetLevelCancellationTokenSource->get_Token());
+
+                                _v::AwaitTaskAsync<LoadBeatmapLevelDataResult>(
+                                    l_Task,
+                                    [=](_v::MonoPtrRef<Tasks::Task_1<LoadBeatmapLevelDataResult>> p_Task, bool p_Success) {
+                                        try
+                                        {
+                                            if (p_Success && !p_Task->get_Result().isError)
+                                                p_Callback(p_Task->get_Result().beatmapLevelData);
+                                            else
+                                                p_Callback(nullptr);
+                                        }
+                                        catch (const std::exception& l_Exception)
+                                        {
+                                            CP_SDK::ChatPlexSDK::Logger()->Error(u"[CP_SDK_BS.Game][Levels.GetLevelFromLevelID] Error:");
+                                            CP_SDK::ChatPlexSDK::Logger()->Error(l_Exception);
+                                        }
+                                    }
+                                );
+                            }
                             else
                                 p_Callback(nullptr);
                         }

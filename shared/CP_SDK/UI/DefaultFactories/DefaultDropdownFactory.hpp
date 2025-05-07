@@ -10,7 +10,7 @@ namespace CP_SDK::UI::DefaultFactories {
     }
 
     /// @brief Default CDropdown factory
-    class DefaultDropdownFactory : public FactoryInterfaces::IDropdownFactory
+    class CP_SDK_EXPORT DefaultDropdownFactory : public FactoryInterfaces::IDropdownFactory
     {
         public:
             /// @brief Create an CDropdown into the parent

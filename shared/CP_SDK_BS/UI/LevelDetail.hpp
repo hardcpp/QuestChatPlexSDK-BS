@@ -34,12 +34,16 @@ namespace CP_SDK_BS::UI {
     }
 
     /// @brief Song detail widget
-    class CP_SDK_EXPORT_VISIBILITY LevelDetail
+    class CP_SDK_EXPORT LevelDetail
     {
         CP_SDK_NO_COPYMOVE_CTORS(LevelDetail);
 
         private:
             static _v::MonoPtr<_u::GameObject> m_SongDetailViewTemplate;
+
+        public:
+            /// @brief When the game is reloaded
+            static void OnGameSoftReload();
 
         public:
             /// @brief Init

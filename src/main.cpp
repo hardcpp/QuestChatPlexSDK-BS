@@ -1,3 +1,4 @@
+#include "git_info.h"
 #include "CP_SDK/ChatPlexSDK.hpp"
 #include "CP_SDK/ModuleBase.hpp"
 #include "CP_SDK/Logging/PaperLogger.hpp"
@@ -160,6 +161,7 @@ void OnEnable()
         break;
     }
 
+    l_HasBSPModules = true;
     if (l_HasBSPModules)
     {
         CP_SDK::UI::FlowCoordinators::MainFlowCoordinator::OverrideTitle(u"QBeatSaberPlus");
@@ -178,7 +180,7 @@ void OnEnable()
 ////////////////////////////////////////////////////////////////////////////
 
 // Called at the early stages of game loading
-extern "C" void setup(CModInfo* p_ModInfo)
+extern "C" __attribute__((visibility("default"))) void setup(CModInfo* p_ModInfo)
 {
     p_ModInfo->id = s_ModInfo.id.c_str();
     p_ModInfo->version = s_ModInfo.version.c_str();
@@ -216,7 +218,7 @@ extern "C" void setup(CModInfo* p_ModInfo)
 static bool s_IsLoaded = false;
 
 // Called later on in the game loading - a good time to install function hooks
-extern "C" void late_load()
+extern "C" __attribute__((visibility("default"))) void late_load()
 {
     if (s_IsLoaded)
         return;

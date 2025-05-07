@@ -16,7 +16,7 @@ namespace CP_SDK::UI::DefaultComponents {
     }
 
     /// @brief Default CFloatingPanel component
-    class DefaultCFloatingPanel : public Components::CFloatingPanel
+    class CP_SDK_EXPORT DefaultCFloatingPanel : public Components::CFloatingPanel
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCFloatingPanel, Components::CFloatingPanel);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCFloatingPanel);

@@ -12,7 +12,7 @@ namespace CP_SDK_BS::UI::Patches {
         using namespace VRUIControls;
     }
 
-    class CP_SDK_EXPORT_VISIBILITY PVRPointer
+    class CP_SDK_EXPORT PVRPointer
     {
         public:
             static CP_SDK::Utils::Event<_u::VRPointer*> OnActivated;

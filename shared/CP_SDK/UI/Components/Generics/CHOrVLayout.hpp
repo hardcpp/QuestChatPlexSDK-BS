@@ -23,7 +23,7 @@ namespace CP_SDK::UI::Components {
     }
 
     /// @brief Horizontal or vertical layout base component
-    class CHOrVLayout : public _u::MonoBehaviour
+    class CP_SDK_EXPORT CHOrVLayout : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CHOrVLayout, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(CHOrVLayout);

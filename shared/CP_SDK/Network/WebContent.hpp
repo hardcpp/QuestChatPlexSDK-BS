@@ -14,7 +14,7 @@ namespace CP_SDK::Network {
     }
 
     /// @brief WebContent
-    class CP_SDK_EXPORT_VISIBILITY WebContent
+    class CP_SDK_EXPORT WebContent
     {
         CP_SDK_NO_COPYMOVE_CTORS(WebContent);
         CP_SDK_PRIV_TAG();

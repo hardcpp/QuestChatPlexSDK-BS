@@ -15,7 +15,7 @@ namespace CP_SDK::UI::Components {
     }
 
     /// @brief Primary button component
-    class CPrimaryButton : public CPOrSButton
+    class CP_SDK_EXPORT CPrimaryButton : public CPOrSButton
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CPrimaryButton, CPOrSButton);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(CPrimaryButton);

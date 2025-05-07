@@ -4,7 +4,7 @@
 
 namespace CP_SDK::Chat {
 
-    class CP_SDK_EXPORT_VISIBILITY Service
+    class CP_SDK_EXPORT Service
     {
         CP_SDK_NO_DEF_CTORS(Service);
 

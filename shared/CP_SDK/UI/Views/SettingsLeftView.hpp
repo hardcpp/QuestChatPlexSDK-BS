@@ -16,7 +16,7 @@ namespace CP_SDK::UI::Views {
     }
 
     /// @brief Settings left view controller
-    class SettingsLeftView : public ViewController
+    class CP_SDK_EXPORT SettingsLeftView : public ViewController
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Views", SettingsLeftView, ViewController);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(SettingsLeftView);

@@ -10,7 +10,7 @@ namespace CP_SDK::UI::DefaultFactories {
     }
 
     /// @brief Default CFloatingPanel factory
-    class DefaultFloatingPanelFactory : public FactoryInterfaces::IFloatingPanelFactory
+    class CP_SDK_EXPORT DefaultFloatingPanelFactory : public FactoryInterfaces::IFloatingPanelFactory
     {
         public:
             /// @brief Create an CFloatingPanel into the parent

@@ -16,7 +16,7 @@ namespace CP_SDK::UI::Views {
     }
 
     /// @brief Welcome Right View controller
-    class MainRightView : public ViewController
+    class CP_SDK_EXPORT MainRightView : public ViewController
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Views", MainRightView, ViewController);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(MainRightView);

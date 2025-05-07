@@ -21,7 +21,7 @@ namespace CP_SDK::UI::Components {
     }
 
     /// @brief CImage component
-    class CImage : public _u::MonoBehaviour
+    class CP_SDK_EXPORT CImage : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CImage, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(CImage);

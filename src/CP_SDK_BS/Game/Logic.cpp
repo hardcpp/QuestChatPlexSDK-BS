@@ -1,16 +1,17 @@
 #include "CP_SDK_BS/Game/Logic.hpp"
 #include "CP_SDK_BS/Game/Levels.hpp"
 #include "CP_SDK_BS/Game/Scoring.hpp"
-#include "CP_SDK_BS/Game/Patches/PMissionLevelScenesTransitionSetupDataSO.hpp"
 #include "CP_SDK_BS/Game/Patches/PMultiplayerLevelScenesTransitionSetupDataSO.hpp"
 #include "CP_SDK_BS/Game/Patches/PStandardLevelScenesTransitionSetupDataSO.hpp"
 #include "CP_SDK_BS/UI/LevelDetail.hpp"
+#include "CP_SDK_BS/UI/HMUIIconSegmentedControl.hpp"
+#include "CP_SDK_BS/UI/HMUITextSegmentedControl.hpp"
 #include "CP_SDK/ChatPlexSDK.hpp"
 
 #include <custom-types/shared/delegate.hpp>
 #include <GlobalNamespace/GameScenesManager.hpp>
 #include <GlobalNamespace/ScoreModel.hpp>
-#include <System/Action_2.hpp>
+#include <System/Action_3.hpp>
 #include <UnityEngine/Resources.hpp>
 
 static bool m_WasChatPlexUnityInitialized = false;
@@ -82,6 +83,10 @@ namespace CP_SDK_BS::Game {
 
                         l_GameScenesManager->remove_transitionDidFinishEvent(m_Delegate1);
                         l_GameScenesManager->add_transitionDidFinishEvent(m_Delegate1);
+
+                        UI::HMUIIconSegmentedControl::OnGameSoftReload();
+                        UI::HMUITextSegmentedControl::OnGameSoftReload();
+                        UI::LevelDetail::OnGameSoftReload();
                     }
                 }
 
@@ -133,9 +138,10 @@ namespace CP_SDK_BS::Game {
         }
     }
     /// @brief On menu scene loaded
+    /// @param p_Type        Transition type
     /// @param p_Object      Transition object
     /// @param p_DiContainer Container
-    void Logic::OnMenuSceneLoadedFresh(_u::ScenesTransitionSetupDataSO* p_Object, Zenject::DiContainer* p_DiContainer)
+    void Logic::OnMenuSceneLoadedFresh(_u::GameScenesManager_SceneTransitionType p_Type, _u::ScenesTransitionSetupDataSO* p_Object,Zenject::DiContainer* p_DiContainer)
     {
 #if DEBUG_SCENES
         CP_SDK::ChatPlexSDK::Logger()->Error(u"====== [CP_SDK_BS.Game][Logic.OnMenuSceneLoadedFresh] ======");
@@ -192,7 +198,6 @@ namespace CP_SDK_BS::Game {
                     {
                         case LevelType::Solo:
                             Patches::PStandardLevelScenesTransitionSetupDataSO::RestoreLevelData(m_LevelData);
-                            Patches::PMissionLevelScenesTransitionSetupDataSO::RestoreLevelData(m_LevelData);
                             break;
 
                         case LevelType::Multiplayer:

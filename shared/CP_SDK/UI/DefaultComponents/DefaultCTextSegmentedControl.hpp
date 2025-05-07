@@ -18,7 +18,7 @@ namespace CP_SDK::UI::DefaultComponents {
     }
 
     /// @brief Default CTextSegmentedControl component
-    class DefaultCTextSegmentedControl : public Components::CTextSegmentedControl
+    class CP_SDK_EXPORT DefaultCTextSegmentedControl : public Components::CTextSegmentedControl
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCTextSegmentedControl, Components::CTextSegmentedControl);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCTextSegmentedControl);

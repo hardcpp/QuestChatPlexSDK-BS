@@ -21,7 +21,7 @@ namespace CP_SDK::Unity {
     }
 
     /// @brief Thread task system
-    class CP_SDK_EXPORT_VISIBILITY MTThreadInvoker
+    class CP_SDK_EXPORT MTThreadInvoker
     {
         private:
             /// @brief Queue class

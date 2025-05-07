@@ -15,7 +15,7 @@ namespace CP_SDK::UI::Components {
     }
 
     /// @brief Virtual Vertical List
-    class CVVList : public CVXList
+    class CP_SDK_EXPORT CVVList : public CVXList
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CVVList, CVXList);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(CVVList);

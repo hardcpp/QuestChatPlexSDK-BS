@@ -32,7 +32,7 @@ namespace CP_SDK::UI::DefaultComponents {
     }
 
     /// @brief Default CSlider component
-    class DefaultCSlider : public Components::CSlider
+    class CP_SDK_EXPORT DefaultCSlider : public Components::CSlider
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCSlider, Components::CSlider, CP_SDK_IL2CPP_INTERFACES(
             _u::IEventSystemHandler,

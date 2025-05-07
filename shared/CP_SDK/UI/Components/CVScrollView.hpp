@@ -19,7 +19,7 @@ namespace CP_SDK::UI::Components {
     }
 
     /// @brief CVScrollView component
-    class CVScrollView : public _u::MonoBehaviour
+    class CP_SDK_EXPORT CVScrollView : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CVScrollView, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(CVScrollView);

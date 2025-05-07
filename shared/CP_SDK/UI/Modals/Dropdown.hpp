@@ -17,7 +17,7 @@ namespace CP_SDK::UI::Modals {
     }
 
     /// @brief Dropdown modal
-    class Dropdown : public IModal
+    class CP_SDK_EXPORT Dropdown : public IModal
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Modals", Dropdown, IModal);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(Dropdown);

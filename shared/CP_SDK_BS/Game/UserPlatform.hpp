@@ -7,7 +7,7 @@
 namespace CP_SDK_BS::Game {
 
     /// UserPlatform helper
-    class CP_SDK_EXPORT_VISIBILITY UserPlatform
+    class CP_SDK_EXPORT UserPlatform
     {
         CP_SDK_NO_DEF_CTORS(UserPlatform);
 

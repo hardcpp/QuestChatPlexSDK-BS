@@ -1,14 +1,16 @@
+#include "../../BuildConfig.hpp"
+
 #include <string>
 #include <string_view>
 
 namespace CP_SDK::Utils {
 
-    std::u16string StrToU16Str(std::string_view p_Str);
-    std::string U16StrToStr(std::u16string_view p_Str);
+    CP_SDK_EXPORT std::u16string StrToU16Str(std::string_view p_Str);
+    CP_SDK_EXPORT std::string U16StrToStr(std::u16string_view p_Str);
 
-    bool U16EqualsToCaseInsensitive(std::u16string_view p_Left, std::u16string_view p_Right);
+    CP_SDK_EXPORT bool U16EqualsToCaseInsensitive(std::u16string_view p_Left, std::u16string_view p_Right);
 
-    std::u16string U16UrlEncode(std::u16string_view p_Input);
+    CP_SDK_EXPORT std::u16string U16UrlEncode(std::u16string_view p_Input);
 
 }   ///< namespace CP_SDK::Utils
 

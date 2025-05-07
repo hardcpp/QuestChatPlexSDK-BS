@@ -21,7 +21,7 @@ namespace CP_SDK_BS::Game {
     }
 
     /// @brief Level completion data
-    class CP_SDK_EXPORT_VISIBILITY LevelCompletionData
+    class CP_SDK_EXPORT LevelCompletionData
     {
         CP_SDK_NO_DEF_CTORS(LevelCompletionData);
         CP_SDK_PRIV_TAG();

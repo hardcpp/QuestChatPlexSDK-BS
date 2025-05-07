@@ -17,7 +17,7 @@ namespace CP_SDK::UI::DefaultComponents::Subs {
     }
 
     /// @brief Vertical scroll view content updater
-    class SubVScrollViewContent : public _u::MonoBehaviour
+    class CP_SDK_EXPORT SubVScrollViewContent : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK::UI::DefaultComponents::Subs", SubVScrollViewContent, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(SubVScrollViewContent);

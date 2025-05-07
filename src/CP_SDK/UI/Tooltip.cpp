@@ -59,7 +59,7 @@ namespace CP_SDK::UI {
         l_Tooltip->m_Image->set_color                  (UISystem::TooltipBGColor);
         l_Tooltip->m_Image->set_maskable               (false);
 
-        l_Tooltip->m_Border = UISystem::ImageFactory->Create(u"Text", l_Tooltip->m_RTransform.Ptr());
+        l_Tooltip->m_Border = UISystem::ImageFactory->Create(u"Border", l_Tooltip->m_RTransform.Ptr());
         l_Tooltip->m_Border->SetSprite(UISystem::GetUIRoundSmoothFrameSprite().Ptr());
         l_Tooltip->m_Border->SetColor(ColorU::WithAlpha(Color::get_white(), 0.80f));
         l_Tooltip->m_Border->SetType(Image::Type::Sliced);
@@ -68,11 +68,13 @@ namespace CP_SDK::UI {
         l_Tooltip->m_Border->RTransform()->set_anchorMax       (Vector2::get_one());
         l_Tooltip->m_Border->RTransform()->set_anchoredPosition(Vector2::get_zero());
         l_Tooltip->m_Border->RTransform()->set_sizeDelta       (Vector2::get_zero());
+        l_Tooltip->m_Border->ImageC()->set_maskable            (false);
 
         l_Tooltip->m_Text = UISystem::TextFactory->Create(u"Text", l_Tooltip->m_RTransform.Ptr());
         l_Tooltip->m_Text->SetText(u"Tooltip");
         l_Tooltip->m_Text->SetFontSize(3.8f);
         l_Tooltip->m_Text->SetColor(Color::get_white());
+        l_Tooltip->m_Text->TMProUGUI()->set_maskable(false);
 
         l_Tooltip->get_gameObject()->SetActive(false);
 

@@ -10,7 +10,7 @@ namespace CP_SDK::UI::DefaultFactories {
     }
 
     /// @brief Default CTextSegmentedControl factory
-    class DefaultTextSegmentedControlFactory : public FactoryInterfaces::ITextSegmentedControlFactory
+    class CP_SDK_EXPORT DefaultTextSegmentedControlFactory : public FactoryInterfaces::ITextSegmentedControlFactory
     {
         public:
             /// @brief Create an CTextSegmentedControl into the parent

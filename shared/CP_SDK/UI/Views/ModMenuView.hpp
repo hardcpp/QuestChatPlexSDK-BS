@@ -20,7 +20,7 @@ namespace CP_SDK::UI::Views {
     }
 
     /// @brief Mod menu view controller
-    class ModMenuView : public ViewController
+    class CP_SDK_EXPORT ModMenuView : public ViewController
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Views", ModMenuView, ViewController);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(ModMenuView);

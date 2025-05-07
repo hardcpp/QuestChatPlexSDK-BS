@@ -16,7 +16,7 @@ namespace CP_SDK::UI::DefaultComponents {
     }
 
     /// @brief Default CGLayout component
-    class DefaultCGLayout : public Components::CGLayout
+    class CP_SDK_EXPORT DefaultCGLayout : public Components::CGLayout
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCGLayout, Components::CGLayout);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCGLayout);

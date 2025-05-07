@@ -5,9 +5,10 @@
 #include "LevelData.hpp"
 #include "LevelCompletionData.hpp"
 
-#include <System/Action_2.hpp>
+#include <System/Action_3.hpp>
 #include <UnityEngine/SceneManagement/Scene.hpp>
 #include <GlobalNamespace/ScenesTransitionSetupDataSO.hpp>
+#include <GlobalNamespace/GameScenesManager.hpp>
 #include <Zenject/DiContainer.hpp>
 
 namespace CP_SDK_BS::Game {
@@ -24,11 +25,11 @@ namespace CP_SDK_BS::Game {
     }
 
     /// @brief Game helper
-    class CP_SDK_EXPORT_VISIBILITY Logic
+    class CP_SDK_EXPORT Logic
     {
         CP_SDK_NO_DEF_CTORS(Logic);
 
-        using t_Delegate1 = System::Action_2<UnityW<_u::ScenesTransitionSetupDataSO>, Zenject::DiContainer*>*;
+        using t_Delegate1 = System::Action_3<_u::GameScenesManager_SceneTransitionType, UnityW<_u::ScenesTransitionSetupDataSO>, Zenject::DiContainer*>*;
 
         public:
             /// @brief Scenes
@@ -69,9 +70,10 @@ namespace CP_SDK_BS::Game {
             /// @brief On menu scene active
             static void OnMenuSceneActive();
             /// @brief On menu scene loaded
+            /// @param p_Type        Transition type
             /// @param p_Object      Transition object
             /// @param p_DiContainer Container
-            static void OnMenuSceneLoadedFresh(_u::ScenesTransitionSetupDataSO* p_Object, Zenject::DiContainer* p_DiContainer);
+            static void OnMenuSceneLoadedFresh(_u::GameScenesManager_SceneTransitionType p_Type, _u::ScenesTransitionSetupDataSO* p_Object, Zenject::DiContainer* p_DiContainer);
             /// @brief On game scene active
             static void OnGameSceneActive();
 

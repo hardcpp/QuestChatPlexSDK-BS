@@ -5,6 +5,10 @@
 
 #include <GlobalNamespace/IReadonlyBeatmapData.hpp>
 #include <GlobalNamespace/BeatmapKey.hpp>
+#include <GlobalNamespace/BeatmapObjectData.hpp>
+#include <GlobalNamespace/BeatmapDataItem.hpp>
+#include <System/Collections/Generic/LinkedList_1.hpp>
+#include <System/Collections/Generic/LinkedListNode_1.hpp>
 
 namespace CP_SDK_BS::Game {
 
@@ -13,7 +17,18 @@ namespace CP_SDK_BS::Game {
         if (!Data || !Data->get_transformedBeatmapData())
             return false;
 
-        return Data->get_transformedBeatmapData()->get_spawnRotationEventsCount() > 0;
+        for (auto l_CurrentNode = Data->get_transformedBeatmapData()->allBeatmapDataItems->head; l_CurrentNode != nullptr; l_CurrentNode = l_CurrentNode->Next)
+        {
+            auto l_Current = reinterpret_cast<_u::BeatmapDataItem*>(l_CurrentNode->Value);
+
+            if (l_Current->get_type() != _u::BeatmapDataItem_BeatmapDataItemType::BeatmapObject
+                || reinterpret_cast<_u::BeatmapObjectData*>(l_Current)->get_rotation() == 0)
+                continue;
+
+            return true;
+        }
+
+        return false;
     }
     bool LevelData::IsNoodle()
     {

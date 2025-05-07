@@ -18,7 +18,7 @@ namespace CP_SDK::UI::Views {
     }
 
     /// @brief Main main view controller
-    class MainMainView : public ViewController
+    class CP_SDK_EXPORT MainMainView : public ViewController
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Views", MainMainView, ViewController);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(MainMainView);

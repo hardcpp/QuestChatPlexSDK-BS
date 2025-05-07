@@ -18,7 +18,7 @@ namespace CP_SDK::UI::DefaultComponents {
     }
 
     /// @brief Default CVVList component
-    class DefaultCVVList : public Components::CVVList
+    class CP_SDK_EXPORT DefaultCVVList : public Components::CVVList
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCVVList, Components::CVVList);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCVVList);

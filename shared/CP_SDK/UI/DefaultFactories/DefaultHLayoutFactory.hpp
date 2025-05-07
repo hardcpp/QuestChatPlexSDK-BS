@@ -10,7 +10,7 @@ namespace CP_SDK::UI::DefaultFactories {
     }
 
     /// @brief Default CHLayout factory
-    class DefaultHLayoutFactory : public FactoryInterfaces::IHLayoutFactory
+    class CP_SDK_EXPORT DefaultHLayoutFactory : public FactoryInterfaces::IHLayoutFactory
     {
         public:
             /// @brief Create an CHLayout into the parent

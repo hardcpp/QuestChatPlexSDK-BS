@@ -52,6 +52,15 @@ namespace CP_SDK_BS::UI {
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
+    /// @brief When the game is reloaded
+    void LevelDetail::OnGameSoftReload()
+    {
+        m_SongDetailViewTemplate = nullptr;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+
     /// @brief Init
     void LevelDetail::Init()
     {
@@ -225,7 +234,7 @@ namespace CP_SDK_BS::UI {
         l_List->Add(p_Value);
 
         m_Difficulty = p_Value;
-        m_SongDiffSegmentedControl->SetTexts(l_List->AsReadOnly()->i___System__Collections__Generic__IReadOnlyList_1_T_());
+        m_SongDiffSegmentedControl->SetTexts(l_List->AsReadOnly()->i___System__Collections__Generic__IReadOnlyList_1_T_(), nullptr);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -426,7 +435,7 @@ namespace CP_SDK_BS::UI {
         }
 
         /// Display mode
-        Characteristic(HMUI::IconSegmentedControl::DataItem::New_ctor(p_Characteristic->____icon, BGLib::Polyglot::Localization::Get(p_Characteristic->____descriptionLocalizationKey)));
+        Characteristic(HMUI::IconSegmentedControl::DataItem::New_ctor(p_Characteristic->____icon, BGLib::Polyglot::Localization::Get(p_Characteristic->____descriptionLocalizationKey), true));
 
         /// Display difficulty
         Difficulty(Game::Levels::BeatmapDifficultySerializedNameToDifficultyName(BeatmapDifficultySerializedMethods::SerializedName(p_Difficulty)));
@@ -498,7 +507,7 @@ namespace CP_SDK_BS::UI {
         {
             auto l_BeatmapCharacteristicSO = (BeatmapCharacteristicSO*)nullptr;
             if (Game::Levels::TryGetBeatmapCharacteristicSOBySerializedName(l_Current, &l_BeatmapCharacteristicSO))
-                l_Characteristics->Add(HMUI::IconSegmentedControl::DataItem::New_ctor(l_BeatmapCharacteristicSO->____icon, BGLib::Polyglot::Localization::Get(l_BeatmapCharacteristicSO->____descriptionLocalizationKey)));
+                l_Characteristics->Add(HMUI::IconSegmentedControl::DataItem::New_ctor(l_BeatmapCharacteristicSO->____icon, BGLib::Polyglot::Localization::Get(l_BeatmapCharacteristicSO->____descriptionLocalizationKey), true));
         }
 
         if (l_Characteristics->get_Count() == 0)
@@ -660,7 +669,7 @@ namespace CP_SDK_BS::UI {
                 return true;    ///< Continue
             });
 
-            m_SongDiffSegmentedControl->SetTexts(l_Difficulties->AsReadOnly()->i___System__Collections__Generic__IReadOnlyList_1_T_());
+            m_SongDiffSegmentedControl->SetTexts(l_Difficulties->AsReadOnly()->i___System__Collections__Generic__IReadOnlyList_1_T_(), nullptr);
             m_SongDiffSegmentedControl->SelectCellWithNumber(l_Difficulties->get_Count() - 1);
             OnDifficultyChanged(nullptr, l_Difficulties->get_Count() - 1);
         }
@@ -680,7 +689,7 @@ namespace CP_SDK_BS::UI {
             for (auto& l_Current : l_Version->GetDifficultiesPerBeatmapCharacteristicSOSerializedName(l_Characs[p_Index]))
                 l_Difficulties->Add(Game::Levels::BeatmapDifficultySerializedNameToDifficultyName(l_Current->difficulty));
 
-            m_SongDiffSegmentedControl->SetTexts(l_Difficulties->AsReadOnly()->i___System__Collections__Generic__IReadOnlyList_1_T_());
+            m_SongDiffSegmentedControl->SetTexts(l_Difficulties->AsReadOnly()->i___System__Collections__Generic__IReadOnlyList_1_T_(), nullptr);
             m_SongDiffSegmentedControl->SelectCellWithNumber(l_Difficulties->get_Count() - 1);
             OnDifficultyChanged(nullptr, l_Difficulties->get_Count() - 1);
         }

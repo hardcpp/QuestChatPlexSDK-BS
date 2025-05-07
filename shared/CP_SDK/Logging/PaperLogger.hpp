@@ -4,12 +4,12 @@
 
 #include <beatsaber-hook/shared/utils/logging.hpp>
 
-#include "paper/shared/logger.hpp"
+#include "paper2_scotland2/shared/logger.hpp"
 
 namespace CP_SDK::Logging {
 
     /// @brief Paper Logger
-    class PaperLogger : public ILogger
+    class CP_SDK_EXPORT PaperLogger : public ILogger
     {
         public:
             /// @brief Constructor

@@ -10,7 +10,7 @@ namespace CP_SDK::UI::DefaultFactories {
     }
 
     /// @brief Default CIconButton factory
-    class DefaultIconButtonFactory : public FactoryInterfaces::IIconButtonFactory
+    class CP_SDK_EXPORT DefaultIconButtonFactory : public FactoryInterfaces::IIconButtonFactory
     {
         public:
             /// @brief Create an CIconButton into the parent

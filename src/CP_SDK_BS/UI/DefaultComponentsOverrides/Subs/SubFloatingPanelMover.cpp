@@ -58,8 +58,8 @@ namespace CP_SDK_BS::UI::DefaultComponentsOverrides::Subs {
             if (m_GrabbingController)
                 return;
 
-            auto l_HitCount = Physics::RaycastNonAlloc( l_VRControllerTransform->get_position(),
-                                                        l_VRControllerTransform->get_forward(),
+            auto l_HitCount = Physics::RaycastNonAlloc( l_VRController->____viewAnchorTransform->get_position(),
+                                                        l_VRController->____viewAnchorTransform->get_forward(),
                                                         m_RaycastBuffer.Ptr(),
                                                         MaxLaserDistance,
                                                         static_cast<int>(1 << CP_SDK::UI::UISystem::UILayer));

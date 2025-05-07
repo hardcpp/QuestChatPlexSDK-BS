@@ -17,7 +17,7 @@ namespace CP_SDK::UI::Components {
     }
 
     /// @brief Horizontal layout component
-    class CHLayout : public CHOrVLayout
+    class CP_SDK_EXPORT CHLayout : public CHOrVLayout
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CHLayout, CHOrVLayout);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(CHLayout);

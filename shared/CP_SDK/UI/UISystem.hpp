@@ -44,7 +44,7 @@ namespace CP_SDK::UI {
     }
 
     /// @brief UI system main class
-    class CP_SDK_EXPORT_VISIBILITY UISystem
+    class CP_SDK_EXPORT UISystem
     {
         CP_SDK_NO_DEF_CTORS(UISystem);
 

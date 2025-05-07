@@ -16,7 +16,7 @@ namespace CP_SDK::UI::DefaultComponents {
     }
 
     /// @brief Default CVLayout component
-    class DefaultCVLayout : public Components::CVLayout
+    class CP_SDK_EXPORT DefaultCVLayout : public Components::CVLayout
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCVLayout, Components::CVLayout);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCVLayout);

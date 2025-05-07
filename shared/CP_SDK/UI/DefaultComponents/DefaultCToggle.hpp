@@ -21,7 +21,7 @@ namespace CP_SDK::UI::DefaultComponents {
     }
 
     /// @brief Default CToggle component
-    class DefaultCToggle : public Components::CToggle
+    class CP_SDK_EXPORT DefaultCToggle : public Components::CToggle
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.DefaultComponents", DefaultCToggle, Components::CToggle);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(DefaultCToggle);

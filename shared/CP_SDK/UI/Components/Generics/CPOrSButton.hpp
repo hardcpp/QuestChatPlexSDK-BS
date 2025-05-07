@@ -28,7 +28,7 @@ namespace CP_SDK::UI::Components {
     }
 
     /// @brief Primary or Secondary button component
-    class CPOrSButton : public _u::MonoBehaviour
+    class CP_SDK_EXPORT CPOrSButton : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CPOrSButton, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(CPOrSButton);

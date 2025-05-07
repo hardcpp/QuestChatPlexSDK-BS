@@ -17,7 +17,7 @@ namespace CP_SDK::UI::Modals {
     }
 
     /// @brief Message modal
-    class Message : public IModal
+    class CP_SDK_EXPORT Message : public IModal
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Modals", Message, IModal);
         CP_SDK_IL2CPP_DECLARE_CTOR_CHILD(Message);

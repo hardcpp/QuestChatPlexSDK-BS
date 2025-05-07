@@ -8,7 +8,7 @@
 namespace CP_SDK::Misc {
 
     /// @brief Fast cancellation token
-    class CP_SDK_EXPORT_VISIBILITY FastCancellationToken
+    class CP_SDK_EXPORT FastCancellationToken
     {
         CP_SDK_NO_DEF_CTORS(FastCancellationToken);
         CP_SDK_PRIV_TAG();

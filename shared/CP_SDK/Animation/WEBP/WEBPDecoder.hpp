@@ -19,7 +19,7 @@ namespace CP_SDK::Animation::WEBP {
     }
 
     /// @brief WEBP decoder
-    class CP_SDK_EXPORT_VISIBILITY WEBPDecoder
+    class CP_SDK_EXPORT WEBPDecoder
     {
         CP_SDK_NO_DEF_CTORS(WEBPDecoder);
 

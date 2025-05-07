@@ -22,7 +22,7 @@ namespace CP_SDK::UI::Components {
     }
 
     /// @brief CTabControl component
-    class CTabControl : public _u::MonoBehaviour
+    class CP_SDK_EXPORT CTabControl : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CTabControl, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(CTabControl);

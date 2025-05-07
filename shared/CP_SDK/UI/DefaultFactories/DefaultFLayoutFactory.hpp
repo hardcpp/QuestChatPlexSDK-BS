@@ -10,7 +10,7 @@ namespace CP_SDK::UI::DefaultFactories {
     }
 
     /// @brief Default CFLayout factory
-    class DefaultFLayoutFactory : public FactoryInterfaces::IFLayoutFactory
+    class CP_SDK_EXPORT DefaultFLayoutFactory : public FactoryInterfaces::IFLayoutFactory
     {
         public:
             /// @brief Create an CFLayout into the parent

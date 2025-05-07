@@ -10,7 +10,7 @@ namespace CP_SDK::UI::DefaultFactories {
     }
 
     /// @brief Default CText factory
-    class DefaultTextFactory : public FactoryInterfaces::ITextFactory
+    class CP_SDK_EXPORT DefaultTextFactory : public FactoryInterfaces::ITextFactory
     {
         public:
             /// @brief Create an CText into the parent

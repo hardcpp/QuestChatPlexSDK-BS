@@ -22,7 +22,7 @@ namespace CP_SDK::UI::Components {
     }
 
     /// @brief Grid layout group
-    class CGLayout : public _u::MonoBehaviour
+    class CP_SDK_EXPORT CGLayout : public _u::MonoBehaviour
     {
         CP_SDK_IL2CPP_INHERIT("CP_SDK.UI.Components", CGLayout, _u::MonoBehaviour);
         CP_SDK_IL2CPP_DECLARE_CTOR(CGLayout);
