@@ -37,10 +37,10 @@
       "downloadIfMissing": "https://github.com/Fernthedev/paperlog/releases/download/v4.6.2/paper2_scotland2.qmod"
     }
   ],
-  "modFiles": [
+  "modFiles": [],
+  "lateModFiles": [
     "libchatplex-sdk-bs.so"
   ],
-  "lateModFiles": [],
   "libraryFiles": [],
   "fileCopies": [],
   "copyExtensions": []
