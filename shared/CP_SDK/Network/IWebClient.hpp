@@ -33,15 +33,15 @@ namespace CP_SDK::Network {
 
         public:
             /// @brief Get header
-            /// @param p_Name Header name
-            virtual std::u16string GetHeader(std::u16string_view p_Name) = 0;
+            /// @param name Header name
+            virtual std::u16string GetHeader(std::u16string_view name) = 0;
             /// @brief Set header
-            /// @param p_Name  Header name
-            /// @param p_Value Header value
-            virtual void SetHeader(std::u16string_view p_Name, std::u16string_view p_Value) = 0;
+            /// @param name  Header name
+            /// @param value Header value
+            virtual void SetHeader(std::u16string_view name, std::u16string_view value) = 0;
             /// @brief Remove header
-            /// @param p_Name Header name
-            virtual void RemoveHeader(std::u16string_view p_Name) = 0;
+            /// @param name Header name
+            virtual void RemoveHeader(std::u16string_view name) = 0;
 
         public:
             /// @brief Do Async GET query
