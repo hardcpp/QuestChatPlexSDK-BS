@@ -2,6 +2,7 @@
 
 #include "../Utils/Il2cpp.hpp"
 #include "../Utils/MonoPtr.hpp"
+#include "../Utils/Json.hpp"
 
 #include <string>
 #include <stdint.h>
@@ -37,8 +38,11 @@ namespace CP_SDK::Network {
 
         public:
             /// @brief Constructor from Json
-            /// @param p_Content Json content
-            static Ptr FromJson(std::u16string_view p_Content);
+            /// @param content Json content
+            static Ptr FromJson(std::u16string_view content);
+            /// @brief Constructor from Json
+            /// @param content Json content
+            static Ptr FromJson(std::shared_ptr<_v::Json::U16Document>& content);
 
     };
 

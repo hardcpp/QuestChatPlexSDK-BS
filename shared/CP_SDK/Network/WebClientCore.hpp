@@ -2,7 +2,6 @@
 
 #include "IWebClient.hpp"
 
-#include <custom-types/shared/coroutine.hpp>
 #include <System/TimeSpan.hpp>
 
 #include <map>
@@ -14,38 +13,35 @@ namespace CP_SDK::Network {
     {
         using namespace System;
         using namespace System::Threading;
-        using namespace UnityEngine::Networking;
     }
     namespace _v
     {
         using namespace CP_SDK::Utils;
     }
 
-    /// @brief WebClientUnity using unity web requests
-    class CP_SDK_EXPORT WebClientUnity : public IWebClient, public std::enable_shared_from_this<WebClientUnity>
+    /// @brief WebClientCore
+    class CP_SDK_EXPORT WebClientCore : public IWebClient, public std::enable_shared_from_this<WebClientCore>
     {
-        CP_SDK_NO_COPYMOVE_CTORS(WebClientUnity);
+        CP_SDK_NO_COPYMOVE_CTORS(WebClientCore);
         CP_SDK_PRIV_TAG();
 
         public:
-            using Ptr = std::shared_ptr<WebClientUnity>;
+            using Ptr = std::shared_ptr<WebClientCore>;
 
         private:
             static Ptr m_GlobalClient;
 
         public:
             /// @brief Global client instance
-            static WebClientUnity* GlobalClient();
+            static WebClientCore* GlobalClient();
 
         private:
             std::u16string                              m_BaseAddress;
-            int                                         m_Timeout;
+            int                                         m_TimeOut;
             std::map<std::u16string, std::u16string>    m_Headers;
             std::mutex                                  m_HeadersLock;
 
         public:
-            /// @brief Timeout seconds
-            int DownloadTimeout;
             /// @brief Maximum retry attempt
             int MaxRetry;
             /// @brief Delay between each retry
@@ -55,26 +51,59 @@ namespace CP_SDK::Network {
             /// @brief Constructor
             /// @param baseAddress       Base address
             /// @param timeOut           Requests timeout
+            /// @param keepAlive         Should try to keep the connection alive
             /// @param forceCacheDiscard Should force server cache discard
-            WebClientUnity(CP_SDK_PRIV_TAG_ARG(), std::u16string_view baseAddress, _u::TimeSpan timeOut, bool forceCacheDiscard);
+            WebClientCore(CP_SDK_PRIV_TAG_ARG(), std::u16string_view baseAddress, _u::TimeSpan timeOut, bool keepAlive, bool forceCacheDiscard);
 
             /// @brief Constructor
             /// @param baseAddress       Base address
             /// @param timeOut           Requests timeout
+            /// @param keepAlive         Should try to keep the connection alive
             /// @param forceCacheDiscard Should force server cache discard
-            static Ptr Make(std::u16string_view baseAddress, _u::TimeSpan timeOut, bool forceCacheDiscard = false);
+            static Ptr Make(std::u16string_view baseAddress, _u::TimeSpan timeOut, bool keepAlive = true, bool forceCacheDiscard = false);
 
         public:
             /// @brief Get header
-            /// @param name Header name
-            virtual std::u16string GetHeader(std::u16string_view name) override final;
+            /// @param p_Name Header name
+            virtual std::u16string GetHeader(std::u16string_view p_Name) override final;
             /// @brief Set header
-            /// @param name  Header name
-            /// @param value Header value
-            virtual void SetHeader(std::u16string_view name, std::u16string_view value) override final;
+            /// @param p_Name  Header name
+            /// @param p_Value Header value
+            virtual void SetHeader(std::u16string_view p_Name, std::u16string_view p_Value) override final;
             /// @brief Remove header
-            /// @param name Header name
-            virtual void RemoveHeader(std::u16string_view name) override final;
+            /// @param p_Name Header name
+            virtual void RemoveHeader(std::u16string_view p_Name) override final;
+
+        public:
+            /// @brief Do GET query
+            /// @param url       Target URL
+            /// @param dontRetry Should not retry
+            /// @param progress  Progress reporter
+            WebResponse::Ptr Get(std::u16string_view url, bool dontRetry = false, _v::CActionRef<float> progress = nullptr);
+            /// @brief Do GET query
+            /// @param url       Target URL
+            /// @param dontRetry Should not retry
+            /// @param progress  Progress reporter
+            WebResponse::Ptr Download(std::u16string_view url, bool dontRetry = false, _v::CActionRef<float> progress = nullptr);
+            /// @brief Do POST query
+            /// @param url         Target URL
+            /// @param content     Optional content to post
+            /// @param dontRetry   Should not retry
+            WebResponse::Ptr Post(std::u16string_view url, const WebContent::Ptr& content, bool dontRetry = false);
+            /// @brief Do PATCH query
+            /// @param url         Target URL
+            /// @param content     Optional content to post
+            /// @param dontRetry   Should not retry
+            WebResponse::Ptr Patch(std::u16string_view url, const WebContent::Ptr& content, bool dontRetry = false);
+            /// @brief Do PUT query
+            /// @param url         Target URL
+            /// @param content     Optional content to post
+            /// @param dontRetry   Should not retry
+            WebResponse::Ptr Put(std::u16string_view url, const WebContent::Ptr& content, bool dontRetry = false);
+            /// @brief Do DELETE query
+            /// @param url       Target URL
+            /// @param dontRetry Should not retry
+            WebResponse::Ptr Delete(std::u16string_view url, bool dontRetry = false);
 
         public:
             /// @brief Do Async GET query
@@ -105,6 +134,13 @@ namespace CP_SDK::Network {
             /// @param callback    Callback
             /// @param dontRetry   Should not retry
             virtual void PatchAsync(std::u16string_view url, const WebContent::Ptr& content, _u::CancellationToken token, _v::CActionRef<WebResponse::Ptr> callback, bool dontRetry = false) override final;
+            /// @brief Do Async PUT query
+            /// @param url         Target URL
+            /// @param content     Optional content to post
+            /// @param token       Cancellation token
+            /// @param callback    Callback
+            /// @param dontRetry   Should not retry
+            virtual void PutAsync(std::u16string_view url, const WebContent::Ptr& content, _u::CancellationToken token, _v::CActionRef<WebResponse::Ptr> callback, bool dontRetry = false) override final;
             /// @brief Do Async DELETE query
             /// @param url       Target URL
             /// @param token     Cancellation token
@@ -121,10 +157,6 @@ namespace CP_SDK::Network {
             std::u16string SafeURL(std::u16string_view url);
 
         private:
-            /// @brief Prepare request
-            /// @param request    Request to prepare
-            /// @param isDownload Is a download request?
-            void PrepareRequest(_u::UnityWebRequest* request, bool isDownload);
             /// @brief Do request
             /// @param debugName   Method name for logs
             /// @param httpMethod  Http method
@@ -134,15 +166,17 @@ namespace CP_SDK::Network {
             /// @param callback    Callback
             /// @param dontRetry   Should not retry
             /// @param progress    Progress reporter
-            static custom_types::Helpers::Coroutine Coroutine_DoRequest(Ptr                             self,
-                                                                        std::u16string                  debugName,
-                                                                        std::u16string                  httpMethod,
-                                                                        std::u16string                  url,
-                                                                        WebContent::Ptr                 content,
-                                                                        _u::CancellationToken           token,
-                                                                        _v::Action<WebResponse::Ptr>    callback,
-                                                                        bool                            dontRetry,
-                                                                        _v::Action<float>               progress);
+            static void DoRequest(
+                    Ptr                             self,
+                    std::u16string                  debugName,
+                    std::u16string                  httpMethod,
+                    std::u16string                  url,
+                    WebContent::Ptr                 content,
+                    _u::CancellationToken           token,
+                    _v::Action<WebResponse::Ptr>    callback,
+                    bool                            dontRetry,
+                    _v::Action<float>               progress
+            );
 
     };
 
