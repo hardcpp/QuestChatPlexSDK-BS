@@ -105,6 +105,13 @@ namespace CP_SDK::Network {
             /// @param callback    Callback
             /// @param dontRetry   Should not retry
             virtual void PatchAsync(std::u16string_view url, const WebContent::Ptr& content, _u::CancellationToken token, _v::CActionRef<WebResponse::Ptr> callback, bool dontRetry = false) override final;
+            /// @brief Do Async PUT query
+            /// @param url         Target URL
+            /// @param content     Optional content to post
+            /// @param token       Cancellation token
+            /// @param callback    Callback
+            /// @param dontRetry   Should not retry
+            virtual void PutAsync(std::u16string_view url, const WebContent::Ptr& content, _u::CancellationToken token, _v::CActionRef<WebResponse::Ptr> callback, bool dontRetry = false) override final;
             /// @brief Do Async DELETE query
             /// @param url       Target URL
             /// @param token     Cancellation token
