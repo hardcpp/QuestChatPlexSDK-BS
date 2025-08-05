@@ -142,6 +142,16 @@ namespace CP_SDK::Network {
     {
         Unity::MTCoroutineStarter::EnqueueFromThread(custom_types::Helpers::CoroutineHelper::New(Coroutine_DoRequest(shared_from_this(), u"PatchAsync", u"PATCH", GetURL(url), content, token, callback, dontRetry, nullptr)));
     }
+    /// @brief Do Async PUT query
+    /// @param url         Target URL
+    /// @param content     Optional content to post
+    /// @param token       Cancellation token
+    /// @param callback    Callback
+    /// @param dontRetry   Should not retry
+    void WebClientUnity::PutAsync(std::u16string_view url, const WebContent::Ptr& content, CancellationToken token, _v::CActionRef<WebResponse::Ptr> callback, bool dontRetry)
+    {
+        Unity::MTCoroutineStarter::EnqueueFromThread(custom_types::Helpers::CoroutineHelper::New(Coroutine_DoRequest(shared_from_this(), u"PutAsync", u"PUT", GetURL(url), content, token, callback, dontRetry, nullptr)));
+    }
     /// @brief Do Async GET query
     /// @param url       Target URL
     /// @param token     Cancellation token

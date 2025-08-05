@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Config/JsonConfig.hpp"
+#include <string>
 
 namespace CP_SDK {
 
@@ -10,8 +11,9 @@ namespace CP_SDK {
         CP_SDK_CONFIG_JSONCONFIG_INSTANCE_DECL(CPConfig);
 
         public:
-            bool FirstRun               = true;
-            bool FirstChatServiceRun    = true;
+            bool            FirstRun                = true;
+            bool            FirstChatServiceRun     = true;
+            std::u16string  ChatPlexServiceToken    = u"";
 
         protected:
             /// @brief Reset config to default
