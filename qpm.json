@@ -103,6 +103,11 @@
       "id": "kaleb",
       "versionRange": "^0.1.9",
       "additionalData": {}
+    },
+    {
+      "id": "libcurl",
+      "versionRange": "=8.5.0",
+      "additionalData": {}
     }
   ]
 }
