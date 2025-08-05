@@ -24,6 +24,9 @@ namespace CP_SDK::Network {
     {
         CP_SDK_NO_COPYMOVE_CTORS(IWebClient);
 
+        public:
+            using IPtr = std::shared_ptr<IWebClient>;
+
         protected:
             /// @brief Constructor
             IWebClient() = default;
@@ -42,39 +45,46 @@ namespace CP_SDK::Network {
 
         public:
             /// @brief Do Async GET query
-            /// @param p_URL       Target URL
-            /// @param p_Token     Cancellation token
-            /// @param p_Callback  Callback
-            /// @param p_DontRetry Should not retry
-            /// @param p_Progress  Progress reporter
-            virtual void GetAsync(std::u16string_view p_URL, _u::CancellationToken p_Token, _v::CActionRef<WebResponse::Ptr> p_Callback, bool p_DontRetry = false, _v::CActionRef<float> p_Progress = nullptr) = 0;
+            /// @param url       Target URL
+            /// @param token     Cancellation token
+            /// @param callback  Callback
+            /// @param dontRetry Should not retry
+            /// @param progress  Progress reporter
+            virtual void GetAsync(std::u16string_view url, _u::CancellationToken token, _v::CActionRef<WebResponse::Ptr> callback, bool dontRetry = false, _v::CActionRef<float> progress = nullptr) = 0;
             /// @brief Do Async GET query
-            /// @param p_URL       Target URL
-            /// @param p_Token     Cancellation token
-            /// @param p_Callback  Callback
-            /// @param p_DontRetry Should not retry
-            /// @param p_Progress  Progress reporter
-            virtual void DownloadAsync(std::u16string_view p_URL, _u::CancellationToken p_Token, _v::CActionRef<WebResponse::Ptr> p_Callback, bool p_DontRetry = false, _v::CActionRef<float> p_Progress = nullptr) = 0;
+            /// @param url       Target URL
+            /// @param token     Cancellation token
+            /// @param callback  Callback
+            /// @param dontRetry Should not retry
+            /// @param progress  Progress reporter
+            virtual void DownloadAsync(std::u16string_view url, _u::CancellationToken token, _v::CActionRef<WebResponse::Ptr> callback, bool dontRetry = false, _v::CActionRef<float> progress = nullptr) = 0;
             /// @brief Do Async POST query
-            /// @param p_URL         Target URL
-            /// @param p_Content     Optional content to post
-            /// @param p_Token       Cancellation token
-            /// @param p_Callback    Callback
-            /// @param p_DontRetry   Should not retry
-            virtual void PostAsync(std::u16string_view p_URL, const WebContent::Ptr& p_Content, _u::CancellationToken p_Token, _v::CActionRef<WebResponse::Ptr> p_Callback, bool p_DontRetry = false) = 0;
+            /// @param url         Target URL
+            /// @param content     Optional content to post
+            /// @param token       Cancellation token
+            /// @param callback    Callback
+            /// @param dontRetry   Should not retry
+            virtual void PostAsync(std::u16string_view url, const WebContent::Ptr& content, _u::CancellationToken token, _v::CActionRef<WebResponse::Ptr> callback, bool dontRetry = false) = 0;
             /// @brief Do Async PATCH query
-            /// @param p_URL         Target URL
-            /// @param p_Content     Optional content to post
-            /// @param p_Token       Cancellation token
-            /// @param p_Callback    Callback
-            /// @param p_DontRetry   Should not retry
-            virtual void PatchAsync(std::u16string_view p_URL, const WebContent::Ptr& p_Content, _u::CancellationToken p_Token, _v::CActionRef<WebResponse::Ptr> p_Callback, bool p_DontRetry = false) = 0;
+            /// @param url         Target URL
+            /// @param content     Optional content to post
+            /// @param token       Cancellation token
+            /// @param callback    Callback
+            /// @param dontRetry   Should not retry
+            virtual void PatchAsync(std::u16string_view url, const WebContent::Ptr& content, _u::CancellationToken token, _v::CActionRef<WebResponse::Ptr> callback, bool dontRetry = false) = 0;
+            /// @brief Do Async PUT query
+            /// @param url         Target URL
+            /// @param content     Optional content to post
+            /// @param token       Cancellation token
+            /// @param callback    Callback
+            /// @param dontRetry   Should not retry
+            virtual void PutAsync(std::u16string_view url, const WebContent::Ptr& content, _u::CancellationToken token, _v::CActionRef<WebResponse::Ptr> callback, bool dontRetry = false) = 0;
             /// @brief Do Async DELETE query
-            /// @param p_URL       Target URL
-            /// @param p_Token     Cancellation token
-            /// @param p_Callback  Callback
-            /// @param p_DontRetry Should not retry
-            virtual void DeleteAsync(std::u16string_view p_URL, _u::CancellationToken p_Token, _v::CActionRef<WebResponse::Ptr> p_Callback, bool p_DontRetry = false) = 0;
+            /// @param url       Target URL
+            /// @param token     Cancellation token
+            /// @param callback  Callback
+            /// @param dontRetry Should not retry
+            virtual void DeleteAsync(std::u16string_view url, _u::CancellationToken token, _v::CActionRef<WebResponse::Ptr> callback, bool dontRetry = false) = 0;
 
     };
 

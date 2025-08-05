@@ -1,6 +1,8 @@
 #include "CP_SDK/Network/WebResponse.hpp"
-#include "CP_SDK/ChatPlexSDK.hpp"
 
+#include <cstring>
+#include <libcurl/shared/curl.h>
+#include <libcurl/shared/easy.h>
 #include <System/Text/Encoding.hpp>
 #include <System/Text/UTF8Encoding.hpp>
 #include <UnityEngine/Networking/DownloadHandler.hpp>
@@ -64,13 +66,10 @@ namespace CP_SDK::Network {
     ////////////////////////////////////////////////////////////////////////////
 
     /// Constructor
-    /// @p_Request: Reply status
+    /// @param request: Reply status
     WebResponse::WebResponse(UnityWebRequest * p_Request)
     {
-        m_StatusCode          = (HttpStatusCode)p_Request->get_responseCode();
-        m_IsSuccessStatusCode = !(p_Request->get_result() == UnityWebRequest::Result::ProtocolError && p_Request->get_result() == UnityWebRequest::Result::ConnectionError);
-        m_ShouldRetry         = IsSuccessStatusCode() ? false : (p_Request->get_responseCode() < 400 || p_Request->get_responseCode() >= 500);
-        m_BodyBytes           = reinterpret_cast<::Array<uint8_t>*>(p_Request->get_downloadHandler()->GetData().convert());
+        m_StatusCode = (HttpStatusCode)p_Request->get_responseCode();
 
         if (p_Request->get_result() == UnityWebRequest::Result::ConnectionError || p_Request->get_result() == UnityWebRequest::Result::ProtocolError)
         {
@@ -78,7 +77,42 @@ namespace CP_SDK::Network {
                 m_ReasonPhrase = u"HTTP/1.1 " + std::to_string(m_StatusCode.value__) + u" " + p_Request->GetHTTPStatusString(m_StatusCode.value__);
             else
                 m_ReasonPhrase = p_Request->GetWebErrorString(p_Request->GetError());
+
+            m_IsSuccessStatusCode = false;
         }
+        else
+            m_IsSuccessStatusCode = ((int)p_Request->get_responseCode() >= 200) && ((int)p_Request->get_responseCode() <= 299);
+
+        m_ShouldRetry   = IsSuccessStatusCode() ? false : (p_Request->get_responseCode() < 400 || p_Request->get_responseCode() >= 500);
+        m_BodyBytes     = reinterpret_cast<::Array<uint8_t>*>(p_Request->get_downloadHandler()->GetData().convert());
+    }
+    /// @brief Constructor
+    /// @param curlPerformResult CURL perform result
+    /// @param curlInstance CURL instance
+    /// @param data Response data
+    WebResponse::WebResponse(long curlPerformResult, void* curlInstance, std::vector<uint8_t>* data)
+    {
+        auto l_CURLInstance = reinterpret_cast<CURL*>(curlInstance);
+
+        if (curlPerformResult != CURLE_OK)
+        {
+            m_StatusCode            = -curlPerformResult;
+            m_ReasonPhrase          = Utils::StrToU16Str(curl_easy_strerror(static_cast<CURLcode>(curlPerformResult)));
+            m_IsSuccessStatusCode   = false;
+            m_ShouldRetry           = false;
+        }
+        else
+        {
+            long l_HTTPCode(0);
+            curl_easy_getinfo(l_CURLInstance, CURLINFO_RESPONSE_CODE, &l_HTTPCode);
+
+            m_StatusCode            = l_HTTPCode;
+            m_IsSuccessStatusCode   = ((int)l_HTTPCode >= 200) && ((int)l_HTTPCode <= 299);
+            m_ShouldRetry           = IsSuccessStatusCode() ? false : (l_HTTPCode < 400 || l_HTTPCode >= 500);
+        }
+
+        m_BodyBytes = ::Array<uint8_t>::NewLength(data->size());
+        memcpy(m_BodyBytes->_values, data->data(), data->size());
     }
 
 }   ///< namespace CP_SDK::Network

@@ -3,18 +3,12 @@
 #define __CP_SDK_U16STR(__mX) u##__mX
 #define CP_SDK_U16STR(__mX) __CP_SDK_U16STR(#__mX)
 
-#include "../Logging/PaperLogger.hpp"
 #include "Internals/Il2cpp_enum.hpp"
 #include "Internals/Il2cpp_customtype.hpp"
 #include "Internals/Il2cpp_hook.hpp"
 #include "Internals/Il2cpp_string.hpp"
 
 #include <vector>
-#include <stdint.h>
-#include <array>
-#include <string>
-#include <algorithm>
-#include <memory>
 
 #include <beatsaber-hook/shared/utils/hooking.hpp>
 #include <custom-types/shared/macros.hpp>
