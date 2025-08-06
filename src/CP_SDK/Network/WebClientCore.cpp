@@ -130,6 +130,7 @@ namespace CP_SDK::Network {
     /// @param progress  Progress reporter
     WebResponse::Ptr WebClientCore::Get(std::u16string_view url, bool dontRetry, _v::CActionRef<float> progress)
     {
+        auto l_IsDone = false;
         auto l_Reply = WebResponse::Ptr(nullptr);
 
         DoRequest(
@@ -139,10 +140,13 @@ namespace CP_SDK::Network {
             GetURL(url),
             nullptr,
             CancellationToken::get_None(),
-            [&](WebResponse::Ptr p_Result) -> void { l_Reply = p_Result; },
+            [&](WebResponse::Ptr p_Result) -> void { l_Reply = p_Result; l_IsDone = true; },
             dontRetry,
             progress
         );
+
+        while (!l_IsDone)
+            std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
         return l_Reply;
     }
@@ -152,6 +156,7 @@ namespace CP_SDK::Network {
     /// @param progress  Progress reporter
     WebResponse::Ptr WebClientCore::Download(std::u16string_view url, bool dontRetry, _v::CActionRef<float> progress)
     {
+        auto l_IsDone = false;
         auto l_Reply = WebResponse::Ptr(nullptr);
 
         DoRequest(
@@ -161,10 +166,13 @@ namespace CP_SDK::Network {
             GetURL(url),
             nullptr,
             CancellationToken::get_None(),
-            [&](WebResponse::Ptr p_Result) -> void { l_Reply = p_Result; },
+            [&](WebResponse::Ptr p_Result) -> void { l_Reply = p_Result; l_IsDone = true; },
             dontRetry,
             progress
         );
+
+        while (!l_IsDone)
+            std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
         return l_Reply;
     }
@@ -174,6 +182,7 @@ namespace CP_SDK::Network {
     /// @param dontRetry   Should not retry
     WebResponse::Ptr WebClientCore::Post(std::u16string_view url, const WebContent::Ptr& content, bool dontRetry)
     {
+        auto l_IsDone = false;
         auto l_Reply = WebResponse::Ptr(nullptr);
 
         DoRequest(
@@ -183,10 +192,13 @@ namespace CP_SDK::Network {
             GetURL(url),
             content,
             CancellationToken::get_None(),
-            [&](WebResponse::Ptr p_Result) -> void { l_Reply = p_Result; },
+            [&](WebResponse::Ptr p_Result) -> void { l_Reply = p_Result; l_IsDone = true; },
             dontRetry,
             nullptr
         );
+
+        while (!l_IsDone)
+            std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
         return l_Reply;
     }
@@ -196,6 +208,7 @@ namespace CP_SDK::Network {
     /// @param dontRetry   Should not retry
     WebResponse::Ptr WebClientCore::Patch(std::u16string_view url, const WebContent::Ptr& content, bool dontRetry)
     {
+        auto l_IsDone = false;
         auto l_Reply = WebResponse::Ptr(nullptr);
 
         DoRequest(
@@ -205,10 +218,13 @@ namespace CP_SDK::Network {
             GetURL(url),
             content,
             CancellationToken::get_None(),
-            [&](WebResponse::Ptr p_Result) -> void { l_Reply = p_Result; },
+            [&](WebResponse::Ptr p_Result) -> void { l_Reply = p_Result; l_IsDone = true; },
             dontRetry,
             nullptr
         );
+
+        while (!l_IsDone)
+            std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
         return l_Reply;
     }
@@ -218,6 +234,7 @@ namespace CP_SDK::Network {
     /// @param dontRetry   Should not retry
     WebResponse::Ptr WebClientCore::Put(std::u16string_view url, const WebContent::Ptr& content, bool dontRetry)
     {
+        auto l_IsDone = false;
         auto l_Reply = WebResponse::Ptr(nullptr);
 
         DoRequest(
@@ -227,10 +244,13 @@ namespace CP_SDK::Network {
             GetURL(url),
             content,
             CancellationToken::get_None(),
-            [&](WebResponse::Ptr p_Result) -> void { l_Reply = p_Result; },
+            [&](WebResponse::Ptr p_Result) -> void { l_Reply = p_Result; l_IsDone = true; },
             dontRetry,
             nullptr
         );
+
+        while (!l_IsDone)
+            std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
         return l_Reply;
     }
@@ -239,6 +259,7 @@ namespace CP_SDK::Network {
     /// @param dontRetry Should not retry
     WebResponse::Ptr WebClientCore::Delete(std::u16string_view url, bool dontRetry)
     {
+        auto l_IsDone = false;
         auto l_Reply = WebResponse::Ptr(nullptr);
 
         DoRequest(
@@ -248,10 +269,13 @@ namespace CP_SDK::Network {
             GetURL(url),
             nullptr,
             CancellationToken::get_None(),
-            [&](WebResponse::Ptr p_Result) -> void { l_Reply = p_Result; },
+            [&](WebResponse::Ptr p_Result) -> void { l_Reply = p_Result; l_IsDone = true; },
             dontRetry,
             nullptr
         );
+
+        while (!l_IsDone)
+            std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
         return l_Reply;
     }
@@ -461,7 +485,7 @@ namespace CP_SDK::Network {
             {
                 if (httpMethod == u"POST")
                     curl_easy_setopt(l_ScopedCURL.Instance, CURLOPT_CUSTOMREQUEST, "POST");
-                if (httpMethod == u"PATCH")
+                else if (httpMethod == u"PATCH")
                     curl_easy_setopt(l_ScopedCURL.Instance, CURLOPT_CUSTOMREQUEST, "PATCH");
                 else
                     curl_easy_setopt(l_ScopedCURL.Instance, CURLOPT_CUSTOMREQUEST, "PUT");
