@@ -198,6 +198,7 @@ namespace CP_SDK_BS::Game {
             //p_LevelSearchViewController->ResetAllFilterSettings(false);
 
             auto l_Filter = GlobalNamespace::LevelFilter();
+
             l_Filter.songOwned                      = true;
             l_Filter.songNotOwned                   = false;
             l_Filter.songUnplayed                   = false;
@@ -212,6 +213,7 @@ namespace CP_SDK_BS::Game {
             l_Filter.searchText   = u"";
 
             //p_LevelSearchViewController->ResetAllFilterSettings(false);
+
             p_LevelSearchViewController->Refresh(
                 byref(l_Filter)
             );
