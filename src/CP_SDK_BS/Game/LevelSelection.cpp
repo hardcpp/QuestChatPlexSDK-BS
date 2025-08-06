@@ -195,23 +195,23 @@ namespace CP_SDK_BS::Game {
         try
         {
             m_PreventLevelSearchViewController_didStartLoadingEvent = true;
-            p_LevelSearchViewController->ResetAllFilterSettings(false);
+            //p_LevelSearchViewController->ResetAllFilterSettings(false);
 
             auto l_Filter = GlobalNamespace::LevelFilter();
-            l_Filter.songOwned                      = false;
+            l_Filter.songOwned                      = true;
             l_Filter.songNotOwned                   = false;
             l_Filter.songUnplayed                   = false;
-            l_Filter.difficulties                   = _u::BeatmapDifficultyMask();
-            l_Filter.songPacks                      = _u::SongPackMask();
+            l_Filter.difficulties                   = _u::BeatmapDifficultyMask(0);
+            l_Filter.songPacks                      = _u::SongPackMask::get_all();
             l_Filter.characteristicSerializedName   = nullptr;
             l_Filter.minBpm                         = 0.0f;
             l_Filter.maxBpm                         = 0.0f;
-            l_Filter.sensitivity                    = _u::PlayerSensitivityFlag();
+            l_Filter.sensitivity                    = _u::PlayerSensitivityFlag::Unknown;
 
             l_Filter.limitIds     = ArrayW<StringW>({ m_PendingFilterSong->___levelID });
             l_Filter.searchText   = u"";
 
-            p_LevelSearchViewController->ResetAllFilterSettings(false);
+            //p_LevelSearchViewController->ResetAllFilterSettings(false);
             p_LevelSearchViewController->Refresh(
                 byref(l_Filter)
             );
