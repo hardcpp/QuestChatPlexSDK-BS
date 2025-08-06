@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Il2cpp.hpp"
+#include <beatsaber-hook/shared/config/config-utils.hpp>
+#include "beatsaber-hook/shared/rapidjson/include/rapidjson/document.h"
 
 #include <fstream>
 #include <map>
@@ -8,7 +10,6 @@
 #include <stdint.h>
 #include <vector>
 
-#include <beatsaber-hook/shared/config/config-utils.hpp>
 #include <UnityEngine/Color32.hpp>
 #include <UnityEngine/Color.hpp>
 #include <UnityEngine/Quaternion.hpp>

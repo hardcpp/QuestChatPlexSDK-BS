@@ -6,7 +6,6 @@
 #include <System/Net/HttpStatusCode.hpp>
 #include <UnityEngine/Networking/DownloadHandlerBuffer.hpp>
 #include <UnityEngine/Networking/UploadHandler.hpp>
-//#include <UnityEngine/Networking/UploadHandlerRaw.hpp>
 #include <UnityEngine/Networking/UnityWebRequestAsyncOperation.hpp>
 #include <UnityEngine/WaitForSecondsRealtime.hpp>
 
@@ -36,41 +35,41 @@ namespace CP_SDK::Network {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Constructor
-    /// @param p_BaseAddress       Base address
-    /// @param p_TimeOut           Requests timeout
-    /// @param p_ForceCacheDiscard Should force server cache discard
-    WebClientUnity::WebClientUnity(CP_SDK_PRIV_TAG_ARG(), std::u16string_view p_BaseAddress, TimeSpan p_TimeOut, bool p_ForceCacheDiscard)
+    /// @param baseAddress       Base address
+    /// @param timeOut           Requests timeout
+    /// @param forceCacheDiscard Should force server cache discard
+    WebClientUnity::WebClientUnity(CP_SDK_PRIV_TAG_ARG(), std::u16string_view baseAddress, TimeSpan timeOut, bool forceCacheDiscard)
         : m_Headers({})
     {
         DownloadTimeout = 2 * 60;
         MaxRetry        = 2;
         RetryInterval   = 5;
 
-        m_BaseAddress = p_BaseAddress;
+        m_BaseAddress = baseAddress;
 
-        m_Timeout = (int)p_TimeOut.get_TotalSeconds();
+        m_Timeout = (int)timeOut.get_TotalSeconds();
 
-        if (p_ForceCacheDiscard)
+        if (forceCacheDiscard)
             m_Headers[u"Cache-Control"] = u"no-cache, must-revalidate, proxy-revalidate, max-age=0, s-maxage=0, max-stale=0";
     }
 
     /// @brief Constructor
-    /// @param p_BaseAddress       Base address
-    /// @param p_TimeOut           Requests timeout
-    /// @param p_ForceCacheDiscard Should force server cache discard
-    WebClientUnity::Ptr WebClientUnity::Make(std::u16string_view p_BaseAddress, TimeSpan p_TimeOut, bool p_ForceCacheDiscard)
+    /// @param baseAddress       Base address
+    /// @param timeOut           Requests timeout
+    /// @param forceCacheDiscard Should force server cache discard
+    WebClientUnity::Ptr WebClientUnity::Make(std::u16string_view baseAddress, TimeSpan timeOut, bool forceCacheDiscard)
     {
-        return std::make_shared<WebClientUnity>(CP_SDK_PRIV_TAG_VAL(), p_BaseAddress, p_TimeOut, p_ForceCacheDiscard);
+        return std::make_shared<WebClientUnity>(CP_SDK_PRIV_TAG_VAL(), baseAddress, timeOut, forceCacheDiscard);
     }
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Get header
-    /// @param p_Name Header name
-    std::u16string WebClientUnity::GetHeader(std::u16string_view p_Name)
+    /// @param name Header name
+    std::u16string WebClientUnity::GetHeader(std::u16string_view name)
     {
-        auto l_Name = std::u16string(p_Name);
+        auto l_Name = std::u16string(name);
 
         std::lock_guard<std::mutex> l_Guard(m_HeadersLock);
         if (!m_Headers.contains(l_Name))
@@ -79,20 +78,20 @@ namespace CP_SDK::Network {
         return m_Headers[l_Name];
     }
     /// @brief Set header
-    /// @param p_Name  Header name
-    /// @param p_Value Header value
-    void WebClientUnity::SetHeader(std::u16string_view p_Name, std::u16string_view p_Value)
+    /// @param name  Header name
+    /// @param value Header value
+    void WebClientUnity::SetHeader(std::u16string_view name, std::u16string_view value)
     {
-        auto l_Name = std::u16string(p_Name);
+        auto l_Name = std::u16string(name);
 
         std::lock_guard<std::mutex> l_Guard(m_HeadersLock);
-        m_Headers[l_Name] = std::u16string(p_Value);
+        m_Headers[l_Name] = std::u16string(value);
     }
     /// @brief Remove header
-    /// @param p_Name Header name
-    void WebClientUnity::RemoveHeader(std::u16string_view p_Name)
+    /// @param name Header name
+    void WebClientUnity::RemoveHeader(std::u16string_view name)
     {
-        auto l_Name = std::u16string(p_Name);
+        auto l_Name = std::u16string(name);
 
         std::lock_guard<std::mutex> l_Guard(m_HeadersLock);
         auto l_It = m_Headers.find(l_Name);
@@ -104,153 +103,165 @@ namespace CP_SDK::Network {
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Do Async GET query
-    /// @param p_URL       Target URL
-    /// @param p_Token     Cancellation token
-    /// @param p_Callback  Callback
-    /// @param p_DontRetry Should not retry
-    /// @param p_Progress  Progress reporter
-    void WebClientUnity::GetAsync(std::u16string_view p_URL, CancellationToken p_Token, _v::CActionRef<WebResponse::Ptr> p_Callback, bool p_DontRetry, _v::CActionRef<float> p_Progress)
+    /// @param url       Target URL
+    /// @param token     Cancellation token
+    /// @param callback  Callback
+    /// @param dontRetry Should not retry
+    /// @param progress  Progress reporter
+    void WebClientUnity::GetAsync(std::u16string_view url, CancellationToken token, _v::CActionRef<WebResponse::Ptr> callback, bool dontRetry, _v::CActionRef<float> progress)
     {
-        Unity::MTCoroutineStarter::EnqueueFromThread(custom_types::Helpers::CoroutineHelper::New(Coroutine_DoRequest(shared_from_this(), u"GetAsync", u"GET", GetURL(p_URL), nullptr, p_Token, p_Callback, p_DontRetry, p_Progress)));
+        Unity::MTCoroutineStarter::EnqueueFromThread(custom_types::Helpers::CoroutineHelper::New(Coroutine_DoRequest(shared_from_this(), u"GetAsync", u"GET", GetURL(url), nullptr, token, callback, dontRetry, progress)));
     }
     /// @brief Do Async GET query
-    /// @param p_URL       Target URL
-    /// @param p_Token     Cancellation token
-    /// @param p_Callback  Callback
-    /// @param p_DontRetry Should not retry
-    /// @param p_Progress  Progress reporter
-    void WebClientUnity::DownloadAsync(std::u16string_view p_URL, CancellationToken p_Token, _v::CActionRef<WebResponse::Ptr> p_Callback, bool p_DontRetry, _v::CActionRef<float> p_Progress)
+    /// @param url       Target URL
+    /// @param token     Cancellation token
+    /// @param callback  Callback
+    /// @param dontRetry Should not retry
+    /// @param progress  Progress reporter
+    void WebClientUnity::DownloadAsync(std::u16string_view url, CancellationToken token, _v::CActionRef<WebResponse::Ptr> callback, bool dontRetry, _v::CActionRef<float> progress)
     {
-        Unity::MTCoroutineStarter::EnqueueFromThread(custom_types::Helpers::CoroutineHelper::New(Coroutine_DoRequest(shared_from_this(), u"DownloadAsync", u"DOWNLOAD", GetURL(p_URL), nullptr, p_Token, p_Callback, p_DontRetry, p_Progress)));
+        Unity::MTCoroutineStarter::EnqueueFromThread(custom_types::Helpers::CoroutineHelper::New(Coroutine_DoRequest(shared_from_this(), u"DownloadAsync", u"DOWNLOAD", GetURL(url), nullptr, token, callback, dontRetry, progress)));
     }
     /// @brief Do Async POST query
-    /// @param p_URL         Target URL
-    /// @param p_Content     Optional content to post
-    /// @param p_Token       Cancellation token
-    /// @param p_Callback    Callback
-    /// @param p_DontRetry   Should not retry
-    void WebClientUnity::PostAsync(std::u16string_view p_URL, const WebContent::Ptr& p_Content, CancellationToken p_Token, _v::CActionRef<WebResponse::Ptr> p_Callback, bool p_DontRetry)
+    /// @param url         Target URL
+    /// @param content     Optional content to post
+    /// @param token       Cancellation token
+    /// @param callback    Callback
+    /// @param dontRetry   Should not retry
+    void WebClientUnity::PostAsync(std::u16string_view url, const WebContent::Ptr& content, CancellationToken token, _v::CActionRef<WebResponse::Ptr> callback, bool dontRetry)
     {
-        Unity::MTCoroutineStarter::EnqueueFromThread(custom_types::Helpers::CoroutineHelper::New(Coroutine_DoRequest(shared_from_this(), u"PostAsync", u"POST", GetURL(p_URL), p_Content, p_Token, p_Callback, p_DontRetry, nullptr)));
+        Unity::MTCoroutineStarter::EnqueueFromThread(custom_types::Helpers::CoroutineHelper::New(Coroutine_DoRequest(shared_from_this(), u"PostAsync", u"POST", GetURL(url), content, token, callback, dontRetry, nullptr)));
     }
     /// @brief Do Async PATCH query
-    /// @param p_URL         Target URL
-    /// @param p_Content     Optional content to post
-    /// @param p_Token       Cancellation token
-    /// @param p_Callback    Callback
-    /// @param p_DontRetry   Should not retry
-    void WebClientUnity::PatchAsync(std::u16string_view p_URL, const WebContent::Ptr& p_Content, CancellationToken p_Token, _v::CActionRef<WebResponse::Ptr> p_Callback, bool p_DontRetry)
+    /// @param url         Target URL
+    /// @param content     Optional content to post
+    /// @param token       Cancellation token
+    /// @param callback    Callback
+    /// @param dontRetry   Should not retry
+    void WebClientUnity::PatchAsync(std::u16string_view url, const WebContent::Ptr& content, CancellationToken token, _v::CActionRef<WebResponse::Ptr> callback, bool dontRetry)
     {
-        Unity::MTCoroutineStarter::EnqueueFromThread(custom_types::Helpers::CoroutineHelper::New(Coroutine_DoRequest(shared_from_this(), u"PatchAsync", u"PATCH", GetURL(p_URL), p_Content, p_Token, p_Callback, p_DontRetry, nullptr)));
+        Unity::MTCoroutineStarter::EnqueueFromThread(custom_types::Helpers::CoroutineHelper::New(Coroutine_DoRequest(shared_from_this(), u"PatchAsync", u"PATCH", GetURL(url), content, token, callback, dontRetry, nullptr)));
+    }
+    /// @brief Do Async PUT query
+    /// @param url         Target URL
+    /// @param content     Optional content to post
+    /// @param token       Cancellation token
+    /// @param callback    Callback
+    /// @param dontRetry   Should not retry
+    void WebClientUnity::PutAsync(std::u16string_view url, const WebContent::Ptr& content, CancellationToken token, _v::CActionRef<WebResponse::Ptr> callback, bool dontRetry)
+    {
+        Unity::MTCoroutineStarter::EnqueueFromThread(custom_types::Helpers::CoroutineHelper::New(Coroutine_DoRequest(shared_from_this(), u"PutAsync", u"PUT", GetURL(url), content, token, callback, dontRetry, nullptr)));
     }
     /// @brief Do Async GET query
-    /// @param p_URL       Target URL
-    /// @param p_Token     Cancellation token
-    /// @param p_Callback  Callback
-    /// @param p_DontRetry Should not retry
-    /// @param p_Progress  Progress reporter
-    void WebClientUnity::DeleteAsync(std::u16string_view p_URL, CancellationToken p_Token, _v::CActionRef<WebResponse::Ptr> p_Callback, bool p_DontRetry)
+    /// @param url       Target URL
+    /// @param token     Cancellation token
+    /// @param callback  Callback
+    /// @param dontRetry Should not retry
+    /// @param progress  Progress reporter
+    void WebClientUnity::DeleteAsync(std::u16string_view url, CancellationToken token, _v::CActionRef<WebResponse::Ptr> callback, bool dontRetry)
     {
-        Unity::MTCoroutineStarter::EnqueueFromThread(custom_types::Helpers::CoroutineHelper::New(Coroutine_DoRequest(shared_from_this(), u"DownloadAsync", u"DOWNLOAD", GetURL(p_URL), nullptr, p_Token, p_Callback, p_DontRetry, nullptr)));
+        Unity::MTCoroutineStarter::EnqueueFromThread(custom_types::Helpers::CoroutineHelper::New(Coroutine_DoRequest(shared_from_this(), u"DownloadAsync", u"DOWNLOAD", GetURL(url), nullptr, token, callback, dontRetry, nullptr)));
     }
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Get URL
-    /// @param p_URL Request URL
-    std::u16string WebClientUnity::GetURL(std::u16string_view p_URL)
+    /// @param url Request URL
+    std::u16string WebClientUnity::GetURL(std::u16string_view url)
     {
-        if (m_BaseAddress.size() == 0)                      return std::u16string(p_URL);
-        if (p_URL.find(u"://") != std::u16string::npos)     return std::u16string(p_URL);
-        if (m_BaseAddress[m_BaseAddress.size() - 1] == '/') return m_BaseAddress + std::u16string(p_URL);
+        if (m_BaseAddress.size() == 0)                      return std::u16string(url);
+        if (url.find(u"://") != std::u16string::npos)     return std::u16string(url);
+        if (m_BaseAddress[m_BaseAddress.size() - 1] == '/') return m_BaseAddress + std::u16string(url);
 
-        return m_BaseAddress + u"/" + std::u16string(p_URL);
+        return m_BaseAddress + u"/" + std::u16string(url);
     }
     /// @brief Safe URL parsing
-    /// @param p_URL Source URL
-    std::u16string WebClientUnity::SafeURL(std::u16string_view p_URL)
+    /// @param url Source URL
+    std::u16string WebClientUnity::SafeURL(std::u16string_view url)
     {
-        auto l_Position = p_URL.find_first_of('?');
+        auto l_Position = url.find_first_of('?');
         if (l_Position != std::u16string::npos)
-            return std::u16string(p_URL).substr(0, l_Position);
+            return std::u16string(url).substr(0, l_Position);
 
-        return std::u16string(p_URL);
+        return std::u16string(url);
     }
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
     /// @brief Prepare request
-    /// @param p_Request    Request to prepare
-    /// @param p_IsDownload Is a download request?
-    void WebClientUnity::PrepareRequest(UnityWebRequest* p_Request, bool p_IsDownload)
+    /// @param request    Request to prepare
+    /// @param isDownload Is a download request?
+    void WebClientUnity::PrepareRequest(UnityWebRequest* request, bool isDownload)
     {
-        if (p_Request->get_downloadHandler() == nullptr)
-            p_Request->set_downloadHandler(DownloadHandlerBuffer::New_ctor());
+        if (request->get_downloadHandler() == nullptr)
+            request->set_downloadHandler(DownloadHandlerBuffer::New_ctor());
 
-        p_Request->set_timeout(p_IsDownload ? DownloadTimeout : m_Timeout);
+        request->set_timeout(isDownload ? DownloadTimeout : m_Timeout);
 
         std::lock_guard<std::mutex> l_Guard(m_HeadersLock);
 
         static auto s_UnityWebRequest_InternalSetRequestHeader = il2cpp_utils::resolve_icall<UnityWebRequest::UnityWebRequestError, UnityWebRequest*, StringW, StringW>("UnityEngine.Networking.UnityWebRequest::InternalSetRequestHeader");
         for (auto const& [l_Header, l_Value] : m_Headers)
-            s_UnityWebRequest_InternalSetRequestHeader(p_Request, l_Header, l_Value);
+            s_UnityWebRequest_InternalSetRequestHeader(request, l_Header, l_Value);
     }
     /// @brief Do request
-    /// @param p_DebugName   Method name for logs
-    /// @param p_HttpMethod  Http method
-    /// @param p_URL         Target URL
-    /// @param p_Content     Optional content to post
-    /// @param p_Token       Cancellation token
-    /// @param p_Callback    Callback
-    /// @param p_DontRetry   Should not retry
-    /// @param p_Progress    Progress reporter
-    custom_types::Helpers::Coroutine WebClientUnity::Coroutine_DoRequest(Ptr                            p_Self,
-                                                                         std::u16string                 p_DebugName,
-                                                                         std::u16string                 p_HttpMethod,
-                                                                         std::u16string                 p_URL,
-                                                                         WebContent::Ptr                p_Content,
-                                                                         CancellationToken              p_Token,
-                                                                         _v::Action<WebResponse::Ptr>   p_Callback,
-                                                                         bool                           p_DontRetry,
-                                                                         _v::Action<float>              p_Progress)
+    /// @param debugName   Method name for logs
+    /// @param httpMethod  Http method
+    /// @param url         Target URL
+    /// @param content     Optional content to post
+    /// @param token       Cancellation token
+    /// @param callback    Callback
+    /// @param dontRetry   Should not retry
+    /// @param progress    Progress reporter
+    custom_types::Helpers::Coroutine WebClientUnity::Coroutine_DoRequest(Ptr                            self,
+                                                                         std::u16string                 debugName,
+                                                                         std::u16string                 httpMethod,
+                                                                         std::u16string                 url,
+                                                                         WebContent::Ptr                content,
+                                                                         CancellationToken              token,
+                                                                         _v::Action<WebResponse::Ptr>   callback,
+                                                                         bool                           dontRetry,
+                                                                         _v::Action<float>              progress)
     {
 #if DEBUG
-        ChatPlexSDK::Logger()->Debug(u"[CP_SDK.Network][WebClientUnity." + p_DebugName + u"] " + p_HttpMethod + u" " + p_URL);
+        ChatPlexSDK::Logger()->Debug(u"[CP_SDK.Network][WebClientUnity." + debugName + u"] " + httpMethod + u" " + url);
 #endif
 
         WebResponse::Ptr l_Reply = nullptr;
-        for (int l_RetryI = 1; l_RetryI <= p_Self->MaxRetry; l_RetryI++)
+        for (int l_RetryI = 1; l_RetryI <= self->MaxRetry; l_RetryI++)
         {
-            if (p_Token.get_IsCancellationRequested())
+            if (token.get_IsCancellationRequested())
                 break;
 
             auto l_Request = _v::MonoPtr<UnityWebRequest>(nullptr);
-            if (p_HttpMethod == u"GET" || p_HttpMethod == u"DOWNLOAD")
-                l_Request = UnityWebRequest::Get(p_URL);
-            else if (p_HttpMethod == u"POST" || p_HttpMethod == u"PATCH")
+            if (httpMethod == u"GET" || httpMethod == u"DOWNLOAD")
+                l_Request = UnityWebRequest::Get(url);
+            else if (httpMethod == u"POST" || httpMethod == u"PATCH" || httpMethod == u"PUT")
             {
-                ChatPlexSDK::Logger()->Error(u"WebClientUnity POST & PATCH are disabled for now");
+                ChatPlexSDK::Logger()->Error(u"WebClientUnity POST & PATCH & PUT are disabled for now");
                 throw std::runtime_error("WebClientUnity POST & PATCH are disabled for now");
                 /// TODO Disabled until fixed
-                /*static auto s_UploadHandler_InternalSetContentType = il2cpp_utils::resolve_icall<void, UploadHandler*, StringW>("UnityEngine.Networking.UploadHandler::InternalSetContentType");
 
-                auto l_UploadHandler = UploadHandlerRaw::New_ctor(p_Content->Bytes.Ptr());
-                s_UploadHandler_InternalSetContentType(l_UploadHandler, p_Content->Type);
+                /*static auto s_UploadHandler_InternalSetContentType
+                    = il2cpp_utils::resolve_icall<void, UploadHandler*, StringW>("UnityEngine.Networking.UploadHandler::InternalSetContentType");
 
-                l_Request = UnityWebRequest::New_ctor(p_URL, p_HttpMethod, DownloadHandlerBuffer::New_ctor(), l_UploadHandler);*/
+                auto l_UploadHandler = UploadHandlerRaw::New_ctor(content->Bytes.Ptr());
+                s_UploadHandler_InternalSetContentType(l_UploadHandler, content->Type);
+
+                l_Request = UnityWebRequest::New_ctor(url, httpMethod, DownloadHandlerBuffer::New_ctor(), l_UploadHandler);*/
             }
-            else if (p_HttpMethod == u"DELETE")
-                l_Request = UnityWebRequest::New_ctor(p_URL, p_HttpMethod, nullptr, nullptr);
+            else if (httpMethod == u"DELETE")
+                l_Request = UnityWebRequest::New_ctor(url, httpMethod, nullptr, nullptr);
 
-            p_Self->PrepareRequest(l_Request.Ptr(), p_HttpMethod == u"DOWNLOAD");
+            self->PrepareRequest(l_Request.Ptr(), httpMethod == u"DOWNLOAD");
 
-            if (!p_Progress.IsValid())
+            if (!progress.IsValid())
                 co_yield reinterpret_cast<Collections::IEnumerator*>(l_Request->SendWebRequest());
             else
             {
-                try { p_Progress(0.0f); } catch (const std::exception&) { }
+                try { progress(0.0f); } catch (const std::exception&) { }
                 l_Request->SendWebRequest();
 
                 auto l_Waiter = WaitForSecondsRealtime::New_ctor(0.05f);
@@ -262,15 +273,15 @@ namespace CP_SDK::Network {
                         static auto s_UnityWebRequest_GetDownloadProgress   = il2cpp_utils::resolve_icall<float, UnityWebRequest*>("UnityEngine.Networking.UnityWebRequest::GetDownloadProgress");
 
                         auto l_Progress = (!s_UnityWebRequest_IsExecuting(l_Request.Ptr()) && !l_Request->get_isDone()) ? -1.0f : s_UnityWebRequest_GetDownloadProgress(l_Request.Ptr());
-                        p_Progress(l_Progress);
+                        progress(l_Progress);
                     } catch (const std::exception&) { }
 
-                    if (p_Token.get_IsCancellationRequested() || l_Request->get_isDone() || l_Request->get_result() == UnityWebRequest::Result::ProtocolError || l_Request->get_result() == UnityWebRequest::Result::ConnectionError)
+                    if (token.get_IsCancellationRequested() || l_Request->get_isDone() || l_Request->get_result() == UnityWebRequest::Result::ProtocolError || l_Request->get_result() == UnityWebRequest::Result::ConnectionError)
                         break;
                 } while (true);
             }
 
-            if (p_Token.get_IsCancellationRequested())
+            if (token.get_IsCancellationRequested())
                 break;
 
             l_Reply = std::make_shared<WebResponse>(l_Request.Ptr());
@@ -283,7 +294,7 @@ namespace CP_SDK::Network {
                     int l_TotalMilliseconds = (int)(l_Limits.Reset - DateTime.Now).TotalMilliseconds;
                     if (l_TotalMilliseconds > 0)
                     {
-                        ChatPlexSDK::Logger()->Error(u"[CP_SDK.Network][WebClientUnity." + p_DebugName + u"] Request {SafeURL(p_URL)} was rate limited, retrying in {l_TotalMilliseconds}ms...");
+                        ChatPlexSDK::Logger()->Error(u"[CP_SDK.Network][WebClientUnity." + debugName + u"] Request {SafeURL(url)} was rate limited, retrying in {l_TotalMilliseconds}ms...");
 
                         co_yield WaitForSecondsRealtime::New_ctor(RetryInterval)->i_IEnumerator();
                         continue;
@@ -293,32 +304,32 @@ namespace CP_SDK::Network {
 
             if (!l_Reply->IsSuccessStatusCode())
             {
-                auto l_LogPrefix = u"[CP_SDK.Network][WebClientUnity." + p_DebugName + u"] Request " + p_Self->SafeURL(p_URL) + u" failed with code ";
+                auto l_LogPrefix = u"[CP_SDK.Network][WebClientUnity." + debugName + u"] Request " + self->SafeURL(url) + u" failed with code ";
                 l_LogPrefix += StringW(std::to_string(l_Reply->StatusCode().value__));
                 l_LogPrefix += u":\"" + l_Reply->ReasonPhrase() + "\", ";
 
-                if (!l_Reply->ShouldRetry() || p_DontRetry)
+                if (!l_Reply->ShouldRetry() || dontRetry)
                 {
                     ChatPlexSDK::Logger()->Error(l_LogPrefix + u" not retrying");
                     break;
                 }
 
-                ChatPlexSDK::Logger()->Error(l_LogPrefix + u" next try in " + (std::u16string)StringW(std::to_string(p_Self->RetryInterval)) + u" seconds...");
+                ChatPlexSDK::Logger()->Error(l_LogPrefix + u" next try in " + (std::u16string)StringW(std::to_string(self->RetryInterval)) + u" seconds...");
 
-                co_yield WaitForSecondsRealtime::New_ctor(p_Self->RetryInterval)->i___System__Collections__IEnumerator();
+                co_yield WaitForSecondsRealtime::New_ctor(self->RetryInterval)->i___System__Collections__IEnumerator();
                 continue;
             }
             else
             {
-                if (p_Progress.IsValid())
-                    try { p_Progress(1.0f); } catch (const std::exception&) { }
+                if (progress.IsValid())
+                    try { progress(1.0f); } catch (const std::exception&) { }
 
                 break;
             }
         }
 
-        if (!p_Token.get_IsCancellationRequested() && p_Callback.IsValid())
-            Unity::MTThreadInvoker::EnqueueOnThread([=]() -> void { p_Callback(l_Reply); });
+        if (!token.get_IsCancellationRequested() && callback.IsValid())
+            Unity::MTThreadInvoker::EnqueueOnThread([=]() -> void { callback(l_Reply); });
     }
 
 }   ///< namespace CP_SDK::Network
