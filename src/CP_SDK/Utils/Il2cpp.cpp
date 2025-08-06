@@ -1,6 +1,8 @@
 #include "CP_SDK/Utils/Il2cpp.hpp"
 #include "CP_SDK/ChatPlexSDK.hpp"
 
+#include "CP_SDK/Logging/PaperLogger.hpp"
+
 namespace CP_SDK::Utils {
 
     std::vector<void (*)(Paper::LoggerContext& logger)> Hooks::m_InstalledFuncs;

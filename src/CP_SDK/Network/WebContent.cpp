@@ -1,4 +1,5 @@
 #include "CP_SDK/Network/WebContent.hpp"
+#include "CP_SDK/Utils/Json.hpp"
 
 #include <System/Text/Encoding.hpp>
 #include <System/Text/UTF8Encoding.hpp>
@@ -29,6 +30,13 @@ namespace CP_SDK::Network {
     WebContent::Ptr WebContent::FromJson(std::u16string_view p_Content)
     {
         auto l_Array = Encoding::get_UTF8()->GetBytes(p_Content).operator Array<uint8_t> *();
+        return std::make_shared<WebContent>(CP_SDK_PRIV_TAG_VAL(), l_Array, u"application/json; charset=utf-8");
+    }
+    /// @brief Constructor from Json
+    /// @param content Json content
+    WebContent::Ptr WebContent::FromJson(std::shared_ptr<_v::Json::U16Document>& content)
+    {
+        auto l_Array = Encoding::get_UTF8()->GetBytes(content ? _v::Json::ToU16String(*content, false) : u"").operator Array<uint8_t> *();
         return std::make_shared<WebContent>(CP_SDK_PRIV_TAG_VAL(), l_Array, u"application/json; charset=utf-8");
     }
 

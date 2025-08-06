@@ -9,6 +9,7 @@
 #include "CP_SDK/Unity/MTMainThreadInvoker.hpp"
 #include "CP_SDK/Unity/MTThreadInvoker.hpp"
 #include "CP_SDK/ModuleBase.hpp"
+#include "CP_SDK/ChatPlexService.hpp"
 
 #include <UnityEngine/Application.hpp>
 
@@ -51,7 +52,6 @@ namespace CP_SDK {
     {
         InstallWEBPCodecs();
 
-        /// Init config
         Chat::Service::Init();
     }
     /// @brief On assembly exit
@@ -87,6 +87,8 @@ namespace CP_SDK {
 
             /// Init UI
             UI::UISystem::Init();
+
+            ChatPlexService::Init();
         }
         catch (const std::exception& p_Exception)
         {
@@ -101,6 +103,8 @@ namespace CP_SDK {
         {
             OnGenericSceneChange.Clear();
             OnGenericMenuSceneLoaded.Clear();
+
+            ChatPlexService::Release();
 
             UI::UISystem::Destroy();
             UI::LoadingProgressBar::Destroy();
