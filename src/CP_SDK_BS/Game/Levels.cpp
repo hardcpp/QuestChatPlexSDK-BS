@@ -489,6 +489,8 @@ namespace CP_SDK_BS::Game {
                 if (p_BeatmapLevel) *p_BeatmapLevel = l_Result;
                 return true;
             }
+
+            CP_SDK::ChatPlexSDK::Logger()->Error(u"[CP_SDK_BS.Game][Levels.TryGetBeatmapLevelForLevelID] GetBeatmapLevel failed");
         }
         else
             CP_SDK::ChatPlexSDK::Logger()->Error(u"[CP_SDK_BS.Game][Levels.TryGetBeatmapLevelForLevelID] Invalid BeatmapLevelsModel");
