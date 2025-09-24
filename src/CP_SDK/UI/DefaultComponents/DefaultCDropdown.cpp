@@ -79,8 +79,8 @@ namespace CP_SDK::UI::DefaultComponents {
         m_Icon->RTransform()->set_pivot           (Vector2( 1.0f,  0.5f));
         m_Icon->RTransform()->set_anchorMin       (Vector2( 1.0f,  0.5f));
         m_Icon->RTransform()->set_anchorMax       (Vector2( 1.0f,  0.5f));
-        m_Icon->RTransform()->set_anchoredPosition(Vector2(-0.5f,  0.0f));
-        m_Icon->RTransform()->set_sizeDelta       (Vector2( 4.0f,  4.0f));
+        m_Icon->RTransform()->set_anchoredPosition(Vector2(-1.5f,  0.0f));
+        m_Icon->RTransform()->set_sizeDelta       (Vector2( 3.0f,  3.0f));
         m_Icon->SetSprite(UISystem::GetUIDownArrowSprite().Ptr());
         m_Icon->OnClick({this, &DefaultCDropdown::Button_OnClick});
 
@@ -150,22 +150,28 @@ namespace CP_SDK::UI::DefaultComponents {
         m_Icon->SetInteractable(p_Interactable);
     }
     /// @brief Set available options
-    /// @param p_Options New options list
-    void DefaultCDropdown::SetOptions_Impl(const std::vector<std::u16string>& p_Options)
+    /// @param options New options list
+    /// @param notifyOnValueChanged Should notify on value changed?
+    void DefaultCDropdown::SetOptions_Impl(const std::vector<std::u16string>& options, bool notifyOnValueChanged)
     {
+        auto l_ValueStr = std::u16string(GetValue_Impl());
         m_Options.clear();
 
-        if (!p_Options.empty())
+        if (!options.empty())
         {
-            m_Options.reserve(p_Options.size());
-            m_Options.insert(m_Options.begin(), p_Options.begin(), p_Options.end());
+            m_Options.reserve(options.size());
+            m_Options.insert(options.begin(), options.begin(), options.end());
         }
 
-        if (m_Value > m_Options.size())
+        auto l_It       = std::find(m_Options.begin(), m_Options.end(), l_ValueStr);
+        auto l_NewValue = l_It != m_Options.end() ? l_It - m_Options.begin() : -1;
+        if (m_Value != l_NewValue)
         {
-            m_Value = -1;
+            m_Value = l_NewValue;
             Refresh();
-            Notify();
+
+            if (notifyOnValueChanged)
+                Notify();
         }
         else
             Refresh();

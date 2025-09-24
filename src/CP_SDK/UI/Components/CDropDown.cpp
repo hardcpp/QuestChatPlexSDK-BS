@@ -54,10 +54,11 @@ namespace CP_SDK::UI::Components {
         return this;
     }
     /// @brief Set available options
-    /// @param p_Options New options list
-    CDropdown* CDropdown::SetOptions(const std::vector<std::u16string>& p_Options)
+    /// @param options New options list
+    /// @param notifyOnValueChanged Should notify on value changed?
+    CDropdown* CDropdown::SetOptions(const std::vector<std::u16string>& options, bool notifyOnValueChanged)
     {
-        m_SetOptions(p_Options);
+        m_SetOptions(options, notifyOnValueChanged);
         return this;
     }
     /// @brief Set value

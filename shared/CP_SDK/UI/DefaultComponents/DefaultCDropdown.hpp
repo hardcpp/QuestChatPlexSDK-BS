@@ -61,8 +61,9 @@ namespace CP_SDK::UI::DefaultComponents {
             /// @param p_Interactable New state
             void SetInteractable_Impl(bool p_Interactable);
             /// @brief Set available options
-            /// @param p_Options New options list
-            void SetOptions_Impl(const std::vector<std::u16string>& p_Options);
+            /// @param options New options list
+            /// @param notifyOnValueChanged Should notify on value changed?
+            void SetOptions_Impl(const std::vector<std::u16string>& options, bool notifyOnValueChanged = true);
             /// @brief Set value
             /// @param p_Value  New value
             /// @param p_Notify Should notify?
