@@ -10,6 +10,11 @@
 #include <UnityEngine/Vector2.hpp>
 #include <System/Math.hpp>
 
+#include <algorithm>
+#include <limits>
+#include <memory>
+#include <stdexcept>
+
 using namespace System;
 using namespace UnityEngine;
 
@@ -30,7 +35,7 @@ namespace CP_SDK::Unity {
         p_Width     = 0;
         p_Height    = 0;
 
-        if (p_Bytes == nullptr && p_Bytes->get_Length() == 0)
+        if (p_Bytes == nullptr || p_Bytes->get_Length() <= 0)
             return false;
 
         int l_InputChannels;
@@ -38,24 +43,32 @@ namespace CP_SDK::Unity {
         if (!stbi_info_from_memory(p_Bytes->_values, p_Bytes->get_Length(), &p_Width, &p_Height, &l_InputChannels))
             return false;
 
-        stbi_set_flip_vertically_on_load(1);
+        stbi_set_flip_vertically_on_load_thread(1);
 
-        auto l_STBIBuffer = stbi_load_from_memory(p_Bytes->_values, p_Bytes->get_Length(), &p_Width, &p_Height, &l_InputChannels, 4);
+        auto l_STBIBuffer = std::unique_ptr<stbi_uc, decltype(&stbi_image_free)>(
+            stbi_load_from_memory(p_Bytes->_values, p_Bytes->get_Length(), &p_Width, &p_Height, &l_InputChannels, 4),
+            &stbi_image_free
+        );
         if (!l_STBIBuffer)
             return false;
+
+        if (p_Width <= 0 || p_Height <= 0
+            || static_cast<std::size_t>(p_Width) > std::numeric_limits<std::size_t>::max() / static_cast<std::size_t>(p_Height))
+            return false;
+
+        const auto l_PixelCount = static_cast<std::size_t>(p_Width) * static_cast<std::size_t>(p_Height);
 
         *p_Pixels = std::make_shared<std::vector<Color>>();
 
         auto& l_Pixels = *(*p_Pixels).get();
-        l_Pixels.resize(p_Width * p_Height);
+        l_Pixels.resize(l_PixelCount);
 
-        for (auto l_I = 0; l_I < (p_Width * p_Height); ++l_I)
+        const auto l_STBIBufferRef = l_STBIBuffer.get();
+        for (std::size_t l_I = 0; l_I < l_PixelCount; ++l_I)
         {
-            auto l_SrcPixel = &l_STBIBuffer[l_I * 4];
+            auto l_SrcPixel = &l_STBIBufferRef[l_I * 4];
             l_Pixels[l_I] = Extensions::ColorU::Convert(Color32(0, l_SrcPixel[0], l_SrcPixel[1], l_SrcPixel[2], l_SrcPixel[3]));
         }
-
-        stbi_image_free(l_STBIBuffer);
 
         return true;
     }
@@ -70,6 +83,17 @@ namespace CP_SDK::Unity {
     /// @param p_Radius   Blur radius
     void TextureRaw::FastGaussianBlur(int p_InWidth, int p_InHeight, PixelArray& p_InPixels, int p_Radius)
     {
+        if (p_InWidth <= 0 || p_InHeight <= 0 || !p_InPixels)
+            throw std::invalid_argument("TextureRaw::FastGaussianBlur received invalid image data");
+
+        const auto l_ExpectedSize = static_cast<std::size_t>(p_InWidth) * static_cast<std::size_t>(p_InHeight);
+        if (p_InPixels->size() < l_ExpectedSize)
+            throw std::invalid_argument("TextureRaw::FastGaussianBlur pixel buffer is too small");
+
+        p_Radius = std::clamp(p_Radius, 0, std::min(p_InWidth, p_InHeight) - 1);
+        if (p_Radius == 0)
+            return;
+
         GaussianBlur4(p_InWidth, p_InHeight, p_InPixels, p_Radius);
     }
     /// @brief Multiply image A & B into A
@@ -77,6 +101,9 @@ namespace CP_SDK::Unity {
     /// @param p_ImageB Additional image
     void TextureRaw::Multiply(PixelArray& p_ImageA, PixelArray& p_ImageB)
     {
+        if (!p_ImageA || !p_ImageB)
+            throw std::invalid_argument("TextureRaw::Multiply received a null image");
+
         if (p_ImageA->size() != p_ImageB->size())
             throw std::runtime_error("[CP_SDK.Unity][TextureRaw.Multiply] Size differ! " + std::to_string(p_ImageA->size()) + " vs " + std::to_string(p_ImageB->size()));
 
@@ -95,6 +122,17 @@ namespace CP_SDK::Unity {
     /// @param p_YOffsetRel   Height anchor
     TextureRaw::PixelArray TextureRaw::ResampleAndCrop(int p_InWidth, int p_InHeight, PixelArray& p_InPixels, int p_TargetWidth, int p_TargetHeight, float p_YOffsetRel)
     {
+        if (p_InWidth <= 0 || p_InHeight <= 0 || p_TargetWidth <= 0 || p_TargetHeight <= 0 || !p_InPixels)
+            throw std::invalid_argument("TextureRaw::ResampleAndCrop received invalid dimensions");
+
+        const auto l_InputSize = static_cast<std::size_t>(p_InWidth) * static_cast<std::size_t>(p_InHeight);
+        if (p_InPixels->size() < l_InputSize)
+            throw std::invalid_argument("TextureRaw::ResampleAndCrop pixel buffer is too small");
+
+        if (static_cast<std::size_t>(p_TargetWidth) > std::numeric_limits<std::size_t>::max() / static_cast<std::size_t>(p_TargetHeight))
+            throw std::overflow_error("TextureRaw::ResampleAndCrop target size overflow");
+
+        p_YOffsetRel = std::clamp(p_YOffsetRel, 0.0f, 1.0f);
         float l_SourceAspect = (float)p_InWidth / p_InHeight;
         float l_TargetAspect = (float)p_TargetWidth / p_TargetHeight;
 
@@ -121,7 +159,7 @@ namespace CP_SDK::Unity {
         auto& l_Result      = *(l_ResultPtr.get());
         auto& l_InPixels    = *(p_InPixels.get());
 
-        l_Result.resize(p_TargetWidth * p_TargetHeight);
+        l_Result.resize(static_cast<std::size_t>(p_TargetWidth) * static_cast<std::size_t>(p_TargetHeight));
 
         for (int l_Y = 0; l_Y < p_TargetHeight; ++l_Y)
         {

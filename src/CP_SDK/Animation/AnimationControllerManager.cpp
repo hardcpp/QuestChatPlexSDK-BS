@@ -4,6 +4,8 @@
 #include <UnityEngine/GameObject.hpp>
 #include <UnityEngine/Time.hpp>
 
+#include <algorithm>
+
 using namespace UnityEngine;
 
 namespace CP_SDK::Animation {
@@ -35,6 +37,9 @@ namespace CP_SDK::Animation {
     /// @param p_Delays Delays
     AnimationControllerInstance::Ptr AnimationControllerManager::Register(std::u16string p_ID, _v::CMonoPtrRef<Texture2D> p_Atlas, const std::vector<Rect>& p_UVs, const std::vector<uint16_t>& p_Delays)
     {
+        if (!p_Atlas || p_UVs.empty() || p_UVs.size() != p_Delays.size())
+            return nullptr;
+
         auto l_ControllerInstance = m_RegisteredDict.contains(p_ID) ? m_RegisteredDict[p_ID] : nullptr;
         if (!l_ControllerInstance)
         {
@@ -46,9 +51,10 @@ namespace CP_SDK::Animation {
                 m_Registered.push_back(l_ControllerInstance);
                 m_QuickUpdateListCount++;
             }
-            catch (const std::exception&)
+            catch (const std::exception& l_Exception)
             {
-
+                ChatPlexSDK::Logger()->Error(u"[CP_SDK.Animation][AnimationControllerManager.Register] Failed to register animation:");
+                ChatPlexSDK::Logger()->Error(l_Exception);
             }
         }
         else

@@ -7,6 +7,10 @@
 #include <UnityEngine/GameObject.hpp>
 #include <UnityEngine/TextureWrapMode.hpp>
 
+#include <algorithm>
+#include <cmath>
+#include <stdexcept>
+
 using namespace UnityEngine;
 
 namespace CP_SDK::Animation {
@@ -57,14 +61,29 @@ namespace CP_SDK::Animation {
     custom_types::Helpers::Coroutine AnimationLoader::Coroutine_ProcessLoadedAnimation(AnimationInfo::Ptr p_AnimationInfo, t_AnimatedCallback p_Callback)
     {
         if (!p_AnimationInfo)
+        {
             p_Callback(nullptr, {}, {}, 0, 0);
+            co_return;
+        }
+
+        if (p_AnimationInfo->Width <= 0 || p_AnimationInfo->Height <= 0 || p_AnimationInfo->Frames.empty()
+            || p_AnimationInfo->Frames.size() != p_AnimationInfo->Delays.size())
+        {
+            p_Callback(nullptr, {}, {}, 0, 0);
+            co_return;
+        }
 
         auto l_MaxAtlasTextureSize = GetMaxAtlasTextureSize(p_AnimationInfo);
+        if (l_MaxAtlasTextureSize <= 0)
+        {
+            p_Callback(nullptr, {}, {}, 0, 0);
+            co_return;
+        }
 
         _v::MonoPtr<Texture2D>           l_AtlasTexture  = Texture2D::New_ctor(p_AnimationInfo->Width, p_AnimationInfo->Height);
         _v::MonoPtr<::Array<Texture2D*>> l_SubTextures   = ::Array<Texture2D*>::NewLength(p_AnimationInfo->Frames.size());
 
-        for (int l_FrameI = 0; l_FrameI < p_AnimationInfo->Frames.size(); ++l_FrameI)
+        for (std::size_t l_FrameI = 0; l_FrameI < p_AnimationInfo->Frames.size(); ++l_FrameI)
         {
             auto l_FrameTexture = Texture2D::New_ctor(p_AnimationInfo->Width, p_AnimationInfo->Height, TextureFormat::RGBA32, false);
             l_FrameTexture->set_wrapMode(TextureWrapMode::Clamp);
@@ -95,30 +114,16 @@ namespace CP_SDK::Animation {
     /// @param p_AnimationInfo Animation infos
     int AnimationLoader::GetMaxAtlasTextureSize(AnimationInfo::Ptr& p_AnimationInfo)
     {
-        auto l_TestNumber        = 2;
-        auto l_FramesInRow       = 0;
-        auto l_FramesInColumn    = 0;
-        auto l_FrameCount        = p_AnimationInfo->Frames.size();
+        if (!p_AnimationInfo || p_AnimationInfo->Frames.empty() || p_AnimationInfo->Width <= 0 || p_AnimationInfo->Height <= 0)
+            return 0;
 
-        while (true)
-        {
-            /// Make sure the number of frames is cleanly divisible by our testNum
-            if (!(l_FrameCount % l_TestNumber != 0))
-                l_FrameCount += l_FrameCount % l_TestNumber;
+        const auto l_FrameCount     = static_cast<uint64_t>(p_AnimationInfo->Frames.size());
+        const auto l_FramesInRow    = static_cast<uint64_t>(std::ceil(std::sqrt(static_cast<double>(l_FrameCount))));
+        const auto l_FramesInColumn = (l_FrameCount + l_FramesInRow - 1) / l_FramesInRow;
+        const auto l_TextureWidth   = std::min<uint64_t>(l_FramesInRow * static_cast<uint64_t>(p_AnimationInfo->Width), 2048ULL);
+        const auto l_TextureHeight  = std::min<uint64_t>(l_FramesInColumn * static_cast<uint64_t>(p_AnimationInfo->Height), 2048ULL);
 
-            l_FramesInRow       = std::max<int>(1, l_FrameCount / l_TestNumber);
-            l_FramesInColumn    = l_FrameCount / l_FramesInRow;
-
-            if (l_FramesInRow <= l_FramesInColumn)
-                break;
-
-            l_TestNumber += 2;
-        }
-
-        auto l_TextureWidth  = Mathf::Clamp(l_FramesInRow     * p_AnimationInfo->Width,  0, 2048);
-        auto l_TextureHeight = Mathf::Clamp(l_FramesInColumn  * p_AnimationInfo->Height, 0, 2048);
-
-        return std::max<int>(l_TextureWidth, l_TextureHeight);
+        return static_cast<int>(std::max(l_TextureWidth, l_TextureHeight));
     }
 
 }   ///< namespace CP_SDK::Animation

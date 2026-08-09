@@ -8,6 +8,9 @@
 #include <UnityEngine/Networking/DownloadHandler.hpp>
 #include <UnityEngine/Networking/UnityWebRequest.hpp>
 
+#include <limits>
+#include <stdexcept>
+
 bool StartWith(::Array<uint8_t>* p_Array, ArrayW<uint8_t>& p_Pattern, int p_PatternSize);
 
 using namespace System::Text;
@@ -92,6 +95,9 @@ namespace CP_SDK::Network {
     /// @param data Response data
     WebResponse::WebResponse(long curlPerformResult, void* curlInstance, std::vector<uint8_t>* data)
     {
+        if (!data || data->size() > static_cast<std::size_t>(std::numeric_limits<int32_t>::max()))
+            throw std::invalid_argument("WebResponse body is invalid or too large");
+
         auto l_CURLInstance = reinterpret_cast<CURL*>(curlInstance);
 
         if (curlPerformResult != CURLE_OK)
@@ -111,8 +117,9 @@ namespace CP_SDK::Network {
             m_ShouldRetry           = IsSuccessStatusCode() ? false : (l_HTTPCode < 400 || l_HTTPCode >= 500);
         }
 
-        m_BodyBytes = ::Array<uint8_t>::NewLength(data->size());
-        memcpy(m_BodyBytes->_values, data->data(), data->size());
+        m_BodyBytes = ::Array<uint8_t>::NewLength(static_cast<int32_t>(data->size()));
+        if (!data->empty())
+            memcpy(m_BodyBytes->_values, data->data(), data->size());
     }
 
 }   ///< namespace CP_SDK::Network

@@ -53,7 +53,7 @@ jobs:
         echo "VERSION=${GITHUB_REF#refs/tags/v}" >> ${GITHUB_OUTPUT}
 
     - name: Setup qpm
-      uses: Fernthedev/qpm-action@main
+      uses: Fernthedev/qpm-action@v1
       with:
         workflow_token: ${{ secrets.GITHUB_TOKEN }}
         restore: true

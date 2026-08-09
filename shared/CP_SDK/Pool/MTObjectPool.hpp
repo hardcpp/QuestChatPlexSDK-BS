@@ -53,24 +53,29 @@ namespace CP_SDK::Pool {
 
                 if (maxSize <= 0)
                     throw std::runtime_error("Max Size must be greater than 0");
+                if (defaultCapacity < 0 || defaultCapacity > maxSize)
+                    throw std::runtime_error("Default capacity must be between 0 and maxSize");
 
                 m_CreateFunc        = createFunc;
                 m_MaxSize           = maxSize;
                 m_ActionOnGet       = actionOnGet;
                 m_ActionOnRelease   = actionOnRelease;
                 m_ActionOnDestroy   = actionOnDestroy;
+                m_CountAll          = 0;
                 m_CollectionCheck   = collectionCheck;
 
                 m_Vector.reserve(maxSize);
 
                 while (defaultCapacity-- > 0)
+                {
                     m_Vector.push_back(m_CreateFunc());
+                    m_CountAll++;
+                }
             }
             /// @brief Destructor
             ~MTObjectPool()
             {
-                ChatPlexSDK::Logger()->Error(u"~MTObjectPool");
-                Clear();
+                try { Clear(); } catch (...) { }
             }
 
             /// @brief Constructor
@@ -92,12 +97,20 @@ namespace CP_SDK::Pool {
             /// @brief Active elements
             int CountActive()
             {
-                return m_CountAll - m_Vector.size();
+                // lock (m_Stack)
+                {
+                    std::lock_guard<std::mutex> l_Lock(m_Mutex);
+                    return m_CountAll - static_cast<int>(m_Vector.size());
+                }
             }
             /// @brief Released element
             int CountInactive() override
             {
-                return m_Vector.size();
+                // lock (m_Stack)
+                {
+                    std::lock_guard<std::mutex> l_Lock(m_Mutex);
+                    return static_cast<int>(m_Vector.size());
+                }
             }
 
         public:
@@ -105,21 +118,26 @@ namespace CP_SDK::Pool {
             t_Type Get() override
             {
                 t_Type l_Result{};
+                bool l_Create = false;
 
-                //lock (m_Stack)
+                // lock (m_Stack)
                 {
                     std::lock_guard<std::mutex> l_Lock(m_Mutex);
 
                     if (m_Vector.size() == 0)
-                    {
-                        l_Result = m_CreateFunc();
-                        m_CountAll++;
-                    }
+                        l_Create = true;
                     else
                     {
                         l_Result = m_Vector.back();
                         m_Vector.pop_back();
                     }
+                }
+
+                if (l_Create)
+                {
+                    l_Result = m_CreateFunc();
+                    std::lock_guard<std::mutex> l_Lock(m_Mutex);
+                    m_CountAll++;
                 }
 
                 m_ActionOnGet(l_Result);
@@ -129,37 +147,45 @@ namespace CP_SDK::Pool {
             /// @param p_Element Element to release
             void Release(t_Type& p_Element) override
             {
-                //lock (m_Stack)
+                m_ActionOnRelease(p_Element);
+
+                bool l_Destroy = false;
+
+                // lock (m_Stack)
                 {
                     std::lock_guard<std::mutex> l_Lock(m_Mutex);
 
                     if (m_CollectionCheck && m_Vector.size() > 0 && std::find(m_Vector.begin(), m_Vector.end(), p_Element) != m_Vector.end())
                         throw std::runtime_error("Trying to release an object that has already been released to the pool.");
 
-                    m_ActionOnRelease(p_Element);
-
-                    if (CountInactive() < m_MaxSize)
+                    if (static_cast<int>(m_Vector.size()) < m_MaxSize)
                         m_Vector.push_back(const_cast<t_Type&>(p_Element));
                     else
-                        m_ActionOnDestroy(p_Element);
+                    {
+                        m_CountAll--;
+                        l_Destroy = true;
+                    }
                 }
+
+                if (l_Destroy)
+                    m_ActionOnDestroy(p_Element);
             }
 
         public:
             /// @brief Clear the object pool
             void Clear() override
             {
-                //lock (m_Stack)
+                std::vector<t_Type> l_ToDestroy;
+
+                // lock (m_Stack)
                 {
                     std::lock_guard<std::mutex> l_Lock(m_Mutex);
-
-                    for (auto& l_Current : m_Vector)
-                        m_ActionOnDestroy(l_Current);
-
-                    m_Vector.clear();
+                    l_ToDestroy.swap(m_Vector);
+                    m_CountAll -= static_cast<int>(l_ToDestroy.size());
                 }
 
-                m_CountAll = 0;
+                for (auto& l_Current : l_ToDestroy)
+                    m_ActionOnDestroy(l_Current);
             }
 
     };

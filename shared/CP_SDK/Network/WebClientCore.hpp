@@ -4,6 +4,7 @@
 
 #include <System/TimeSpan.hpp>
 
+#include <atomic>
 #include <map>
 #include <mutex>
 
@@ -175,7 +176,8 @@ namespace CP_SDK::Network {
                     _u::CancellationToken           token,
                     _v::Action<WebResponse::Ptr>    callback,
                     bool                            dontRetry,
-                    _v::Action<float>               progress
+                    _v::Action<float>               progress,
+                    bool                            dispatchCallback
             );
 
     };

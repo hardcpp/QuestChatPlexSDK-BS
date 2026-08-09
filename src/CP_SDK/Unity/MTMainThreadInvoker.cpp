@@ -3,7 +3,7 @@
 
 #include <UnityEngine/GameObject.hpp>
 
-const int MAX_QUEUE_SIZE = 1000;
+constexpr std::size_t MAX_QUEUE_SIZE = 1000;
 
 using namespace UnityEngine;
 
@@ -19,10 +19,9 @@ namespace CP_SDK::Unity {
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
-    MTMainThreadInvoker::Queue**        MTMainThreadInvoker::m_Queues       = nullptr;
-    bool                                MTMainThreadInvoker::m_Queued       = false;
-    int                                 MTMainThreadInvoker::m_FrontQueue   = 0;
-    std::mutex                          MTMainThreadInvoker::m_Mutex;
+    std::deque<Utils::Action<>> MTMainThreadInvoker::m_Queue;
+    bool                        MTMainThreadInvoker::m_Accepting = false;
+    std::mutex                  MTMainThreadInvoker::m_Mutex;
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
@@ -44,37 +43,33 @@ namespace CP_SDK::Unity {
     /// @brief Unity GameObject initialize
     void MTMainThreadInvoker::Initialize()
     {
+        std::lock_guard l_Lock(m_Mutex);
         if (m_Instance)
             return;
-
-        m_Queues = new MTMainThreadInvoker::Queue*[2];
-
-        for (int l_I = 0; l_I < 2; ++l_I)
-        {
-            m_Queues[l_I]           = new MTMainThreadInvoker::Queue();
-            m_Queues[l_I]->Data     = new _v::Action<>*[MAX_QUEUE_SIZE];
-            m_Queues[l_I]->WritePos = 0;
-        }
 
         auto l_GameObject = GameObject::New_ctor(u"[CP_SDK.Unity.MTMainThreadInvoker]");
         GameObject::DontDestroyOnLoad(l_GameObject);
 
         m_Instance = l_GameObject->AddComponent<MTMainThreadInvoker*>();
+        m_Queue.clear();
+        m_Accepting = true;
     }
     /// @brief Stop
     void MTMainThreadInvoker::Destroy()
     {
-        if (!m_Instance)
-            return;
+        MTMainThreadInvoker* l_Instance = nullptr;
+        {
+            std::lock_guard l_Lock(m_Mutex);
+            if (!m_Instance)
+                return;
 
-        for (int l_I = 0; l_I < 2; ++l_I)
-            delete[] m_Queues[l_I]->Data;
+            m_Accepting = false;
+            m_Queue.clear();
+            l_Instance = m_Instance;
+            m_Instance = nullptr;
+        }
 
-        delete[] m_Queues;
-        m_Queues = nullptr;
-
-        GameObject::Destroy(m_Instance->get_gameObject());
-        m_Instance = nullptr;
+        GameObject::Destroy(l_Instance->get_gameObject());
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -86,15 +81,19 @@ namespace CP_SDK::Unity {
     {
         std::lock_guard l_Lock(m_Mutex);
 
-        auto l_Queue = m_Queues[m_FrontQueue];
-        if (l_Queue->WritePos >= MAX_QUEUE_SIZE)
+        if (!m_Accepting || !m_Instance)
+        {
+            ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][MTMainThreadInvoker.Enqueue] Invoker is not running!");
+            return;
+        }
+
+        if (m_Queue.size() >= MAX_QUEUE_SIZE)
         {
             ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][MTMainThreadInvoker.Enqueue] Too many actions pushed!");
             return;
         }
 
-        l_Queue->Data[l_Queue->WritePos++] = new _v::Action<>(p_Delegate);
-        m_Queued = true;
+        m_Queue.emplace_back(p_Delegate);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -103,53 +102,28 @@ namespace CP_SDK::Unity {
     /// @brief Unity GameObject update
     void MTMainThreadInvoker::Update()
     {
-        if (!m_Queued)
-            return;
+        std::deque<_v::Action<>> l_Actions;
+        {
+            std::lock_guard l_Lock(m_Mutex);
+            l_Actions.swap(m_Queue);
+        }
 
-        auto l_QueueToHandle     = m_FrontQueue;
-        auto l_NextFrontQueue    = (m_FrontQueue + 1) & 1;
-
-        m_Mutex.lock();
-        m_FrontQueue    = l_NextFrontQueue;
-        m_Queued        = false;
-        m_Mutex.unlock();
-
-        auto l_Queue = m_Queues[l_QueueToHandle];
-        auto l_Count = l_Queue->WritePos;
-        auto l_I     = 0;
-
-        do
+        for (auto& l_Action : l_Actions)
         {
             try
             {
-                l_Queue->Data[l_I]->Invoke();
-                delete l_Queue->Data[l_I];
+                l_Action.Invoke();
             }
             catch (const std::exception& l_Exception)
             {
                 ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][MTMainThreadInvoker.Update] Error:");
                 ChatPlexSDK::Logger()->Error(l_Exception);
-
-                delete l_Queue->Data[l_I];
             }
-
-            ++l_I;
-        } while (l_I < l_Count);
-
-        if (l_I < l_Count)
-        {
-            auto l_ToCopy        = l_Count - l_I;
-            auto l_FrontQueue    = m_Queues[m_FrontQueue];
-
-            m_Mutex.lock();
-            memcpy(&l_FrontQueue->Data[l_FrontQueue->WritePos], &l_Queue->Data[l_I], l_ToCopy * sizeof(_v::Action<>*));
-            l_FrontQueue->WritePos += l_ToCopy;
-            m_Queued = true;
-            m_Mutex.unlock();
+            catch (...)
+            {
+                ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][MTMainThreadInvoker.Update] Unknown error");
+            }
         }
-
-        memset(l_Queue->Data, 0, l_Count * sizeof(_v::Action<>*));
-        l_Queue->WritePos = 0;
     }
 
 }   ///< namespace CP_SDK::Unity

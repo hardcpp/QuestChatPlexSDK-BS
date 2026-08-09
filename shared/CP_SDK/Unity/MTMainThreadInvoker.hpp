@@ -5,6 +5,7 @@
 
 #include <custom-types/shared/coroutine.hpp>
 #include <UnityEngine/MonoBehaviour.hpp>
+#include <deque>
 #include <mutex>
 
 namespace CP_SDK::Unity {
@@ -28,20 +29,11 @@ namespace CP_SDK::Unity {
         CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR(MTMainThreadInvoker);
 
         private:
-            /// @brief Queue class
-            struct Queue
-            {
-                _v::Action<> ** Data;
-                int WritePos;
-            };
-
-        private:
             static MTMainThreadInvoker* m_Instance;     /// Singleton
 
-            static Queue**      m_Queues;           ///< Queues instance
-            static bool         m_Queued;           ///< Have queued actions
-            static int          m_FrontQueue;       ///< Current front queue
-            static std::mutex   m_Mutex;            ///< Lock mutex
+            static std::deque<_v::Action<>> m_Queue;        ///< Pending actions
+            static bool                     m_Accepting;    ///< Accept new actions
+            static std::mutex               m_Mutex;        ///< Lock mutex
 
         public:
             /// @brief Unity GameObject initialize
