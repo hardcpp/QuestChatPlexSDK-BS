@@ -34,6 +34,7 @@ namespace CP_SDK::Unity {
             static std::deque<_v::Action<>> m_Queue;        ///< Pending actions
             static bool                     m_Accepting;    ///< Accept new actions
             static std::mutex               m_Mutex;        ///< Lock mutex
+            static std::thread::id          m_MainThread;   ///< Main thread
 
         public:
             /// @brief Unity GameObject initialize
@@ -42,11 +43,17 @@ namespace CP_SDK::Unity {
             static void Destroy();
 
         public:
+            /// @brief Are we currently on the main thread?
+            static bool IsMainThread();
+
+        public:
             /// @brief Enqueue a new action
             /// @param p_Delegate Action to enqueue
             static void Enqueue(_v::CActionRef<> p_Delegate);
 
         private:
+            /// @brief Unity GameObject Awake
+            DECLARE_INSTANCE_METHOD(void, Awake);
             /// @brief Unity GameObject update
             DECLARE_INSTANCE_METHOD(void, Update);
 
