@@ -111,11 +111,6 @@ namespace CP_SDK::Animation {
 
         m_ActiveCount = m_ActiveImages.size();
     }
-    /// @brief Whether this animation is currently displayed
-    bool AnimationControllerInstance::HasActiveImages() const
-    {
-        return m_ActiveCount > 0;
-    }
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
