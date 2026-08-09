@@ -48,13 +48,14 @@ jobs:
         workflow_token: ${{ secrets.GITHUB_TOKEN }}
         restore: true
         cache: true
-        publish: true
+        publish: 'late'
         publish_token: ${{ secrets.QPM_KEY }}
         version: ${{ steps.get_tag_version.outputs.VERSION }}
         tag: ${{ steps.get_tag_version.outputs.TAG }}
         qpm_release_bin: true
         qpm_debug_bin: true
         qpm_qmod: ${{ env.qmodName }}.qmod
+        resolve_ndk: true
 
     - name: Build & Create Qmod
       run: |
