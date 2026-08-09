@@ -22,7 +22,7 @@ using namespace UnityEngine;
         if(!g_SoloButton)
         {
             auto l_MainMenuViewController = UnityEngine::Resources::FindObjectsOfTypeAll<GlobalNamespace::MainMenuViewController*>()->First();
-            g_SoloButton = l_MainMenuViewController->____soloButton;
+            g_SoloButton = l_MainMenuViewController->_soloButton;
         }
 
         p_Button = g_SoloButton.ptr();
@@ -116,11 +116,11 @@ namespace CP_SDK::Unity {
 
             /// Temp disable until libunity is properly unstripped
             /*
-            m_MainFont->___normalStyle          =  0.5f;
-            m_MainFont->___normalSpacingOffset  = -1.0f;
-            m_MainFont->___boldStyle            =  2.0f;
-            m_MainFont->___boldSpacing          =  2.0f;
-            m_MainFont->___italicStyle          = 15;
+            m_MainFont->normalStyle          =  0.5f;
+            m_MainFont->normalSpacingOffset  = -1.0f;
+            m_MainFont->boldStyle            =  2.0f;
+            m_MainFont->boldSpacing          =  2.0f;
+            m_MainFont->italicStyle          = 15;
             */
         }
 

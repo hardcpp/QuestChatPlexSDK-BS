@@ -75,8 +75,8 @@ namespace CP_SDK_BS::Game::Patches {
             {
                 auto l_LocalResultData = __a->get_localPlayerResultData();
 
-                if (l_LocalResultData->___multiplayerLevelCompletionResults)
-                    l_LevelCompletionData->Results = l_LocalResultData->___multiplayerLevelCompletionResults->____levelCompletionResults;
+                if (l_LocalResultData->multiplayerLevelCompletionResults)
+                    l_LevelCompletionData->Results = l_LocalResultData->multiplayerLevelCompletionResults->_levelCompletionResults;
             }
 
             Scoring::__SetScoreSaberIsInReplay(false);

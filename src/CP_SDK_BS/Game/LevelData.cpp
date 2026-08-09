@@ -32,11 +32,11 @@ namespace CP_SDK_BS::Game {
     }
     bool LevelData::IsNoodle()
     {
-        if (!Data || !Data->___beatmapLevel)
+        if (!Data || !Data->beatmapLevel)
             return false;
 
         std::vector<std::u16string> l_Requirements;
-        if (Levels::TryGetCustomRequirementsFor(Data->___beatmapLevel, Data->___beatmapKey.beatmapCharacteristic, Data->___beatmapKey.difficulty, &l_Requirements))
+        if (Levels::TryGetCustomRequirementsFor(Data->beatmapLevel, Data->beatmapKey.beatmapCharacteristic, Data->beatmapKey.difficulty, &l_Requirements))
         {
             for (auto& l_Current : l_Requirements)
             {
@@ -55,7 +55,7 @@ namespace CP_SDK_BS::Game {
             return false;
 
         std::vector<std::u16string> l_Requirements;
-        if (Levels::TryGetCustomRequirementsFor(Data->___beatmapLevel, Data->___beatmapKey.beatmapCharacteristic, Data->___beatmapKey.difficulty, &l_Requirements))
+        if (Levels::TryGetCustomRequirementsFor(Data->beatmapLevel, Data->beatmapKey.beatmapCharacteristic, Data->beatmapKey.difficulty, &l_Requirements))
         {
             for (auto& l_Current : l_Requirements)
             {
