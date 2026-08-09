@@ -1,14 +1,14 @@
 #pragma once
 
+#include "Components/CFloatingPanel.hpp"
 #include "Components/CText.hpp"
+#include "Components/CImage.hpp"
 #include "../Utils/Il2cpp.hpp"
 #include "../Unity/PersistantSingleton.hpp"
 #include "../ChatPlexSDK.hpp"
 
 #include <custom-types/shared/coroutine.hpp>
 #include <UnityEngine/MonoBehaviour.hpp>
-#include <UnityEngine/UI/Image.hpp>
-#include <UnityEngine/Canvas.hpp>
 
 #include <string>
 
@@ -34,10 +34,10 @@ namespace CP_SDK::UI {
         CP_SDK_UNITY_PERSISTANT_SINGLETON_DECL(CP_SDK::UI::LoadingProgressBar);
 
         private:
-            _v::MonoPtr<_u::Canvas> m_Canvas;
-            _v::MonoPtr<_v::CText>  m_HeaderText;
-            _v::MonoPtr<_u::Image>  m_LoadingBackground;
-            _v::MonoPtr<_u::Image>  m_LoadingBar;
+            _v::MonoPtr<_v::CFloatingPanel> m_Canvas;
+            _v::MonoPtr<_v::CText>          m_HeaderText;
+            _v::MonoPtr<_v::CImage>         m_LoadingBackground;
+            _v::MonoPtr<_v::CImage>         m_LoadingBar;
 
         public:
             /// @brief On component creation
