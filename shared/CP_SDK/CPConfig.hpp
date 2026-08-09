@@ -13,6 +13,7 @@ namespace CP_SDK {
         public:
             bool            FirstRun                = true;
             bool            FirstChatServiceRun     = true;
+            bool            EventSpecials           = true;
             std::u16string  ChatPlexServiceToken    = u"";
 
         protected:

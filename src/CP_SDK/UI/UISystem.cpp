@@ -27,7 +27,7 @@
 #include "CP_SDK/Unity/FontManager.hpp"
 #include "CP_SDK/Unity/Texture2DU.hpp"
 #include "CP_SDK/Unity/SpriteU.hpp"
-#include "CP_SDK/ChatPlexSDK.hpp"
+#include "CP_SDK/CPConfig.hpp"
 #include "assets.hpp"
 
 #include <UnityEngine/Color32.hpp>
@@ -35,6 +35,7 @@
 #include <UnityEngine/UI/Image.hpp>
 #include <TMPro/TextMeshProUGUI.hpp>
 #include <System/Reflection/MemberInfo.hpp>
+#include <System/DateTime.hpp>
 
 using namespace CP_SDK::Unity::Extensions;
 using namespace TMPro;
@@ -139,6 +140,22 @@ namespace CP_SDK::UI {
                 m_LoadingAnimation = x;
             }
         );
+
+        if (CPConfig::Instance()->EventSpecials && System::DateTime::get_Now().Month == 10)
+        {
+            DefaultBGColor          = ColorU::WithAlpha("#15003d", 0.5000f); // Ok
+            NavigationBarBGColor    = ColorU::WithAlpha("#9F79F2", 0.6500f); // Ok
+            PrimaryColor            = ColorU::WithAlpha("#F24F13", 1.0000f); // Ok
+            SecondaryColor          = ColorU::WithAlpha("#F27F1B", 1.0000f); // Ok
+            TitleBlockBGColor       = NavigationBarBGColor;
+            ModalBGColor            = ColorU::WithAlpha("#15003d", 0.9750f); // Ok
+            ListBGColor             = ColorU::WithAlpha("#15003d", 0.7500f);
+            KeyboardTextBGColor     = ColorU::WithAlpha("#7F7F7F", 0.5000f);
+            TooltipBGColor          = ColorU::WithAlpha("#300089", 0.9875f);
+
+            TextColor           = ColorU::WithAlpha("#FFFFFF", 1.0000f); // Ok
+            TextColorDisabled   = Color::op_Multiply(TextColor, 0.75f);
+        }
 
         ScreenSystem::Create();
         ModMenu::Create();

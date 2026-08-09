@@ -160,7 +160,7 @@ namespace CP_SDK::UI::DefaultComponents {
         if (!options.empty())
         {
             m_Options.reserve(options.size());
-            m_Options.insert(options.begin(), options.begin(), options.end());
+            m_Options.insert(m_Options.begin(), options.begin(), options.end());
         }
 
         auto l_It       = std::find(m_Options.begin(), m_Options.end(), l_ValueStr);
@@ -200,7 +200,7 @@ namespace CP_SDK::UI::DefaultComponents {
         if (m_Value >= 0 && m_Value < m_Options.size())
             m_ValueText->TMProUGUI()->set_text(m_Options[m_Value]);
         else
-            m_ValueText->TMProUGUI()->set_text("<i>None</i>");
+            m_ValueText->TMProUGUI()->set_text(u"<i>None</i>");
     }
     /// @brief Notify
     void DefaultCDropdown::Notify()

@@ -141,7 +141,7 @@ namespace CP_SDK::UI::DefaultComponents {
             l_Background->set_material               (UISystem::Override_GetUIMaterial());
             l_Background->set_type                   (Image::Type::Sliced);
             l_Background->set_pixelsPerUnitMultiplier(1.0f);
-            l_Background->set_color                  (ColorU::ToUnityColor("#727272"));
+            l_Background->set_color                  (UISystem::TitleBlockBGColor);
 
             if (p_Texts.size() == 1)
                 l_Background->set_sprite(UISystem::GetUIRoundBGSprite().Ptr());

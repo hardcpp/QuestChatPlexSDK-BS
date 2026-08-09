@@ -1,5 +1,4 @@
 #include "CP_SDK/UI/Components/CDropdown.hpp"
-#include "CP_SDK/UI/UISystem.hpp"
 
 using namespace UnityEngine;
 using namespace UnityEngine::UI;

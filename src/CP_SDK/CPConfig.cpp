@@ -23,6 +23,7 @@ namespace CP_SDK {
     {
         CP_SDK_JSON_SERIALIZE_BOOL(FirstRun);
         CP_SDK_JSON_SERIALIZE_BOOL(FirstChatServiceRun);
+        CP_SDK_JSON_SERIALIZE_BOOL(EventSpecials);
         CP_SDK_JSON_SERIALIZE_STRING(ChatPlexServiceToken);
     }
     /// @brief Read the document
@@ -31,6 +32,7 @@ namespace CP_SDK {
     {
         CP_SDK_JSON_UNSERIALIZE_BOOL(FirstRun);
         CP_SDK_JSON_UNSERIALIZE_BOOL(FirstChatServiceRun);
+        CP_SDK_JSON_UNSERIALIZE_BOOL(EventSpecials);
         CP_SDK_JSON_UNSERIALIZE_STRING(ChatPlexServiceToken);
     }
 
