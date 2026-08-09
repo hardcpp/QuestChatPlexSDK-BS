@@ -13,6 +13,7 @@
 #include <GlobalNamespace/BeatmapDifficulty.hpp>
 #include <GlobalNamespace/BeatmapLevelsModel.hpp>
 #include <GlobalNamespace/ColorScheme.hpp>
+#include <GlobalNamespace/ColorSchemesSettings.hpp>
 #include <GlobalNamespace/BeatmapLevel.hpp>
 #include <GlobalNamespace/LevelCompletionResults.hpp>
 #include <GlobalNamespace/MenuTransitionsHelper.hpp>
@@ -49,6 +50,7 @@ namespace CP_SDK_BS::Game {
             static _v::MonoPtr<_u::CancellationTokenSource>             m_GetLevelEntitlementStatusTokenSource;
             static _v::MonoPtr<_u::MenuTransitionsHelper>               m_MenuTransitionsHelper;
             static _v::MonoPtr<_u::SimpleLevelStarter>                  m_SimpleLevelStarter;
+            static _v::MonoPtr<_u::PlayerDataModel>                     m_PlayerDataModel;
 
             static bool                                                 m_ReloadSongsInitialized;
             static std::vector<_v::Action<>>                            m_ReloadSongsCallbacks;
@@ -135,13 +137,15 @@ namespace CP_SDK_BS::Game {
             /// @brief Try to get BeatmapLevel by level ID
             /// @param p_LevelID      ID of the level
             /// @param p_BeatmapLevel OUT Found BeatmapLevel or nullptr
+            /// @param p_SilentFail   Should not log map not found error?
             /// @return true or false
-            static bool TryGetBeatmapLevelForLevelID(std::u16string_view p_LevelID, _u::BeatmapLevel** p_BeatmapLevel);
+            static bool TryGetBeatmapLevelForLevelID(std::u16string_view p_LevelID, _u::BeatmapLevel** p_BeatmapLevel, bool silentFail = false);
             /// @brief Try to get BeatmapLevel by hash
             /// @param p_Hash         Hash of the level
             /// @param p_BeatmapLevel OUT Found BeatmapLevel or nullptr
+            /// @param p_SilentFail   Should not log map not found error?
             /// @return true or false
-            static bool TryGetBeatmapLevelForHash(std::u16string_view p_Hash, _u::BeatmapLevel** p_BeatmapLevel);
+            static bool TryGetBeatmapLevelForHash(std::u16string_view p_Hash, _u::BeatmapLevel** p_BeatmapLevel, bool silentFail = false);
             /// @brief For each of BeatmapKey for a BeatmapLevel
             /// @param p_BeatmapLevel Input beatmap level
             /// @param p_Functor      Functor for each element, return true mean we continue iterating
@@ -196,20 +200,22 @@ namespace CP_SDK_BS::Game {
             /// @param p_BeatmapLevelData            Beatmap level data
             /// @param p_OverrideEnvironmentSettings Environment settings
             /// @param p_ColorScheme                 Color scheme
+            /// @param p_ColorOverrideType           Color override type
             /// @param p_GameplayModifiers           Modifiers
             /// @param p_PlayerSettings              Player settings
             /// @param p_SongFinishedCallback        Callback when the song is finished
             /// @param p_MenuButtonText              Menu button text
-            static void StartBeatmapLevel(  _u::BeatmapLevel*                   p_Level,
-                                            _u::BeatmapCharacteristicSO*        p_Characteristic,
-                                            _u::BeatmapDifficulty               p_Difficulty,
-                                            _u::IBeatmapLevelData*              p_BeatmapLevelData,
-                                            _u::OverrideEnvironmentSettings*    p_OverrideEnvironmentSettings   = nullptr,
-                                            _u::ColorScheme*                    p_ColorScheme                   = nullptr,
-                                            _u::GameplayModifiers*              p_GameplayModifiers             = nullptr,
-                                            _u::PlayerSpecificSettings*         p_PlayerSettings                = nullptr,
+            static void StartBeatmapLevel(  _u::BeatmapLevel*                                           p_Level,
+                                            _u::BeatmapCharacteristicSO*                                p_Characteristic,
+                                            _u::BeatmapDifficulty                                       p_Difficulty,
+                                            _u::IBeatmapLevelData*                                      p_BeatmapLevelData,
+                                            _u::OverrideEnvironmentSettings*                            p_OverrideEnvironmentSettings   = nullptr,
+                                            _u::ColorScheme*                                            p_ColorScheme                   = nullptr,
+                                            std::optional<_u::ColorSchemesSettings::ColorOverrideType>  p_ColorOverrideType             = std::nullopt,
+                                            _u::GameplayModifiers*                                      p_GameplayModifiers             = nullptr,
+                                            _u::PlayerSpecificSettings*                                 p_PlayerSettings                = nullptr,
                                             _v::Action<_u::StandardLevelScenesTransitionSetupDataSO*, _u::LevelCompletionResults*> p_SongFinishedCallback = nullptr,
-                                            std::u16string_view                 p_MenuButtonText                = u"Menu");
+                                            std::u16string_view                                         p_MenuButtonText                = u"Menu");
 
         private:
             /// @brief Load IBeatmapLevelData from a level ID

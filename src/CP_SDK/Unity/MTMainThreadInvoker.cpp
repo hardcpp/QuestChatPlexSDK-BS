@@ -22,6 +22,7 @@ namespace CP_SDK::Unity {
     std::deque<Utils::Action<>> MTMainThreadInvoker::m_Queue;
     bool                        MTMainThreadInvoker::m_Accepting = false;
     std::mutex                  MTMainThreadInvoker::m_Mutex;
+    std::thread::id             MTMainThreadInvoker::m_MainThread;
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
@@ -75,6 +76,15 @@ namespace CP_SDK::Unity {
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
+    /// @brief Are we currently on the main thread?
+    bool MTMainThreadInvoker::IsMainThread()
+    {
+        return std::this_thread::get_id() == MTMainThreadInvoker::m_MainThread;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+
     /// @brief Enqueue a new action
     /// @param p_Delegate Action to enqueue
     void MTMainThreadInvoker::Enqueue(_v::CActionRef<> p_Delegate)
@@ -99,6 +109,11 @@ namespace CP_SDK::Unity {
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
+    /// @brief Unity GameObject Awake
+    void MTMainThreadInvoker::Awake()
+    {
+        m_MainThread = std::this_thread::get_id();
+    }
     /// @brief Unity GameObject update
     void MTMainThreadInvoker::Update()
     {
