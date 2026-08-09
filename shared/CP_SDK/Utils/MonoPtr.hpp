@@ -15,9 +15,7 @@ namespace CP_SDK::Utils {
             MonoPtr() : m_Wrapper(nullptr) { }
             MonoPtr(t_Ptr* p_Pointer)
                 : m_Wrapper(Unity::MonoPtrHolder::GetOrRegister((Il2CppObject*)p_Pointer))
-            {
-                if (m_Wrapper) m_Wrapper->Grab();
-            }
+            { }
             MonoPtr(const MonoPtr& p_Other)
                 : m_Wrapper(p_Other.m_Wrapper)
             {
@@ -38,10 +36,18 @@ namespace CP_SDK::Utils {
             t_Ptr* Ptr(bool p_Throw = true) const
             {
                 auto l_IsDead = !m_Wrapper || !m_Wrapper->Ptr;
-                if constexpr (std::is_assignable_v<UnityEngine::Object, t_Ptr>)
+                if (l_IsDead)
+                {
+                    if (p_Throw)
+                        throw NullHandleException();
+
+                    return nullptr;
+                }
+
+                if constexpr (std::is_base_of_v<UnityEngine::Object, t_Ptr>)
                 {
                     auto l_UObject = reinterpret_cast<UnityEngine::Object*>(m_Wrapper->Ptr);
-                    if (l_IsDead || !l_UObject->___m_CachedPtr.m_value)
+                    if (!l_UObject->___m_CachedPtr.m_value)
                         l_IsDead = true;
                 }
 
@@ -56,7 +62,7 @@ namespace CP_SDK::Utils {
 
             bool IsUnityObject()
             {
-                if constexpr (std::is_assignable_v<UnityEngine::Object, t_Ptr>)
+                if constexpr (std::is_base_of_v<UnityEngine::Object, t_Ptr>)
                     return true;
 
                 return false;
@@ -72,31 +78,43 @@ namespace CP_SDK::Utils {
             MonoPtr& operator=(t_Ptr* p_Pointer)
             {
                 if (m_Wrapper && m_Wrapper->Ptr == (Il2CppObject*)p_Pointer) return *this;
-                if (m_Wrapper) m_Wrapper->Drop();
+
                 if (!p_Pointer)
                 {
+                    auto l_OldWrapper = m_Wrapper;
                     m_Wrapper = nullptr;
+                    if (l_OldWrapper) l_OldWrapper->Drop();
                     return *this;
                 }
 
-                m_Wrapper = Unity::MonoPtrHolder::GetOrRegister((Il2CppObject*)p_Pointer);
-                if (m_Wrapper) m_Wrapper->Grab();
+                auto l_NewWrapper = Unity::MonoPtrHolder::GetOrRegister((Il2CppObject*)p_Pointer);
+                auto l_OldWrapper = m_Wrapper;
+                m_Wrapper = l_NewWrapper;
+                if (l_OldWrapper) l_OldWrapper->Drop();
 
                 return *this;
             }
             MonoPtr& operator=(const MonoPtr<t_Ptr>& p_Other)
             {
-                if (m_Wrapper) m_Wrapper->Drop();
-                m_Wrapper = p_Other.m_Wrapper;
-                if (m_Wrapper) m_Wrapper->Grab();
+                if (this == &p_Other) return *this;
+
+                auto l_NewWrapper = p_Other.m_Wrapper;
+                if (l_NewWrapper) l_NewWrapper->Grab();
+
+                auto l_OldWrapper = m_Wrapper;
+                m_Wrapper = l_NewWrapper;
+                if (l_OldWrapper) l_OldWrapper->Drop();
 
                 return *this;
             }
             MonoPtr& operator=(MonoPtr&& p_Other)
             {
-                if (m_Wrapper) m_Wrapper->Drop();
+                if (this == &p_Other) return *this;
+
+                auto l_OldWrapper = m_Wrapper;
                 m_Wrapper = p_Other.m_Wrapper;
                 p_Other.m_Wrapper = nullptr;
+                if (l_OldWrapper) l_OldWrapper->Drop();
 
                 return *this;
             }

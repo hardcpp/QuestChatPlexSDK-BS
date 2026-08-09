@@ -4,6 +4,7 @@
 #include "CP_SDK/ChatPlexSDK.hpp"
 
 #include <fstream>
+#include <utility>
 
 namespace CP_SDK::Config {
 
@@ -138,34 +139,36 @@ namespace CP_SDK::Config {
     /// @param p_FullPath File path
     void JsonConfig::WriteFile(std::filesystem::path p_FullPath)
     {
-        Unity::MTThreadInvoker::EnqueueOnThread([this, p_FullPath]() -> void
+        std::string l_Serialized;
+        try
+        {
+            Utils::Json::U16Document l_Document;
+            l_Document.SetObject();
+            Serialize(l_Document, l_Document.GetAllocator());
+            l_Serialized = Utils::Json::ToU8String(l_Document, true);
+        }
+        catch (const std::exception& l_Exception)
+        {
+            ChatPlexSDK::Logger()->Error(u"[CP_SDK.Config][JsonConfig.WriteFile] Serialization error for file " + StringW(p_FullPath.string()));
+            ChatPlexSDK::Logger()->Error(l_Exception);
+            return;
+        }
+
+        Unity::MTThreadInvoker::EnqueueOnThread([p_FullPath, l_Serialized = std::move(l_Serialized)]() -> void
         {
             try
             {
                 auto l_Path = p_FullPath.parent_path();
                 if (!std::filesystem::exists(l_Path) && !std::filesystem::create_directories(l_Path))
                     throw std::runtime_error("Failed to create directory for path " + l_Path.string());
-            }
-            catch (const std::exception& l_Exception)
-            {
-                ChatPlexSDK::Logger()->Error(u"[CP_SDK.Config][JsonConfig.WriteFile] Error for file " + StringW(p_FullPath.string()));
-                ChatPlexSDK::Logger()->Error(l_Exception);
-            }
 
-            std::ofstream l_Stream;
-            try
-            {
-                l_Stream.open(p_FullPath, std::ios::trunc);
+                std::ofstream l_Stream(p_FullPath, std::ios::binary | std::ios::trunc);
+                if (!l_Stream.is_open())
+                    throw std::runtime_error("Failed to open config file");
 
-                Utils::Json::U16Document l_Document;
-                l_Document.SetObject();
-                Serialize(l_Document, l_Document.GetAllocator());
-
-                if (!Utils::Json::TryToU8Stream(l_Document, true, l_Stream))
-                {
-                    l_Stream.close();
-                    throw std::runtime_error("Failed to write json");
-                }
+                l_Stream.write(l_Serialized.data(), static_cast<std::streamsize>(l_Serialized.size()));
+                if (!l_Stream.good())
+                    throw std::runtime_error("Failed to write config file");
 
                 l_Stream.close();
             }
@@ -174,11 +177,7 @@ namespace CP_SDK::Config {
                 ChatPlexSDK::Logger()->Error(u"[CP_SDK.Config][JsonConfig.WriteFile] Error for file " + StringW(p_FullPath.string()));
                 ChatPlexSDK::Logger()->Error(l_Exception);
             }
-
-            if (l_Stream.is_open())
-                l_Stream.close();
         });
     }
 
 }   ///< namespace CP_SDK::Config
-

@@ -8,6 +8,7 @@
 #include <UnityEngine/MonoBehaviour.hpp>
 #include <UnityEngine/Coroutine.hpp>
 
+#include <deque>
 #include <mutex>
 
 namespace CP_SDK::Unity {
@@ -30,20 +31,11 @@ namespace CP_SDK::Unity {
         CP_SDK_IL2CPP_DECLARE_DTOR_MONOBEHAVIOUR(MTCoroutineStarter);
 
         private:
-            /// @brief Queue class
-            struct Queue
-            {
-                _v::MonoPtr<Il2CppObject>*  Data;
-                int                         WritePos;
-            };
-
-        private:
             static MTCoroutineStarter*  m_Instance;     /// Singleton
 
-            static Queue**      m_Queues;           ///< Queues instance
-            static bool         m_Queued;           ///< Have queued actions
-            static int          m_FrontQueue;       ///< Current front queue
-            static std::mutex   m_Mutex;            ///< Lock mutex
+            static std::deque<_v::MonoPtr<Il2CppObject>> m_Queue;       ///< Pending coroutines
+            static bool                                  m_Accepting;   ///< Accept new coroutines
+            static std::mutex                            m_Mutex;       ///< Lock mutex
 
         public:
             /// @brief Unity GameObject initialize

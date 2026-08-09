@@ -1,10 +1,34 @@
 #include "CP_SDK/Utils/MonoPtr.hpp"
 #include "CP_SDK/ChatPlexSDK.hpp"
 
+#include <memory>
+
 using namespace System::Collections::Generic;
 using namespace UnityEngine;
 
 namespace CP_SDK::Unity {
+
+    namespace {
+        class MonitorGuard
+        {
+            public:
+                explicit MonitorGuard(Il2CppObject* p_Monitor) : m_Monitor(p_Monitor)
+                {
+                    il2cpp_functions::monitor_enter(m_Monitor);
+                }
+
+                ~MonitorGuard()
+                {
+                    il2cpp_functions::monitor_exit(m_Monitor);
+                }
+
+                MonitorGuard(const MonitorGuard&) = delete;
+                MonitorGuard& operator=(const MonitorGuard&) = delete;
+
+            private:
+                Il2CppObject* m_Monitor;
+        };
+    }
 
     std::map<Il2CppObject*, MonoPtrHolder::Wrapper*> MonoPtrHolder::m_PointersToWrapper;
 
@@ -51,10 +75,16 @@ namespace CP_SDK::Unity {
         m_Count++;
     }
     /// @brief Drop a reference to this wrapper
-    void MonoPtrHolder::Wrapper::Drop()
+    void MonoPtrHolder::Wrapper::Drop() noexcept
     {
-        if (m_Count.fetch_sub(1) == 1)
+        try
+        {
             MonoPtrHolder::Release(Ptr);
+        }
+        catch (...)
+        {
+            /// Destructors and cleanup paths must never propagate exceptions.
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -73,23 +103,31 @@ namespace CP_SDK::Unity {
             throw std::runtime_error("MonoPtrHolder was not initialized!");
         }
 
-        il2cpp_functions::monitor_enter(m_Instance->m_Pointers);
+        MonitorGuard l_Guard(reinterpret_cast<Il2CppObject*>(m_Instance->m_Pointers));
 
         const auto& l_It = m_Instance->m_PointersToWrapper.find(p_Pointer);
         if (l_It != m_Instance->m_PointersToWrapper.end())
         {
-            il2cpp_functions::monitor_exit(m_Instance->m_Pointers);
+            l_It->second->Grab();
             return l_It->second;
         }
 
-        auto l_NewWrapper = new Wrapper();
+        auto l_NewWrapper = std::make_unique<Wrapper>();
         l_NewWrapper->Ptr = p_Pointer;
 
         m_Instance->m_Pointers->Add(p_Pointer);
-        m_Instance->m_PointersToWrapper[p_Pointer] = l_NewWrapper;
+        try
+        {
+            m_Instance->m_PointersToWrapper.emplace(p_Pointer, l_NewWrapper.get());
+        }
+        catch (...)
+        {
+            m_Instance->m_Pointers->Remove(p_Pointer);
+            throw;
+        }
 
-        il2cpp_functions::monitor_exit(m_Instance->m_Pointers);
-        return l_NewWrapper;
+        l_NewWrapper->Grab();
+        return l_NewWrapper.release();
     }
     /// @brief Release a wrapper
     /// @param p_Pointer Il2Cpp object
@@ -98,21 +136,28 @@ namespace CP_SDK::Unity {
         if (!m_Instance)
             return;         ///< Most likely happen on exit, do nothing
 
-        il2cpp_functions::monitor_enter(m_Instance->m_Pointers);
+        MonitorGuard l_Guard(reinterpret_cast<Il2CppObject*>(m_Instance->m_Pointers));
 
         const auto& l_It = m_Instance->m_PointersToWrapper.find(p_Pointer);
         if (l_It == m_Instance->m_PointersToWrapper.end())
         {
-            il2cpp_functions::monitor_exit(m_Instance->m_Pointers);
-
             ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][MonoPtrHolder.Release] Try to release a non registered object!");
-            throw std::runtime_error("MonoPtrHolder: Try to release a non registered object!");
+            return;
         }
+
+        const auto l_Count = l_It->second->m_Count.load();
+        if (l_Count <= 0)
+        {
+            ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][MonoPtrHolder.Release] Wrapper reference count underflow prevented!");
+            return;
+        }
+
+        if (l_It->second->m_Count.fetch_sub(1) != 1)
+            return;
 
         m_Instance->m_Pointers->Remove(p_Pointer);
         delete l_It->second;
         m_Instance->m_PointersToWrapper.erase(l_It);
-        il2cpp_functions::monitor_exit(m_Instance->m_Pointers);
     }
 
 }   ///< namespace CP_SDK::Unity

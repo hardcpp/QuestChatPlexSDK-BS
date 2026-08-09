@@ -1,5 +1,6 @@
 #include "CP_SDK/Unity/Texture2DU.hpp"
 #include "CP_SDK/Unity/MTMainThreadInvoker.hpp"
+#include "CP_SDK/Unity/MTThreadInvoker.hpp"
 #include "CP_SDK/Unity/Extensions/ColorU.hpp"
 
 #include "CP_SDK/ChatPlexSDK.hpp"
@@ -9,6 +10,11 @@
 #include <UnityEngine/ImageConversion.hpp>
 #include <UnityEngine/TextureWrapMode.hpp>
 
+#include <limits>
+#include <memory>
+#include <stdexcept>
+#include <utility>
+
 using namespace UnityEngine;
 
 namespace CP_SDK::Unity {
@@ -17,7 +23,7 @@ namespace CP_SDK::Unity {
     /// @param p_Bytes Raw Texture 2D data
     Texture2D* Texture2DU::CreateFromRaw(::Array<uint8_t>* p_Bytes)
     {
-        if (p_Bytes->get_Length() > 0)
+        if (p_Bytes && p_Bytes->get_Length() > 0)
         {
             try
             {
@@ -39,9 +45,13 @@ namespace CP_SDK::Unity {
     /// @param p_Callback Callback
     void Texture2DU::CreateFromRawThreaded(_v::MonoPtr<::Array<uint8_t>> p_Bytes, _v::Action<Texture2D*> p_Callback)
     {
-        if (p_Bytes && p_Bytes->get_Length() > 0)
-        {
-            stbi_uc* l_STBIBuffer = nullptr;
+        MTThreadInvoker::EnqueueOnThread([p_Bytes = std::move(p_Bytes), p_Callback = std::move(p_Callback)]() mutable -> void {
+            if (!p_Bytes || p_Bytes->get_Length() <= 0)
+            {
+                MTMainThreadInvoker::Enqueue([p_Callback]() -> void { p_Callback(nullptr); });
+                return;
+            }
+
             try
             {
                 int l_InputChannels;
@@ -50,23 +60,30 @@ namespace CP_SDK::Unity {
 
                 if (!stbi_info_from_memory(p_Bytes->_values, p_Bytes->get_Length(), &l_Width, &l_Height, &l_InputChannels))
                     throw std::runtime_error("Failed to load picture");
+                if (l_Width <= 0 || l_Height <= 0
+                    || static_cast<std::size_t>(l_Width) > static_cast<std::size_t>(std::numeric_limits<int>::max()) / static_cast<std::size_t>(l_Height))
+                    throw std::runtime_error("Invalid picture dimensions");
 
-                stbi_set_flip_vertically_on_load(1);
+                stbi_set_flip_vertically_on_load_thread(1);
 
-                l_STBIBuffer = stbi_load_from_memory(p_Bytes->_values, p_Bytes->get_Length(), &l_Width, &l_Height, &l_InputChannels, 4);
+                auto l_STBIBuffer = std::unique_ptr<stbi_uc, decltype(&stbi_image_free)>(
+                    stbi_load_from_memory(p_Bytes->_values, p_Bytes->get_Length(), &l_Width, &l_Height, &l_InputChannels, 4),
+                    &stbi_image_free
+                );
                 if (!l_STBIBuffer)
                     throw std::runtime_error("Failed to load picture");
+                if (l_Width <= 0 || l_Height <= 0
+                    || static_cast<std::size_t>(l_Width) > static_cast<std::size_t>(std::numeric_limits<int>::max()) / static_cast<std::size_t>(l_Height))
+                    throw std::runtime_error("Decoded picture dimensions are invalid");
 
-                _v::MonoPtr<::Array<Color>> l_Pixels = ::Array<Color>::NewLength(l_Width * l_Height);
+                const auto l_PixelCount = l_Width * l_Height;
+                _v::MonoPtr<::Array<Color>> l_Pixels = ::Array<Color>::NewLength(l_PixelCount);
 
-                for (auto l_I = 0; l_I < (l_Width * l_Height); ++l_I)
+                for (auto l_I = 0; l_I < l_PixelCount; ++l_I)
                 {
-                    auto l_SrcPixel = &l_STBIBuffer[l_I * 4];
+                    auto l_SrcPixel = &l_STBIBuffer.get()[l_I * 4];
                     l_Pixels->_values[l_I] = Extensions::ColorU::Convert(Color32(0, l_SrcPixel[0], l_SrcPixel[1], l_SrcPixel[2], l_SrcPixel[3]));
                 }
-
-                stbi_image_free(l_STBIBuffer);
-                l_STBIBuffer = nullptr;
 
                 MTMainThreadInvoker::Enqueue([=]() -> void
                 {
@@ -95,15 +112,16 @@ namespace CP_SDK::Unity {
                         ChatPlexSDK::Logger()->Error(l_Exception);
                     }
                 });
+                return;
             }
             catch (const std::exception& l_Exception)
             {
                 ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][Texture2D.CreateFromRawThreaded] Error:");
                 ChatPlexSDK::Logger()->Error(l_Exception);
             }
-        }
 
-        p_Callback(nullptr);
+            MTMainThreadInvoker::Enqueue([p_Callback]() -> void { p_Callback(nullptr); });
+        });
     }
 
 }   ///< namespace CP_SDK::Unity

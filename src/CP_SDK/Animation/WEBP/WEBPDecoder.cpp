@@ -11,6 +11,8 @@
 #include <UnityEngine/TextureFormat.hpp>
 #include <UnityEngine/TextureWrapMode.hpp>
 
+#include <memory>
+
 namespace CP_SDK::Animation::WEBP {
 
     /// @brief Async decode WEBP image
@@ -20,6 +22,12 @@ namespace CP_SDK::Animation::WEBP {
     void WEBPDecoder::Process(_v::CMonoPtrRef<::Array<uint8_t>> p_Raw, _v::Action<const AnimationInfo::Ptr&> p_Callback, _v::Action<_v::CMonoPtrRef<UnityEngine::Sprite>> p_StaticCallback)
     {
         Unity::MTThreadInvoker::EnqueueOnThread([=]() -> void {
+            if (!p_Raw || p_Raw->get_Length() <= 0)
+            {
+                p_Callback(nullptr);
+                return;
+            }
+
             WebPBitstreamFeatures l_Features = {};
 
             if (WebPGetFeatures(p_Raw->_values, p_Raw->get_Length(), &l_Features) != VP8_STATUS_OK)
@@ -31,7 +39,9 @@ namespace CP_SDK::Animation::WEBP {
 
             if (l_Features.has_animation == 0)
             {
-                throw std::runtime_error("EAnimationType::WEBP Static is not implemented!");
+                ChatPlexSDK::Logger()->Error(u"[CP_SDK.Animation.WEBP][WEBP.ProcessingThread] Static WEBP is not implemented");
+                p_Callback(nullptr);
+                return;
                 /*auto l_Width    = l_Features.width;
                 auto l_Height   = l_Features.height;
 
@@ -118,11 +128,13 @@ namespace CP_SDK::Animation::WEBP {
                 l_WebPData.bytes = p_Raw->_values;
                 l_WebPData.size  = p_Raw->get_Length();
 
-                auto l_Decoder = WebPAnimDecoderNew(&l_WebPData, nullptr);
+                using t_DecoderPtr = std::unique_ptr<WebPAnimDecoder, decltype(&WebPAnimDecoderDelete)>;
+                t_DecoderPtr l_Decoder(WebPAnimDecoderNew(&l_WebPData, nullptr), &WebPAnimDecoderDelete);
                 if (l_Decoder)
                 {
                     auto l_Infos = WebPAnimInfo();
-                    if (WebPAnimDecoderGetInfo(l_Decoder, &l_Infos))
+                    if (WebPAnimDecoderGetInfo(l_Decoder.get(), &l_Infos) && l_Infos.canvas_width > 0
+                        && l_Infos.canvas_height > 0 && l_Infos.frame_count > 0)
                     {
                         auto l_Buffer        = (uint8_t*)nullptr;
                         auto l_TimeStamp     = 0;
@@ -130,12 +142,20 @@ namespace CP_SDK::Animation::WEBP {
                         auto l_AnimationInfo = AnimationInfo::Make((int)l_Infos.canvas_width, (int)l_Infos.canvas_height, l_Infos.frame_count);
                         auto l_FrameI        = 0;
 
-                        while (WebPAnimDecoderHasMoreFrames(l_Decoder))
+                        while (WebPAnimDecoderHasMoreFrames(l_Decoder.get()))
                         {
-                            if (!WebPAnimDecoderGetNext(l_Decoder, &l_Buffer, &l_TimeStamp))
+                            if (l_FrameI >= l_AnimationInfo->Frames.size())
+                            {
+                                ChatPlexSDK::Logger()->Error(u"[CP_SDK.Animation.WEBP][WEBP.ProcessingThread] Decoder produced too many frames");
+                                p_Callback(nullptr);
+                                return;
+                            }
+
+                            if (!WebPAnimDecoderGetNext(l_Decoder.get(), &l_Buffer, &l_TimeStamp) || !l_Buffer)
                             {
                                 ChatPlexSDK::Logger()->Error(u"[CP_SDK.Animation.WEBP][WEBP.ProcessingThread] Failed to decode next frame");
-                                break;
+                                p_Callback(nullptr);
+                                return;
                             }
 
                             auto l_TargetArray = l_AnimationInfo->Frames[l_FrameI].Ptr();
@@ -159,7 +179,12 @@ namespace CP_SDK::Animation::WEBP {
                             l_FrameI++;
                         }
 
-                        WebPAnimDecoderDelete(l_Decoder);
+                        if (l_FrameI != l_AnimationInfo->Frames.size())
+                        {
+                            ChatPlexSDK::Logger()->Error(u"[CP_SDK.Animation.WEBP][WEBP.ProcessingThread] Decoder produced too few frames");
+                            p_Callback(nullptr);
+                            return;
+                        }
 
                         p_Callback(l_AnimationInfo);
                     }

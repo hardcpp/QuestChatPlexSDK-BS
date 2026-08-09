@@ -4,6 +4,8 @@
 #include "../Utils/Il2cpp.hpp"
 #include "../Utils/MonoPtr.hpp"
 
+#include <condition_variable>
+#include <deque>
 #include <mutex>
 
 #include <System/Threading/Thread.hpp>
@@ -24,20 +26,11 @@ namespace CP_SDK::Unity {
     class CP_SDK_EXPORT MTThreadInvoker
     {
         private:
-            /// @brief Queue class
-            struct Queue
-            {
-                _v::Action<>** Data;
-                int WritePos;
-            };
-
-        private:
             static bool                                 m_RunCondition;     ///< Run condition
             static il2cpp_utils::il2cpp_aware_thread*   m_UpdateThread;     ///< Update thread
-            static Queue**                              m_Queues;           ///< Queues instance
-            static bool                                 m_Queued;           ///< Have queued actions
-            static int                                  m_FrontQueue;       ///< Current front queue
+            static std::deque<_v::Action<>>             m_Queue;            ///< Pending actions
             static std::mutex                           m_Mutex;            ///< Lock mutex
+            static std::condition_variable              m_Condition;        ///< Worker wakeup
 
         public:
             /// @brief Initialize

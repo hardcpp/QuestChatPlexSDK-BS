@@ -32,6 +32,9 @@ namespace CP_SDK::Animation {
             std::vector<AnimationControllerInstance::Ptr>               m_Registered;
             int                                                         m_QuickUpdateListCount;
 
+            /// @brief Evict unused cached animations when the cache is full
+            void EvictUnused();
+
         public:
             /// @brief Register
             /// @param p_ID     Identifier

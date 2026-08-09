@@ -9,6 +9,7 @@
 #include <libcurl/shared/curl.h>
 #include <libcurl/shared/easy.h>
 #include <chrono>
+#include <limits>
 #include <string>
 #include <thread>
 #include <vector>
@@ -30,7 +31,8 @@ struct ScopedCURL
     }
     ~ScopedCURL()
     {
-        curl_easy_cleanup(Instance);
+        if (Instance)
+            curl_easy_cleanup(Instance);
         if (Headers != NULL)
             curl_slist_free_all(Headers);
 
@@ -120,6 +122,11 @@ namespace CP_SDK::Network {
         if (l_It != m_Headers.end())
             m_Headers.erase(l_It);
     }
+    /// @brief Cancel this client's in-flight and future requests
+    void WebClientCore::CancelAllRequests()
+    {
+        m_CancelRequested.store(true);
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
@@ -142,7 +149,8 @@ namespace CP_SDK::Network {
             CancellationToken::get_None(),
             [&](WebResponse::Ptr p_Result) -> void { l_Reply = p_Result; l_IsDone = true; },
             dontRetry,
-            progress
+            progress,
+            false
         );
 
         while (!l_IsDone)
@@ -168,7 +176,8 @@ namespace CP_SDK::Network {
             CancellationToken::get_None(),
             [&](WebResponse::Ptr p_Result) -> void { l_Reply = p_Result; l_IsDone = true; },
             dontRetry,
-            progress
+            progress,
+            false
         );
 
         while (!l_IsDone)
@@ -194,7 +203,8 @@ namespace CP_SDK::Network {
             CancellationToken::get_None(),
             [&](WebResponse::Ptr p_Result) -> void { l_Reply = p_Result; l_IsDone = true; },
             dontRetry,
-            nullptr
+            nullptr,
+            false
         );
 
         while (!l_IsDone)
@@ -220,7 +230,8 @@ namespace CP_SDK::Network {
             CancellationToken::get_None(),
             [&](WebResponse::Ptr p_Result) -> void { l_Reply = p_Result; l_IsDone = true; },
             dontRetry,
-            nullptr
+            nullptr,
+            false
         );
 
         while (!l_IsDone)
@@ -246,7 +257,8 @@ namespace CP_SDK::Network {
             CancellationToken::get_None(),
             [&](WebResponse::Ptr p_Result) -> void { l_Reply = p_Result; l_IsDone = true; },
             dontRetry,
-            nullptr
+            nullptr,
+            false
         );
 
         while (!l_IsDone)
@@ -271,7 +283,8 @@ namespace CP_SDK::Network {
             CancellationToken::get_None(),
             [&](WebResponse::Ptr p_Result) -> void { l_Reply = p_Result; l_IsDone = true; },
             dontRetry,
-            nullptr
+            nullptr,
+            false
         );
 
         while (!l_IsDone)
@@ -301,7 +314,8 @@ namespace CP_SDK::Network {
             token,
             callback,
             dontRetry,
-            progress
+            progress,
+            true
         ).detach();
     }
     /// @brief Do Async GET query
@@ -322,7 +336,8 @@ namespace CP_SDK::Network {
             token,
             callback,
             dontRetry,
-            progress
+            progress,
+            true
         ).detach();
     }
     /// @brief Do Async POST query
@@ -343,7 +358,8 @@ namespace CP_SDK::Network {
             token,
             callback,
             dontRetry,
-            nullptr
+            nullptr,
+            true
         ).detach();
     }
     /// @brief Do Async PATCH query
@@ -364,7 +380,8 @@ namespace CP_SDK::Network {
             token,
             callback,
             dontRetry,
-            nullptr
+            nullptr,
+            true
         ).detach();
     }
     /// @brief Do Async PATCH query
@@ -385,7 +402,8 @@ namespace CP_SDK::Network {
             token,
             callback,
             dontRetry,
-            nullptr
+            nullptr,
+            true
         ).detach();
     }
     /// @brief Do Async GET query
@@ -406,8 +424,9 @@ namespace CP_SDK::Network {
             token,
             callback,
             dontRetry,
-            nullptr
-        );
+            nullptr,
+            true
+        ).detach();
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -455,23 +474,60 @@ namespace CP_SDK::Network {
             CancellationToken              token,
             _v::Action<WebResponse::Ptr>   callback,
             bool                           dontRetry,
-            _v::Action<float>              progress
+            _v::Action<float>              progress,
+            bool                           dispatchCallback
         )
     {
+        auto l_ReportResult = [&](WebResponse::Ptr p_Reply) noexcept
+        {
+            try
+            {
+                if (!callback.IsValid())
+                    return;
+
+                if (!dispatchCallback)
+                {
+                    callback(p_Reply);
+                    return;
+                }
+
+                if (!self->m_CancelRequested.load() && !token.get_IsCancellationRequested())
+                    Unity::MTThreadInvoker::EnqueueOnThread([callback, p_Reply]() -> void { callback(p_Reply); });
+            }
+            catch (...)
+            {
+                try { ChatPlexSDK::Logger()->Error(u"[CP_SDK.Network][WebClientCore.DoRequest] Failed to report request result"); }
+                catch (...) { }
+            }
+        };
+
+        try
+        {
 #if DEBUG
-        ChatPlexSDK::Logger()->Debug(u"[CP_SDK.Network][WebClientCore." + debugName + u"] " + httpMethod + u" " + url);
+            ChatPlexSDK::Logger()->Debug(u"[CP_SDK.Network][WebClientCore." + debugName + u"] " + httpMethod + u" " + url);
 #endif
 
-        WebResponse::Ptr l_Reply = nullptr;
-        for (int l_RetryI = 1; l_RetryI <= self->MaxRetry; l_RetryI++)
-        {
-            if (token.get_IsCancellationRequested())
+            WebResponse::Ptr l_Reply = nullptr;
+            for (int l_RetryI = 1; l_RetryI <= self->MaxRetry; l_RetryI++)
+            {
+            if (self->m_CancelRequested.load() || token.get_IsCancellationRequested())
                 break;
 
             ScopedCURL l_ScopedCURL;
+            if (!l_ScopedCURL.Instance)
+            {
+                ChatPlexSDK::Logger()->Error(u"[CP_SDK.Network][WebClientCore.DoRequest] curl_easy_init failed");
+                break;
+            }
+
             l_ScopedCURL.Headers = curl_slist_append(l_ScopedCURL.Headers, "Accept: */*");
 
-            for (auto const& [l_Header, l_Value] : self->m_Headers)
+            auto l_Headers = std::map<std::u16string, std::u16string>();
+            {
+                std::lock_guard l_Lock(self->m_HeadersLock);
+                l_Headers = self->m_Headers;
+            }
+            for (auto const& [l_Header, l_Value] : l_Headers)
                 l_ScopedCURL.Headers = curl_slist_append(l_ScopedCURL.Headers, Utils::U16StrToStr(l_Header + ": " + l_Value).c_str());
 
             curl_easy_setopt(l_ScopedCURL.Instance, CURLOPT_URL, Utils::U16StrToStr(url).c_str());
@@ -493,8 +549,9 @@ namespace CP_SDK::Network {
                 if (content)
                 {
                     l_ScopedCURL.Headers = curl_slist_append(l_ScopedCURL.Headers, Utils::U16StrToStr(std::u16string(u"Content-Type: ") + content->Type).c_str());
-                    curl_easy_setopt(l_ScopedCURL.Instance, CURLOPT_POSTFIELDSIZE, static_cast<long>(content->Bytes->get_Length()));
-                    curl_easy_setopt(l_ScopedCURL.Instance, CURLOPT_POSTFIELDS, &content->Bytes->_values[0]);
+                    const auto l_ContentLength = content->Bytes ? content->Bytes->get_Length() : 0;
+                    curl_easy_setopt(l_ScopedCURL.Instance, CURLOPT_POSTFIELDSIZE, static_cast<long>(l_ContentLength));
+                    curl_easy_setopt(l_ScopedCURL.Instance, CURLOPT_POSTFIELDS, l_ContentLength > 0 ? &content->Bytes->_values[0] : nullptr);
                 }
             }
             else if (httpMethod == u"DELETE")
@@ -503,26 +560,55 @@ namespace CP_SDK::Network {
             curl_easy_setopt(l_ScopedCURL.Instance, CURLOPT_HTTPHEADER, l_ScopedCURL.Headers);
             curl_easy_setopt(l_ScopedCURL.Instance, CURLOPT_SSL_VERIFYPEER, false);
 
-            if (progress.IsValid())
+            struct TransferContext
             {
-                curl_easy_setopt(l_ScopedCURL.Instance, CURLOPT_NOPROGRESS, false);
-                curl_easy_setopt(l_ScopedCURL.Instance, CURLOPT_XFERINFODATA, (void*)&progress);
-                curl_easy_setopt(l_ScopedCURL.Instance, CURLOPT_XFERINFOFUNCTION,
-                    +[] (_v::Action<float>* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow) {
-                        float percentage = (float)dlnow / (float)dltotal * 100.0f;
-                        if(isnan(percentage))
-                            percentage = 0.0f;
-                        clientp->Invoke(percentage);
-                        return 0;
+                _v::Action<float>* Progress;
+                CancellationToken* Token;
+                std::atomic_bool* CancelRequested;
+            };
+            TransferContext l_TransferContext { &progress, &token, &self->m_CancelRequested };
+
+            curl_easy_setopt(l_ScopedCURL.Instance, CURLOPT_NOPROGRESS, false);
+            curl_easy_setopt(l_ScopedCURL.Instance, CURLOPT_XFERINFODATA, &l_TransferContext);
+            curl_easy_setopt(l_ScopedCURL.Instance, CURLOPT_XFERINFOFUNCTION,
+                +[] (void* p_Client, curl_off_t p_DownloadTotal, curl_off_t p_DownloadNow, curl_off_t, curl_off_t) -> int
+                {
+                    auto l_Context = reinterpret_cast<TransferContext*>(p_Client);
+                    try
+                    {
+                        if (l_Context->CancelRequested->load() || l_Context->Token->get_IsCancellationRequested())
+                            return 1;
+
+                        if (l_Context->Progress->IsValid())
+                        {
+                            const auto l_Percentage = p_DownloadTotal > 0
+                                ? static_cast<float>(p_DownloadNow) / static_cast<float>(p_DownloadTotal) * 100.0f
+                                : 0.0f;
+                            l_Context->Progress->Invoke(l_Percentage);
+                        }
                     }
-                );
-            }
+                    catch (...)
+                    {
+                        return 1;
+                    }
+
+                    return 0;
+                }
+            );
 
             curl_easy_setopt(l_ScopedCURL.Instance, CURLOPT_WRITEDATA, l_ScopedCURL.Data);
             curl_easy_setopt(l_ScopedCURL.Instance, CURLOPT_WRITEFUNCTION,
                 +[](void *contents, std::size_t size, std::size_t nmemb, std::vector<uint8_t>* clientp) -> size_t
             {
-                size_t l_SizeToWrite = size * nmemb;
+                if (size != 0 && nmemb > std::numeric_limits<std::size_t>::max() / size)
+                    return 0;
+
+                const std::size_t l_SizeToWrite = size * nmemb;
+                if (l_SizeToWrite > clientp->max_size() - clientp->size())
+                    return 0;
+                if (clientp->size() > static_cast<std::size_t>(std::numeric_limits<int32_t>::max())
+                    || l_SizeToWrite > static_cast<std::size_t>(std::numeric_limits<int32_t>::max()) - clientp->size())
+                    return 0;
 
                 try
                 {
@@ -530,16 +616,15 @@ namespace CP_SDK::Network {
                     clientp->resize(l_WritePos + l_SizeToWrite);
                     memcpy(clientp->data() + l_WritePos, contents, l_SizeToWrite);
                 }
-                catch(std::bad_alloc &e)
+                catch (...)
                 {
-                    ChatPlexSDK::Logger()->Error(u"[CP_SDK.Network][WebClientCore.DoRequest] Failed to read from response stream, allocation error");
                     return 0;
                 }
 
                 return l_SizeToWrite;
             });
 
-            if (token.get_IsCancellationRequested())
+            if (self->m_CancelRequested.load() || token.get_IsCancellationRequested())
                 break;
 
             auto l_CURLResult = curl_easy_perform(l_ScopedCURL.Instance);
@@ -575,20 +660,39 @@ namespace CP_SDK::Network {
 
                 ChatPlexSDK::Logger()->Error(l_LogPrefix + u" next try in " + (std::u16string)StringW(std::to_string(self->RetryInterval)) + u" seconds...");
 
-                std::this_thread::sleep_for(std::chrono::seconds(self->RetryInterval));
+                const auto l_RetryUntil = std::chrono::steady_clock::now() + std::chrono::seconds(self->RetryInterval);
+                while (!self->m_CancelRequested.load() && !token.get_IsCancellationRequested()
+                       && std::chrono::steady_clock::now() < l_RetryUntil)
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
                 continue;
             }
             else
             {
                 if (progress.IsValid())
-                    try { progress(1.0f); } catch (const std::exception&) { }
+                    try { progress(100.0f); } catch (const std::exception&) { }
 
                 break;
             }
-        }
+            }
 
-        if (!token.get_IsCancellationRequested() && callback.IsValid())
-            Unity::MTThreadInvoker::EnqueueOnThread([=]() -> void { callback(l_Reply); });
+            l_ReportResult(l_Reply);
+        }
+        catch (const std::exception& l_Exception)
+        {
+            try
+            {
+                ChatPlexSDK::Logger()->Error(u"[CP_SDK.Network][WebClientCore.DoRequest] Unhandled request error:");
+                ChatPlexSDK::Logger()->Error(l_Exception);
+            }
+            catch (...) { }
+            l_ReportResult(nullptr);
+        }
+        catch (...)
+        {
+            try { ChatPlexSDK::Logger()->Error(u"[CP_SDK.Network][WebClientCore.DoRequest] Unknown request error"); }
+            catch (...) { }
+            l_ReportResult(nullptr);
+        }
     }
 
 }   ///< namespace CP_SDK::Network

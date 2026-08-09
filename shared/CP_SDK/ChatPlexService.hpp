@@ -7,6 +7,8 @@
 #include "Utils/Delegate.hpp"
 
 #include <beatsaber-hook/shared/utils/il2cpp-utils.hpp>
+#include <atomic>
+#include <condition_variable>
 #include <queue>
 #include <string>
 #include <string_view>
@@ -45,9 +47,9 @@ namespace CP_SDK {
             };
 
         private:
-            static bool                             m_ThreadCondition;
+            static std::atomic_bool                 m_ThreadCondition;
             static _u::il2cpp_aware_thread*         m_Thread;
-            static EState                           m_State;
+            static std::atomic<EState>              m_State;
             static _v::WebClientCore::Ptr           m_WebClientCore;
             static _v::JsonRPCClient::Ptr           m_JsonRPCClient;
             static std::u16string                   m_LinkRequestID;
@@ -58,14 +60,17 @@ namespace CP_SDK {
             static std::queue<_v::Action<>>         m_OnTokenReadyQueue;
             static std::mutex                       m_OnTokenReadyQueueMutex;
             static std::u16string                   m_DeviceName;
+            static std::mutex                       m_DataMutex;
+            static std::mutex                       m_ThreadWaitMutex;
+            static std::condition_variable          m_ThreadWaitCondition;
 
         public:
-            static const EState                             State();
-            static const std::u16string_view                Token();
-            static const std::u16string_view                LinkCode();
-            static const std::u16string_view                LastError();
-            static const std::u16string_view                ActiveSubscription();
-            static const std::vector<const std::u16string>& UnlockedFeatures();
+            static const EState                         State();
+            static const std::u16string_view            Token();
+            static const std::u16string_view            LinkCode();
+            static const std::u16string_view            LastError();
+            static const std::u16string_view            ActiveSubscription();
+            static const std::vector<std::u16string>&   UnlockedFeatures();
 
             static _v::Event<EState, EState> StateChanged;
 

@@ -32,7 +32,9 @@ namespace CP_SDK::Unity {
             /// @brief Ref counter wrapper
             class Wrapper
             {
-                std::atomic_int32_t m_Count;
+                friend class MonoPtrHolder;
+
+                std::atomic_int32_t m_Count { 0 };
 
                 public:
                     Il2CppObject* Ptr;
@@ -40,7 +42,7 @@ namespace CP_SDK::Unity {
                     /// @brief Grab a reference to this wrapper
                     void Grab();
                     /// @brief Drop a reference to this wrapper
-                    void Drop();
+                    void Drop() noexcept;
             };
 
         private:
@@ -49,7 +51,7 @@ namespace CP_SDK::Unity {
             static std::map<Il2CppObject*, Wrapper*> m_PointersToWrapper;
 
         public:
-            /// @brief Get or register a new wrapper
+            /// @brief Get or register a new wrapper and acquire one reference
             /// @param p_Pointer Il2Cpp object
             static Wrapper* GetOrRegister(Il2CppObject* p_Pointer);
             /// @brief Release a wrapper

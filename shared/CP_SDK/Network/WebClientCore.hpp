@@ -4,6 +4,7 @@
 
 #include <System/TimeSpan.hpp>
 
+#include <atomic>
 #include <map>
 #include <mutex>
 
@@ -40,6 +41,7 @@ namespace CP_SDK::Network {
             int                                         m_TimeOut;
             std::map<std::u16string, std::u16string>    m_Headers;
             std::mutex                                  m_HeadersLock;
+            std::atomic_bool                            m_CancelRequested { false };
 
         public:
             /// @brief Maximum retry attempt
@@ -73,6 +75,8 @@ namespace CP_SDK::Network {
             /// @brief Remove header
             /// @param p_Name Header name
             virtual void RemoveHeader(std::u16string_view p_Name) override final;
+            /// @brief Cancel this client's in-flight and future requests
+            void CancelAllRequests();
 
         public:
             /// @brief Do GET query
@@ -175,7 +179,8 @@ namespace CP_SDK::Network {
                     _u::CancellationToken           token,
                     _v::Action<WebResponse::Ptr>    callback,
                     bool                            dontRetry,
-                    _v::Action<float>               progress
+                    _v::Action<float>               progress,
+                    bool                            dispatchCallback
             );
 
     };

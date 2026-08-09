@@ -39,6 +39,7 @@ namespace CP_SDK::Animation {
             std::vector<_v::MonoPtr<_u::Image>> m_ActiveImages;
             int                                 m_ActiveCount;
             std::vector<_u::Rect>               m_UVs;
+            _v::MonoPtr<_u::Texture2D>          m_Texture;
 
         public:
             _v::MonoPtr<_u::Sprite>                 FirstFrame;
@@ -69,6 +70,8 @@ namespace CP_SDK::Animation {
             /// @brief Unregister an image
             /// @param p_TargetImage Target
             void Unregister(_u::Image* p_TargetImage);
+            /// @brief Whether this animation is currently displayed
+            bool HasActiveImages() const;
 
         public:
             /// @brief Check if we should move to the next frame

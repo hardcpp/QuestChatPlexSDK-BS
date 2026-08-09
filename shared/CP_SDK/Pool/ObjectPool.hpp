@@ -29,7 +29,7 @@ namespace CP_SDK::Pool {
             _v::Action<t_Type&> m_ActionOnRelease;
             _v::Action<t_Type&> m_ActionOnDestroy;
             int                 m_MaxSize;
-            int                 m_CountAll;
+            int                 m_CountAll = 0;
             bool                m_CollectionCheck;
 
         public:
@@ -51,6 +51,8 @@ namespace CP_SDK::Pool {
 
                 if (maxSize <= 0)
                     throw std::runtime_error("Max Size must be greater than 0");
+                if (defaultCapacity < 0 || defaultCapacity > maxSize)
+                    throw std::runtime_error("Default capacity must be between 0 and maxSize");
 
                 m_CreateFunc        = createFunc;
                 m_MaxSize           = maxSize;
@@ -62,12 +64,15 @@ namespace CP_SDK::Pool {
                 m_Vector.reserve(maxSize);
 
                 while (defaultCapacity-- > 0)
+                {
                     m_Vector.push_back(m_CreateFunc());
+                    m_CountAll++;
+                }
             }
             /// @brief Destructor
             ~ObjectPool()
             {
-                Clear();
+                try { Clear(); } catch (...) { }
             }
 
             /// @brief Constructor
@@ -89,12 +94,12 @@ namespace CP_SDK::Pool {
             /// @brief Active elements
             int CountActive()
             {
-                return m_CountAll - m_Vector.size();
+                return m_CountAll - static_cast<int>(m_Vector.size());
             }
             /// @brief Released element
             int CountInactive() override
             {
-                return m_Vector.size();
+                return static_cast<int>(m_Vector.size());
             }
 
         public:
@@ -129,19 +134,22 @@ namespace CP_SDK::Pool {
                 if (CountInactive() < m_MaxSize)
                     m_Vector.push_back(const_cast<t_Type&>(p_Element));
                 else
+                {
                     m_ActionOnDestroy(p_Element);
+                    m_CountAll--;
+                }
             }
 
         public:
             /// @brief Clear the object pool
             void Clear() override
             {
+                const auto l_DestroyedCount = static_cast<int>(m_Vector.size());
                 for (auto& l_Current : m_Vector)
                     m_ActionOnDestroy(l_Current);
 
                 m_Vector.clear();
-
-                m_CountAll = 0;
+                m_CountAll -= l_DestroyedCount;
             }
 
     };
