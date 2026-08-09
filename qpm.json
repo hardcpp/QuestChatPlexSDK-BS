@@ -6,7 +6,7 @@
   "info": {
     "name": "ChatPlexSDK-BS",
     "id": "chatplex-sdk-bs",
-    "version": "6.4.1",
+    "version": "6.4.5",
     "url": "https://github.com/hardcpp/QuestChatPlexSDK-BS",
     "additionalData": {
       "overrideSoName": "libchatplex-sdk-bs.so",
@@ -58,7 +58,7 @@
     },
     {
       "id": "custom-types",
-      "versionRange": "^0.18.3",
+      "versionRange": "^0.18.4",
       "additionalData": {}
     },
     {
@@ -78,7 +78,7 @@
     },
     {
       "id": "songcore",
-      "versionRange": "^1.1.24",
+      "versionRange": "^1.1.26",
       "additionalData": {
         "private": true
       }
@@ -92,7 +92,7 @@
     },
     {
       "id": "paper2_scotland2",
-      "versionRange": "^4.6.4",
+      "versionRange": "^4.8.0",
       "additionalData": {}
     },
     {
