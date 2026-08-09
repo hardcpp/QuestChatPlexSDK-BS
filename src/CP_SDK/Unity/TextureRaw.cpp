@@ -63,9 +63,10 @@ namespace CP_SDK::Unity {
         auto& l_Pixels = *(*p_Pixels).get();
         l_Pixels.resize(l_PixelCount);
 
+        const auto l_STBIBufferRef = l_STBIBuffer.get();
         for (std::size_t l_I = 0; l_I < l_PixelCount; ++l_I)
         {
-            auto l_SrcPixel = &l_STBIBuffer.get()[l_I * 4];
+            auto l_SrcPixel = &l_STBIBufferRef[l_I * 4];
             l_Pixels[l_I] = Extensions::ColorU::Convert(Color32(0, l_SrcPixel[0], l_SrcPixel[1], l_SrcPixel[2], l_SrcPixel[3]));
         }
 

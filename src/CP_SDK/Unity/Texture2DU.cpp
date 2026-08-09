@@ -45,7 +45,7 @@ namespace CP_SDK::Unity {
     /// @param p_Callback Callback
     void Texture2DU::CreateFromRawThreaded(_v::MonoPtr<::Array<uint8_t>> p_Bytes, _v::Action<Texture2D*> p_Callback)
     {
-        MTThreadInvoker::EnqueueOnThread([p_Bytes = std::move(p_Bytes), p_Callback = std::move(p_Callback)]() mutable -> void {
+        MTThreadInvoker::EnqueueOnThread([p_Bytes = std::move(p_Bytes), p_Callback = std::move(p_Callback)]() -> void {
             if (!p_Bytes || p_Bytes->get_Length() <= 0)
             {
                 MTMainThreadInvoker::Enqueue([p_Callback]() -> void { p_Callback(nullptr); });

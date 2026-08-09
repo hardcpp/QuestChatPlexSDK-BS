@@ -3,9 +3,7 @@
 
 #include <UnityEngine/GameObject.hpp>
 
-namespace {
-    constexpr std::size_t MAX_QUEUE_SIZE = 1000;
-}
+constexpr std::size_t MAX_QUEUE_SIZE = 1000;
 
 using namespace UnityEngine;
 
@@ -104,28 +102,26 @@ namespace CP_SDK::Unity {
     /// @brief Unity GameObject update
     void MTMainThreadInvoker::Update()
     {
+        std::deque<_v::Action<>> l_Actions;
         {
-            std::deque<_v::Action<>> l_Actions;
-            {
-                std::lock_guard l_Lock(m_Mutex);
-                l_Actions.swap(m_Queue);
-            }
+            std::lock_guard l_Lock(m_Mutex);
+            l_Actions.swap(m_Queue);
+        }
 
-            for (auto& l_Action : l_Actions)
+        for (auto& l_Action : l_Actions)
+        {
+            try
             {
-                try
-                {
-                    l_Action.Invoke();
-                }
-                catch (const std::exception& l_Exception)
-                {
-                    ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][MTMainThreadInvoker.Update] Error:");
-                    ChatPlexSDK::Logger()->Error(l_Exception);
-                }
-                catch (...)
-                {
-                    ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][MTMainThreadInvoker.Update] Unknown error");
-                }
+                l_Action.Invoke();
+            }
+            catch (const std::exception& l_Exception)
+            {
+                ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][MTMainThreadInvoker.Update] Error:");
+                ChatPlexSDK::Logger()->Error(l_Exception);
+            }
+            catch (...)
+            {
+                ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][MTMainThreadInvoker.Update] Unknown error");
             }
         }
     }

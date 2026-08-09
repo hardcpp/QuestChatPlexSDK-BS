@@ -27,10 +27,10 @@ namespace CP_SDK::Animation {
 
         int l_FirstDelay = -1;
 
-        m_UVs   = p_UVs;
+        m_UVs     = p_UVs;
         m_Texture = p_Texture;
         Frames.resize(p_UVs.size());
-        Delays  = p_Delays;
+        Delays    = p_Delays;
 
         auto l_Width     = const_cast<_v::MonoPtr<Texture2D>&>(p_Texture)->get_width();
         auto l_Height    = const_cast<_v::MonoPtr<Texture2D>&>(p_Texture)->get_height();
@@ -73,6 +73,7 @@ namespace CP_SDK::Animation {
 
         if (m_Texture)
             Object::Destroy(m_Texture.Ptr(false));
+
         m_Texture = nullptr;
     }
 

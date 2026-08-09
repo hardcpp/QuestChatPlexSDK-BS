@@ -8,24 +8,23 @@
 #include <string>
 #include <thread>
 
+static std::u16string s_EmptyU16String = u"";
+
 namespace CP_SDK {
 
-    std::atomic_bool                 ChatPlexService::m_ThreadCondition     = false;
-    _u::il2cpp_aware_thread*         ChatPlexService::m_Thread              = nullptr;
-    std::atomic<ChatPlexService::EState> ChatPlexService::m_State           = ChatPlexService::EState::Disconnected;
-    _v::WebClientCore::Ptr           ChatPlexService::m_WebClientCore       = nullptr;
-    _v::JsonRPCClient::Ptr           ChatPlexService::m_JsonRPCClient       = nullptr;
-    std::u16string                   ChatPlexService::m_LinkRequestID       = u"";
-    std::u16string                   ChatPlexService::m_LinkCode            = u"";
-    std::u16string                   ChatPlexService::m_LastError           = u"";
-    std::u16string                   ChatPlexService::m_ActiveSubscription  = u"";
-    std::vector<std::u16string>      ChatPlexService::m_UnlockedFeatures;
-    std::queue<_v::Action<>>         ChatPlexService::m_OnTokenReadyQueue;
-    std::mutex                       ChatPlexService::m_OnTokenReadyQueueMutex;
-    std::u16string                   ChatPlexService::m_DeviceName          = u"";
-    std::mutex                       ChatPlexService::m_DataMutex;
-    std::mutex                       ChatPlexService::m_ThreadWaitMutex;
-    std::condition_variable          ChatPlexService::m_ThreadWaitCondition;
+    std::atomic_bool                     ChatPlexService::m_ThreadCondition     = false;
+    _u::il2cpp_aware_thread*             ChatPlexService::m_Thread              = nullptr;
+    std::atomic<ChatPlexService::EState> ChatPlexService::m_State               = ChatPlexService::EState::Disconnected;
+    _v::WebClientCore::Ptr               ChatPlexService::m_WebClientCore       = nullptr;
+    _v::JsonRPCClient::Ptr               ChatPlexService::m_JsonRPCClient       = nullptr;
+    std::u16string                       ChatPlexService::m_LinkRequestID       = u"";
+    std::u16string                       ChatPlexService::m_LinkCode            = u"";
+    std::u16string                       ChatPlexService::m_LastError           = u"";
+    std::u16string                       ChatPlexService::m_ActiveSubscription  = u"";
+    std::vector<std::u16string>          ChatPlexService::m_UnlockedFeatures;
+    std::queue<_v::Action<>>             ChatPlexService::m_OnTokenReadyQueue;
+    std::mutex                           ChatPlexService::m_OnTokenReadyQueueMutex;
+    std::u16string                       ChatPlexService::m_DeviceName          = u"";
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
@@ -36,38 +35,23 @@ namespace CP_SDK {
     }
     const std::u16string_view ChatPlexService::Token()
     {
-        thread_local std::u16string l_Snapshot;
-        std::lock_guard l_Lock(m_DataMutex);
-        l_Snapshot = CPConfig::Instance()->ChatPlexServiceToken;
-        return l_Snapshot;
+        return CPConfig::Instance()->ChatPlexServiceToken;
     }
     const std::u16string_view ChatPlexService::LinkCode()
     {
-        thread_local std::u16string l_Snapshot;
-        std::lock_guard l_Lock(m_DataMutex);
-        l_Snapshot = m_LinkCode;
-        return l_Snapshot;
+        return m_LinkCode;
     }
     const std::u16string_view ChatPlexService::LastError()
     {
-        thread_local std::u16string l_Snapshot;
-        std::lock_guard l_Lock(m_DataMutex);
-        l_Snapshot = m_LastError;
-        return l_Snapshot;
+        return m_LastError;
     }
     const std::u16string_view ChatPlexService::ActiveSubscription()
     {
-        thread_local std::u16string l_Snapshot;
-        std::lock_guard l_Lock(m_DataMutex);
-        l_Snapshot = m_State.load() == EState::Connected ? m_ActiveSubscription : std::u16string();
-        return l_Snapshot;
+        return m_State == EState::Connected ? m_ActiveSubscription : s_EmptyU16String;
     }
-    const std::vector<std::u16string>& ChatPlexService::UnlockedFeatures()
+    const std::vector<const std::u16string> ChatPlexService::UnlockedFeatures()
     {
-        thread_local std::vector<std::u16string> l_Snapshot;
-        std::lock_guard l_Lock(m_DataMutex);
-        l_Snapshot = m_UnlockedFeatures;
-        return l_Snapshot;
+        return *reinterpret_cast<std::vector<const std::u16string> *>(&m_UnlockedFeatures);
     }
 
     _v::Event<ChatPlexService::EState, ChatPlexService::EState> ChatPlexService::StateChanged;
@@ -81,7 +65,7 @@ namespace CP_SDK {
         if (m_Thread)
             return;
 
-        m_DeviceName = _u::SystemInfo::GetDeviceName();
+        m_DeviceName    = _u::SystemInfo::GetDeviceName();
         m_WebClientCore = _v::WebClientCore::Make(u"https://api.chatplex.org/", _u::TimeSpan::FromSeconds(10), false, true);
         m_JsonRPCClient = _v::JsonRPCClient::Create(m_WebClientCore);
 
@@ -92,13 +76,10 @@ namespace CP_SDK {
     void ChatPlexService::Release()
     {
         auto l_Thread = m_Thread;
-        if (!l_Thread)
+        if (!l_Thread || !m_ThreadCondition.load())
             return;
 
         m_ThreadCondition.store(false);
-        m_ThreadWaitCondition.notify_all();
-        if (m_WebClientCore)
-            m_WebClientCore->CancelAllRequests();
 
         if (l_Thread->joinable())
             l_Thread->join();
@@ -157,11 +138,8 @@ namespace CP_SDK {
     /// @brief Disconnect and erase the saved connected application token
     void ChatPlexService::Disconnect()
     {
-        {
-            std::lock_guard l_Lock(m_DataMutex);
-            CPConfig::Instance()->ChatPlexServiceToken = u"";
-            CPConfig::Instance()->Save();
-        }
+        CPConfig::Instance()->ChatPlexServiceToken = u"";
+        CPConfig::Instance()->Save();
 
         ChangeState(EState::Disconnected);
     }
@@ -175,7 +153,6 @@ namespace CP_SDK {
         auto l_OldState = m_State.exchange(newState);
 
         Unity::MTThreadInvoker::EnqueueOnThread([=]() -> void { StateChanged(l_OldState, newState); });
-        m_ThreadWaitCondition.notify_all();
     }
     /// @brief Fire on token ready actions
     void ChatPlexService::FireOnTokenReady()
@@ -217,11 +194,7 @@ namespace CP_SDK {
             try
             {
                 const auto l_State = m_State.load();
-                auto l_Token = std::u16string();
-                {
-                    std::lock_guard l_Lock(m_DataMutex);
-                    l_Token = CPConfig::Instance()->ChatPlexServiceToken;
-                }
+                auto l_Token = CPConfig::Instance()->ChatPlexServiceToken;
 
                 if (l_State == EState::Disconnected && !l_Token.empty())
                 {
@@ -233,28 +206,27 @@ namespace CP_SDK {
                     l_Content->SetObject();
                     l_Content->AddMember(u"ConnectedApplicationToken", _v::Json::U16Value(l_Token, l_Content->GetAllocator()), l_Content->GetAllocator());
 
-                    auto l_Result = m_JsonRPCClient->Request(
+                    auto l_RPCResult = m_JsonRPCClient->Request(
                         u"Account_AuthByConnectedApplicationToken",
                         l_Content
                     );
 
-                    if (IsRPCSuccess(l_Result))
-                        OnAuthed(l_Result);
-                    else if (l_Result && l_Result->Result && l_Result->Result->IsObject()
-                             && l_Result->Result->HasMember(u"Result")
-                             && (*l_Result->Result)[u"Result"].IsBool()
-                             && !(*l_Result->Result)[u"Result"].GetBool())
+                    if (IsRPCSuccess(l_RPCResult))
+                        OnAuthed(l_RPCResult);
+                    else if (l_RPCResult
+                          && l_RPCResult->Result
+                          && l_RPCResult->Result->IsObject()
+                          && l_RPCResult->Result->HasMember(u"Result")
+                          && (*l_RPCResult->Result)[u"Result"].IsBool()
+                          && !(*l_RPCResult->Result)[u"Result"].GetBool())
                     {
-                        {
-                            std::lock_guard l_Lock(m_DataMutex);
-                            CPConfig::Instance()->ChatPlexServiceToken = u"";
-                            CPConfig::Instance()->Save();
-                        }
+                        CPConfig::Instance()->ChatPlexServiceToken = u"";
+                        CPConfig::Instance()->Save();
 
                         ChangeState(EState::Disconnected);
                     }
                     else
-                        OnError(l_Result);
+                        OnError(l_RPCResult);
                 }
                 else if (l_State == EState::LinkRequest)
                 {
@@ -263,93 +235,76 @@ namespace CP_SDK {
                     l_Content->AddMember(u"ApplicationIdentifier", _v::Json::U16Value(ChatPlexSDK::ProductName().data(), l_Content->GetAllocator()), l_Content->GetAllocator());
                     l_Content->AddMember(u"ApplicationDeviceName", _v::Json::U16Value(m_DeviceName, l_Content->GetAllocator()), l_Content->GetAllocator());
 
-                    auto l_Result = m_JsonRPCClient->Request(
+                    auto l_RPCResult = m_JsonRPCClient->Request(
                         u"ConnectedApplication_CreateLinkRequest",
                         l_Content
                     );
 
-                    if (IsRPCSuccess(l_Result))
+                    if (IsRPCSuccess(l_RPCResult))
                     {
-                        auto& l_ResultR = *l_Result->Result;
+                        auto& l_ResultR = *l_RPCResult->Result;
                         if (!l_ResultR.HasMember(u"RequestID") || !l_ResultR[u"RequestID"].IsString()
                             || !l_ResultR.HasMember(u"Code") || !l_ResultR[u"Code"].IsString())
                         {
-                            OnError(l_Result);
+                            OnError(l_RPCResult);
                         }
                         else
                         {
-                            {
-                                std::lock_guard l_Lock(m_DataMutex);
-                                m_LinkRequestID = l_ResultR[u"RequestID"].GetString();
-                                m_LinkCode      = l_ResultR[u"Code"].GetString();
-                            }
+                            m_LinkRequestID = l_ResultR[u"RequestID"].GetString();
+                            m_LinkCode      = l_ResultR[u"Code"].GetString();
 
                             ChangeState(EState::LinkWait);
                         }
                     }
                     else
-                        OnError(l_Result);
+                        OnError(l_RPCResult);
                 }
                 else if (l_State == EState::LinkWait)
                 {
-                    auto l_LinkRequestID = std::u16string();
-                    {
-                        std::lock_guard l_Lock(m_DataMutex);
-                        l_LinkRequestID = m_LinkRequestID;
-                    }
-
                     auto l_Content = std::make_shared<_v::Json::U16Document>();
                     l_Content->SetObject();
-                    l_Content->AddMember(u"RequestID", _v::Json::U16Value(l_LinkRequestID, l_Content->GetAllocator()), l_Content->GetAllocator());
+                    l_Content->AddMember(u"RequestID", _v::Json::U16Value(m_LinkRequestID, l_Content->GetAllocator()), l_Content->GetAllocator());
 
-                    auto l_Result = m_JsonRPCClient->Request(
+                    auto l_RPCResult = m_JsonRPCClient->Request(
                         u"ConnectedApplication_GetLinkRequestStatus",
                         l_Content
                     );
 
-                    if (IsRPCSuccess(l_Result))
+                    if (IsRPCSuccess(l_RPCResult))
                     {
-                        auto& l_ResultR = *l_Result->Result;
+                        auto& l_ResultR = *l_RPCResult->Result;
                         if (l_ResultR.HasMember(u"ResultToken") && l_ResultR[u"ResultToken"].IsString())
                         {
-                            {
-                                std::lock_guard l_Lock(m_DataMutex);
-                                CPConfig::Instance()->ChatPlexServiceToken = l_ResultR[u"ResultToken"].GetString();
-                                CPConfig::Instance()->Save();
-                            }
+                            CPConfig::Instance()->ChatPlexServiceToken = l_ResultR[u"ResultToken"].GetString();
+                            CPConfig::Instance()->Save();
 
                             ChangeState(EState::Disconnected);
                         }
                     }
                     else
-                        OnError(l_Result);
+                        OnError(l_RPCResult);
                 }
             }
             catch (const std::exception& l_Exception)
             {
                 ChatPlexSDK::Logger()->Error(u"[CP_SDK][ChatPlexService.ThreadRunner] Error:");
                 ChatPlexSDK::Logger()->Error(l_Exception);
-                {
-                    std::lock_guard l_Lock(m_DataMutex);
-                    m_LastError = u"Internal ChatPlex service error";
-                }
+
+                m_LastError = u"Internal ChatPlex service error";
                 ChangeState(EState::Error);
             }
             catch (...)
             {
                 ChatPlexSDK::Logger()->Error(u"[CP_SDK][ChatPlexService.ThreadRunner] Unknown error");
-                {
-                    std::lock_guard l_Lock(m_DataMutex);
-                    m_LastError = u"Internal ChatPlex service error";
-                }
+
+                m_LastError = u"Internal ChatPlex service error";
                 ChangeState(EState::Error);
             }
 
-            const auto l_Delay = m_State.load() == EState::LinkWait
-                ? std::chrono::milliseconds(1500)
-                : std::chrono::milliseconds(100);
-            std::unique_lock l_Lock(m_ThreadWaitMutex);
-            m_ThreadWaitCondition.wait_for(l_Lock, l_Delay);
+            if (m_State == EState::LinkWait)
+                std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+            else
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
 
@@ -401,15 +356,10 @@ namespace CP_SDK {
             }
         }
 
-        auto l_Token = std::u16string();
-        {
-            std::lock_guard l_Lock(m_DataMutex);
-            m_ActiveSubscription = std::move(l_ActiveSubscription);
-            m_UnlockedFeatures = std::move(l_UnlockedFeatures);
-            l_Token = CPConfig::Instance()->ChatPlexServiceToken;
-        }
+        m_ActiveSubscription = std::move(l_ActiveSubscription);
+        m_UnlockedFeatures = std::move(l_UnlockedFeatures);
 
-        m_WebClientCore->SetHeader(u"Authorization", std::u16string(u"ConnectedApplicationToken ") + l_Token);
+        m_WebClientCore->SetHeader(u"Authorization", std::u16string(u"ConnectedApplicationToken ") + CPConfig::Instance()->ChatPlexServiceToken);
 
         ChangeState(EState::Connected);
         FireOnTokenReady();
@@ -419,21 +369,24 @@ namespace CP_SDK {
     void ChatPlexService::OnError(_v::JsonRPCResult::Ptr& rpcResult)
     {
         std::u16string l_Error = u"Unknown server error!";
-        if (rpcResult && rpcResult->Result && rpcResult->Result->IsObject()
-            && rpcResult->Result->HasMember(u"Error") && (*rpcResult->Result)[u"Error"].IsString())
+        if (rpcResult
+            && rpcResult->Result
+            && rpcResult->Result->IsObject()
+            && rpcResult->Result->HasMember(u"Error")
+            && (*rpcResult->Result)[u"Error"].IsString())
         {
             l_Error = (*rpcResult->Result)[u"Error"].GetString();
         }
-        else if (rpcResult && rpcResult->Error && rpcResult->Error->IsObject()
-                 && rpcResult->Error->HasMember(u"message") && (*rpcResult->Error)[u"message"].IsString())
+        else if (rpcResult
+              && rpcResult->Error->IsObject()
+              && rpcResult->Error->HasMember(u"message")
+              && (*rpcResult->Error)[u"message"].IsString())
         {
             l_Error = (*rpcResult->Error)[u"message"].GetString();
         }
 
-        {
-            std::lock_guard l_Lock(m_DataMutex);
-            m_LastError = std::move(l_Error);
-        }
+        m_LastError = std::move(l_Error);
+
         ChangeState(EState::Error);
     }
 

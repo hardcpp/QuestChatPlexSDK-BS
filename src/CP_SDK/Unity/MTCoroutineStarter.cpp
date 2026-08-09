@@ -3,9 +3,7 @@
 
 #include <UnityEngine/GameObject.hpp>
 
-namespace {
-    constexpr std::size_t MAX_QUEUE_SIZE = 1000;
-}
+constexpr std::size_t MAX_QUEUE_SIZE = 1000;
 
 using namespace System::Collections;
 using namespace UnityEngine;
@@ -23,8 +21,8 @@ namespace CP_SDK::Unity {
     ////////////////////////////////////////////////////////////////////////////
 
     std::deque<Utils::MonoPtr<Il2CppObject>> MTCoroutineStarter::m_Queue;
-    bool                                    MTCoroutineStarter::m_Accepting = false;
-    std::mutex                              MTCoroutineStarter::m_Mutex;
+    bool                                     MTCoroutineStarter::m_Accepting = false;
+    std::mutex                               MTCoroutineStarter::m_Mutex;
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
@@ -82,13 +80,13 @@ namespace CP_SDK::Unity {
     /// @param p_Coroutine Coroutine to enqueue
     void MTCoroutineStarter::EnqueueFromThread(IEnumerator* p_Coroutine)
     {
-        std::lock_guard l_Lock(m_Mutex);
-
         if (!p_Coroutine)
         {
             ChatPlexSDK::Logger()->Error(u"[CP_SDK.Unity][MTCoroutineStarter.EnqueueFromThread] Null coroutine!");
             return;
         }
+
+        std::lock_guard l_Lock(m_Mutex);
 
         if (!m_Accepting || !m_Instance)
         {

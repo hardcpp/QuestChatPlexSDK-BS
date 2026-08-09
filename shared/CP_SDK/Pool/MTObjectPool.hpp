@@ -31,7 +31,7 @@ namespace CP_SDK::Pool {
             _v::Action<t_Type&> m_ActionOnRelease;
             _v::Action<t_Type&> m_ActionOnDestroy;
             int                 m_MaxSize;
-            int                 m_CountAll = 0;
+            int                 m_CountAll;
             bool                m_CollectionCheck;
 
         public:
@@ -61,6 +61,7 @@ namespace CP_SDK::Pool {
                 m_ActionOnGet       = actionOnGet;
                 m_ActionOnRelease   = actionOnRelease;
                 m_ActionOnDestroy   = actionOnDestroy;
+                m_CountAll          = 0;
                 m_CollectionCheck   = collectionCheck;
 
                 m_Vector.reserve(maxSize);
@@ -96,14 +97,20 @@ namespace CP_SDK::Pool {
             /// @brief Active elements
             int CountActive()
             {
-                std::lock_guard<std::mutex> l_Lock(m_Mutex);
-                return m_CountAll - static_cast<int>(m_Vector.size());
+                // lock (m_Stack)
+                {
+                    std::lock_guard<std::mutex> l_Lock(m_Mutex);
+                    return m_CountAll - static_cast<int>(m_Vector.size());
+                }
             }
             /// @brief Released element
             int CountInactive() override
             {
-                std::lock_guard<std::mutex> l_Lock(m_Mutex);
-                return static_cast<int>(m_Vector.size());
+                // lock (m_Stack)
+                {
+                    std::lock_guard<std::mutex> l_Lock(m_Mutex);
+                    return static_cast<int>(m_Vector.size());
+                }
             }
 
         public:
@@ -113,6 +120,7 @@ namespace CP_SDK::Pool {
                 t_Type l_Result{};
                 bool l_Create = false;
 
+                // lock (m_Stack)
                 {
                     std::lock_guard<std::mutex> l_Lock(m_Mutex);
 
@@ -142,6 +150,8 @@ namespace CP_SDK::Pool {
                 m_ActionOnRelease(p_Element);
 
                 bool l_Destroy = false;
+
+                // lock (m_Stack)
                 {
                     std::lock_guard<std::mutex> l_Lock(m_Mutex);
 
@@ -166,6 +176,8 @@ namespace CP_SDK::Pool {
             void Clear() override
             {
                 std::vector<t_Type> l_ToDestroy;
+
+                // lock (m_Stack)
                 {
                     std::lock_guard<std::mutex> l_Lock(m_Mutex);
                     l_ToDestroy.swap(m_Vector);

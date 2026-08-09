@@ -8,7 +8,6 @@
 
 #include <beatsaber-hook/shared/utils/il2cpp-utils.hpp>
 #include <atomic>
-#include <condition_variable>
 #include <queue>
 #include <string>
 #include <string_view>
@@ -60,17 +59,14 @@ namespace CP_SDK {
             static std::queue<_v::Action<>>         m_OnTokenReadyQueue;
             static std::mutex                       m_OnTokenReadyQueueMutex;
             static std::u16string                   m_DeviceName;
-            static std::mutex                       m_DataMutex;
-            static std::mutex                       m_ThreadWaitMutex;
-            static std::condition_variable          m_ThreadWaitCondition;
 
         public:
-            static const EState                         State();
-            static const std::u16string_view            Token();
-            static const std::u16string_view            LinkCode();
-            static const std::u16string_view            LastError();
-            static const std::u16string_view            ActiveSubscription();
-            static const std::vector<std::u16string>&   UnlockedFeatures();
+            static const EState                            State();
+            static const std::u16string_view               Token();
+            static const std::u16string_view               LinkCode();
+            static const std::u16string_view               LastError();
+            static const std::u16string_view               ActiveSubscription();
+            static const std::vector<const std::u16string> UnlockedFeatures();
 
             static _v::Event<EState, EState> StateChanged;
 

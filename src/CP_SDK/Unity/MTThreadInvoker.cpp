@@ -3,9 +3,7 @@
 
 #include <utility>
 
-namespace {
-    constexpr std::size_t MAX_QUEUE_SIZE = 1000;
-}
+constexpr std::size_t MAX_QUEUE_SIZE = 1000;
 
 namespace CP_SDK::Unity {
 
@@ -59,6 +57,7 @@ namespace CP_SDK::Unity {
             std::lock_guard l_Lock(m_Mutex);
             if (m_UpdateThread == l_Thread)
                 m_UpdateThread = nullptr;
+
             m_Queue.clear();
         }
     }

@@ -69,3 +69,4 @@ extern.cmake
 mod.json.schema
 
 doxygen-build/
+.env

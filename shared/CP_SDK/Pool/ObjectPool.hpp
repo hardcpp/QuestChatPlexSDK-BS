@@ -29,7 +29,7 @@ namespace CP_SDK::Pool {
             _v::Action<t_Type&> m_ActionOnRelease;
             _v::Action<t_Type&> m_ActionOnDestroy;
             int                 m_MaxSize;
-            int                 m_CountAll = 0;
+            int                 m_CountAll;
             bool                m_CollectionCheck;
 
         public:
@@ -59,6 +59,7 @@ namespace CP_SDK::Pool {
                 m_ActionOnGet       = actionOnGet;
                 m_ActionOnRelease   = actionOnRelease;
                 m_ActionOnDestroy   = actionOnDestroy;
+                m_CountAll          = 0;
                 m_CollectionCheck   = collectionCheck;
 
                 m_Vector.reserve(maxSize);
@@ -144,14 +145,13 @@ namespace CP_SDK::Pool {
             /// @brief Clear the object pool
             void Clear() override
             {
-                const auto l_DestroyedCount = static_cast<int>(m_Vector.size());
-                for (auto& l_Current : m_Vector)
+                std::vector<t_Type> l_ToDestroy;
+                l_ToDestroy.swap(m_Vector);
+                m_CountAll -= static_cast<int>(l_ToDestroy.size());
+
+                for (auto &l_Current : l_ToDestroy)
                     m_ActionOnDestroy(l_Current);
-
-                m_Vector.clear();
-                m_CountAll -= l_DestroyedCount;
             }
-
     };
 
 }   ///< namespace CP_SDK::Pool
