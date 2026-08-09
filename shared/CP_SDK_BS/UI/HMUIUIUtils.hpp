@@ -6,6 +6,7 @@
 #include <GlobalNamespace/MainFlowCoordinator.hpp>
 #include <HMUI/FlowCoordinator.hpp>
 #include <HMUI/ViewController.hpp>
+#include <HMUI/ScreenSystem.hpp>
 #include <System/Type.hpp>
 #include <UnityEngine/Canvas.hpp>
 #include <VRUIControls/PhysicsRaycasterWithCache.hpp>
@@ -17,6 +18,7 @@ namespace CP_SDK_BS::UI {
         using namespace GlobalNamespace;
         using namespace UnityEngine;
         using namespace VRUIControls;
+        using namespace HMUI;
     }
 
     /// @brief View controller utils
@@ -25,11 +27,13 @@ namespace CP_SDK_BS::UI {
         CP_SDK_NO_DEF_CTORS(HMUIUIUtils);
 
         private:
+            static CP_SDK::Utils::MonoPtr<_u::ScreenSystem>                 m_GameHMUIScreenSystem;
             static CP_SDK::Utils::MonoPtr<_u::MainFlowCoordinator>          m_MainFlowCoordinator;
             static CP_SDK::Utils::MonoPtr<_u::Canvas>                       m_CanvasTemplate;
             static CP_SDK::Utils::MonoPtr<_u::PhysicsRaycasterWithCache>    m_PhysicsRaycaster;
 
         public:
+            static _u::ScreenSystem* GameHMUIScreenSystem();
             static _u::MainFlowCoordinator* MainFlowCoordinator();
 
         public:

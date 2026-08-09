@@ -17,6 +17,7 @@
 #include <HMUI/TextSegmentedControl.hpp>
 #include <HMUI/IconSegmentedControl.hpp>
 #include <TMPro/TextMeshProUGUI.hpp>
+#include <optional>
 
 namespace CP_SDK_BS::UI {
 
@@ -71,6 +72,7 @@ namespace CP_SDK_BS::UI {
             _v::MonoPtr<_u::GameObject>                                         m_FavoriteToggle;
             _v::MonoPtr<_u::BeatmapLevel>                                       m_LocalBeatMap;
             Game::BeatMaps::MapDetail::Ptr                                      m_BeatMap;
+            std::optional<_u::BeatmapDifficulty>                                m_LimitedBeatmapDifficulty;
 
         private:
             double          m_Time      = 0;
@@ -134,7 +136,14 @@ namespace CP_SDK_BS::UI {
             /// @param p_Active New state
             void SetActive(bool p_Active);
 
+            /// @brief Reset widget state
+            void Reset();
+
         public:
+            /// @brief Set from game
+            /// @param p_BeatMap        BeatMap
+            /// @param p_Cover          Cover texture
+            bool FromGame(_u::BeatmapLevel* p_BeatMap, _u::Sprite* p_Cover);
             /// @brief Set from game
             /// @param p_BeatMap        BeatMap
             /// @param p_Cover          Cover texture

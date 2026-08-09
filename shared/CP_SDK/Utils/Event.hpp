@@ -62,9 +62,8 @@ namespace CP_SDK::Utils {
             /// @brief Clear
             void Clear()
             {
-                m_Mutex.lock();
+                std::lock_guard l_Guard(m_Mutex);
                 m_Delegates.clear();
-                m_Mutex.unlock();
             }
 
             /// Invoke
@@ -77,9 +76,11 @@ namespace CP_SDK::Utils {
             /// @p_Args...: Arguments
             void Invoke(t_Args... p_Args)
             {
-                m_Mutex.lock();
-                std::vector<Delegate<void(t_Args...)>> l_Copy = m_Delegates;
-                m_Mutex.unlock();
+                std::vector<Delegate<void(t_Args...)>> l_Copy;
+                {
+                    std::lock_guard l_Guard(m_Mutex);
+                    l_Copy = m_Delegates;
+                }
 
                 for (const auto & l_Delegate : l_Copy)
                     l_Delegate.Invoke(std::forward<t_Args>(p_Args)...);

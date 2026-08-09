@@ -112,8 +112,9 @@ namespace CP_SDK::XUI {
             /// @param p_Interactable New state
             XUIDropdown* SetInteractable(bool p_Interactable) XUI_PROXY_IMPL(_v::CDropdown, { x->SetInteractable(p_Interactable); })
             /// @brief Set available options
-            /// @param p_Options New options list
-            XUIDropdown* SetOptions(std::vector<std::u16string> p_Options) XUI_PROXY_IMPL(_v::CDropdown, { x->SetOptions(p_Options); })
+            /// @param options New options list
+            /// @param notifyOnValueChanged Should notify on value changed?
+            XUIDropdown* SetOptions(std::vector<std::u16string> options, bool notifyOnValueChanged = true) XUI_PROXY_IMPL(_v::CDropdown, { x->SetOptions(options, notifyOnValueChanged); })
             /// @brief Set value
             /// @param p_Value New value
             /// @param p_Notify Should notify?

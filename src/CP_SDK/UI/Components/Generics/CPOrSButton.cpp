@@ -94,7 +94,7 @@ namespace CP_SDK::UI::Components {
     /// @param p_Color New color
     CPOrSButton* CPOrSButton::SetColor(Color p_Color)
     {
-        BackgroundImageC()->set_color(p_Color);
+        TextC()->SetColor(p_Color);
         return this;
     }
     /// @brief Set button icon sprite

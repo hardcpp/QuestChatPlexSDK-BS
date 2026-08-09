@@ -86,7 +86,7 @@ namespace CP_SDK::UI::DefaultComponents {
 
         auto l_ScrollBarBG = l_ScrollBar->get_gameObject()->AddComponent(UISystem::Override_UnityComponent_Image.ptr()).try_cast<Image>().value_or(nullptr);
         l_ScrollBarBG->set_material               (UISystem::Override_GetUIMaterial());
-        l_ScrollBarBG->set_color                  (ColorU::WithAlpha("#202020", 0.7f));
+        l_ScrollBarBG->set_color                  (ColorU::WithAlpha(UISystem::ModalBGColor, 0.7f));
         l_ScrollBarBG->set_pixelsPerUnitMultiplier(1);
         l_ScrollBarBG->set_type                   (Image::Type::Sliced);
         l_ScrollBarBG->set_raycastTarget          (false);

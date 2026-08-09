@@ -227,7 +227,10 @@ namespace CP_SDK::Utils {
         if (!p_Document.HasMember(p_Name)) return;
         CP_SDK_JSON_ENSURE_TYPE(IsObject);
         GET_OBJECT();
-        uint32_t l_R, l_G, l_B, l_A;
+        uint32_t l_R = 0;
+        uint32_t l_G = 0;
+        uint32_t l_B = 0;
+        uint32_t l_A = 0;
         UnserializeUInt32(l_Object, l_R, u"r"); p_Value.r = static_cast<uint8_t>(l_R);
         UnserializeUInt32(l_Object, l_G, u"g"); p_Value.g = static_cast<uint8_t>(l_G);
         UnserializeUInt32(l_Object, l_B, u"b"); p_Value.b = static_cast<uint8_t>(l_B);

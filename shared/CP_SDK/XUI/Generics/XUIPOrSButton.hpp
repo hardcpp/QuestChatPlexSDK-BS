@@ -112,9 +112,15 @@ namespace CP_SDK::XUI {
             t_Base* SetHeight(float p_Height) XUI_PROXY_IMPL_EX(t_Component, { x->SetHeight(p_Height); })
 
         public:
+            /// @brief Set button background color
+            /// @param p_Color New color
+            t_Base* SetBackgroundColor(Color p_Color) XUI_PROXY_IMPL_EX(t_Component, { x->SetBackgroundColor(p_Color); })
             /// @brief Set button background sprite
             /// @param p_Sprite New sprite
             t_Base* SetBackgroundSprite(_u::Sprite* p_Sprite) XUI_PROXY_IMPL_EX(t_Component, { x->SetBackgroundSprite(p_Sprite); })
+            /// @brief Set button text color
+            /// @param p_Color New color
+            t_Base* SetColor(Color p_Color) XUI_PROXY_IMPL_EX(t_Component, { x->SetColor(p_Color); })
             /// @brief Set font size
             /// @param p_Size New size
             t_Base* SetFontSize(float p_Size) XUI_PROXY_IMPL_EX(t_Component, { x->SetFontSize(p_Size); })

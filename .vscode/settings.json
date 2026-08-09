@@ -125,7 +125,8 @@
         "memory_resource": "cpp",
         "ranges": "cpp",
         "__verbose_abort": "cpp",
-        "numbers": "cpp"
+        "numbers": "cpp",
+        "execution": "cpp"
     },
     "editor.formatOnSave": false,
     "editor.trimAutoWhitespace": true,

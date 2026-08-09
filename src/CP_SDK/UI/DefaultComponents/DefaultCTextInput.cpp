@@ -89,7 +89,7 @@ namespace CP_SDK::UI::DefaultComponents {
         m_ValueText->SetAlign(TMPro::TextAlignmentOptions::MidlineLeft);
         m_ValueText->RTransform()->set_anchorMin         (Vector2( 0.0f,  0.0f));
         m_ValueText->RTransform()->set_anchorMax         (Vector2( 1.0f,  1.0f));
-        m_ValueText->RTransform()->set_anchoredPosition  (Vector2(-2.5f,  0.0f));
+        m_ValueText->RTransform()->set_anchoredPosition  (Vector2(-1.5f,  0.0f));
         m_ValueText->RTransform()->set_sizeDelta         (Vector2(-5.0f,  0.0f));
 
         m_Button = get_gameObject()->AddComponent<Button*>();

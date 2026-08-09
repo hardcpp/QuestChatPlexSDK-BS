@@ -1,4 +1,5 @@
 #include "CP_SDK_BS/Game/UserPlatform.hpp"
+#include "CP_SDK/Unity/MTMainThreadInvoker.hpp"
 #include "CP_SDK/ChatPlexSDK.hpp"
 
 #include <System/Threading/Tasks/Task.hpp>
@@ -8,9 +9,11 @@
 #include <GlobalNamespace/IPlatformUserModel.hpp>
 #include <GlobalNamespace/PlatformLeaderboardsModel.hpp>
 #include <GlobalNamespace/UserInfo.hpp>
+#include <thread>
 
 using namespace GlobalNamespace;
 using namespace UnityEngine;
+using namespace CP_SDK::Unity;
 
 namespace CP_SDK_BS::Game {
 
@@ -26,7 +29,19 @@ namespace CP_SDK_BS::Game {
         if (!m_UserID.empty())
             return m_UserID;
 
-        FetchPlatformInfos();
+        if (MTMainThreadInvoker::IsMainThread())
+            FetchPlatformInfos();
+        else
+        {
+            auto isReady = false;
+            MTMainThreadInvoker::Enqueue([&]() -> void {
+                FetchPlatformInfos();
+                isReady = true;
+            });
+
+            while (!isReady)
+                std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
 
         return m_UserID;
     }
@@ -36,7 +51,19 @@ namespace CP_SDK_BS::Game {
         if (!m_UserName.empty())
             return m_UserName;
 
-        FetchPlatformInfos();
+        if (MTMainThreadInvoker::IsMainThread())
+            FetchPlatformInfos();
+        else
+        {
+            auto isReady = false;
+            MTMainThreadInvoker::Enqueue([&]() -> void {
+                FetchPlatformInfos();
+                isReady = true;
+            });
+
+            while (!isReady)
+                std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
 
         return m_UserName;
     }
@@ -53,17 +80,17 @@ namespace CP_SDK_BS::Game {
 
             for (GlobalNamespace::PlatformLeaderboardsModel * l_Current : l_PlatformLeaderboardsModels)
             {
-                if (l_Current->____platformUserModel == nullptr)
+                if (l_Current->_platformUserModel == nullptr)
                     continue;
 
-                auto l_Task = l_Current->____platformUserModel->GetUserInfo(System::Threading::CancellationToken::get_None());
+                auto l_Task = l_Current->_platformUserModel->GetUserInfo(System::Threading::CancellationToken::get_None());
                 l_Task->Wait();
 
-                auto l_PlayerID = l_Task->get_Result()->___platformUserId;
+                auto l_PlayerID = l_Task->get_Result()->platformUserId;
                 if (!System::String::IsNullOrEmpty(l_PlayerID))
                 {
                     m_UserID    = l_PlayerID;
-                    m_UserName  = l_Task->get_Result()->___userName;
+                    m_UserName  = l_Task->get_Result()->userName;
                     return;
                 }
             }

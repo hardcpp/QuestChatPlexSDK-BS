@@ -10,6 +10,7 @@
 #include "CP_SDK_BS/Game/BeatMapsClient.hpp"
 #include "CP_SDK_BS/Game/Logic.hpp"
 #include "CP_SDK_BS/UI/DefaultFactoriesOverrides/BS_FloatingPanelFactory.hpp"
+#include "CP_SDK_BS/UI/HMUIUIUtils.hpp"
 
 #include <bsml/shared/BSML.hpp>
 
@@ -57,18 +58,18 @@ void ScreenSystem_OnPresent()
     if (!m_HMUIScreenSystem)
     {
         m_HMUIDeactivatedScreens.clear();
-        m_HMUIScreenSystem = UnityEngine::Resources::FindObjectsOfTypeAll<HMUI::ScreenSystem*>()->FirstOrDefault();
+        m_HMUIScreenSystem = CP_SDK_BS::UI::HMUIUIUtils::GameHMUIScreenSystem();
     }
 
     if (!m_HMUIScreenSystem)
         return;
 
     m_HMUIDeactivatedScreens.clear();
-    DeactivateScreenSafe(m_HMUIScreenSystem->____leftScreen);
-    DeactivateScreenSafe(m_HMUIScreenSystem->____mainScreen);
-    DeactivateScreenSafe(m_HMUIScreenSystem->____rightScreen);
-    DeactivateScreenSafe(m_HMUIScreenSystem->____bottomScreen);
-    DeactivateScreenSafe(m_HMUIScreenSystem->____topScreen);
+    DeactivateScreenSafe(m_HMUIScreenSystem->leftScreen);
+    DeactivateScreenSafe(m_HMUIScreenSystem->mainScreen);
+    DeactivateScreenSafe(m_HMUIScreenSystem->rightScreen);
+    DeactivateScreenSafe(m_HMUIScreenSystem->bottomScreen);
+    DeactivateScreenSafe(m_HMUIScreenSystem->topScreen);
 
     CP_SDK::UI::ScreenSystem::Instance()->get_transform()->set_localScale(m_HMUIScreenSystem->get_transform()->get_localScale());
 }
@@ -114,7 +115,7 @@ void PatchUI()
             m_VRGraphicRaycasterCache = UnityEngine::Resources::FindObjectsOfTypeAll<VRUIControls::VRGraphicRaycaster*>()->FirstOrDefault([](auto y) { return y->_physicsRaycaster != nullptr; });
 
         if (m_VRGraphicRaycasterCache)
-            x->get_gameObject()->AddComponent<VRUIControls::VRGraphicRaycaster*>()->____physicsRaycaster = m_VRGraphicRaycasterCache->____physicsRaycaster;
+            x->get_gameObject()->AddComponent<VRUIControls::VRGraphicRaycaster*>()->_physicsRaycaster = m_VRGraphicRaycasterCache->_physicsRaycaster;
     };
 
     ////////////////////////////////////////////////////////////////////////////
@@ -200,10 +201,10 @@ extern "C" __attribute__((visibility("default"))) void setup(CModInfo* p_ModInfo
         auto l_MainFont = UnityEngine::Resources::FindObjectsOfTypeAll<TMPro::TMP_FontAsset*>()->FirstOrDefault([](auto x) { return x->get_name() == u"Teko-Medium SDF"; });
         if (l_MainFont && p_Input)
         {
-            p_Input->___material->set_shader(l_MainFont->___material->get_shader());
-            p_Input->___material->SetColor("_FaceColor", p_Input->___material->GetColor(u"_FaceColor"));
-            p_Input->___material->EnableKeyword("CURVED");
-            p_Input->___material->EnableKeyword("UNITY_UI_CLIP_RECT");
+            p_Input->material->set_shader(l_MainFont->material->get_shader());
+            p_Input->material->SetColor("_FaceColor", p_Input->material->GetColor(u"_FaceColor"));
+            p_Input->material->EnableKeyword("CURVED");
+            p_Input->material->EnableKeyword("UNITY_UI_CLIP_RECT");
         }
 
         return p_Input;

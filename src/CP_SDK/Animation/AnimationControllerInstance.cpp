@@ -2,8 +2,13 @@
 #include "CP_SDK/ChatPlexSDK.hpp"
 
 #include <UnityEngine/SpriteMeshType.hpp>
+#include <UnityEngine/Object.hpp>
 #include <UnityEngine/Time.hpp>
 #include <UnityEngine/Vector2.hpp>
+
+#include <algorithm>
+#include <iterator>
+#include <stdexcept>
 
 using namespace UnityEngine;
 using namespace UnityEngine::UI;
@@ -17,15 +22,19 @@ namespace CP_SDK::Animation {
     AnimationControllerInstance::AnimationControllerInstance(CP_SDK_PRIV_TAG_ARG(), _v::CMonoPtrRef<Texture2D> p_Texture, const std::vector<Rect>& p_UVs, const std::vector<uint16_t>& p_Delays)
         : m_IsDelayConsistent(true), m_ActiveCount(0), Frames(p_UVs.size()), CurrentFrameIndex(0)
     {
+        if (!p_Texture || p_UVs.empty() || p_UVs.size() != p_Delays.size())
+            throw std::invalid_argument("Animation atlas, UVs and delays are inconsistent");
+
         int l_FirstDelay = -1;
 
-        m_UVs   = p_UVs;
+        m_UVs     = p_UVs;
+        m_Texture = p_Texture;
         Frames.resize(p_UVs.size());
-        Delays  = p_Delays;
+        Delays    = p_Delays;
 
         auto l_Width     = const_cast<_v::MonoPtr<Texture2D>&>(p_Texture)->get_width();
         auto l_Height    = const_cast<_v::MonoPtr<Texture2D>&>(p_Texture)->get_height();
-        for (int l_Frame = 0; l_Frame < p_UVs.size(); ++l_Frame)
+        for (std::size_t l_Frame = 0; l_Frame < p_UVs.size(); ++l_Frame)
         {
             auto& l_CurrentUV = p_UVs[l_Frame];
             Frames[l_Frame] = Sprite::Create(
@@ -54,7 +63,18 @@ namespace CP_SDK::Animation {
     AnimationControllerInstance::~AnimationControllerInstance()
     {
         m_ActiveImages.clear();
+        for (auto& l_Frame : Frames)
+        {
+            if (l_Frame)
+                Object::Destroy(l_Frame.Ptr(false));
+        }
         Frames.clear();
+        FirstFrame = nullptr;
+
+        if (m_Texture)
+            Object::Destroy(m_Texture.Ptr(false));
+
+        m_Texture = nullptr;
     }
 
     ////////////////////////////////////////////////////////////////////////////

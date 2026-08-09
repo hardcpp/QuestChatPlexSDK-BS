@@ -41,39 +41,28 @@ namespace CP_SDK::UI {
     /// @brief On component creation
     void LoadingProgressBar::Awake()
     {
-        auto l_Transform = get_transform();
-        l_Transform->set_position(UnityEngine::Vector3(0, 2.5f, 4.0f));
-        l_Transform->set_eulerAngles(UnityEngine::Vector3(0, 0, 0));
-        l_Transform->set_localScale(UnityEngine::Vector3(0.01f, 0.01f, 0.01f));
-
-        m_Canvas = get_gameObject()->AddComponent<Canvas*>();
-        m_Canvas->set_renderMode(RenderMode::WorldSpace);
-        m_Canvas->set_enabled(false);
-
-        auto l_RectTransform = m_Canvas->get_transform().try_cast<RectTransform>().value_or(nullptr);
-        l_RectTransform->set_sizeDelta(Vector2(100, 50));
+        m_Canvas = UISystem::FloatingPanelFactory->Create(u"", transform);
+        m_Canvas->transform->localScale = UnityEngine::Vector3(0.01f, 0.01f, 0.01f);
+        m_Canvas->SetTransformDirect(Vector3(0, 2.5f, 4.25f), Vector3(0, 0, 0));
+        m_Canvas->SetSize(Vector2(150, 40));
+        m_Canvas->SetBackground(false);
 
         m_HeaderText = UISystem::TextFactory->Create(u"", m_Canvas->get_transform());
         if (m_HeaderText)
         {
-            l_RectTransform = m_HeaderText->RTransform().Ptr();
-            l_RectTransform->set_anchoredPosition(Vector2(  0.0f, 15.0f));
-            l_RectTransform->set_sizeDelta       (Vector2(100.0f, 20.0f));
+            m_HeaderText->RTransform()->set_anchoredPosition(Vector2(0.0f, 15.0f));
+            m_HeaderText->RTransform()->set_sizeDelta(Vector2(100.0f, 20.0f));
             m_HeaderText->SetFontSize(10.0f);
             m_HeaderText->SetAlign(TextAlignmentOptions::Midline);
+            m_HeaderText->SetText(u"...");
         }
 
-        m_LoadingBackground = GameObject::New_ctor("Background")->AddComponent<Image*>();
-        l_RectTransform = m_LoadingBackground->get_transform().try_cast<RectTransform>().value_or(nullptr);
-        l_RectTransform->SetParent(m_Canvas->get_transform(), false);
-        l_RectTransform->set_sizeDelta(Vector2(100, 10));
-        m_LoadingBackground->set_color(Color(0, 0, 0, 0.2f));
 
-        m_LoadingBar = GameObject::New_ctor("Loading Bar")->AddComponent<Image*>();
-        l_RectTransform = m_LoadingBar->get_transform().try_cast<RectTransform>().value_or(nullptr);
-        l_RectTransform->SetParent(m_Canvas->get_transform(), false);
-        l_RectTransform->set_sizeDelta(Vector2(100, 10));
-        m_LoadingBar->set_sprite(
+
+        m_LoadingBackground = UISystem::ImageFactory->Create(u"", m_Canvas->get_transform());
+        m_LoadingBackground->SetWidth(100);
+        m_LoadingBackground->SetHeight(10);
+        m_LoadingBackground->SetSprite(
             Sprite::Create(
                 Texture2D::get_whiteTexture(),
                 Rect(0, 0, Texture2D::get_whiteTexture()->get_width(), Texture2D::get_whiteTexture()->get_height()),
@@ -85,9 +74,31 @@ namespace CP_SDK::UI {
                 false
             )
         );
-        m_LoadingBar->set_type(Image::Type::Filled);
-        m_LoadingBar->set_fillMethod(Image::FillMethod::Horizontal);
-        m_LoadingBar->set_color(Color(0.1f, 1, 0.1f, 0.5f));
+        m_LoadingBackground->SetColor(Color(0, 0, 0, 0.8f));
+        m_LoadingBackground->ImageC()->preserveAspect = false;
+
+        m_LoadingBar =  UISystem::ImageFactory->Create(u"", m_Canvas->get_transform());
+        m_LoadingBar->SetWidth(100);
+        m_LoadingBar->SetHeight(10);
+        m_LoadingBar->SetSprite(
+            Sprite::Create(
+                Texture2D::get_whiteTexture(),
+                Rect(0, 0, Texture2D::get_whiteTexture()->get_width(), Texture2D::get_whiteTexture()->get_height()),
+                Vector2::get_one() * 0.5f,
+                100,
+                1,
+                SpriteMeshType::FullRect,
+                Vector4::get_zero(),
+                false
+            )
+        );
+        m_LoadingBar->SetType(Image::Type::Filled);
+        m_LoadingBar->SetColor(Color(0.1f, 1, 0.1f, 0.5f));
+        m_LoadingBar->ImageC()->fillMethod = Image::FillMethod::Horizontal;
+        m_LoadingBar->ImageC()->fillAmount = 0.5f;
+        m_LoadingBar->ImageC()->preserveAspect = false;
+
+        m_Canvas->GetComponent<Canvas*>()->enabled = false;
 
         ChatPlexSDK::OnGenericSceneChange += {this, &LoadingProgressBar::ChatPlexSDK_OnGenericSceneChange};
     }
@@ -105,9 +116,10 @@ namespace CP_SDK::UI {
         if (m_HeaderText)
             m_HeaderText->SetText(p_Message);
 
-        m_LoadingBar->set_enabled(false);
-        m_LoadingBackground->set_enabled(false);
-        m_Canvas->set_enabled(false);
+        m_LoadingBar->ImageC()->enabled = false;
+        m_LoadingBackground->ImageC()->enabled = false;
+        m_LoadingBar->ImageC()->fillAmount = 0.0f;
+        m_Canvas->GetComponent<Canvas*>()->enabled = true;
 
         StartCoroutine(custom_types::Helpers::CoroutineHelper::New(Coroutine_DisableCanvas(this, p_Time)));
     }
@@ -121,10 +133,10 @@ namespace CP_SDK::UI {
         if (m_HeaderText)
             m_HeaderText->SetText(p_Message);
 
-        m_LoadingBar->set_enabled(true);
-        m_LoadingBar->set_fillAmount(p_Progress);
-        m_LoadingBackground->set_enabled(true);
-        m_Canvas->set_enabled(true);
+        m_LoadingBar->ImageC()->enabled = true;
+        m_LoadingBar->ImageC()->fillAmount = p_Progress;
+        m_LoadingBackground->ImageC()->enabled = true;
+        m_Canvas->GetComponent<Canvas*>()->enabled = true;
     }
     /// @brief Set current progress and displayed message
     /// @param p_Message  Message to display
@@ -136,7 +148,8 @@ namespace CP_SDK::UI {
         if (m_HeaderText)
             m_HeaderText->SetText(p_Message);
 
-        m_LoadingBar->set_fillAmount(p_Progress);
+        m_LoadingBar->ImageC()->fillAmount = p_Progress;
+        m_Canvas->GetComponent<Canvas*>()->enabled = true;
     }
     /// @brief Set hide timer
     /// @param p_Time Time in seconds
@@ -156,7 +169,7 @@ namespace CP_SDK::UI {
         if (p_NewScene != EGenericScene::Menu)
         {
             StopAllCoroutines();
-            m_Canvas->set_enabled(false);
+            m_Canvas->GetComponent<Canvas*>()->enabled = false;
         }
     }
     /// @brief Timed canvas disabler
@@ -164,7 +177,7 @@ namespace CP_SDK::UI {
     custom_types::Helpers::Coroutine LoadingProgressBar::Coroutine_DisableCanvas(LoadingProgressBar* p_Self, float p_Time)
     {
         co_yield WaitForSecondsRealtime::New_ctor(p_Time)->i___System__Collections__IEnumerator();
-        p_Self->m_Canvas->set_enabled(false);
+        p_Self->m_Canvas->GetComponent<Canvas*>()->enabled = false;
     }
 
 }   ///< namespace CP_SDK::UI

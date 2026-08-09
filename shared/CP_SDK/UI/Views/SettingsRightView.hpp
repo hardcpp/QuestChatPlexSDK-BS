@@ -2,6 +2,7 @@
 
 #include "../ViewController.hpp"
 #include "../../XUI/XUI.hpp"
+#include "CP_SDK/XUI/XUIToggle.hpp"
 
 namespace CP_SDK::UI::Views {
 
@@ -24,8 +25,20 @@ namespace CP_SDK::UI::Views {
         CP_SDK_UI_VIEW_CONTROLLER_INSTANCE();
 
         private:
+            _v::XUITabControl::Ptr m_TabControl;
+
+            _v::XUIToggle::Ptr m_MiscTab_EventSpecialsEnabled;
+
+        private:
             /// @brief On view creation
             void OnViewCreation_Impl();
+
+            /// @brief Build misc tab
+            std::shared_ptr<_v::IXUIElement> BuildMiscTab();
+
+          private:
+            /// @brief On setting changed
+            void OnValueChanged();
 
     };
 

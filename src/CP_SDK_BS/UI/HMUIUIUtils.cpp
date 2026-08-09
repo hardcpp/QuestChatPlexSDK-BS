@@ -7,6 +7,7 @@
 #include <UnityEngine/RenderMode.hpp>
 #include <UnityEngine/CanvasGroup.hpp>
 #include <VRUIControls/VRGraphicRaycaster.hpp>
+#include <HMUI/HierarchyManager.hpp>
 
 using namespace GlobalNamespace;
 using namespace UnityEngine;
@@ -14,6 +15,7 @@ using namespace VRUIControls;
 
 namespace CP_SDK_BS::UI {
 
+    CP_SDK::Utils::MonoPtr<HMUI::ScreenSystem>           HMUIUIUtils::m_GameHMUIScreenSystem;
     CP_SDK::Utils::MonoPtr<MainFlowCoordinator>          HMUIUIUtils::m_MainFlowCoordinator;
     CP_SDK::Utils::MonoPtr<Canvas>                       HMUIUIUtils::m_CanvasTemplate;
     CP_SDK::Utils::MonoPtr<PhysicsRaycasterWithCache>    HMUIUIUtils::m_PhysicsRaycaster;
@@ -21,6 +23,23 @@ namespace CP_SDK_BS::UI {
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
+    HMUI::ScreenSystem* HMUIUIUtils::GameHMUIScreenSystem()
+    {
+        if (m_GameHMUIScreenSystem)
+            return m_GameHMUIScreenSystem.Ptr();
+
+        m_GameHMUIScreenSystem =
+            Resources::FindObjectsOfTypeAll<HMUI::ScreenSystem *>()
+                ->FirstOrDefault([](HMUI::ScreenSystem *x) -> bool {
+                  return CP_SDK::Utils::IsUnityPtrValid(x) &&
+                         x->isActiveAndEnabled &&
+                         CP_SDK::Utils::IsUnityPtrValid(x->GetComponent<HMUI::HierarchyManager*>()) &&
+                         x->transform->get_parent() &&
+                         x->transform->parent->name == u"UI";
+                });
+
+        return m_GameHMUIScreenSystem.Ptr();
+    }
     MainFlowCoordinator* HMUIUIUtils::MainFlowCoordinator()
     {
         if (m_MainFlowCoordinator)
@@ -43,10 +62,10 @@ namespace CP_SDK_BS::UI {
             if (!m_MainFlowCoordinator)
                 m_MainFlowCoordinator = Resources::FindObjectsOfTypeAll<GlobalNamespace::MainFlowCoordinator*>()->First();
 
-            auto l_InputModule = m_MainFlowCoordinator->____baseInputModule;
+            auto l_InputModule = m_MainFlowCoordinator->_baseInputModule;
             auto l_Coordinator = GameObject::New_ctor(p_Type->get_Name())->AddComponent(p_Type).try_cast<HMUI::FlowCoordinator>().value_or(nullptr);
 
-            l_Coordinator->____baseInputModule = l_InputModule;
+            l_Coordinator->_baseInputModule = l_InputModule;
 
             return l_Coordinator;
         }
@@ -72,7 +91,7 @@ namespace CP_SDK_BS::UI {
             }
 
             if (!m_PhysicsRaycaster)
-                m_PhysicsRaycaster = Resources::FindObjectsOfTypeAll<MainMenuViewController*>()->First()->GetComponent<VRGraphicRaycaster*>()->____physicsRaycaster;
+                m_PhysicsRaycaster = Resources::FindObjectsOfTypeAll<MainMenuViewController*>()->First()->GetComponent<VRGraphicRaycaster*>()->_physicsRaycaster;
 
             auto l_GameObject = GameObject::New_ctor(p_Type->get_Name());
             auto l_Canvas     = l_GameObject->AddComponent<Canvas*>();
@@ -91,7 +110,7 @@ namespace CP_SDK_BS::UI {
             l_Canvas->set_worldCamera              (m_CanvasTemplate->get_worldCamera());
             //l_Canvas->set_normalizedSortingGridSize(m_CanvasTemplate->get_normalizedSortingGridSize());
 
-            l_GameObject->get_gameObject()->AddComponent<VRGraphicRaycaster*>()->____physicsRaycaster = m_PhysicsRaycaster.Ptr();
+            l_GameObject->get_gameObject()->AddComponent<VRGraphicRaycaster*>()->_physicsRaycaster = m_PhysicsRaycaster.Ptr();
             l_GameObject->get_gameObject()->AddComponent<CanvasGroup*>();
 
             auto l_View = l_GameObject->AddComponent(p_Type).try_cast<HMUI::ViewController>().value_or(nullptr);

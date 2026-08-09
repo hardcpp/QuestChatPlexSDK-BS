@@ -1,11 +1,12 @@
 {
+  "$schema": "https://raw.githubusercontent.com/QuestPackageManager/QPM.Package/refs/heads/main/qpm.schema.json",
   "version": "0.4.0",
   "sharedDir": "shared",
   "dependenciesDir": "extern",
   "info": {
     "name": "ChatPlexSDK-BS",
     "id": "chatplex-sdk-bs",
-    "version": "6.4.1",
+    "version": "6.4.5",
     "url": "https://github.com/hardcpp/QuestChatPlexSDK-BS",
     "additionalData": {
       "overrideSoName": "libchatplex-sdk-bs.so",
@@ -15,28 +16,28 @@
   "workspace": {
     "scripts": {
       "build": [
-        "pwsh ./build.ps1"
+        "pwsh ./scripts/build.ps1"
       ],
       "clean": [
-        "pwsh ./build.ps1 -clean"
+        "pwsh ./scripts/build.ps1 -clean"
       ],
       "copy": [
-        "pwsh ./copy.ps1"
+        "pwsh ./scripts/copy.ps1"
       ],
       "log": [
-        "pwsh ./start-logging.ps1"
+        "pwsh ./scripts/start-logging.ps1"
       ],
       "qmod": [
-        "pwsh ./build.ps1 -clean",
-        "pwsh ./createqmod.ps1 -clean"
+        "pwsh ./scripts/build.ps1 -clean",
+        "pwsh ./scripts/createqmod.ps1 -clean"
       ],
       "qmod_backup": [
-        "pwsh ./build.ps1 -clean",
+        "pwsh ./scripts/build.ps1 -clean",
         "qpm qmod build",
-        "pwsh ./createqmod.ps1 -clean"
+        "pwsh ./scripts/createqmod.ps1 -clean"
       ]
     },
-    "ndk": "^27.2.12479018",
+    "ndk": "^27.3.13750724",
     "qmodIncludeDirs": [
       "build",
       "extern/libs"
@@ -52,12 +53,12 @@
     },
     {
       "id": "bs-cordl",
-      "versionRange": "^4008.*",
+      "versionRange": "4008.*",
       "additionalData": {}
     },
     {
       "id": "custom-types",
-      "versionRange": "^0.18.3",
+      "versionRange": "^0.18.4",
       "additionalData": {}
     },
     {
@@ -77,7 +78,7 @@
     },
     {
       "id": "songcore",
-      "versionRange": "^1.1.24",
+      "versionRange": "^1.1.26",
       "additionalData": {
         "private": true
       }
@@ -91,7 +92,7 @@
     },
     {
       "id": "paper2_scotland2",
-      "versionRange": "^4.6.4",
+      "versionRange": "^4.8.0",
       "additionalData": {}
     },
     {
