@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-
+exit
 set -euo pipefail
 
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 project_root="$(cd -- "$script_dir/.." && pwd -P)"
 mod_file="$project_root/mod.json"
 template_file="$project_root/mod.template.json"
-schema_url="https://raw.githubusercontent.com/Lauriethefish/QuestPatcher.QMod/main/QuestPatcher.QMod/Resources/qmod.schema.json"
+schema_url="https://raw.githubusercontent.com/Lauriethefish/QuestPatcher.QMod/refs/heads/main/QuestPatcher.QMod/Resources/qmod.schema.json"
 
 cd -- "$project_root"
 

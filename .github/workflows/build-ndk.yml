@@ -6,7 +6,6 @@ on:
     branches:
       - 'master'
       - 'dev'
-      - 'review-fixes'
     paths-ignore:
       - '**.yml'
       - '!.github/workflows/build-ndk.yml'
